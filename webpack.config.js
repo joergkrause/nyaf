@@ -2,14 +2,12 @@ const dev = process.env.NODE_ENV === 'dev';
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const exec = require('child_process').exec;
 
 // Main entry point
 const indexConfig = {
   template: './src/index.html',
-  excludeChunks: ['electron'],
   inject: 'body',
   baseHref: './'
 };
@@ -21,16 +19,13 @@ const webpackConfig = {
   // Development server configuration
   devServer: {
     historyApiFallback: true,
-    // Execute custom middleware after all other middleware internally within the server
-    after() {
-      // Fix whitescreen bug on build with Electron BrowserWindow
-      exec('electron . --dev');
-    }
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000
   },
   // Where webpack looks to start building the bundle
   entry: {
-    electron: './src/win.ts', // Electron entry point
-    app: './src/main.ts' // App entry point
+    app: './src/project/main.ts' // App entry point
   },
   // How the different types of modules within a project will be treated
   module: {
@@ -85,7 +80,7 @@ const webpackConfig = {
     warnings: false
   },
   // Target a specific environment (cf. doc)
-  target: 'electron-main',
+  target: 'web',
   // Configure whether to polyfill or mock certain Node.js globals and modules
   node: {
     __dirname: false
@@ -93,53 +88,6 @@ const webpackConfig = {
   // Customize the webpack build process with additionals plugins
   plugins: [
     new HtmlWebpackPlugin(indexConfig),
-    new CopyWebpackPlugin([
-			{ from: './node_modules/msnodesqlv8/lib/bin/*.node', flatten: true, to: './bin' },
-			{ from: './src/assets/*.png',
-			  flatten: true, to: './assets/' },
-      {
-        from: './src/app/**/*.html',
-        flatten: false,
-        to: '.',
-        transformPath(targetPath, absolutePath) {
-          return targetPath.replace('src/app', '');
-        }
-      },
-      {
-        from: './src/assets/images/*.*',
-        flatten: true,
-        to: './assets/images/'
-      },
-      {
-        from: './src/assets/styles/*.css',
-        flatten: true,
-        to: './assets/css/'
-      },
-      {
-        from: './src/assets/styles/images/*.*',
-        flatten: true,
-        to: './assets/css/images'
-      },
-      {
-        from: './src/assets/icons',
-        flatten: false,
-        to: './assets/icons/'
-      },
-      {
-        from: './src/assets/fonts',
-        flatten: false,
-        to: './assets/fonts/'
-      },
-      {
-        from: './src/assets/data',
-        flatten: false,
-        to: './'
-      },
-      {
-        from: './package.dist.json',
-        to: './package.json'
-      }
-    ]),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),

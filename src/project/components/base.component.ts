@@ -1,5 +1,3 @@
-import fs = require('fs');
-import path = require('path');
 import { ServiceType } from '../types/common';
 
 export function CustomElement(name: string) {
@@ -68,7 +66,7 @@ export abstract class BaseComponent extends HTMLElement {
 
   protected setup() {
     if (this.template) {
-      const html = fs.readFileSync(path.join(__dirname, this.template)).toString();
+      const html = require(this.template);
       if (this.withShadow) {
         const template = document.createElement('template');
         template.innerHTML = html;
