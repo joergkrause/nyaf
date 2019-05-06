@@ -1,2 +1,3 @@
-# nyaf
-"Not Yet Another Framework" is, well, just another framework. 
+# NYAF is "Not Yet Another Framework" 
+
+And it is, well, just another framework. 

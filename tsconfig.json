@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "lib": [
+      "es2018",
+      "es5",
+      "dom"
+    ],
+    "jsx": "react",
+    "reactNamespace": "JSX",
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "removeComments": false,
+    "outDir": "dist",
+    "baseUrl": "src/project",
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ]
+  }
+}
