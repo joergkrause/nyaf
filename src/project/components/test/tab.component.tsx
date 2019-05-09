@@ -3,18 +3,20 @@ import JSX from '../jsx';
 
 export interface TabProps {
   title: string;
+  content: string;
 }
 
 // Step 1: Create the Components active parts
 @CustomElement('app-tab')
-export class TabsComponent extends BaseComponent {
+export class TabComponent extends BaseComponent {
 
   public props: TabProps;
 
   constructor() {
     super();
     this.props = {
-      title: this.readAttribute('title', 'Tab Title')
+      title: this.readAttribute('title', 'Tab Title'),
+      content: this.readAttribute('content', 'Tab content')
     }
 	}
 
@@ -27,13 +29,13 @@ export class TabsComponent extends BaseComponent {
 	}
 
 	protected render() {
-		this.innerHTML = (
+		return (
 			<div class="main-header">
 				<ul class="nav nav-tabs" id="header-tabs">
 					{this.props.title}
 				</ul>
 				<div style="clear:both" class="row content tab-content">
-					{this.innerHTML}
+					{this.props.content}
 				</div>
 			</div>
 		);

@@ -54,9 +54,7 @@ export abstract class BaseComponent extends HTMLElement {
 
 	public readonly selector: string;
 
-  protected render(): void {
-    console.log('Inner Render');
-  }
+  protected abstract render(): string;
 
   protected dispose(): void {}
 
@@ -97,8 +95,9 @@ export abstract class BaseComponent extends HTMLElement {
   connectedCallback() {
     if (this.nonShadowHtml) {
       this.innerHTML = this.nonShadowHtml;
+    } else {
+      this.innerHTML = this.render();
     }
-    this.render();
   }
 
   protected readAttribute(name: string, defaultValue: any = undefined) {

@@ -35,8 +35,9 @@ export class TabsComponent extends BaseComponent {
     console.log('tabs.component:title', title);
     return (
     <>
+      <hr />
       <h3>{title}</h3>
-      <app-tab repeat={tabs} for-title="@title">@tab</app-tab>
+      <app-tab n-repeat={tabs} title="@title" content="@tab"></app-tab>
     </>
     );
 	}

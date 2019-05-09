@@ -1,4 +1,4 @@
-import { isArray } from 'util';
+import { isArray, isObject } from 'util';
 import { objectExpression } from '@babel/types';
 
 /**
@@ -24,7 +24,8 @@ export const JSX = {
               } else {
                 return `class="${value}"`;
               }
-            case 'repeat':
+            case 'n-repeat':
+              // we cannot transfer data other than as string with web components
               const repeat = JSON.parse(value);
               // expecting let x of y, with y is an array
               console.log('repeat', repeat);
@@ -38,8 +39,9 @@ export const JSX = {
             // no handling, fall through to default
             default:
               // check for implicit bindings
-              if (value.startsWith('@') && key.startsWith('for-')) {
+              if (isArray(value) || isObject(value)) {
                 delete props[key];
+                return `${key}='${JSON.stringify(value)}'`;
               } else {
                 // single quotes to process JSON.stringify (needed, because web components support only string)
                 return `${key}='${value}'`;
@@ -51,14 +53,27 @@ export const JSX = {
       content = <any>content[0];
     }
     if (!name) return `${flat(content).join('')}`; // support for <> </> fake container tag
-    if (repeatStore.length){
-      // repeat element
+    if (repeatStore.length) {
+      // repeat element, if a "repeat" attribute has been found
       let metaProps = props;
+      // we just repeat the element itself by calling it recursively
+      delete props['n-repeat']; // prevent overflow
+      let targetProps = Object.keys(props).filter(p => props[p].startsWith('@'));
       return repeatStore.map(r => {
-        Object.keys(r).forEach(k => metaProps[k] = r[k]);
-        return this.createElement(name, props, content)
+        // a we have an array that can contain objects, we have to assign the props of the object to each iteration
+        /**
+         * assume we have this object:
+         * { text: string, active: boolean }
+         * in an array like this:
+         * [{ text: "hallo", active: true }, { text: "world", active: false }]
+         * And want to show on screen like this
+         * <ul><my-li repeat={items} bullet="@active">@text</my-li></ul>
+         *  */
+
+        targetProps.map(t => (props[t] = r[t]));
+        return this.createElement(name, props, content);
       });
-    }    
+    }
     return `<${name} ${propsstr}> ${flat(content).join('')}</${name}>`;
   }
 };
