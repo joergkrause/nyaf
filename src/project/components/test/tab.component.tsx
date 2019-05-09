@@ -30,7 +30,7 @@ export class TabComponent extends BaseComponent {
 
 	protected render() {
 		return (
-			<div class="main-header">
+			<div class="main-header" n-if={this.props.title !== 't1'}>
 				<ul class="nav nav-tabs" id="header-tabs">
 					{this.props.title}
 				</ul>

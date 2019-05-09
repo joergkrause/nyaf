@@ -12,6 +12,7 @@ export const JSX = {
 
     props = props || {};
     let repeatStore = [];
+    let ifStore = true;
     const propsstr =
       Object.keys(props)
         .map(key => {
@@ -24,6 +25,9 @@ export const JSX = {
               } else {
                 return `class="${value}"`;
               }
+            case 'n-if':
+              ifStore = !!value;
+              break;
             case 'n-repeat':
               // we cannot transfer data other than as string with web components
               const repeat = JSON.parse(value);
@@ -53,6 +57,7 @@ export const JSX = {
       content = <any>content[0];
     }
     if (!name) return `${flat(content).join('')}`; // support for <> </> fake container tag
+    if (!ifStore) return ''; // if excluded by condition return nothing at all before any further processing
     if (repeatStore.length) {
       // repeat element, if a "repeat" attribute has been found
       let metaProps = props;
