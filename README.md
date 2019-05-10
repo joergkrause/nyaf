@@ -61,7 +61,7 @@ The array shall contain objects. If the property is needed, it's accessible with
 
 ### n-if, n-else
 
-The value will be evaluated and the element dows or does not render, then:
+The value will be evaluated and the element does or does not render, then:
 
 ~~~
 <div class="main-header" n-if={this.props.title !== 't1'}>

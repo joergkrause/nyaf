@@ -13,6 +13,7 @@ export const JSX = {
     props = props || {};
     let repeatStore = [];
     let ifStore = true;
+    let styleStore: { [rule: string]: string } = {};
     const propsstr =
       Object.keys(props)
         .map(key => {
@@ -25,11 +26,19 @@ export const JSX = {
               } else {
                 return `class="${value}"`;
               }
+            case 'n-hide':
+              styleStore['display'] = !!value ? 'none' : 'block';
+              break;
+            case 'n-show':
+              styleStore['display'] = !!value ? 'block' : 'none';
+              break;
+            case 'n-else':
+              break;
             case 'n-if':
               ifStore = !!value;
               break;
-              case 'n-for':
-              case 'n-repeat':
+            case 'n-for':
+            case 'n-repeat':
               // we cannot transfer data other than as string with web components
               const repeat = JSON.parse(value);
               // expecting let x of y, with y is an array
@@ -43,7 +52,7 @@ export const JSX = {
               break;
             // no handling, fall through to default
             default:
-              if (key.startsWith('n-on-')){
+              if (key.startsWith('n-on-')) {
                 const val = `${value}`.replace(/\(.\)\s+=>\s+this\./, '').replace(/\(.\)/, '');
                 return `${key}='${val}'`;
               }
