@@ -28,16 +28,11 @@ export class TabComponent extends BaseComponent {
 		return [];
 	}
 
-	protected render() {
+	render() {
 		return (
-			<div class="main-header" n-if={this.props.title !== 't1'}>
-				<ul class="nav nav-tabs" id="header-tabs">
-					{this.props.title}
-				</ul>
-				<div style="clear:both" class="row content tab-content">
-					{this.props.content}
-				</div>
-			</div>
+			<li class="nav nav-tabs" id="header-tabs" n-if={this.props.title !== 't1'}>
+				{this.props.title} <small>{this.props.content}</small>
+			</li>
 		);
 
 	}

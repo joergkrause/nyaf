@@ -86,11 +86,20 @@ Works same as `n-if`, but just adds an inline style `display: none` or not if `t
 
 ### n-on-[event]
 
-Events are easy to ad directly using it like `n-on-click`. All JavaScript events are supported.
+Events are easy to ad directly using it like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
 
 ~~~
 <button n-on-click={() => this.clickMe()}>OK</button>
 ~~~
+
+> There is no `bind` necessary, events are bound to component anyway.
+
+You can get the (original HTML 5 API) event using a parameter, like *e* in the example below:
+
+~~~
+<button n-on-click={(e) => this.clickMe(e)}>OK</button>
+~~~
+
 
 ## Components
 

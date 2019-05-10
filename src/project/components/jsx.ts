@@ -44,7 +44,7 @@ export const JSX = {
             // no handling, fall through to default
             default:
               if (key.startsWith('n-on-')){
-                const val = `${value}`.replace(/\(\)\s+=>\s+this\./, '').replace('()', '');
+                const val = `${value}`.replace(/\(.\)\s+=>\s+this\./, '').replace(/\(.\)/, '');
                 return `${key}='${val}'`;
               }
               // check for implicit bindings

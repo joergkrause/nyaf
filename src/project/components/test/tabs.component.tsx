@@ -29,7 +29,7 @@ export class TabsComponent extends BaseComponent {
 		return ['title', 'tabs'];
 	}
 
-	protected render() {
+	render() {
     const { tabs, title } = this.props;
     console.log('tabs.component:tabs', tabs);
     console.log('tabs.component:title', title);
@@ -37,7 +37,9 @@ export class TabsComponent extends BaseComponent {
     <>
       <hr />
       <h3>{title}</h3>
-      <app-tab n-repeat={tabs} title="@title" content="@tab"></app-tab>
+      <ul class="nav nav-tabs" id="header-tabs">
+        <app-tab n-repeat={tabs} title="@title" content="@tab"></app-tab>
+      </ul>
     </>
     );
 	}

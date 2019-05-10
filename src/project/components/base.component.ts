@@ -1,4 +1,4 @@
-import { ServiceType } from '../types/common';
+import { ServiceType, Component } from '../types/common';
 
 export function CustomElement(name: string) {
   return function(target: any) {
@@ -33,6 +33,7 @@ export interface ComponentData {
  * Override 'render' method (mandatory) for event wiring and data/dom manipulation or creation (dynamic part).
  */
 export abstract class BaseComponent extends HTMLElement {
+
   private nonShadowHtml: string;
 
   /**
@@ -43,10 +44,10 @@ export abstract class BaseComponent extends HTMLElement {
   constructor(protected template?: string, private withShadow = false) {
     super();
     this.setup();
-    window.addEventListener('message', this.recieveMessage.bind(this), false);
+    window.addEventListener('message', this.receiveMessage.bind(this), false);
   }
 
-  protected recieveMessage(event) {
+  protected receiveMessage(event) {
     if (event.data.type === 'setData' && (event.data.target === this.readAttribute('id', '') || this.localName === event.data.target)) {
       this.setData.apply(this, event.data.args);
     }
@@ -54,7 +55,7 @@ export abstract class BaseComponent extends HTMLElement {
 
 	public readonly selector: string;
 
-  protected abstract render(): string;
+  abstract render(): string;
 
   protected dispose(): void {}
 
@@ -107,4 +108,5 @@ export abstract class BaseComponent extends HTMLElement {
   disconnectedCallback() {
     this.dispose();
   }
+
 }
