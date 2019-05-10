@@ -14,8 +14,12 @@ export class ButtonComponent extends BaseComponent {
     super();
   }
 
+  clickMe(){
+    console.log('Button Element Click');
+  }
+
   protected render(){
-    return (<button type="button">OK</button>);
+    return (<button type="button" n-on-click={() => this.clickMe()}>OK</button>);
   } 
 
 }

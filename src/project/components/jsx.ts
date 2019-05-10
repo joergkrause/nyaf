@@ -28,7 +28,8 @@ export const JSX = {
             case 'n-if':
               ifStore = !!value;
               break;
-            case 'n-repeat':
+              case 'n-for':
+              case 'n-repeat':
               // we cannot transfer data other than as string with web components
               const repeat = JSON.parse(value);
               // expecting let x of y, with y is an array
@@ -42,6 +43,10 @@ export const JSX = {
               break;
             // no handling, fall through to default
             default:
+              if (key.startsWith('n-on-')){
+                const val = `${value}`.replace(/\(\)\s+=>\s+this\./, '').replace('()', '');
+                return `${key}='${val}'`;
+              }
               // check for implicit bindings
               if (isArray(value) || isObject(value)) {
                 delete props[key];
@@ -63,18 +68,9 @@ export const JSX = {
       let metaProps = props;
       // we just repeat the element itself by calling it recursively
       delete props['n-repeat']; // prevent overflow
+      delete props['n-for']; // prevent overflow
       let targetProps = Object.keys(props).filter(p => props[p].startsWith('@'));
       return repeatStore.map(r => {
-        // a we have an array that can contain objects, we have to assign the props of the object to each iteration
-        /**
-         * assume we have this object:
-         * { text: string, active: boolean }
-         * in an array like this:
-         * [{ text: "hallo", active: true }, { text: "world", active: false }]
-         * And want to show on screen like this
-         * <ul><my-li repeat={items} bullet="@active">@text</my-li></ul>
-         *  */
-
         targetProps.map(t => (props[t] = r[t]));
         return this.createElement(name, props, content);
       });

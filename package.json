@@ -1,6 +1,6 @@
 {
   "name": "nyaf",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "\"Not Yet Another Framework\" is, well, just another framework.",
   "main": "index.js",
   "scripts": {
