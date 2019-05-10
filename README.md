@@ -156,10 +156,10 @@ The following code shows how to register routes:
 
 ~~~
 let routes = {
-  '/': DemoComponent,
-  '/about': AboutComponent,
-  '/demo': DemoComponent,
-  '/contact': ContactComponent,
+  '/': { component: DemoComponent },
+  '/about': { component: AboutComponent },
+  '/demo': { component: DemoComponent },
+  '/contact': { component: ContactComponent },
 };
 
 globalProvider.bootstrap({
@@ -186,7 +186,7 @@ Please note the hash sign (#). It's required. No code or strategies here, write 
 
 ### Shadow Dom
 
-By default a shadow dow is used. That means, styles are isolated. No global styles are available.
+By default a shadow dom is used. That means, styles are isolated. No global styles are available.
 
 One option:
 
@@ -206,7 +206,7 @@ Another option:
 * use Shadow
 * copy all global styles into component so they work as expected
 
-s> It's a trade-off. Shadow DOM increases performance. Copying many styles decreases performance.
+> It's a trade-off. Shadow DOM increases performance. Copying many styles decreases performance.
 
 ### Properties
 

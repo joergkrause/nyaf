@@ -33,7 +33,6 @@ export interface ComponentData {
  * Override 'render' method (mandatory) for event wiring and data/dom manipulation or creation (dynamic part).
  */
 export abstract class BaseComponent extends HTMLElement {
-
   private nonShadowHtml: string;
 
   /**
@@ -41,9 +40,8 @@ export abstract class BaseComponent extends HTMLElement {
    * @param template The path to the file containing the HTML
    * @param withShadow `false` to suppress using shadow dom, required for jquery-ui
    */
-  constructor(protected template?: string, private withShadow = false) {
+  constructor() {
     super();
-    this.setup();
     window.addEventListener('message', this.receiveMessage.bind(this), false);
   }
 
@@ -51,9 +49,14 @@ export abstract class BaseComponent extends HTMLElement {
     if (event.data.type === 'setData' && (event.data.target === this.readAttribute('id', '') || this.localName === event.data.target)) {
       this.setData.apply(this, event.data.args);
     }
-	}
+  }
 
-	public readonly selector: string;
+  // set by decorator
+  private readonly useParentStyles = false;
+  // set by decorator
+  private readonly withShadow = false;
+  // set by decorator
+  public readonly selector: string;
 
   abstract render(): string;
 
@@ -64,16 +67,19 @@ export abstract class BaseComponent extends HTMLElement {
   protected initialized: boolean;
 
   protected setup() {
-    if (this.template) {
-      const html = require(this.template);
-      if (this.withShadow) {
-        const template = document.createElement('template');
-        template.innerHTML = html;
+    if (this.withShadow) {
+      const template = document.createElement('template');
+      template.innerHTML = this.render();
+      if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-      } else {
-        this.nonShadowHtml = html;
-      }
+        this.addEventListener('click', (e) => {
+          const new_e = new MouseEvent('shadowclick');
+          this.dispatchEvent(new_e);
+        });
+      }      
+    } else {
+      this.innerHTML = this.render();
     }
   }
 
@@ -82,23 +88,19 @@ export abstract class BaseComponent extends HTMLElement {
     this.getData()[key] = newValue;
 
     if (rerender) {
-      this.render();
+      this.setup();
     }
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
       this.getData()[name] = newValue;
-      this.render();
+      this.setup();
     }
   }
 
   connectedCallback() {
-    if (this.nonShadowHtml) {
-      this.innerHTML = this.nonShadowHtml;
-    } else {
-      this.innerHTML = this.render();
-    }
+    this.setup();
   }
 
   protected readAttribute(name: string, defaultValue: any = undefined) {
@@ -108,5 +110,4 @@ export abstract class BaseComponent extends HTMLElement {
   disconnectedCallback() {
     this.dispose();
   }
-
 }

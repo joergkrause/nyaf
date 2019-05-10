@@ -11,7 +11,7 @@ const indexConfig = {
 };
 
 const webpackConfig = {
-  mode: 'production',
+  mode: 'development',
   // How source maps are generated : style of source mapping
   devtool: dev ? 'eval-cheap-module-source-map' : false,
   // Development server configuration
