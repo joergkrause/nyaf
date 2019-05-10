@@ -10,7 +10,7 @@ export function CustomElement(name: string) {
   };
 }
 
-export function CustomService<T>(name: string, type: ServiceType<T>) {
+export function InjectService<T>(name: string, type: ServiceType<T>) {
   return function(target: any) {
     // closure to create a singleton
     const t = new type();

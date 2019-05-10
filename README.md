@@ -25,8 +25,8 @@ I'm using TSX. I don't use React, though. So it's just a feature of the TypeScri
 Excerpt from `tsconfig.json`:
 
 ~~~
-    "jsx": "react",
-    "reactNamespace": "JSX",
+"jsx": "react",
+"reactNamespace": "JSX",
 ~~~
 
 A class `JSX` is the core, it handels the element definitions and extract the template extensions.
@@ -100,7 +100,6 @@ You can get the (original HTML 5 API) event using a parameter, like *e* in the e
 <button n-on-click={(e) => this.clickMe(e)}>OK</button>
 ~~~
 
-
 ## Components
 
 ### Registration
@@ -131,10 +130,58 @@ The name is determined by `@CustomElement('app-main')`.
 In *main.ts* call this:
 
 ~~~
-globalRegistry.register(MainComponent);
+globalProvider.bootstrap({
+  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
+});
+
 ~~~
 
 That's it, the component works now.
+
+### Router 
+
+Everybody want's a SPA (Single Page App). Hence we need a router. The included router is very simple.
+
+First, define an outlet where the components appear:
+
+~~~
+<div n-router-outlet></div>
+~~~
+
+Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content doesn't need registration, because they aren't activated through the tag. Only the *render* method is called. Yoo can even omit the `@CustomElement` decorator.
+
+#### Register Routes
+
+The following code shows how to register routes:
+
+~~~
+let routes = {
+  '/': DemoComponent,
+  '/about': AboutComponent,
+  '/demo': DemoComponent,
+  '/contact': ContactComponent,
+};
+
+globalProvider.bootstrap({
+  // order matters?
+  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent],
+  routes: routes
+});
+~~~
+
+#### Use Routes
+
+To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
+
+~~~
+<a href="#/">Home</a>
+<a href="#/about">About</a>
+<a href="#/demo">Demo</a>
+<a href="#/contact">Contact</a>
+<div n-router-outlet></div>
+~~~
+
+Please note the hash sign (#). It's required. No code or strategies here, write it by yourself and the enjoy a very small footprint of the supporting code.
 
 ### Shadow Dom
 
@@ -230,3 +277,10 @@ export class MainComponent extends BaseComponent {
 
 *this.services* is a function, that returns an instance of the service. Services are singleton by default.
 
+## Recap
+
+Is it worth coding with NYAF and vanilla JS? For smaller projects and for apps that must load quickly, yes.
+
+The zipped package of the demo is 7 KBytes. With complete Bootstrap styles it's 35 KBytes.
+
+However, compared with React or Angular it's a lot simpler. Compared to Vue it's simpler and even smaller, but the delta is not that thrilling.

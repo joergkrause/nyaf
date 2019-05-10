@@ -2,8 +2,6 @@ const dev = process.env.NODE_ENV === 'dev';
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // Main entry point
 const indexConfig = {
@@ -13,7 +11,7 @@ const indexConfig = {
 };
 
 const webpackConfig = {
-  mode: 'development',
+  mode: 'production',
   // How source maps are generated : style of source mapping
   devtool: dev ? 'eval-cheap-module-source-map' : false,
   // Development server configuration
@@ -36,16 +34,7 @@ const webpackConfig = {
         test: /\.(scss)$/,
         use: [
           'style-loader',
-          MiniCssExtractPlugin.loader,
           'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: function() {
-                return [require('autoprefixer'), require('postcss-flexbugs-fixes')];
-              }
-            }
-          },
           'sass-loader'
         ]
         // })
@@ -63,7 +52,7 @@ const webpackConfig = {
   },
   // Configure how modules are resolved
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.scss'],
     modules: [path.resolve('./src'), path.resolve('./node_modules')],
     alias: {
       // bind to modules;
@@ -88,9 +77,6 @@ const webpackConfig = {
   // Customize the webpack build process with additionals plugins
   plugins: [
     new HtmlWebpackPlugin(indexConfig),
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
-    }),
     new webpack.DefinePlugin({
       __static: `"${path.join(__dirname, '/static').replace(/\\/g, '\\\\')}"`
     })

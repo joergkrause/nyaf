@@ -7,6 +7,8 @@ import { AboutComponent } from './components/test/pages/about.component';
 import { DemoComponent } from './components/test/pages/demo.component';
 import { ContactComponent } from './components/test/pages/contact.component';
 
+import './main.scss';
+
 let routes = {
   '/': DemoComponent,
   '/about': AboutComponent,
@@ -15,7 +17,8 @@ let routes = {
 };
 
 globalProvider.bootstrap({
-  // order matters?
-  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent],
+  // register all components directly used in templates
+  components: [MainComponent, ButtonComponent, TabComponent, TabsComponent],
+  // register for router
   routes: routes
 });
