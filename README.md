@@ -110,17 +110,17 @@ Web Components must be registered. To support this, I use decorators:
 @CustomElement('app-main')
 export class MainComponent extends BaseComponent {
 
-	constructor() {
-		super();
-	}
+  constructor() {
+    super();
+  }
 
-	protected render() {
-		return (
-			<>
+  protected render() {
+    return (
+      <>
         <h1>Demo</h1>
-			</>
-		);
-	}
+      </>
+    );
+  }
 
 }
 ~~~
@@ -148,7 +148,7 @@ First, define an outlet where the components appear:
 <div n-router-outlet></div>
 ~~~
 
-Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content doesn't need registration, because they aren't activated through the tag. Only the *render* method is called. Yoo can even omit the `@CustomElement` decorator.
+Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content doesn't need registration, because they aren't activated through the tag. Only the *render* method is called. You can even omit the `@CustomElement` decorator.
 
 #### Register Routes
 
@@ -163,7 +163,6 @@ let routes = {
 };
 
 globalProvider.bootstrap({
-  // order matters?
   components: [ButtonComponent, TabComponent, TabsComponent, MainComponent],
   routes: routes
 });
@@ -182,6 +181,8 @@ To activate a router you need a hyperlink. The router's code looks for a click o
 ~~~
 
 Please note the hash sign (#). It's required. No code or strategies here, write it by yourself and the enjoy a very small footprint of the supporting code.
+
+> Pro Tip! Import the router definition and use additional fields to create a menu directly from router configuration.
 
 ### Shadow Dom
 

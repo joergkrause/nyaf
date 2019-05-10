@@ -27,10 +27,14 @@ export const JSX = {
                 return `class="${value}"`;
               }
             case 'n-hide':
-              styleStore['display'] = !!value ? 'none' : 'block';
+              if (!!value) {
+                styleStore['display'] = 'none';
+              }
               break;
             case 'n-show':
-              styleStore['display'] = !!value ? 'block' : 'none';
+              if (!value) {
+                styleStore['display'] = 'none';
+              }
               break;
             case 'n-else':
               break;

@@ -6,7 +6,7 @@ import { BaseComponent } from "components/base.component";
  */
 export class BootstrapProp {
   components: Array<Component>;
-  routes: { [path: string]: Component }
+  routes: { [path: string]:  { component: Component, data?: any } }
 }
 
 /**
@@ -47,7 +47,7 @@ export class globalProvider {
       document.addEventListener('click', e => {
         if ((<HTMLElement>e.target).tagName === 'A'){
           const requestedRoute = (<HTMLAnchorElement>e.target).href.split('#')[1];
-          const activatedComponent = props.routes[requestedRoute];
+          const activatedComponent = props.routes[requestedRoute].component;
           onNavItemClick(requestedRoute);
           // https://github.com/WebReflection/classtrophobic
           // https://github.com/WebReflection/document-register-element/issues/142

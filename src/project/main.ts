@@ -10,10 +10,10 @@ import { ContactComponent } from './components/test/pages/contact.component';
 import './main.scss';
 
 let routes = {
-  '/': DemoComponent,
-  '/about': AboutComponent,
-  '/demo': DemoComponent,
-  '/contact': ContactComponent,
+  '/': { component: DemoComponent },
+  '/about': { component: AboutComponent },
+  '/demo': { component: DemoComponent },
+  '/contact': { component: ContactComponent },
 };
 
 globalProvider.bootstrap({
