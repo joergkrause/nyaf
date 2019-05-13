@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
+    "declaration": true,
     "lib": [
       "es2018",
       "es5",
@@ -16,7 +17,6 @@
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "removeComments": false,
-    "outDir": "../../dist/nyaf",
     "baseUrl": "projects/nyaf",
     "typeRoots": [
       "../../node_modules/@types",

@@ -23,7 +23,7 @@ const webpackConfig = {
   },
   // Where webpack looks to start building the bundle
   entry: {
-    app: './src/project/main.ts' // App entry point
+    app: './src/main.ts' // App entry point
   },
   // How the different types of modules within a project will be treated
   module: {
@@ -57,7 +57,7 @@ const webpackConfig = {
     alias: {
       // bind to modules;
       modules: path.join(__dirname, 'node_modules'),
-      nyaf: path.join(__dirname, 'projects/nyaf')
+      nyaf: path.join(__dirname, 'projects/nyaf/src')
     }
   },
   // How and where webpack should output bundles, assets and anything else

@@ -8,7 +8,7 @@ const webpackConfig = {
   devtool: dev ? 'eval-cheap-module-source-map' : false,
   // Where webpack looks to start building the bundle
   entry: {
-    nyaf: './projects/nyaf/src/lib/globalProvider.ts' // App entry point
+    nyaf: './projects/nyaf/src/index.ts' // App entry point
   },
   // How the different types of modules within a project will be treated
   module: {

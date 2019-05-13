@@ -1,7 +1,5 @@
-import { BaseComponent, ComponentData } from '../../../projects/nyaf/src/components/base.component';
-import { JSX } from '../../../projects/nyaf/src/components/jsx';
-import { TabsComponent } from './tabs.component';
-import { CustomElement } from 'decorators';
+import { BaseComponent, ComponentData } from 'nyaf';
+import JSX, { CustomElement } from 'nyaf';
 
 @CustomElement('app-main')
 export class MainComponent extends BaseComponent {

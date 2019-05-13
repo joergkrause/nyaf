@@ -1,10 +1,9 @@
 import { isArray, isObject } from 'util';
-import { objectExpression } from '@babel/types';
 
 /**
  * The basic entry point.
  */
-export const JSX = {
+const JSX = {
   createElement(name: string, props: { [id: string]: string }, ...content: string[]) {
     var flat = function(arr1: string[]) {
       return arr1.reduce((acc, val) => (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);

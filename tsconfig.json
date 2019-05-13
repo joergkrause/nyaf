@@ -21,9 +21,9 @@
     "typeRoots": [
       "node_modules/@types",
       "src/types"
-    ]
-    ,"paths": {
-      "nyaf/*": ["projects/nyaf/*"]
+    ],
+    "paths": {
+      "nyaf/*": ["projects/nyaf/src/*"]
     }
   } 
 }

@@ -1,6 +1,5 @@
-import { BaseComponent, ComponentData } from '../../../../projects/nyaf/src/components/base.component';
-import JSX from '../../../../projects/nyaf/src/components/jsx';
-import { ShadowDOM, CustomElement } from 'decorators';
+import { BaseComponent, ComponentData } from 'nyaf';
+import JSX, { CustomElement, ShadowDOM } from 'nyaf';
 
 
 // Step 1: Create the Components active parts
