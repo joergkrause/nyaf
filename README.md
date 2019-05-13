@@ -191,22 +191,28 @@ By default a shadow dom is used. That means, styles are isolated. No global styl
 One option:
 
 ~~~
-@NoShadowDOM()
+@ShadowDOM()
 ~~~
 
-* Suppress Shadow
-* all global styles are working
+* Use Shadow DOM
+* all global styles are still working (auto copy)
 
-Another option:
+The property can be set explicitly. The default is `false`, so if the decorator is being omitted, the component is ____not____ shadowed.
+
+~~~
+@ShadowDOM(true | false)
+~~~
+
+Another interesting option controls the style behavior:
 
 ~~~
 @UseParentStyles()
 ~~~
 
-* use Shadow
-* copy all global styles into component so they work as expected
+* Use Shadow must be set, otherwise the decorator dows nothing
+* copies all global styles into component so they work as expected even in Shadow DOM
 
-> It's a trade-off. Shadow DOM increases performance. Copying many styles decreases performance.
+> It's a trade-off. Shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.
 
 ### Properties
 
