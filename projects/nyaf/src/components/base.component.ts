@@ -10,13 +10,13 @@ export interface ComponentData {
  * 
  * If the component shall show nothing or has temporarily nothing to render just return `null`.
  * 
- * Components must be decorated with at least the @see CustomElement decorator. That defines the name is required to render properly.
+ * Components must be decorated with at least the @see {CustomElement} decorator. That defines the name is required to render properly.
  * Additional class decorators are available:
  * 
  * * @see InjectService:  Injects a service class und a singleton instance becomes avaiable through the property `services`.
  * 
  * After the render method has been called the first time the property `initialized` becomes `true`.
- * All properties can be bound, so any change will re-render the content. See @see Properties() decorator.
+ * All properties can be bound, so any change will re-render the content. See @see {Properties} decorator.
  * If you use *jsx* in the render method you must import JSX function. This is same behavior as in React. It isn't React, though.
  * 
  * 

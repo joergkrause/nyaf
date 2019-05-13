@@ -104,3 +104,12 @@ globalProvider.store({
 })
 
 ~~~
+
+# Installation
+
+Install the package:
+
+~~~
+npm i @nyaf/store -S
+~~~
+s

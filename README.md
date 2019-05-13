@@ -58,7 +58,9 @@ Than you show the data on screen like this:
 <app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
 ~~~
 
-The array shall contain objects. If the property is needed, it's accessible withing any attribute by writing `@propName`.
+The array shall contain objects. If the property is needed, it's accessible within any attribute by writing `attribute="@propName"`. Note the usage of the quotes.
+
+You can repeat anything, even plain HTML elements such as `<span>` or `<li>`.
 
 ### n-if, n-else
 
@@ -87,7 +89,7 @@ Works same as `n-if`, but just adds an inline style `display: none` or not if `t
 
 ### n-on-[event]
 
-Events are easy to ad directly using it like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
+Events are easy to add directly using it like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
 
 ~~~
 <button n-on-click={() => this.clickMe()}>OK</button>
@@ -132,12 +134,21 @@ In *main.ts* call this:
 
 ~~~
 globalProvider.bootstrap({
-  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
+  components: [MainComponent]
 });
 
 ~~~
 
 That's it, the component works now.
+
+Once you have more components, it may look like this:
+
+~~~
+globalProvider.bootstrap({
+  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
+});
+
+~~~
 
 ### Router 
 
@@ -149,7 +160,7 @@ First, define an outlet where the components appear:
 <div n-router-outlet></div>
 ~~~
 
-Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content need registration too. The also ___must___ have a name, because that's the way the router internally activates the component.
+Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content need registration too. They  ___must___ have a name, too, because that's the way the router internally activates the component.
 
 #### Register Routes
 
@@ -164,7 +175,7 @@ let routes = {
 };
 
 globalProvider.bootstrap({
-  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent],
+  components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
   routes: routes
 });
 ~~~
@@ -181,15 +192,15 @@ To activate a router you need a hyperlink. The router's code looks for a click o
 <div n-router-outlet></div>
 ~~~
 
-Please note the hash sign (#). It's required. No code or strategies here, write it by yourself and the enjoy a very small footprint of the supporting code.
+Please note the hash sign (#). It's required. No code or strategies here, write it by yourself and then enjoy the very small footprint of the outcome.
 
 > Pro Tip! Import the router definition and use additional fields to create a menu directly from router configuration.
 
-### Shadow Dom
+### Shadow DOM
 
-By default a shadow dom is used. That means, styles are isolated. No global styles are available.
+By default the shadow DOM is ____not____ used. If it would, it would mean, that styles are isolated. No global styles are available, then.
 
-One option:
+One option to activate the Shadow DOM:
 
 ~~~
 @ShadowDOM()
@@ -210,7 +221,7 @@ Another interesting option controls the style behavior:
 @UseParentStyles()
 ~~~
 
-* Use Shadow must be set, otherwise the decorator dows nothing
+* Use *ShadowDOM* must be set, otherwise the decorator does nothing
 * copies all global styles into component so they work as expected even in Shadow DOM
 
 > It's a trade-off. Shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.
@@ -294,7 +305,7 @@ export class MainComponent extends BaseComponent {
 Install the package:
 
 ~~~
-npm i nyaf -S
+npm i @nyaf/lib -S
 ~~~
 
 Create a file `main.ts` in the *src* folder that looks like this:
@@ -342,7 +353,7 @@ export class MainComponent extends BaseComponent {
 }
 ~~~
 
-Create a file named *index.html* in the very same folder an fill it like this:
+Create a file named *index.html* in the very same folder and fill it like this:
 
 ~~~
 <!DOCTYPE html>
@@ -403,3 +414,8 @@ However, compared with React or Angular it's a lot simpler. Compared to Vue it's
 ## Restrictions
 
 The package runs, if there are no polyfills, only with ES2015. This limits the usage to any modern browser. It's pretty bold in Electron projects.
+
+# Next
+
+Look out for 'nyaf-forms' (forms validation) and 'nyaf-store' (flux store). Simple but powerful!
+

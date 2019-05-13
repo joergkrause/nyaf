@@ -167,3 +167,11 @@ However, compared with React or Angular it's a lot simpler. Compared to Vue it's
 ## Restrictions
 
 The package runs, if there are no polyfills, only with ES2015. This limits the usage to any modern browser. It's pretty bold in Electron projects.
+
+# Installation
+
+Install the package:
+
+~~~
+npm i @nyaf/forms -S
+~~~
