@@ -4,19 +4,13 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 
 ## Idea
 
-I want to use JSX/TSX syntax for quick component dev.
-
-I want to use any current HTML 5 API, such as web components, fetch, and all this with ES2015.
-
-I want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
-
-I want to use TypeScript from the beginning.
-
-I want to have a very small package.
-
-I want to use webpack and other common tools.
-
-I want to use decorators for controlling stuff, not code within  the component.
+* I want to use JSX/TSX syntax for quick component dev.
+* I want to use any current HTML 5 API, such as web components, fetch, and all this with ES2015.
+* I want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
+* I want to use TypeScript from the beginning.
+* I want to have a very small package.
+* I want to use webpack and other common tools.
+* I want to use decorators for controlling stuff, not code within  the component.
 
 ## Approach
 
@@ -33,7 +27,7 @@ A class `JSX` is the core, it handels the element definitions and extract the te
 
 ## Template Features
 
-### n-repeat, n-for
+### n-repeat
 
 Repeats the element. The argument must be an array.
 
@@ -61,12 +55,10 @@ In an array like this:
 Than you show the data on screen like this:
 
 ~~~
-<app-tab n-for={tabs} title="@title" content="@content"></app-tab>
+<app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
 ~~~
 
 The array shall contain objects. If the property is needed, it's accessible withing any attribute by writing `@propName`.
-
-> `n-repeat` is an alias.
 
 ### n-if, n-else
 
@@ -295,10 +287,119 @@ export class MainComponent extends BaseComponent {
 
 *this.services* is a function, that returns an instance of the service. Services are singleton by default.
 
-## Recap
+# How to use
+
+## Prepare a project
+
+Install the package:
+
+~~~
+npm i nyaf -S
+~~~
+
+Create a file `main.ts` in the *src* folder that looks like this:
+
+~~~
+import { globalProvider } from 'nyaf';
+
+import { MainComponent } from './main.component';
+
+globalProvider.bootstrap({
+  components: [MainComponent],
+});
+~~~
+
+Create file *main.component.ts* in the same folder. Fill this content in:
+
+~~~
+import { BaseComponent, ComponentData } from 'nyaf';
+import JSX, { CustomElement } from 'nyaf';
+
+@CustomElement('app-main')
+export class MainComponent extends BaseComponent {
+
+	constructor() {
+		super();
+	}
+
+	protected getData(): ComponentData {
+		return null;
+	}
+
+	static get observedAttributes() {
+		return [];
+	}
+
+	render() {
+		return (
+			<section>
+        <h2>Demo</h2>
+        <p>Hello NYAF</p>
+			</section>
+		);
+	}
+
+}
+~~~
+
+Create a file named *index.html* in the very same folder an fill it like this:
+
+~~~
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hello NYAF</title>
+</head>
+<body>
+  <h1>Hell NYAF</h1>
+  <app-main></app-main>
+</body>
+</html>
+~~~
+
+## Setup
+
+Now, because it's based on TypeScript, it's very recommended to use WebPack and TypeScript.
+
+The *tsconfig.json* looks like this:
+
+~~~
+~~~
+
+The *webpack.config.json* looks like this:
+
+~~~
+~~~
+
+The *package.json* gets an entry in `scripts` section:
+
+~~~
+build: "webpack",
+~~~
+
+## Build
+
+Now, on command line, just type `npm run build`.
+
+To start webpack's dev server type:
+
+~~~
+npm start
+~~~
+
+An now enjoy writing a component based SPA with only very few KB of lib code.
+
+# Recap
 
 Is it worth coding with NYAF and vanilla JS? For smaller projects and for apps that must load quickly, yes.
 
-The zipped package of the demo is 7 KBytes. With complete Bootstrap styles it's 35 KBytes.
+The zipped package of the lib is 7 KBytes. Expanded just 23 KBytes.
 
 However, compared with React or Angular it's a lot simpler. Compared to Vue it's simpler and even smaller, but the delta is not that thrilling.
+
+## Restrictions
+
+The package runs, if there are no polyfills, only with ES2015. This limits the usage to any modern browser. It's pretty bold in Electron projects.

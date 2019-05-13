@@ -1,0 +1,402 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>nyaf documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">nyaf documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1 id="nyaf-is-not-yet-another-framework">NYAF is &quot;Not Yet Another Framework&quot;</h1>
+<p>And it is, well, just another framework. It&#39;s simple, has a flat learning curve, doesn&#39;t need any special tools.</p>
+<h2 id="idea">Idea</h2>
+<ul>
+<li>I want to use JSX/TSX syntax for quick component dev.</li>
+<li>I want to use any current HTML 5 API, such as web components, fetch, and all this with ES2015.</li>
+<li>I want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.</li>
+<li>I want to use TypeScript from the beginning.</li>
+<li>I want to have a very small package.</li>
+<li>I want to use webpack and other common tools.</li>
+<li>I want to use decorators for controlling stuff, not code within  the component.</li>
+</ul>
+<h2 id="approach">Approach</h2>
+<p>I&#39;m using TSX. I don&#39;t use React, though. So it&#39;s just a feature of the TypeScript compiler.</p>
+<p>Excerpt from <code>tsconfig.json</code>:</p>
+<p>~~~
+&quot;jsx&quot;: &quot;react&quot;,
+&quot;reactNamespace&quot;: &quot;JSX&quot;,
+~~~</p>
+<p>A class <code>JSX</code> is the core, it handels the element definitions and extract the template extensions.</p>
+<h2 id="template-features">Template Features</h2>
+<h3 id="n-repeat-n-for">n-repeat, n-for</h3>
+<p>Repeats the element. The argument must be an array.</p>
+<p>Assume we have this object:</p>
+<p>~~~
+{ text: string, content: string }
+~~~</p>
+<p>In an array like this:</p>
+<p>~~~
+[
+  {
+    text: &quot;hallo&quot;, 
+    content: &quot;Hello NYAF&quot; 
+  }, 
+  { 
+    text: &quot;world&quot;, 
+    content: &quot;This is really nice&quot; 
+  }
+]
+~~~</p>
+<p>Than you show the data on screen like this:</p>
+<p>~~~
+<app-tab n-for={tabs} title="@title" content="@content"></app-tab>
+~~~</p>
+<p>The array shall contain objects. If the property is needed, it&#39;s accessible withing any attribute by writing <code>@propName</code>.</p>
+<blockquote>
+<p><code>n-repeat</code> is an alias.</p>
+</blockquote>
+<h3 id="n-if-n-else">n-if, n-else</h3>
+<p>The value will be evaluated and the element does or does not render, then:</p>
+<p>~~~</p>
+<div class="main-header" n-if={this.props.title !== 't1'}>
+  <span>Any content will not render if container doesn't render
+</div>
+~~~
+
+<p>If there is an else-branch it can direct to a slot template. <code>&lt;slot&gt;</code> elements are native web component parts.</p>
+<p>~~~</p>
+<div class="main-header" n-if={this.props.title !== 't1'} n-else="noShow">
+  <span>Any content will not render if container doesn't render
+</div>
+<slot name="noShow">
+  This is shown instead.
+</slot>
+~~~
+
+<h3 id="n-hide-n-show">n-hide, n-show</h3>
+<p>Works same as <code>n-if</code>, but just adds an inline style <code>display: none</code> or not if <code>true</code> (<code>n-hide</code>) or <code>false</code> (<code>n-show</code>).</p>
+<h3 id="n-on-event">n-on-[event]</h3>
+<p>Events are easy to ad directly using it like <code>n-on-click</code>. All JavaScript events are supported. Just replace &#39;click&#39; in the example with any other JavaScript event.</p>
+<p>~~~
+&lt;button n-on-click={() =&gt; this.clickMe()}&gt;OK</button>
+~~~</p>
+<blockquote>
+<p>There is no <code>bind</code> necessary, events are bound to component anyway.</p>
+</blockquote>
+<p>You can get the (original HTML 5 API) event using a parameter, like <em>e</em> in the example below:</p>
+<p>~~~
+&lt;button n-on-click={(e) =&gt; this.clickMe(e)}&gt;OK</button>
+~~~</p>
+<h2 id="components">Components</h2>
+<h3 id="registration">Registration</h3>
+<p>Web Components must be registered. To support this, I use decorators:</p>
+<p>~~~
+@CustomElement(&#39;app-main&#39;)
+export class MainComponent extends BaseComponent {</p>
+<p>  constructor() {
+    super();
+  }</p>
+<p>  protected render() {
+    return (
+      &lt;&gt;
+        <h1>Demo</h1>
+      &lt;/&gt;
+    );
+  }</p>
+<p>}
+~~~</p>
+<p>The name is determined by <code>@CustomElement(&#39;app-main&#39;)</code>.</p>
+<p>In <em>main.ts</em> call this:</p>
+<p>~~~
+globalProvider.bootstrap({
+  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
+});</p>
+<p>~~~</p>
+<p>That&#39;s it, the component works now.</p>
+<h3 id="router">Router</h3>
+<p>Everybody want&#39;s a SPA (Single Page App). Hence we need a router. The included router is very simple.</p>
+<p>First, define an outlet where the components appear:</p>
+<p>~~~</p>
+<div n-router-outlet></div>
+~~~
+
+<p>Any kind of parent element will do. The router code sets the property <code>innerHTML</code>. Components, that are being used to provide router content need registration too. The also <strong><em>must</em></strong> have a name, because that&#39;s the way the router internally activates the component.</p>
+<h4 id="register-routes">Register Routes</h4>
+<p>The following code shows how to register routes:</p>
+<p>~~~
+let routes = {
+  &#39;/&#39;: { component: DemoComponent },
+  &#39;/about&#39;: { component: AboutComponent },
+  &#39;/demo&#39;: { component: DemoComponent },
+  &#39;/contact&#39;: { component: ContactComponent },
+};</p>
+<p>globalProvider.bootstrap({
+  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent],
+  routes: routes
+});
+~~~</p>
+<h4 id="use-routes">Use Routes</h4>
+<p>To activate a router you need a hyperlink. The router&#39;s code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:</p>
+<p>~~~
+<a href="#/">Home</a>
+<a href="#/about">About</a>
+<a href="#/demo">Demo</a>
+<a href="#/contact">Contact</a></p>
+<div n-router-outlet></div>
+~~~
+
+<p>Please note the hash sign (#). It&#39;s required. No code or strategies here, write it by yourself and the enjoy a very small footprint of the supporting code.</p>
+<blockquote>
+<p>Pro Tip! Import the router definition and use additional fields to create a menu directly from router configuration.</p>
+</blockquote>
+<h3 id="shadow-dom">Shadow Dom</h3>
+<p>By default a shadow dom is used. That means, styles are isolated. No global styles are available.</p>
+<p>One option:</p>
+<p>~~~
+@ShadowDOM()
+~~~</p>
+<ul>
+<li>Use Shadow DOM</li>
+<li>all global styles are still working (auto copy)</li>
+</ul>
+<p>The property can be set explicitly. The default is <code>false</code>, hence if the decorator is being omitted, the component is <strong><strong>not</strong></strong> shadowed.</p>
+<p>~~~
+@ShadowDOM(true | false)
+~~~</p>
+<p>Another interesting option controls the style behavior:</p>
+<p>~~~
+@UseParentStyles()
+~~~</p>
+<ul>
+<li>Use Shadow must be set, otherwise the decorator dows nothing</li>
+<li>copies all global styles into component so they work as expected even in Shadow DOM</li>
+</ul>
+<blockquote>
+<p>It&#39;s a trade-off. Shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.</p>
+</blockquote>
+<h3 id="properties">Properties</h3>
+<p>To use properties, you can define those.</p>
+<p>~~~
+@CustomElement(&#39;app-main&#39;)
+@Properties&lt;{ title: string }&gt;({ title: &#39;Default&#39; })
+export class MainComponent extends BaseComponent {
+  // ... omitted for brevity
+}
+~~~</p>
+<p>The initializer with default&#39;s is <strong><strong>not</strong></strong> optional, you must provide an object that matches the generic.</p>
+<h3 id="view-models">View Models</h3>
+<p>For a nice view decorators applied to class properties control the appearance.</p>
+<p>~~~
+export class Model {
+  @Hidden()
+  id: number = 0;</p>
+<p>  @Required()
+  name: string = &#39;&#39;;
+}</p>
+<p>@CustomElement(&#39;app-main&#39;)
+@Properties&lt;{ data: Model }&gt;()
+@ViewModel(Model)
+export class MainComponent extends BaseComponent {
+  // ... omitted for brevity
+}
+~~~</p>
+<p>Within the component, this is now present. </p>
+<p>~~~
+this.modelState = {
+  isValid: boolean,
+  isPresent: boolean,
+  errors: { [key: string]: string },
+  model: Model
+}
+~~~</p>
+<p>In the above definition <code>this.props.data</code> contains an actual model. It&#39;s supervised. After render <em>this.modelState</em> helds the state of the model.</p>
+<h3 id="services">Services</h3>
+<p>Want to access an injectable service?</p>
+<p>~~~
+@CustomElement(&#39;app-main&#39;)
+@InjectService(ServiceClass1)
+@InjectService(ServiceClass2)
+export class MainComponent extends BaseComponent {
+  // ... omitted for brevity</p>
+<p>  protected async render() {
+    let data = await this.services<ServiceClass1>().callAnyServiceFunctionHereAsync();
+  }</p>
+<p>}
+~~~</p>
+<blockquote>
+<p>Async is an option, can by sync, too.</p>
+</blockquote>
+<p><em>this.services</em> is a function, that returns an instance of the service. Services are singleton by default.</p>
+<h2 id="recap">Recap</h2>
+<p>Is it worth coding with NYAF and vanilla JS? For smaller projects and for apps that must load quickly, yes.</p>
+<p>The zipped package of the lib is 7 KBytes. Expanded just 23 KBytes.</p>
+<p>However, compared with React or Angular it&#39;s a lot simpler. Compared to Vue it&#39;s simpler and even smaller, but the delta is not that thrilling.</p>
+<h3 id="restrictions">Restrictions</h3>
+<p>The package runs, if there are no polyfills, only with ES2015. This limits the usage to any modern browser. It&#39;s pretty bold in Electron projects.</p>
+<h1 id="how-to-use">How to use</h1>
+<h2 id="prepare-a-project">Prepare a project</h2>
+<p>Install the package:</p>
+<p>~~~
+npm i nyaf -S
+~~~</p>
+<p>Create a file <code>main.ts</code> in the <em>src</em> folder that looks like this:</p>
+<p>~~~
+import { globalProvider } from &#39;nyaf&#39;;</p>
+<p>import { MainComponent } from &#39;./main.component&#39;;</p>
+<p>globalProvider.bootstrap({
+  components: [MainComponent],
+});
+~~~</p>
+<p>Create file <em>main.component.ts</em> in the same folder. Fill this content in:</p>
+<p>~~~
+import { BaseComponent, ComponentData } from &#39;nyaf&#39;;
+import JSX, { CustomElement } from &#39;nyaf&#39;;</p>
+<p>@CustomElement(&#39;app-main&#39;)
+export class MainComponent extends BaseComponent {</p>
+<div><pre class="line-numbers"><code class="language-none">constructor() {
+    super();
+}
+
+protected getData(): ComponentData {
+    return null;
+}
+
+static get observedAttributes() {
+    return [];
+}
+
+render() {
+    return (
+        &lt;section&gt;
+    &lt;h2&gt;Demo&lt;/h2&gt;
+    &lt;p&gt;Hello NYAF&lt;/p&gt;
+        &lt;/section&gt;
+    );
+}</code></pre></div><p>}
+~~~</p>
+<p>Create a file named <em>index.html</em> in the very same folder an fill it like this:</p>
+<p>~~~
+<!DOCTYPE html></p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hello NYAF</title>
+</head>
+<body>
+  <h1>Hell NYAF</h1>
+  <app-main></app-main>
+</body>
+</html>
+~~~
+
+<h2 id="setup">Setup</h2>
+<p>Now, because it&#39;s based on TypeScript, it&#39;s very recommended to use WebPack and TypeScript.</p>
+<p>The <em>tsconfig.json</em> looks like this:</p>
+<p>~~~
+~~~</p>
+<p>The <em>webpack.config.json</em> looks like this:</p>
+<p>~~~
+~~~</p>
+<p>The <em>package.json</em> gets an entry in <code>scripts</code> section:</p>
+<p>~~~
+build: &quot;webpack&quot;,
+~~~</p>
+<h2 id="build">Build</h2>
+<p>Now, on command line, just type <code>npm run build</code>.</p>
+<p>To start webpack&#39;s dev server type:</p>
+<p>~~~
+npm start
+~~~</p>
+<p>An now enjoy writing a component based SPA with only very few KB of lib code.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

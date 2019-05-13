@@ -1,5 +1,5 @@
 {
-  "name": "nyaf",
+  "name": "@nyaf/lib",
   "version": "0.0.3",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",

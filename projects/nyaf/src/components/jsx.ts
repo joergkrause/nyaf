@@ -1,8 +1,15 @@
 import { isArray, isObject } from 'util';
 
 /**
- * The basic entry point.
- */
+ * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.
+ * 
+ * It's a default export, so this import will work:
+ * 
+ * `import JSX from 'nyaf`;
+ * 
+ * Also, don't forget to setup *tsconfig.json* properly to support *jsx* and use the namespace JSX (in uppercase letters).
+ * 
+ * */
 const JSX = {
   createElement(name: string, props: { [id: string]: string }, ...content: string[]) {
     var flat = function(arr1: string[]) {
@@ -40,7 +47,6 @@ const JSX = {
             case 'n-if':
               ifStore = !!value;
               break;
-            case 'n-for':
             case 'n-repeat':
               // we cannot transfer data other than as string with web components
               const repeat = JSON.parse(value);
@@ -80,7 +86,6 @@ const JSX = {
       let metaProps = props;
       // we just repeat the element itself by calling it recursively
       delete props['n-repeat']; // prevent overflow
-      delete props['n-for']; // prevent overflow
       let targetProps = Object.keys(props).filter(p => props[p].startsWith('@'));
       return repeatStore.map(r => {
         targetProps.map(t => (props[t] = r[t]));

@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "declaration": true,
+    "lib": [
+      "es2018",
+      "es5",
+      "dom"
+    ],
+    "jsx": "react",
+    "reactNamespace": "JSX",
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "removeComments": false,
+    "baseUrl": "projects/nyaf-forms",
+    "typeRoots": [
+      "../../node_modules/@types",
+      "projects/nyaf-forms/src/types"
+    ]
+    ,"paths": {
+      "decorators/*": ["projects/nyaf-forms/src/project/decorators/*"]
+    }
+  } 
+}

@@ -6,7 +6,20 @@ export interface ComponentData {
 
 /**
  * Base class for components. Use in derived classes with a path to a template file, and additional setup steps callback.
- * Override 'render' method (mandatory) for event wiring and data/dom manipulation or creation (dynamic part).
+ * Override 'render' method (mandatory) for event wiring and data/dom manipulation or creation (dynamic part). 
+ * 
+ * If the component shall show nothing or has temporarily nothing to render just return `null`.
+ * 
+ * Components must be decorated with at least the @see CustomElement decorator. That defines the name is required to render properly.
+ * Additional class decorators are available:
+ * 
+ * * @see InjectService:  Injects a service class und a singleton instance becomes avaiable through the property `services`.
+ * 
+ * After the render method has been called the first time the property `initialized` becomes `true`.
+ * All properties can be bound, so any change will re-render the content. See @see Properties() decorator.
+ * If you use *jsx* in the render method you must import JSX function. This is same behavior as in React. It isn't React, though.
+ * 
+ * 
  */
 export abstract class BaseComponent extends HTMLElement {
   private nonShadowHtml: string;
@@ -43,6 +56,7 @@ export abstract class BaseComponent extends HTMLElement {
   protected initialized: boolean;
 
   protected setup() {
+    this.initialized = true;
     console.log((<any>this.constructor).selector + " WS ", (<any>this.constructor).withShadow);
     if ((<any>this.constructor).withShadow) {
       const template = document.createElement('template');
