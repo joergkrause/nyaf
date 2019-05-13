@@ -148,7 +148,7 @@ First, define an outlet where the components appear:
 <div n-router-outlet></div>
 ~~~
 
-Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content doesn't need registration, because they aren't activated through the tag. Only the *render* method is called. You can even omit the `@CustomElement` decorator.
+Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content need registration too. The also ___must___ have a name, because that's the way the router internally activates the component.
 
 #### Register Routes
 
@@ -197,7 +197,7 @@ One option:
 * Use Shadow DOM
 * all global styles are still working (auto copy)
 
-The property can be set explicitly. The default is `false`, so if the decorator is being omitted, the component is ____not____ shadowed.
+The property can be set explicitly. The default is `false`, hence if the decorator is being omitted, the component is ____not____ shadowed.
 
 ~~~
 @ShadowDOM(true | false)
@@ -220,11 +220,13 @@ To use properties, you can define those.
 
 ~~~
 @CustomElement('app-main')
-@Properties<{ title: string }>('Default')
+@Properties<{ title: string }>({ title: 'Default' })
 export class MainComponent extends BaseComponent {
   // ... omitted for brevity
 }
 ~~~
+
+The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
 
 ### View Models
 

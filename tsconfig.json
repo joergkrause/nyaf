@@ -22,5 +22,8 @@
       "node_modules/@types",
       "src/types"
     ]
-  }
+    ,"paths": {
+      "decorators/*": ["src/project/decorators/*"]
+    }
+  } 
 }

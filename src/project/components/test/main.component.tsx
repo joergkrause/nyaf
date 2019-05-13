@@ -1,7 +1,7 @@
-import { BaseComponent, ComponentData, CustomElement } from '../base.component';
+import { BaseComponent, ComponentData } from '../base.component';
 import { JSX } from '../jsx';
 import { TabsComponent } from './tabs.component';
-
+import { CustomElement } from 'decorators';
 
 @CustomElement('app-main')
 export class MainComponent extends BaseComponent {

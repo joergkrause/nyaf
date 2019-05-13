@@ -18,7 +18,7 @@ export const JSX = {
       Object.keys(props)
         .map(key => {
           const value = props[key];
-          console.log(`jsx processing ${key}='${value}'`);
+          // console.log(`jsx processing ${key}='${value}'`);
           switch (key) {
             case 'className':
               if (isArray(value)) {

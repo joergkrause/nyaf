@@ -14,3 +14,5 @@ export * from './ui/hint-hidden.decorator';
 export * from './ui/hint-sortable.decorator';
 export * from './ui/hint-readonly.decorator';
 export * from './useshadowdom.decorator';
+export * from './injectservice.decorator';
+export * from './customelement.decorator';

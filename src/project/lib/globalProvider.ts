@@ -51,7 +51,7 @@ export class globalProvider {
           onNavItemClick(requestedRoute);
           // https://github.com/WebReflection/classtrophobic
           // https://github.com/WebReflection/document-register-element/issues/142
-          outlet.innerHTML = Object.create(activatedComponent.prototype).render();
+          outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`; // Object.create(activatedComponent.prototype).render();
         }
       });
     }

@@ -7,17 +7,17 @@
  */
 export function ShadowDOM(useShadow: boolean = true) {
     // the original decorator
-    function shadowDOMInternal(target: Object, property: string | symbol): void {
-      shadowDOMInternalSetup(target, property.toString(), useShadow);
+    function shadowDOMInternal(target: Object): void {
+      shadowDOMInternalSetup(target, useShadow);
     }
 
     // return the decorator
     return shadowDOMInternal;
 }
 
-export function shadowDOMInternalSetup(target: any, key: string, useShadow: boolean) {
+export function shadowDOMInternalSetup(target: any, useShadow: boolean) {
 
-    Object.defineProperty(target, 'withShadowDOM', {
+    Object.defineProperty(target, 'withShadow', {
         value: useShadow,
         enumerable: false,
         configurable: false

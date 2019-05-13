@@ -18,7 +18,7 @@ let routes = {
 
 globalProvider.bootstrap({
   // register all components directly used in templates
-  components: [MainComponent, ButtonComponent, TabComponent, TabsComponent],
+  components: [MainComponent, ButtonComponent, TabComponent, TabsComponent, ContactComponent, AboutComponent, DemoComponent],
   // register for router
   routes: routes
 });

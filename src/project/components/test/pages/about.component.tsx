@@ -1,5 +1,6 @@
-import { BaseComponent, ComponentData, CustomElement } from '../../base.component';
+import { BaseComponent, ComponentData } from '../../base.component';
 import JSX from '../../jsx';
+import { CustomElement } from 'decorators';
 
 
 // Step 1: Create the Components active parts

@@ -1,27 +1,3 @@
-import { ServiceType, Component } from '../types/common';
-
-export function CustomElement(name: string) {
-  return function(target: any) {
-    Object.defineProperty(target, 'selector', {
-      get: function() {
-        return name;
-      }
-    });
-  };
-}
-
-export function InjectService<T>(name: string, type: ServiceType<T>) {
-  return function(target: any) {
-    // closure to create a singleton
-    const t = new type();
-    Object.defineProperty(target, 'service', {
-      get: function() {
-        return t;
-      }
-    });
-  };
-}
-
 // TODO: Implement https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445
 
 export interface ComponentData {
@@ -51,12 +27,12 @@ export abstract class BaseComponent extends HTMLElement {
     }
   }
 
-  // set by decorator
-  private readonly useParentStyles = false;
-  // set by decorator
-  private readonly withShadow = false;
-  // set by decorator
-  public readonly selector: string;
+  // // set by decorator
+  // private readonly useParentStyles: boolean;
+  // // set by decorator
+  public static readonly withShadow: boolean;
+  // // set by decorator
+  public static readonly selector: string;
 
   abstract render(): string;
 
@@ -67,7 +43,8 @@ export abstract class BaseComponent extends HTMLElement {
   protected initialized: boolean;
 
   protected setup() {
-    if (this.withShadow) {
+    console.log((<any>this.constructor).selector + " WS ", (<any>this.constructor).withShadow);
+    if ((<any>this.constructor).withShadow) {
       const template = document.createElement('template');
       template.innerHTML = this.render();
       if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {
@@ -78,15 +55,15 @@ export abstract class BaseComponent extends HTMLElement {
           this.dispatchEvent(new_e);
         });
       }      
-    } else {
+    } else {      
       this.innerHTML = this.render();
     }
   }
 
   public setData(key: string, newValue: any): void {
-    const rerender = this.getData()[key] === newValue;
+    const rerender = this.getData()[key] !== newValue;
     this.getData()[key] = newValue;
-
+    // something is new so we rerender
     if (rerender) {
       this.setup();
     }

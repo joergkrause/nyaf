@@ -1,11 +1,11 @@
-import { BaseComponent, ComponentData, CustomElement } from '../base.component';
+import { BaseComponent, ComponentData } from '../base.component';
 import JSX from '../jsx';
+import { CustomElement } from 'decorators';
 
 interface MainProps {
 	title: string;
 	tabs: [];
 }
-
 
 // Step 1: Create the Components active parts
 @CustomElement('app-tabs')
@@ -14,6 +14,7 @@ export class TabsComponent extends BaseComponent {
 
   constructor() {
     super();
+    // set by @Properties<T>(t)
 		this.props = {
 			title: this.readAttribute('title', 'Anzeigen'),
 			tabs: this.readAttribute('tabs', [])
