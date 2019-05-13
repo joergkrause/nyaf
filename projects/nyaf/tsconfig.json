@@ -16,14 +16,14 @@
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "removeComments": false,
-    "outDir": "dist",
-    "baseUrl": "src/project",
+    "outDir": "../../dist/nyaf",
+    "baseUrl": "projects/nyaf",
     "typeRoots": [
-      "node_modules/@types",
-      "src/types"
+      "../../node_modules/@types",
+      "projects/nyaf/src/types"
     ]
     ,"paths": {
-      "nyaf/*": ["projects/nyaf/*"]
+      "decorators/*": ["projects/nyaf/src/project/decorators/*"]
     }
   } 
 }

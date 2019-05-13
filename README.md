@@ -35,7 +35,7 @@ A class `JSX` is the core, it handels the element definitions and extract the te
 
 ### n-repeat, n-for
 
-Repeats the element if the argument is an array.
+Repeats the element. The argument must be an array.
 
 Assume we have this object:
 
@@ -46,18 +46,27 @@ Assume we have this object:
 In an array like this:
 
 ~~~
-[{ text: "hallo", content: "Hello NYAF" }, { text: "world", content: "This is really nice" }]
+[
+  {
+    text: "hallo", 
+    content: "Hello NYAF" 
+  }, 
+  { 
+    text: "world", 
+    content: "This is really nice" 
+  }
+]
 ~~~
 
-And want to show on screen like this:
+Than you show the data on screen like this:
 
 ~~~
-<app-tab n-repeat={tabs} title="@title" content="@tab"></app-tab>
+<app-tab n-for={tabs} title="@title" content="@content"></app-tab>
 ~~~
 
 The array shall contain objects. If the property is needed, it's accessible withing any attribute by writing `@propName`.
 
-> `n-for` is an alias.
+> `n-repeat` is an alias.
 
 ### n-if, n-else
 

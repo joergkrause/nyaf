@@ -1,5 +1,5 @@
-import { Component, ComponentType } from "types/common";
-import { BaseComponent } from "components/base.component";
+import { Component, ComponentType } from "../types/common";
+import { BaseComponent } from "../components/base.component";
 
 /**
  * For registration we handle just the types, not actual instances. And types are actually functions.

@@ -1,5 +1,5 @@
-import { BaseComponent, ComponentData } from '../base.component';
-import JSX from '../jsx';
+import { BaseComponent, ComponentData } from '../../../projects/nyaf/src/components/base.component';
+import JSX from '../../../projects/nyaf/src/components/jsx';
 import { CustomElement } from 'decorators';
 
 

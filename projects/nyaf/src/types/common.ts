@@ -1,4 +1,4 @@
-import { BaseComponent } from "components/base.component";
+import { BaseComponent } from "../components/base.component";
 
 export interface ServiceType<T> extends Function {
   new (...args: any[]): T;

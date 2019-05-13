@@ -1,4 +1,4 @@
-﻿import { Type } from "types/common";
+﻿import { Type } from "../types/common";
 
 /**
  * The Properties decorator.
