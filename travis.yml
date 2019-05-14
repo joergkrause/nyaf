@@ -1,0 +1,57 @@
+language: node_js
+sudo: required
+
+notifications:
+  slack:
+    on_success: always
+    on_failure: never
+
+node_js:
+  - '8.9.1'
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - libstdc++6
+
+branches:
+  only:
+  - master
+
+env:
+  global:
+  - LOGS_DIR=/tmp/svogv-build/logs
+  - ARCH=linux-x64
+  - BROWSER_PROVIDER_READY_FILE=/tmp/svogv-build/readyfile
+  - BROWSER_PROVIDER_ERROR_FILE=/tmp/svgogv-build/errorfile
+  # GITHUB_TOKEN_ANGULAR
+  - secure: "fq/U7VDMWO8O8SnAQkdbkoSe2X92PVqg4d044HmRYVmcf6YbO48+xeGJ8yOk0pCBwl3ISO4Q2ot0x546kxfiYBuHkZetlngZxZCtQiFT9kyId8ZKcYdXaIW9OVdw3Gh3tQyUwDucfkVhqcs52D6NZjyE2aWZ4/d1V4kWRO/LMgo="
+  matrix:
+    # Order: a slower build first, so that we don't occupy an idle travis worker waiting for others to complete.
+    - MODE=build
+    - MODE=lint
+
+matrix:
+  fast_finish: true
+  allow_failures:
+  - env: "MODE=lint"
+
+install:
+  - npm install
+
+before_script:
+  - chmod +x ./tools/travis/ci/build-and-test.sh
+  - mkdir -p $LOGS_DIR
+
+script:
+  - ./tools/travis/ci/build-and-test.sh
+
+after_success:
+  - ./tools/travis/ci/after-success.sh
+
+cache:
+  directories:
+    - node_modules
+    - $HOME/.pub-cache

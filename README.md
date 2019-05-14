@@ -1,6 +1,14 @@
+[![Build](https://img.shields.io/travis/joergkrause/svogv/master.svg?style=flat-square)](https://travis-ci.org/joergkrause/nyaf)
+[![Downloads](https://img.shields.io/npm/dm/nyaf.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
+[![Version](https://img.shields.io/npm/v/svogv.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
+[![License](https://img.shields.io/npm/l/svogv.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
+[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/joergisageek)
+
 # NYAF is "Not Yet Another Framework" 
 
 And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools.
+
+> No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!
 
 ## Idea
 
