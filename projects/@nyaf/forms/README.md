@@ -158,7 +158,7 @@ Objects are always set (not undefined), so you don't must test first. The proper
 
 ### View Models in Components
 
-For a nice view decorators applied to class properties control the appearance.
+For a nice view decorators applied to class properties control the appearance. Use `FormsComponent` as new base class (instead of `BaseComponent`). Use the decorator `@ViewModel<T>(T)` to define the model. The generic is the type, the constructor parameter defines the default values (it's **mandatory**).
 
 ~~~
 export class Model {
@@ -172,8 +172,8 @@ export class Model {
 
 @CustomElement('app-main')
 @Properties<{ data: Model }>()
-@ViewModel(Model)
-export class MainComponent extends BaseComponent {
+@ViewModel<Model>({ id: 0, name: ''})
+export class MainComponent extends FormsComponent {
   // ... omitted for brevity
 }
 ~~~

@@ -10,7 +10,7 @@ cd $(dirname $0)/../../..
 source tools/travis/ci/sources/mode.sh
 
 if is_lint; then
-  $(npm bin)/npm run lint
+  npm run lint
 else
-  $(npm bin)/npm run build
+  npm run build
 fi
