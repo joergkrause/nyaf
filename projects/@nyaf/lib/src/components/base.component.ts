@@ -22,7 +22,6 @@ export interface ComponentData {
  *
  */
 export abstract class BaseComponent extends HTMLElement {
-  private nonShadowHtml: string;
 
   /**
    *
