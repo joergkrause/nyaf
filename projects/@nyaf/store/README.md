@@ -6,6 +6,8 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 
 This is an extension to the famous micro framework NYAF. You need to build your project on top of NYAF, then *@nyaf/store* makes your life easier, again.
 
+> Credits go to [Fluxiny](https://github.com/krasimir/fluxiny) for inspiration and examples. It is, however, not a dependency.
+
 # NYAF-STORE
 
 This is the store implementation, a mini flux variant without the burden of Redux.
@@ -112,4 +114,3 @@ Install the package:
 ~~~
 npm i @nyaf/store -S
 ~~~
-s

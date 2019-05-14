@@ -1,10 +1,10 @@
-import { BaseComponent } from 'nyaf';
+import { BaseComponent, ComponentData } from 'nyaf';
 import { ModelState } from '../models/modelstate.model';
 
 /**
  * Use this as base class for model driven forms.
  */
-export class FormsComponent extends BaseComponent {
+export abstract class FormsComponent extends BaseComponent {
   
   protected modelState: ModelState<{}>;
   protected model: {};
@@ -12,6 +12,11 @@ export class FormsComponent extends BaseComponent {
   constructor() {
     super();
   }
+
+  abstract render(): string;
+
+  protected abstract getData(): ComponentData;
+
 
 
 }
