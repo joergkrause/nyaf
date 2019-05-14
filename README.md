@@ -1,7 +1,7 @@
-[![Build](https://img.shields.io/travis/joergkrause/svogv/master.svg?style=flat-square)](https://travis-ci.org/joergkrause/nyaf)
+[![Build](https://img.shields.io/travis/joergkrause/nyaf/master.svg?style=flat-square)](https://travis-ci.org/joergkrause/nyaf)
 [![Downloads](https://img.shields.io/npm/dm/nyaf.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
-[![Version](https://img.shields.io/npm/v/svogv.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
-[![License](https://img.shields.io/npm/l/svogv.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
+[![Version](https://img.shields.io/npm/v/nyaf.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
+[![License](https://img.shields.io/npm/l/nyaf.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/joergisageek)
 
 # NYAF is "Not Yet Another Framework" 
@@ -10,6 +10,8 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 
 > No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!
 
+**Write frontend apps without the hassle of a complex framework, use the full power of HTML 5, keep a component based style.**
+
 ## Idea
 
 * I want to use JSX/TSX syntax for quick component dev.
@@ -17,8 +19,9 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 * I want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
 * I want to use TypeScript from the beginning.
 * I want to have a very small package.
-* I want to use webpack and other common tools.
-* I want to use decorators for controlling stuff, not code within  the component.
+* I want to use WebPack and other common tools.
+* I want to use standards, no weird CLI, no vendor lock in.
+* I want to use smart decorators for controlling stuff, not code within the component, for separation of concerns style.
 
 ## Approach
 
@@ -248,40 +251,25 @@ export class MainComponent extends BaseComponent {
 
 The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
 
-### View Models
+### Properties and View Models
 
 For a nice view decorators applied to class properties control the appearance.
 
 ~~~
 export class Model {
-  @Hidden()
   id: number = 0;
-
-  @Required()
   name: string = '';
 }
 
 
 @CustomElement('app-main')
 @Properties<{ data: Model }>()
-@ViewModel(Model)
 export class MainComponent extends BaseComponent {
   // ... omitted for brevity
 }
 ~~~
 
-Within the component, this is now present. 
-
-~~~
-this.modelState = {
-  isValid: boolean,
-  isPresent: boolean,
-  errors: { [key: string]: string },
-  model: Model
-}
-~~~
-
-In the above definition `this.props.data` contains an actual model. It's supervised. After render *this.modelState* helds the state of the model.
+Within the component, this is now present. In the above definition `this.props.data` contains an actual model. 
 
 ### Services
 

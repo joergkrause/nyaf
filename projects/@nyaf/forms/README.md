@@ -156,6 +156,41 @@ Objects are always set (not undefined), so you don't must test first. The proper
 * `@EMail`: `email`
 * `@Compare`: `compare`
 
+### View Models in Components
+
+For a nice view decorators applied to class properties control the appearance.
+
+~~~
+export class Model {
+  @Hidden()
+  id: number = 0;
+
+  @Required()
+  name: string = '';
+}
+
+
+@CustomElement('app-main')
+@Properties<{ data: Model }>()
+@ViewModel(Model)
+export class MainComponent extends BaseComponent {
+  // ... omitted for brevity
+}
+~~~
+
+Within the component, this is now present. 
+
+~~~
+this.modelState = {
+  isValid: boolean,
+  isPresent: boolean,
+  errors: { [key: string]: string },
+  model: Model
+}
+~~~
+
+It's supervised. After render *this.modelState* helds the state of the model.
+
 # Recap
 
 Is it worth coding with NYAF forms and vanilla JS? For smaller projects and for apps that must load quickly, yes.
