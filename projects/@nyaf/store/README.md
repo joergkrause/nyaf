@@ -4,7 +4,7 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 
 ## Preface
 
-This is an extension to the famous micro framework NYAF. You need to build your project on top of NYAF, then *nayf-store* makes your life easier, again.
+This is an extension to the famous micro framework NYAF. You need to build your project on top of NYAF, then *@nyaf/store* makes your life easier, again.
 
 # NYAF-STORE
 

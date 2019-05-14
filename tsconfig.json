@@ -23,7 +23,7 @@
       "src/types"
     ],
     "paths": {
-      "nyaf/*": ["projects/nyaf/src/*"]
+      "nyaf/*": ["projects/@nyaf/lib/src/*"]
     }
   } 
 }

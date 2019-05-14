@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "nyaf-lib": "webpack --config ./projects/nyaf/webpack.config.js --mode \"production\"",
-    "nyaf-forms": "webpack --config ./projects/nyaf-forms/webpack.config.js --mode \"production\"",
-    "nyaf-store": "webpack --config ./projects/nyaf-store/webpack.config.js --mode \"production\"",
-    "build": "rimraf dist && cp README.md ./projects/nyaf/ && npm run nyaf-lib && npm run nyaf-forms && npm run nyaf-store",
+    "nyaf-all": "webpack --config webpack.config.js --mode \"production\"",
+    "build": "rimraf dist && cp README.md ./projects/@nyaf/lib && npm run nyaf-all && gulp",
     "start": "webpack-dev-server --open",
     "codedoc": "npm run codedoc-nyaf && npm run codedoc-nyaf-forms",
     "codedoc-nyaf-lib": "compodoc -p ./projects/nyaf/tsconfig.json --output ./docs/documentation",
