@@ -16,13 +16,13 @@ gulp.task('types/forms', () => {
 
 gulp.task('types/lib', () => {
   return gulp.src([
-    'projects/@nyaf/forms/src/**/*.d.ts'
+    'projects/@nyaf/lib/src/**/*.d.ts'
   ]).pipe(gulp.dest('dist/@nyaf/lib'))
 });
 
 gulp.task('types/store', () => {
   return gulp.src([
-    'projects/@nyaf/forms/src/**/*.d.ts'
+    'projects/@nyaf/store/src/**/*.d.ts'
   ]).pipe(gulp.dest('dist/@nyaf/store'))
 });
 

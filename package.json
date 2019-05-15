@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "nyaf-all": "webpack --config webpack.config.js --mode \"production\"",
+    "nyaf-all": "npm run nyaf-lib",
+    "nyaf-lib": "webpack --config webpack.config.lib.js --mode \"production\"",
     "build": "rimraf dist && cp README.md ./projects/@nyaf/lib && npm run nyaf-all && gulp",
     "start": "webpack-dev-server --open",
     "codedoc": "npm run codedoc-nyaf && npm run codedoc-nyaf-forms",
@@ -16,8 +17,8 @@
     "type": "git",
     "url": "git+https://github.com/joergkrause/nyaf.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["vanilla JS", "es2015", "framework", "web app"],
+  "author": "Joerg <isageek> Krause",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/joergkrause/nyaf/issues"
