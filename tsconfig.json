@@ -23,7 +23,9 @@
       "src/types"
     ],
     "paths": {
-      "nyaf/*": ["projects/@nyaf/lib/src/*"]
+      "@nyaf/lib/*": ["projects/@nyaf/lib/src/*"],
+      "@nyaf/forms/*": ["projects/@nyaf/forms/src/*"],
+      "@nyaf/store/*": ["projects/@nyaf/store/src/*"]
     }
   } 
 }

@@ -1,4 +1,4 @@
-import { globalProvider } from 'nyaf';
+import { globalProvider } from '@nyaf/lib';
 
 import { MainComponent } from './components/test/main.component';
 import { TabsComponent } from './components/test/tabs.component';

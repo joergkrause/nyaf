@@ -1,5 +1,5 @@
-import { BaseComponent, ComponentData } from 'nyaf';
-import JSX, { CustomElement } from 'nyaf';
+import { BaseComponent, ComponentData } from '@nyaf/lib';
+import JSX, { CustomElement } from 'ny@nyaf/libaf';
 
 // Step 1: Create the Components active parts
 @CustomElement('app-about')

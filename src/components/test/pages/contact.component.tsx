@@ -1,5 +1,5 @@
-import { BaseComponent, ComponentData } from 'nyaf';
-import JSX, { CustomElement, ShadowDOM } from 'nyaf';
+import { BaseComponent, ComponentData } from '@nyaf/lib';
+import JSX, { CustomElement, ShadowDOM } from '@nyaf/lib';
 
 
 // Step 1: Create the Components active parts
