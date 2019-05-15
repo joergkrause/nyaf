@@ -5,8 +5,14 @@ import { BaseComponent } from "../components/base.component";
  * For registration we handle just the types, not actual instances. And types are actually functions.
  */
 export class BootstrapProp {
+  /**
+   * Add all components here as types.
+   */
   components: Array<Component>;
-  routes: { [path: string]:  { component: Component, data?: any } }
+  /**
+   * Optional. Add the router definition here. Path's shall not contain hash signs, even if used in link tags.
+   */
+  routes?: { [path: string]:  { component: Component, data?: any } }
 }
 
 /**
@@ -23,6 +29,10 @@ export class globalProvider {
     customElements.define(type.selector, type);
   }
 
+  /**
+   * The global configuration. This call is required.
+   * @param props Provide module properties with registration and settings.
+   */
   static bootstrap(props: BootstrapProp) {
     // register components
     props.components.forEach(c => globalProvider.register(c));
