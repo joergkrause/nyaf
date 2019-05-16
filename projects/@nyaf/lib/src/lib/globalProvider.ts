@@ -55,7 +55,7 @@ export class globalProvider {
       }
       // listen for any click event
       document.addEventListener('click', e => {
-        if ((<HTMLElement>e.target).tagName === 'A'){
+        if ((<HTMLElement>e.target).tagName === 'A' && (<HTMLElement>e.target).getAttribute('n-link')){
           const requestedRoute = (<HTMLAnchorElement>e.target).href.split('#')[1];
           const activatedComponent = props.routes[requestedRoute].component;
           onNavItemClick(requestedRoute);

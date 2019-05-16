@@ -2,7 +2,7 @@
   "name": "@nyaf/lib",
   "version": "0.0.5",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
-  "main": "libs.umd.js",
+  "main": "lib.umd.js",
   "private": false,
   "typings": "src/index.d.ts",
   "scripts": {
