@@ -183,6 +183,7 @@ let routes = {
   '/about': { component: AboutComponent },
   '/demo': { component: DemoComponent },
   '/contact': { component: ContactComponent },
+  '**': { component: DemoComponent }
 };
 
 globalProvider.bootstrap({
@@ -190,6 +191,9 @@ globalProvider.bootstrap({
   routes: routes
 });
 ~~~
+
+The first entry `'/': { component: DemoComponent },` shall always exist, it's the default route loaded on start. It's being recognized by the `'/'` key (the position in the array doesn't matter).
+The entry `'**': { component: DemoComponent }` is optional and defines a fallback in case an invalid path is being used.
 
 #### Use Routes
 
