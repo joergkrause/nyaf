@@ -6,9 +6,8 @@
   "scripts": {
     "test": "jest",
     "lint": "tslint './projects/@nyaf/lib/src/**/*.ts' && tslint './projects/@nyaf/forms/src/**/*.ts' && tslint './projects/@nyaf/store/src/**/*.ts'",
-    "nyaf-all": "npm run nyaf-lib",
     "nyaf-lib": "webpack --config webpack.config.lib.js --mode \"production\"",
-    "build": "rimraf dist && cp README.md ./projects/@nyaf/lib && npm run nyaf-all && gulp",
+    "build": "rimraf dist && cp README.md ./projects/@nyaf/lib && npm run nyaf-lib && gulp",
     "start": "webpack-dev-server --open",
     "codedoc": "npm run codedoc-nyaf && npm run codedoc-nyaf-forms",
     "codedoc-nyaf-lib": "compodoc -p ./projects/nyaf/tsconfig.json --output ./docs/documentation",

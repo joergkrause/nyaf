@@ -28,12 +28,12 @@ const webpackConfig = {
       modules: path.join(__dirname, 'node_modules'),
       '@nyaf/lib': path.join(__dirname, 'projects/@nyaf/lib/src')
     },
-    plugins: [new TsconfigPathsPlugin( {  configFile: './tsconfig.json' })]
+    // plugins: [new TsconfigPathsPlugin( {  configFile: './tsconfig.json' })]
 
   },
   // How and where webpack should output bundles, assets and anything else
   output: {
-    path: path.resolve('./dist'),
+    path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'umd',
     filename: '@nyaf/[name]/[name].umd.js'
   },
@@ -46,7 +46,9 @@ const webpackConfig = {
   // Configure whether to polyfill or mock certain Node.js globals and modules
   node: {
     __dirname: false
-  }
+  },
+  plugins: [
+  ]
 };
 
 // Export the config

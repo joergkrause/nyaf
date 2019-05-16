@@ -17,7 +17,7 @@
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "removeComments": false,
-    "outDir": "dist",
+    "outDir": "out-tsc",
     "baseUrl": "src/project",
     "typeRoots": [
       "node_modules/@types",

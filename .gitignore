@@ -59,6 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+# output of webpack ts-loader and declarations
 dist
+out-tsc
 
 publish.sh
