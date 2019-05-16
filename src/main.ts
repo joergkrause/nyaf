@@ -1,4 +1,4 @@
-import { globalProvider } from '@nyaf/lib';
+import { GlobalProvider } from '@nyaf/lib';
 
 import { MainComponent } from './components/test/main.component';
 import { TabsComponent } from './components/test/tabs.component';
@@ -17,7 +17,7 @@ let routes = {
   '/contact': { component: ContactComponent },
 };
 
-globalProvider.bootstrap({
+GlobalProvider.bootstrap({
   // register all components directly used in templates
   components: [MainComponent, ButtonComponent, TabComponent, TabsComponent, ContactComponent, AboutComponent, DemoComponent],
   // register for router

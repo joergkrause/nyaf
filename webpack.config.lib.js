@@ -1,6 +1,7 @@
 const dev = process.env.NODE_ENV === 'dev';
 const path = require('path');
 const webpack = require('webpack');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const webpackConfig = {
   mode: 'development',
@@ -26,7 +27,9 @@ const webpackConfig = {
       // bind to modules;
       modules: path.join(__dirname, 'node_modules'),
       '@nyaf/lib': path.join(__dirname, 'projects/@nyaf/lib/src')
-    }
+    },
+    plugins: [new TsconfigPathsPlugin( {  configFile: './tsconfig.json' })]
+
   },
   // How and where webpack should output bundles, assets and anything else
   output: {

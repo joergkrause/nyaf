@@ -11,6 +11,7 @@
       "dom"
     ],
     "jsx": "react",
+    "declaration": true,
     "reactNamespace": "JSX",
     "experimentalDecorators": true,
     "noImplicitAny": false,

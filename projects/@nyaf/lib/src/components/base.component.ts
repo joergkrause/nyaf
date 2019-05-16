@@ -22,32 +22,6 @@ export interface ComponentData {
  *
  */
 export abstract class BaseComponent extends HTMLElement {
-
-  /**
-   *
-   * @param template The path to the file containing the HTML
-   * @param withShadow `false` to suppress using shadow dom, required for jquery-ui
-   */
-  constructor() {
-    super();
-    window.addEventListener('message', this.receiveMessage.bind(this), false);
-    if (BaseComponent.useParentStyles && BaseComponent.withShadow && !BaseComponent.globalStyle) {
-      for (let i = 0; i <= this.ownerDocument.styleSheets.length; i++) {
-        const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
-        if (css.rules[0].cssText.startsWith(':ignore')) continue;
-        BaseComponent.globalStyle = Object.keys(css.cssRules)
-          .map(k => css.cssRules[k].cssText)
-          .join('');
-      }
-    }
-  }
-
-  protected receiveMessage(event) {
-    if (event.data.type === 'setData' && (event.data.target === this.readAttribute('id', '') || this.localName === event.data.target)) {
-      this.setData.apply(this, event.data.args);
-    }
-  }
-
   /**
    * Set by decorator @see {UseParentStyles}. If set, it copies styles to a shadowed component.
    * If not shadowed, it's being ignored. See @see {UseShadowDOM} decorator, too.
@@ -66,14 +40,43 @@ export abstract class BaseComponent extends HTMLElement {
    * Set by decorator @see {CustomElement}. It's the element's name in CSS selector style.
    */
   public static readonly selector: string;
+  /**
+   * Declares that the render method has been called at least one times.
+   */
+  protected initialized: boolean;
+
+  /**
+   *
+   * @param template The path to the file containing the HTML
+   * @param withShadow `false` to suppress using shadow dom, required for jquery-ui
+   */
+  constructor() {
+    super();
+    window.addEventListener('message', this.receiveMessage.bind(this), false);
+    if (BaseComponent.useParentStyles && BaseComponent.withShadow && !BaseComponent.globalStyle) {
+      for (let i = 0; i <= this.ownerDocument.styleSheets.length; i++) {
+        const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
+        if (css.rules[0].cssText.startsWith(':ignore')) {
+          continue;
+        }
+        BaseComponent.globalStyle = Object.keys(css.cssRules)
+          .map(k => css.cssRules[k].cssText)
+          .join('');
+      }
+    }
+  }
+
+  protected receiveMessage(event) {
+    if (event.data.type === 'setData' && (event.data.target === this.readAttribute('id', '') || this.localName === event.data.target)) {
+      this.setData.apply(this, event.data.args);
+    }
+  }
 
   abstract render(): string;
 
   protected dispose(): void {}
 
   protected abstract getData(): ComponentData;
-
-  protected initialized: boolean;
 
   protected setup() {
     this.initialized = true;

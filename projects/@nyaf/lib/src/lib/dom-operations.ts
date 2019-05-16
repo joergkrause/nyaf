@@ -1,79 +1,76 @@
 export class DomOp {
-	/**
-	 * Get all of an element's parent elements up the DOM tree
-	 * @param  {Node}   elem     The element
-	 * @param  {String} selector Selector to match against [optional]
-	 * @return {Array}           The parent elements
-	 */
-	static getParents(elem, selector) {
-		// Setup parents array
-		var parents = [];
+  /**
+   * Get all of an element's parent elements up the DOM tree
+   * @param  {Node}   elem     The element
+   * @param  {String} selector Selector to match against [optional]
+   * @return {Array}           The parent elements
+   */
+  static getParents(elem: any, selector: string) {
+    // Setup parents array
+    const parents = [];
 
-		// Get matching parent elements
-		for (; elem && elem !== document; elem = elem.parentNode) {
-			// Add matching parents to array
-			if (selector) {
-				if (elem.matches(selector)) {
-					parents.push(elem);
-				}
-			} else {
-				parents.push(elem);
-			}
-		}
+    // Get matching parent elements
+    for (; elem && elem !== document; elem = elem.parentNode) {
+      // Add matching parents to array
+      if (selector) {
+        if (elem.matches(selector)) {
+          parents.push(elem);
+        }
+      } else {
+        parents.push(elem);
+      }
+    }
 
-		return parents;
-	}
+    return parents;
+  }
 
-	/**
-	 * Get the first parent that matches the selector, or null if there is none.
-	 * @param  {Node}   elem     The element
-	 * @param  {String} selector Selector to match against [optional]
-	 * @return {Node}   The parent element
-	 */
-	static getParent(elem, selector){
-		var parents = DomOp.getParents(elem, selector);
-		if (parents && parents.length) {
-			return parents[0];
-		}
-		return null;
-	}
+  /**
+   * Get the first parent that matches the selector, or null if there is none.
+   * @param  {Node}   elem     The element
+   * @param  {String} selector Selector to match against [optional]
+   * @return {Node}   The parent element
+   */
+  static getParent(elem, selector) {
+    const parents = DomOp.getParents(elem, selector);
+    if (parents && parents.length) {
+      return parents[0];
+    }
+    return null;
+  }
 
-	static getParentsUntil ( elem, parent, selector ) {
+  static getParentsUntil(elem, parent, selector) {
+    // Setup parents array
+    const parents = [];
 
-		// Setup parents array
-		var parents = [];
+    // Get matching parent elements
+    for (; elem && elem !== document; elem = elem.parentNode) {
+      if (parent) {
+        if (elem.matches(parent)) {
+          break;
+        }
+      }
 
-		// Get matching parent elements
-		for ( ; elem && elem !== document; elem = elem.parentNode ) {
+      if (selector) {
+        if (elem.matches(selector)) {
+          parents.push(elem);
+        }
+        break;
+      }
 
-			if ( parent ) {
-				if ( elem.matches( parent ) ) break;
-			}
+      parents.push(elem);
+    }
 
-			if ( selector ) {
-				if ( elem.matches( selector ) ) {
-					parents.push( elem );
-				}
-				break;
-			}
+    return parents;
+  }
 
-			parents.push( elem );
+  static getClosest(elem, selector) {
+    // Get closest match
+    for (; elem && elem !== document; elem = elem.parentNode) {
+      if (elem.matches(selector)) {
+        return elem;
+      }
+    }
 
-		}
-
-		return parents;
-
-	}
-
-	static getClosest ( elem, selector ) {
-
-		// Get closest match
-		for ( ; elem && elem !== document; elem = elem.parentNode ) {
-			if ( elem.matches( selector ) ) return elem;
-		}
-
-		return null;
-
-	}
-
+    return null;
+  }
 }

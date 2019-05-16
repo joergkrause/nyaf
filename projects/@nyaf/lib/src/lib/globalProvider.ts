@@ -18,7 +18,7 @@ export class BootstrapProp {
 /**
  * Main support class that provides all global functions.
  */
-export class globalProvider {
+export class GlobalProvider {
   /**
    *
    * @param type Called to register a component. The component must have either the decorator @see CustomElement or
@@ -35,18 +35,18 @@ export class globalProvider {
    */
   static bootstrap(props: BootstrapProp) {
     // register components
-    props.components.forEach(c => globalProvider.register(c));
+    props.components.forEach(c => GlobalProvider.register(c));
     // register events
-    document.addEventListener('click', e => globalProvider.eventHub(e));
-    document.addEventListener('keypress', e => globalProvider.eventHub(e));
-    document.addEventListener('dblclick', e => globalProvider.eventHub(e));
+    document.addEventListener('click', e => GlobalProvider.eventHub(e));
+    document.addEventListener('keypress', e => GlobalProvider.eventHub(e));
+    document.addEventListener('dblclick', e => GlobalProvider.eventHub(e));
     // register routes
     // find the outlet
     const outlet = document.querySelector('[n-router-outlet]');
     // is completely voluntery
     if (outlet) {
       // handle history
-      let onNavItemClick = pathName => {
+      const onNavItemClick = pathName => {
         window.history.pushState({}, pathName, window.location.origin + pathName);
       };
       // listen for any click event and check n-link attribute

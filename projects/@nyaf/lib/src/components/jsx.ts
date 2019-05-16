@@ -2,24 +2,24 @@ import { isArray, isObject } from 'util';
 
 /**
  * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.
- * 
+ *
  * It's a default export, so this import will work:
- * 
+ *
  * `import JSX from 'nyaf`;
- * 
+ *
  * Also, don't forget to setup *tsconfig.json* properly to support *jsx* and use the namespace JSX (in uppercase letters).
- * 
+ *
  * */
 const JSX = {
   createElement(name: string, props: { [id: string]: string }, ...content: string[]) {
-    var flat = function(arr1: string[]) {
+    const flat = function(arr1: string[]) {
       return arr1.reduce((acc, val) => (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);
     };
 
     props = props || {};
     let repeatStore = [];
     let ifStore = true;
-    let styleStore: { [rule: string]: string } = {};
+    const styleStore: { [rule: string]: string } = {};
     const propsstr =
       Object.keys(props)
         .map(key => {
@@ -79,11 +79,13 @@ const JSX = {
     if (content && content.length && Array.isArray(content[0])) {
       content = <any>content[0];
     }
-    if (!name) return `${flat(content).join('')}`; // support for <> </> fake container tag
-    if (!ifStore) return ''; // if excluded by condition return nothing at all before any further processing
+    if (!name) {
+      return `${flat(content).join('')}`; // support for <> </> fake container tag
+    }
+    if (!ifStore) {
+      return ''; // if excluded by condition return nothing at all before any further processing
+    }
     if (repeatStore.length) {
-      // repeat element, if a "repeat" attribute has been found
-      let metaProps = props;
       // we just repeat the element itself by calling it recursively
       delete props['n-repeat']; // prevent overflow
       let targetProps = Object.keys(props).filter(p => props[p].startsWith('@'));

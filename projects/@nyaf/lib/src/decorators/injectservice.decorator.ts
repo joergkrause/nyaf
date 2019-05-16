@@ -1,4 +1,4 @@
-import { ServiceType } from "../types/common";
+import { ServiceType } from '../types/common';
 
 export function InjectService<T>(name: string, type: ServiceType<T>) {
   return function(target: any) {
