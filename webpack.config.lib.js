@@ -1,7 +1,5 @@
 const dev = process.env.NODE_ENV === 'dev';
 const path = require('path');
-const webpack = require('webpack');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const webpackConfig = {
   mode: 'development',
