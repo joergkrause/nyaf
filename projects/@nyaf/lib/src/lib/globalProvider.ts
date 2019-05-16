@@ -78,7 +78,11 @@ export class GlobalProvider {
             onNavItemClick(requestedRoute);
             outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
           } else {
-            console.warn('[NYAF] A router link call has been executed, but requestes link is not properly configured: ' + (<HTMLAnchorElement>e.target).href);
+            console.warn(
+              '[NYAF] A router link call has been executed,'
+              + 'but requestes link is not properly configured: '
+              + (<HTMLAnchorElement>e.target).href
+            );
           }
         }
       });
@@ -94,7 +98,7 @@ export class GlobalProvider {
    * All events are handled by this helper function. This function shall not be called from user code.
    */
   private static eventHub(e: UIEvent) {
-    let evt = (<HTMLElement>e.target).getAttribute(`n-on-${e.type}`);
+    const evt = (<HTMLElement>e.target).getAttribute(`n-on-${e.type}`);
     if (evt) {
       // if there is a method attached call with right binding
       if ((<HTMLElement>e.target).parentElement[evt]) {

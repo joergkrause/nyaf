@@ -9,34 +9,33 @@
  * @param description   A tooltip that can be used optionally.
  */
 export function Display(name: string, order: number = 0, description?: string) {
-    // the original decorator
-    function displayInternal(target: Object, property: string | symbol): void {
-        displayInternalSetup(target, property.toString(), name, order, description);
-    }
+  // the original decorator
+  function displayInternal(target: Object, property: string | symbol): void {
+    displayInternalSetup(target, property.toString(), name, order, description);
+  }
 
-    // return the decorator
-    return displayInternal;
+  // return the decorator
+  return displayInternal;
 }
 
 export function displayInternalSetup(target: any, key: string, name: string, order: number, description: string) {
+  order = parseInt(order.toString(), 10);
+  // create a helper property to transport a meta data value
+  Object.defineProperty(target, `__displayName__${key}`, {
+    value: name,
+    enumerable: false,
+    configurable: false
+  });
 
-    order = parseInt(order.toString());
-    // create a helper property to transport a meta data value
-    Object.defineProperty(target, `__displayName__${key}`, {
-        value: name,
-        enumerable: false,
-        configurable: false
-    });
+  Object.defineProperty(target, `__displayOrder__${key}`, {
+    value: order,
+    enumerable: false,
+    configurable: false
+  });
 
-    Object.defineProperty(target, `__displayOrder__${key}`, {
-        value: order,
-        enumerable: false,
-        configurable: false
-    });
-
-    Object.defineProperty(target, `__displayDesc__${key}`, {
-        value: description,
-        enumerable: false,
-        configurable: false
-    });
+  Object.defineProperty(target, `__displayDesc__${key}`, {
+    value: description,
+    enumerable: false,
+    configurable: false
+  });
 }

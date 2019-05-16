@@ -123,7 +123,7 @@ export abstract class BaseComponent extends HTMLElement {
     this.setup();
   }
 
-  protected readAttribute(name: string, defaultValue: any = undefined) {
+  protected readAttribute(name: string, defaultValue?: any) {
     return this.attributes[name] === undefined ? defaultValue : this.attributes[name].value;
   }
 

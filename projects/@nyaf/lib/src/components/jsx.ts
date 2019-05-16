@@ -88,7 +88,7 @@ const JSX = {
     if (repeatStore.length) {
       // we just repeat the element itself by calling it recursively
       delete props['n-repeat']; // prevent overflow
-      let targetProps = Object.keys(props).filter(p => props[p].startsWith('@'));
+      const targetProps = Object.keys(props).filter(p => props[p].startsWith('@'));
       return repeatStore.map(r => {
         targetProps.map(t => (props[t] = r[t]));
         return this.createElement(name, props, content);

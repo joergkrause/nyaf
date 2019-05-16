@@ -2,7 +2,6 @@ import { Action } from './action';
 import { Observer } from '@nyaf/lib';
 
 export class Store {
-
   persist: boolean;
   observer: Observer;
 
@@ -14,13 +13,12 @@ export class Store {
     this.observer.publish(action.type, action.payload);
   }
 
-  subscribe(type: string): Promise<any> {    
-    var f = (payload) => {
+  subscribe(type: string): Promise<any> {
+    const f = payload => {
       return payload;
     };
-    var p = new Promise(f);
+    const p = new Promise(f);
     this.observer.subscribe(type, f);
     return p;
   }
-
 }

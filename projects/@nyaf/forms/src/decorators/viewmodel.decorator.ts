@@ -6,6 +6,7 @@
  */
 export function ViewModel<T extends {}>(defaults: T) {
     // the original decorator
+    // tslint:disable-next-line:no-shadowed-variable
     function viewModelInternal(target: Object, defaults: T): void {
       viewModelInternalSetup<T>(target, defaults);
     }
