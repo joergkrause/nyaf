@@ -25,7 +25,7 @@ const webpackConfig = {
     alias: {
       // bind to modules;
       modules: path.join(__dirname, 'node_modules'),
-      nyaf: path.join(__dirname, 'projects/@nyaf/lib/src')
+      '@nyaf/lib': path.join(__dirname, 'projects/@nyaf/lib/src')
     }
   },
   // How and where webpack should output bundles, assets and anything else

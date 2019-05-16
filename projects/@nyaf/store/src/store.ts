@@ -1,5 +1,5 @@
 import { Action } from './action';
-import { Observer } from 'nyaf';
+import { Observer } from '@nyaf/lib';
 
 export class Store {
 

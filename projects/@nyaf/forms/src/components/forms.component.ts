@@ -1,4 +1,4 @@
-import { BaseComponent, ComponentData } from 'nyaf';
+import { BaseComponent, ComponentData } from '@nyaf/lib';
 import { ModelState } from '../models/modelstate.model';
 
 /**

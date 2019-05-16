@@ -196,12 +196,14 @@ globalProvider.bootstrap({
 To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
 
 ~~~
-<a href="#/">Home</a>
-<a href="#/about">About</a>
-<a href="#/demo">Demo</a>
-<a href="#/contact">Contact</a>
+<a href="#/" n-link>Home</a>
+<a href="#/about" n-link>About</a>
+<a href="#/demo" n-link>Demo</a>
+<a href="#/contact" n-link>Contact</a>
 <div n-router-outlet></div>
 ~~~
+
+The important part here is the `n-link` attribute. Using this you can distinguish between navigation links for routing and any other anchor tag. You can also use a `<button>` element or any other. Internally it's just a `click`-event that's handled and that checks for the attribute, then.
 
 Please note the hash sign (#). It's required. No code or strategies here, write it by yourself and then enjoy the very small footprint of the outcome.
 

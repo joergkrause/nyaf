@@ -53,15 +53,13 @@ export class globalProvider {
           window.location.origin + pathName
         );
       }
-      // listen for any click event
+      // listen for any click event and check n-link attribute
       document.addEventListener('click', e => {
-        if ((<HTMLElement>e.target).tagName === 'A' && (<HTMLElement>e.target).getAttribute('n-link')){
+        if ((<HTMLElement>e.target).getAttribute('n-link')){
           const requestedRoute = (<HTMLAnchorElement>e.target).href.split('#')[1];
           const activatedComponent = props.routes[requestedRoute].component;
           onNavItemClick(requestedRoute);
-          // https://github.com/WebReflection/classtrophobic
-          // https://github.com/WebReflection/document-register-element/issues/142
-          outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`; // Object.create(activatedComponent.prototype).render();
+          outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
         }
       });
     }
