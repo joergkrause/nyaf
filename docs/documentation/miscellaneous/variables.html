@@ -57,7 +57,7 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
-                            <a href="#JSX" title="projects/nyaf/src/components/jsx.ts"><b>JSX</b>&nbsp;&nbsp;&nbsp;(projects/.../jsx.ts)</a>
+                            <a href="#JSX" title="packages/@nyaf/lib/src/components/jsx.ts"><b>JSX</b>&nbsp;&nbsp;&nbsp;(packages/.../jsx.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -66,7 +66,7 @@
     </table>
 </section>
 
-    <h3>projects/nyaf/src/components/jsx.ts</h3>
+    <h3>packages/@nyaf/lib/src/components/jsx.ts</h3>
     <section>
     <h3></h3>        <table class="table table-sm table-bordered">
             <tbody>
@@ -90,14 +90,14 @@
                         <td class="col-md-4">
                             <i>Default value : </i><code>{
   createElement(name: string, props: { [id: string]: string }, ...content: string[]) {
-    var flat &#x3D; function(arr1: string[]) {
+    const flat &#x3D; function(arr1: string[]) {
       return arr1.reduce((acc, val) &#x3D;&gt; (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);
     };
 
     props &#x3D; props || {};
     let repeatStore &#x3D; [];
     let ifStore &#x3D; true;
-    let styleStore: { [rule: string]: string } &#x3D; {};
+    const styleStore: { [rule: string]: string } &#x3D; {};
     const propsstr &#x3D;
       Object.keys(props)
         .map(key &#x3D;&gt; {
@@ -125,7 +125,6 @@
             case &#x27;n-if&#x27;:
               ifStore &#x3D; !!value;
               break;
-            case &#x27;n-for&#x27;:
             case &#x27;n-repeat&#x27;:
               // we cannot transfer data other than as string with web components
               const repeat &#x3D; JSON.parse(value);
@@ -158,15 +157,16 @@
     if (content &amp;&amp; content.length &amp;&amp; Array.isArray(content[0])) {
       content &#x3D; &lt;any&gt;content[0];
     }
-    if (!name) return &#x60;${flat(content).join(&#x27;&#x27;)}&#x60;; // support for &lt;&gt; &lt;/&gt; fake container tag
-    if (!ifStore) return &#x27;&#x27;; // if excluded by condition return nothing at all before any further processing
+    if (!name) {
+      return &#x60;${flat(content).join(&#x27;&#x27;)}&#x60;; // support for &lt;&gt; &lt;/&gt; fake container tag
+    }
+    if (!ifStore) {
+      return &#x27;&#x27;; // if excluded by condition return nothing at all before any further processing
+    }
     if (repeatStore.length) {
-      // repeat element, if a &quot;repeat&quot; attribute has been found
-      let metaProps &#x3D; props;
       // we just repeat the element itself by calling it recursively
       delete props[&#x27;n-repeat&#x27;]; // prevent overflow
-      delete props[&#x27;n-for&#x27;]; // prevent overflow
-      let targetProps &#x3D; Object.keys(props).filter(p &#x3D;&gt; props[p].startsWith(&#x27;@&#x27;));
+      const targetProps &#x3D; Object.keys(props).filter(p &#x3D;&gt; props[p].startsWith(&#x27;@&#x27;));
       return repeatStore.map(r &#x3D;&gt; {
         targetProps.map(t &#x3D;&gt; (props[t] &#x3D; r[t]));
         return this.createElement(name, props, content);
@@ -180,7 +180,10 @@
 
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>The basic entry point.</p>
+                        <div class="io-description"><p>The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.</p>
+<p>It&#39;s a default export, so this import will work:</p>
+<p><code>import JSX from &#39;nyaf</code>;</p>
+<p>Also, don&#39;t forget to setup <em>tsconfig.json</em> properly to support <em>jsx</em> and use the namespace JSX (in uppercase letters).</p>
 </div>
                     </td>
                 </tr>

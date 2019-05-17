@@ -18,15 +18,15 @@
     "suppressImplicitAnyIndexErrors": true,
     "removeComments": false,
     "outDir": "out-tsc",
-    "baseUrl": "src/project",
+    "baseUrl": "src/packages",
     "typeRoots": [
       "node_modules/@types",
       "src/types"
     ],
     "paths": {
-      "@nyaf/lib/*": ["projects/@nyaf/lib/src/*"],
-      "@nyaf/forms/*": ["projects/@nyaf/forms/src/*"],
-      "@nyaf/store/*": ["projects/@nyaf/store/src/*"]
+      "@nyaf/lib/*": ["packages/@nyaf/lib/src/*"],
+      "@nyaf/forms/*": ["packages/@nyaf/forms/src/*"],
+      "@nyaf/store/*": ["packages/@nyaf/store/src/*"]
     }
   } 
 }

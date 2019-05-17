@@ -42,7 +42,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>Observer</li>
+  <li>StoreService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,15 +60,15 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>packages/@nyaf/lib/src/services/observer.service.ts</code>
+            <code>packages/@nyaf/store/src/store.service.ts</code>
         </p>
 
             <p class="comment">
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Implement a simple pub/sub pattern to have components communication without attributes.
-This class is Singleton, use getInstance to get the global obj.</p>
+                <p>The service that manages stores. Stores are the sinmgle point of truth for an application.
+Ideally, you have just one, but it&#39;s possible to add more if the application gets more complex.</p>
 
             </p>
 
@@ -94,11 +94,7 @@ This class is Singleton, use getInstance to get the global obj.</p>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#hOP">hOP</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#topics">topics</a>
+                                <a href="#_stores">_stores</a>
                             </li>
                         </ul>
                     </td>
@@ -113,11 +109,14 @@ This class is Singleton, use getInstance to get the global obj.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#dispatch">dispatch</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Static</span>
                                 <a href="#getInstance">getInstance</a>
                             </li>
                             <li>
-                                <a href="#publish">publish</a>
+                                <a href="#register">register</a>
                             </li>
                             <li>
                                 <a href="#subscribe">subscribe</a>
@@ -130,6 +129,20 @@ This class is Singleton, use getInstance to get the global obj.</p>
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#store">store</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -145,12 +158,14 @@ This class is Singleton, use getInstance to get the global obj.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">packages/@nyaf/lib/src/services/observer.service.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">packages/@nyaf/store/src/store.service.ts:8</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Don&#39;t use instances, @see getInstance for details about using Singleton classes.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -202,9 +217,15 @@ This class is Singleton, use getInstance to get the global obj.</p>
                         </span>
                     </td>
                 </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/StoreService.html" target="_self" >StoreService</a></code>
+
+                        </td>
+                    </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">packages/@nyaf/lib/src/services/observer.service.ts:6</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">packages/@nyaf/store/src/store.service.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -215,57 +236,24 @@ This class is Singleton, use getInstance to get the global obj.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="hOP"></a>
+                        <a name="_stores"></a>
                         <span class="name">
                             <b>
                                 <span class="modifier">Private</span>
-                            hOP</b>
-                            <a href="#hOP"><span class="icon ion-ios-link"></span></a>
+                            _stores</b>
+                            <a href="#_stores"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" >Function</a></code>
+                            <i>Type : </i>        <code><a href="../classes/Store.html" target="_self" >Store[]</a></code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">packages/@nyaf/lib/src/services/observer.service.ts:9</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="topics"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            topics</b>
-                            <a href="#topics"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>    <code>literal type</code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>{}</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">packages/@nyaf/lib/src/services/observer.service.ts:8</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">packages/@nyaf/store/src/store.service.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -279,6 +267,76 @@ This class is Singleton, use getInstance to get the global obj.</p>
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dispatch"></a>
+                    <span class="name">
+                        <b>
+                            dispatch
+                        </b>
+                        <a href="#dispatch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>dispatch(action: <a href="../classes/Action.html">Action</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">packages/@nyaf/store/src/store.service.ts:39</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>action</td>
+                                    <td>
+                                                <code><a href="../classes/Action.html" target="_self" >Action</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -303,8 +361,8 @@ This class is Singleton, use getInstance to get the global obj.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">packages/@nyaf/lib/src/services/observer.service.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">packages/@nyaf/store/src/store.service.ts:26</a></div>
                 </td>
             </tr>
 
@@ -313,7 +371,7 @@ This class is Singleton, use getInstance to get the global obj.</p>
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Observer.html" target="_self" >Observer</a></code>
+                        <b>Returns : </b>        <code><a href="../classes/StoreService.html" target="_self" >StoreService</a></code>
 
                     </div>
                 </td>
@@ -324,26 +382,26 @@ This class is Singleton, use getInstance to get the global obj.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="publish"></a>
+                    <a name="register"></a>
                     <span class="name">
                         <b>
-                            publish
+                            register
                         </b>
-                        <a href="#publish"><span class="icon ion-ios-link"></span></a>
+                        <a href="#register"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>publish(topic: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, info: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>register(store: <a href="../classes/Store.html">Store</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">packages/@nyaf/lib/src/services/observer.service.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">packages/@nyaf/store/src/store.service.ts:33</a></div>
                 </td>
             </tr>
 
@@ -363,21 +421,9 @@ This class is Singleton, use getInstance to get the global obj.</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>topic</td>
+                                    <td>store</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>info</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../classes/Store.html" target="_self" >Store</a></code>
                                     </td>
 
                                     <td>
@@ -417,15 +463,15 @@ This class is Singleton, use getInstance to get the global obj.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>subscribe(topic: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, listener: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank">Function</a>)</code>
+<code>subscribe(action: <a href="../classes/Action.html">Action</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">packages/@nyaf/lib/src/services/observer.service.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">packages/@nyaf/store/src/store.service.ts:37</a></div>
                 </td>
             </tr>
 
@@ -445,21 +491,9 @@ This class is Singleton, use getInstance to get the global obj.</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>topic</td>
+                                    <td>action</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>listener</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" >Function</a></code>
+                                                <code><a href="../classes/Action.html" target="_self" >Action</a></code>
                                     </td>
 
                                     <td>
@@ -474,7 +508,7 @@ This class is Singleton, use getInstance to get the global obj.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -490,60 +524,81 @@ This class is Singleton, use getInstance to get the global obj.</p>
 
 
 
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="store"></a>
+                        <span class="name"><b>store</b><a href="#store"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>store()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">packages/@nyaf/store/src/store.service.ts:19</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class Observer {
-  private static _instance;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Store } from &#x27;./store&#x27;;
+import { Action } from &#x27;./action&#x27;;
 
-  private topics: { [id: string]: Array&lt;Function&gt; } &#x3D; {};
-  private hOP: Function;
+/**
+ * The service that manages stores. Stores are the sinmgle point of truth for an application.
+ * Ideally, you have just one, but it&#x27;s possible to add more if the application gets more complex.
+ */
+export class StoreService {
 
+  /**
+   * Don&#x27;t use instances, @see getInstance for details about using Singleton classes.
+   */
   constructor(s: any) {
     if (s) {
-      throw new Error(&#x27;Observer is Singleton, don\&#x27;t call the ctor&#x27;);
+      throw new Error(&#x27;StoreService is Singleton, don\&#x27;t call the ctor&#x27;);
     }
-    this.hOP &#x3D; this.topics.hasOwnProperty;
   }
 
-  public static getInstance(): Observer {
-    if (!Observer._instance) {
-      Observer._instance &#x3D; new Observer(void 0);
+  get store(): Store[] {
+    return this._stores;
+  }
+  private static _instance: StoreService;
+
+  private _stores: Store[];
+
+  static getInstance(): StoreService {
+    if (!StoreService._instance) {
+      StoreService._instance &#x3D; new StoreService(void 0);
     }
-    return Observer._instance;
+    return StoreService._instance;
   }
 
-  subscribe(topic: string, listener: Function): { remove: Function } {
-    // console.log(&#x27;Observer::Subscribe::&#x27; + topic);
-    // Create the topic&#x27;s object if not yet created
-    if (!this.hOP.call(this.topics, topic)) {
-      this.topics[topic] &#x3D; [];
-    }
-
-    // Add the listener to queue
-    const index &#x3D; this.topics[topic].push(listener) - 1;
-    const self &#x3D; this;
-    // Provide handle back for removal of topic
-    return {
-      remove: function() {
-        delete self.topics[topic][index]; // kill handler
-        self.topics[topic].splice(index, 1); // shrink array
-      }
-    };
+  register(store: Store) {
+    this._stores.push(store);
   }
 
-  publish(topic: string, info: any): void {
-    // console.log(&#x27;Observer::Publish&#x27;);
-    // If the topic doesn&#x27;t exist, or there&#x27;s no listeners in queue, just leave
-    if (!this.hOP.call(this.topics, topic)) {
-      return;
+  subscribe(action: Action) {}
+
+  dispatch(action: Action) {
+    if (this._stores.length &gt; 0) {
+      this._stores.forEach(entry &#x3D;&gt; {
+        entry.update(action);
+      });
     }
-    // console.log(&#x27;Observer::Publish::Cycle::&#x27; + this.topics[topic].length);
-    // Cycle through topics queue, fire!
-    this.topics[topic].forEach(item &#x3D;&gt; {
-      item(info);
-    });
   }
 }
 </code></pre>
@@ -573,7 +628,7 @@ This class is Singleton, use getInstance to get the global obj.</p>
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'Observer.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'StoreService.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

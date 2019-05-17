@@ -7,9 +7,9 @@ const webpackConfig = {
   devtool: dev ? 'eval-cheap-module-source-map' : false,
   // Where webpack looks to start building the bundle
   entry: {
-    lib: './projects/@nyaf/lib/src/index.ts',
-    forms: './projects/@nyaf/forms/src/index.ts',
-    store: './projects/@nyaf/store/src/index.ts'
+    lib: './packages/@nyaf/lib/src/index.ts',
+    forms: './packages/@nyaf/forms/src/index.ts',
+    store: './packages/@nyaf/store/src/index.ts'
   },
   // How the different types of modules within a project will be treated
   module: {
@@ -24,7 +24,7 @@ const webpackConfig = {
     alias: {
       // bind to modules;
       modules: path.join(__dirname, 'node_modules'),
-      '@nyaf/lib': path.join(__dirname, 'projects/@nyaf/lib/src')
+      '@nyaf/lib': path.join(__dirname, 'packages/@nyaf/lib/src')
     },
     // plugins: [new TsconfigPathsPlugin( {  configFile: './tsconfig.json' })]
 

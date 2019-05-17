@@ -30,8 +30,17 @@
                <div class="content getting-started">
                    <div class="content-data">
 
+<p><a href="https://travis-ci.org/joergkrause/nyaf"><img src="https://img.shields.io/travis/joergkrause/nyaf/master.svg?style=flat-square" alt="Build" class="img-responsive"></a>
+<a href="https://npmjs.com/packages/@nyaf/lib"><img src="https://img.shields.io/npm/dm/nyaf.svg?style=flat-square" alt="Downloads" class="img-responsive"></a>
+<a href="https://npmjs.com/packages/@nyaf/lib"><img src="https://img.shields.io/npm/v/nyaf.svg?style=flat-square" alt="Version" class="img-responsive"></a>
+<a href="https://npmjs.com/packages/@nyaf/lib"><img src="https://img.shields.io/npm/l/nyaf.svg?style=flat-square" alt="License" class="img-responsive"></a>
+<a href="https://paypal.me/joergisageek"><img src="https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square" alt="Donate" class="img-responsive"></a></p>
 <h1 id="nyaf-is-not-yet-another-framework">NYAF is &quot;Not Yet Another Framework&quot;</h1>
 <p>And it is, well, just another framework. It&#39;s simple, has a flat learning curve, doesn&#39;t need any special tools.</p>
+<blockquote>
+<p>No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!</p>
+</blockquote>
+<p><strong>Write frontend apps without the hassle of a complex framework, use the full power of HTML 5, keep a component based style.</strong></p>
 <h2 id="idea">Idea</h2>
 <ul>
 <li>I want to use JSX/TSX syntax for quick component dev.</li>
@@ -39,8 +48,9 @@
 <li>I want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.</li>
 <li>I want to use TypeScript from the beginning.</li>
 <li>I want to have a very small package.</li>
-<li>I want to use webpack and other common tools.</li>
-<li>I want to use decorators for controlling stuff, not code within  the component.</li>
+<li>I want to use WebPack and other common tools.</li>
+<li>I want to use standards, no weird CLI, no vendor lock in.</li>
+<li>I want to use smart decorators for controlling stuff, not code within the component, for separation of concerns style.</li>
 </ul>
 <h2 id="approach">Approach</h2>
 <p>I&#39;m using TSX. I don&#39;t use React, though. So it&#39;s just a feature of the TypeScript compiler.</p>
@@ -51,7 +61,7 @@
 ~~~</p>
 <p>A class <code>JSX</code> is the core, it handels the element definitions and extract the template extensions.</p>
 <h2 id="template-features">Template Features</h2>
-<h3 id="n-repeat-n-for">n-repeat, n-for</h3>
+<h3 id="n-repeat">n-repeat</h3>
 <p>Repeats the element. The argument must be an array.</p>
 <p>Assume we have this object:</p>
 <p>~~~
@@ -72,12 +82,10 @@
 ~~~</p>
 <p>Than you show the data on screen like this:</p>
 <p>~~~
-<app-tab n-for={tabs} title="@title" content="@content"></app-tab>
+<app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
 ~~~</p>
-<p>The array shall contain objects. If the property is needed, it&#39;s accessible withing any attribute by writing <code>@propName</code>.</p>
-<blockquote>
-<p><code>n-repeat</code> is an alias.</p>
-</blockquote>
+<p>The array shall contain objects. If the property is needed, it&#39;s accessible within any attribute by writing <code>attribute=&quot;@propName&quot;</code>. Note the usage of the quotes.</p>
+<p>You can repeat anything, even plain HTML elements such as <code>&lt;span&gt;</code> or <code>&lt;li&gt;</code>.</p>
 <h3 id="n-if-n-else">n-if, n-else</h3>
 <p>The value will be evaluated and the element does or does not render, then:</p>
 <p>~~~</p>
@@ -99,7 +107,7 @@
 <h3 id="n-hide-n-show">n-hide, n-show</h3>
 <p>Works same as <code>n-if</code>, but just adds an inline style <code>display: none</code> or not if <code>true</code> (<code>n-hide</code>) or <code>false</code> (<code>n-show</code>).</p>
 <h3 id="n-on-event">n-on-[event]</h3>
-<p>Events are easy to ad directly using it like <code>n-on-click</code>. All JavaScript events are supported. Just replace &#39;click&#39; in the example with any other JavaScript event.</p>
+<p>Events are easy to add directly using it like <code>n-on-click</code>. All JavaScript events are supported. Just replace &#39;click&#39; in the example with any other JavaScript event.</p>
 <p>~~~
 &lt;button n-on-click={() =&gt; this.clickMe()}&gt;OK</button>
 ~~~</p>
@@ -132,10 +140,16 @@ export class MainComponent extends BaseComponent {</p>
 <p>In <em>main.ts</em> call this:</p>
 <p>~~~
 globalProvider.bootstrap({
-  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
+  components: [MainComponent]
 });</p>
 <p>~~~</p>
 <p>That&#39;s it, the component works now.</p>
+<p>Once you have more components, it may look like this:</p>
+<p>~~~
+globalProvider.bootstrap({
+  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
+});</p>
+<p>~~~</p>
 <h3 id="router">Router</h3>
 <p>Everybody want&#39;s a SPA (Single Page App). Hence we need a router. The included router is very simple.</p>
 <p>First, define an outlet where the components appear:</p>
@@ -143,7 +157,7 @@ globalProvider.bootstrap({
 <div n-router-outlet></div>
 ~~~
 
-<p>Any kind of parent element will do. The router code sets the property <code>innerHTML</code>. Components, that are being used to provide router content need registration too. The also <strong><em>must</em></strong> have a name, because that&#39;s the way the router internally activates the component.</p>
+<p>Any kind of parent element will do. The router code sets the property <code>innerHTML</code>. Components, that are being used to provide router content need registration too. They  <strong><em>must</em></strong> have a name, too, because that&#39;s the way the router internally activates the component.</p>
 <h4 id="register-routes">Register Routes</h4>
 <p>The following code shows how to register routes:</p>
 <p>~~~
@@ -152,29 +166,33 @@ let routes = {
   &#39;/about&#39;: { component: AboutComponent },
   &#39;/demo&#39;: { component: DemoComponent },
   &#39;/contact&#39;: { component: ContactComponent },
+  &#39;**&#39;: { component: DemoComponent }
 };</p>
 <p>globalProvider.bootstrap({
-  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent],
+  components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
   routes: routes
 });
 ~~~</p>
+<p>The first entry <code>&#39;/&#39;: { component: DemoComponent },</code> shall always exist, it&#39;s the default route loaded on start. It&#39;s being recognized by the <code>&#39;/&#39;</code> key (the position in the array doesn&#39;t matter).
+The entry <code>&#39;**&#39;: { component: DemoComponent }</code> is optional and defines a fallback in case an invalid path is being used.</p>
 <h4 id="use-routes">Use Routes</h4>
 <p>To activate a router you need a hyperlink. The router&#39;s code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:</p>
 <p>~~~
-<a href="#/">Home</a>
-<a href="#/about">About</a>
-<a href="#/demo">Demo</a>
-<a href="#/contact">Contact</a></p>
+<a href="#/" n-link>Home</a>
+<a href="#/about" n-link>About</a>
+<a href="#/demo" n-link>Demo</a>
+<a href="#/contact" n-link>Contact</a></p>
 <div n-router-outlet></div>
 ~~~
 
-<p>Please note the hash sign (#). It&#39;s required. No code or strategies here, write it by yourself and the enjoy a very small footprint of the supporting code.</p>
+<p>The important part here is the <code>n-link</code> attribute. Using this you can distinguish between navigation links for routing and any other anchor tag. You can also use a <code>&lt;button&gt;</code> element or any other. Internally it&#39;s just a <code>click</code>-event that&#39;s handled and that checks for the attribute, then.</p>
+<p>Please note the hash sign (#). It&#39;s required. No code or strategies here, write it by yourself and then enjoy the very small footprint of the outcome.</p>
 <blockquote>
 <p>Pro Tip! Import the router definition and use additional fields to create a menu directly from router configuration.</p>
 </blockquote>
-<h3 id="shadow-dom">Shadow Dom</h3>
-<p>By default a shadow dom is used. That means, styles are isolated. No global styles are available.</p>
-<p>One option:</p>
+<h3 id="shadow-dom">Shadow DOM</h3>
+<p>By default the shadow DOM is <strong><strong>not</strong></strong> used. If it would, it would mean, that styles are isolated. No global styles are available, then.</p>
+<p>One option to activate the Shadow DOM:</p>
 <p>~~~
 @ShadowDOM()
 ~~~</p>
@@ -191,7 +209,7 @@ let routes = {
 @UseParentStyles()
 ~~~</p>
 <ul>
-<li>Use Shadow must be set, otherwise the decorator dows nothing</li>
+<li>Use <em>ShadowDOM</em> must be set, otherwise the decorator does nothing</li>
 <li>copies all global styles into component so they work as expected even in Shadow DOM</li>
 </ul>
 <blockquote>
@@ -207,32 +225,20 @@ export class MainComponent extends BaseComponent {
 }
 ~~~</p>
 <p>The initializer with default&#39;s is <strong><strong>not</strong></strong> optional, you must provide an object that matches the generic.</p>
-<h3 id="view-models">View Models</h3>
+<h3 id="properties-and-view-models">Properties and View Models</h3>
 <p>For a nice view decorators applied to class properties control the appearance.</p>
 <p>~~~
 export class Model {
-  @Hidden()
-  id: number = 0;</p>
-<p>  @Required()
+  id: number = 0;
   name: string = &#39;&#39;;
 }</p>
 <p>@CustomElement(&#39;app-main&#39;)
 @Properties&lt;{ data: Model }&gt;()
-@ViewModel(Model)
 export class MainComponent extends BaseComponent {
   // ... omitted for brevity
 }
 ~~~</p>
-<p>Within the component, this is now present. </p>
-<p>~~~
-this.modelState = {
-  isValid: boolean,
-  isPresent: boolean,
-  errors: { [key: string]: string },
-  model: Model
-}
-~~~</p>
-<p>In the above definition <code>this.props.data</code> contains an actual model. It&#39;s supervised. After render <em>this.modelState</em> helds the state of the model.</p>
+<p>Within the component, this is now present. In the above definition <code>this.props.data</code> contains an actual model. </p>
 <h3 id="services">Services</h3>
 <p>Want to access an injectable service?</p>
 <p>~~~
@@ -250,17 +256,11 @@ export class MainComponent extends BaseComponent {
 <p>Async is an option, can by sync, too.</p>
 </blockquote>
 <p><em>this.services</em> is a function, that returns an instance of the service. Services are singleton by default.</p>
-<h2 id="recap">Recap</h2>
-<p>Is it worth coding with NYAF and vanilla JS? For smaller projects and for apps that must load quickly, yes.</p>
-<p>The zipped package of the lib is 7 KBytes. Expanded just 23 KBytes.</p>
-<p>However, compared with React or Angular it&#39;s a lot simpler. Compared to Vue it&#39;s simpler and even smaller, but the delta is not that thrilling.</p>
-<h3 id="restrictions">Restrictions</h3>
-<p>The package runs, if there are no polyfills, only with ES2015. This limits the usage to any modern browser. It&#39;s pretty bold in Electron projects.</p>
 <h1 id="how-to-use">How to use</h1>
 <h2 id="prepare-a-project">Prepare a project</h2>
 <p>Install the package:</p>
 <p>~~~
-npm i nyaf -S
+npm i @nyaf/lib -S
 ~~~</p>
 <p>Create a file <code>main.ts</code> in the <em>src</em> folder that looks like this:</p>
 <p>~~~
@@ -297,7 +297,7 @@ render() {
     );
 }</code></pre></div><p>}
 ~~~</p>
-<p>Create a file named <em>index.html</em> in the very same folder an fill it like this:</p>
+<p>Create a file named <em>index.html</em> in the very same folder and fill it like this:</p>
 <p>~~~
 <!DOCTYPE html></p>
 <html lang="en">
@@ -333,6 +333,14 @@ build: &quot;webpack&quot;,
 npm start
 ~~~</p>
 <p>An now enjoy writing a component based SPA with only very few KB of lib code.</p>
+<h1 id="recap">Recap</h1>
+<p>Is it worth coding with NYAF and vanilla JS? For smaller projects and for apps that must load quickly, yes.</p>
+<p>The zipped package of the lib is 7 KBytes. Expanded just 23 KBytes.</p>
+<p>However, compared with React or Angular it&#39;s a lot simpler. Compared to Vue it&#39;s simpler and even smaller, but the delta is not that thrilling.</p>
+<h2 id="restrictions">Restrictions</h2>
+<p>The package runs, if there are no polyfills, only with ES2015. This limits the usage to any modern browser. It&#39;s pretty bold in Electron projects.</p>
+<h1 id="next">Next</h1>
+<p>Look out for &#39;nyaf-forms&#39; (forms validation) and &#39;nyaf-store&#39; (flux store). Simple but powerful!</p>
 
 
 

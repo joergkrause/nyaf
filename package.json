@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "lint": "tslint './projects/@nyaf/lib/src/**/*.ts' && tslint './projects/@nyaf/forms/src/**/*.ts' && tslint './projects/@nyaf/store/src/**/*.ts'",
+    "lint": "tslint './packages/@nyaf/lib/src/**/*.ts' && tslint './packages/@nyaf/forms/src/**/*.ts' && tslint './packages/@nyaf/store/src/**/*.ts'",
     "nyaf-lib": "webpack --config webpack.config.lib.js --mode \"production\"",
-    "build": "rimraf dist && cp README.md ./projects/@nyaf/lib && npm run nyaf-lib && gulp",
+    "build": "rimraf dist && cp README.md ./packages/@nyaf/lib && npm run nyaf-lib && gulp",
     "start": "webpack-dev-server --open",
-    "codedoc": "npm run codedoc-nyaf && npm run codedoc-nyaf-forms",
-    "codedoc-nyaf-lib": "compodoc -p ./projects/nyaf/tsconfig.json --output ./docs/documentation",
-    "codedoc-nyaf-forms": "compodoc -p ./projects/nyaf/tsconfig.json --output ./docs/documentation"
+    "codedoc": "npm run codedoc-nyaf-lib && npm run codedoc-nyaf-forms && npm run codedoc-nyaf-store",
+    "codedoc-nyaf-lib": "compodoc -p ./packages/@nyaf/lib/tsconfig.json --output ./docs/documentation",
+    "codedoc-nyaf-forms": "compodoc -p ./packages/@nyaf/forms/tsconfig.json --output ./docs/documentation",
+    "codedoc-nyaf-store": "compodoc -p ./packages/@nyaf/store/tsconfig.json --output ./docs/documentation"
   },
   "repository": {
     "type": "git",

@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/nyaf/src/types/common.ts</code>
+            <code>packages/@nyaf/lib/src/types/common.ts</code>
         </p>
 
 
@@ -69,7 +69,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../interfaces/ComponentType.html" target="_self" >ComponentType</a></code>
+                        <code><a href="../interfaces/Component.html" target="_self" >ComponentType</a></code>
             </p>
 
         <section>
@@ -138,22 +138,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { BaseComponent } from &quot;../components/base.component&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { BaseComponent } from &#x27;../components/base.component&#x27;;
 
-export interface ServiceType&lt;T&gt; extends Function {
-  new (...args: any[]): T;
-}
+export type ServiceType&lt;T&gt; &#x3D; new (...args: any[]) &#x3D;&gt; T;
 
-export interface Type&lt;T&gt; extends Function {
-  new (...args: any[]): T;
-}
+export type Type&lt;T&gt; &#x3D; new (...args: any[]) &#x3D;&gt; T;
 
-export interface ComponentType&lt;T extends HTMLElement&gt; extends Function {
-  new (...args: any[]): T;
-}
+export type ComponentType&lt;T extends HTMLElement&gt; &#x3D; new (...args: any[]) &#x3D;&gt; T;
 
 export interface Component extends ComponentType&lt;BaseComponent&gt; {
-  readonly selector?: string;  
+  readonly selector?: string;
 }
 </code></pre>
     </div>

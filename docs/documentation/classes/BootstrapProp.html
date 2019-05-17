@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/nyaf/src/lib/globalProvider.ts</code>
+            <code>packages/@nyaf/lib/src/lib/globalProvider.ts</code>
         </p>
 
             <p class="comment">
@@ -90,6 +90,7 @@
                                 <a href="#components">components</a>
                             </li>
                             <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#routes">routes</a>
                             </li>
                         </ul>
@@ -131,10 +132,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/nyaf/src/lib/globalProvider.ts:8</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">packages/@nyaf/lib/src/lib/globalProvider.ts:11</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Add all components here as types.</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -145,6 +152,7 @@
                         <a name="routes"></a>
                         <span class="name">
                             <b>
+                                <span class="modifier">Optional</span>
                             routes</b>
                             <a href="#routes"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -158,10 +166,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/nyaf/src/lib/globalProvider.ts:9</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">packages/@nyaf/lib/src/lib/globalProvider.ts:15</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Optional. Add the router definition here. Path&#39;s shall not contain hash signs, even if used in link tags.</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -177,21 +191,27 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ComponentType } from &quot;../types/common&quot;;
-import { BaseComponent } from &quot;../components/base.component&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ComponentType } from &#x27;../types/common&#x27;;
+import { BaseComponent } from &#x27;../components/base.component&#x27;;
 
 /**
  * For registration we handle just the types, not actual instances. And types are actually functions.
  */
 export class BootstrapProp {
+  /**
+   * Add all components here as types.
+   */
   components: Array&lt;Component&gt;;
-  routes: { [path: string]:  { component: Component, data?: any } }
+  /**
+   * Optional. Add the router definition here. Path&#x27;s shall not contain hash signs, even if used in link tags.
+   */
+  routes?: { [path: string]: { component: Component; data?: any } };
 }
 
 /**
  * Main support class that provides all global functions.
  */
-export class globalProvider {
+export class GlobalProvider {
   /**
    *
    * @param type Called to register a component. The component must have either the decorator @see CustomElement or
@@ -202,45 +222,76 @@ export class globalProvider {
     customElements.define(type.selector, type);
   }
 
+  /**
+   * The global configuration. This call is required.
+   * @param props Provide module properties with registration and settings.
+   */
   static bootstrap(props: BootstrapProp) {
     // register components
-    props.components.forEach(c &#x3D;&gt; globalProvider.register(c));
+    props.components.forEach(c &#x3D;&gt; GlobalProvider.register(c));
     // register events
-    document.addEventListener(&#x27;click&#x27;, e &#x3D;&gt; globalProvider.eventHub(e));
-    document.addEventListener(&#x27;keypress&#x27;, e &#x3D;&gt; globalProvider.eventHub(e));
-    document.addEventListener(&#x27;dblclick&#x27;, e &#x3D;&gt; globalProvider.eventHub(e));
+    document.addEventListener(&#x27;click&#x27;, e &#x3D;&gt; GlobalProvider.eventHub(e));
+    document.addEventListener(&#x27;keypress&#x27;, e &#x3D;&gt; GlobalProvider.eventHub(e));
+    document.addEventListener(&#x27;dblclick&#x27;, e &#x3D;&gt; GlobalProvider.eventHub(e));
     // register routes
     // find the outlet
     const outlet &#x3D; document.querySelector(&#x27;[n-router-outlet]&#x27;);
     // is completely voluntery
     if (outlet) {
       // handle history
-      let onNavItemClick &#x3D; (pathName) &#x3D;&gt; {
-        window.history.pushState(
-          {}, 
-          pathName,
-          window.location.origin + pathName
-        );
-      }
-      // listen for any click event
+      const onNavItemClick &#x3D; pathName &#x3D;&gt; {
+        window.history.pushState({}, pathName, window.location.origin + pathName);
+      };
+      // listen for any click event and check n-link attribute
       document.addEventListener(&#x27;click&#x27;, e &#x3D;&gt; {
-        if ((&lt;HTMLElement&gt;e.target).tagName &#x3D;&#x3D;&#x3D; &#x27;A&#x27;){
-          const requestedRoute &#x3D; (&lt;HTMLAnchorElement&gt;e.target).href.split(&#x27;#&#x27;)[1];
-          const activatedComponent &#x3D; props.routes[requestedRoute].component;
-          onNavItemClick(requestedRoute);
-          // https://github.com/WebReflection/classtrophobic
-          // https://github.com/WebReflection/document-register-element/issues/142
-          outlet.innerHTML &#x3D; &#x60;&lt;${activatedComponent.selector}&gt;&lt;/${activatedComponent.selector}&gt;&#x60;; // Object.create(activatedComponent.prototype).render();
+        if ((&lt;HTMLElement&gt;e.target).getAttribute(&#x27;n-link&#x27;)) {
+          const pf &#x3D; (&lt;HTMLAnchorElement&gt;e.target).href.split(&#x27;#&#x27;);
+          let requestedRoute &#x3D; &#x27;&#x27;;
+          let needFallback &#x3D; false;
+          // fallback strategy
+          do {
+            if (pf.length !&#x3D;&#x3D; 2) {
+              needFallback &#x3D; true;
+              break;
+            }
+            requestedRoute &#x3D; pf[1];
+            if (!requestedRoute) {
+              needFallback &#x3D; true;
+              break;
+            }
+            if (!props.routes[requestedRoute]) {
+              needFallback &#x3D; true;
+              break;
+            }
+            break;
+          } while (true);
+          // only execute if useful
+          if (!needFallback || (needFallback &amp;&amp; props.routes[&#x27;**&#x27;])) {
+            const activatedComponent &#x3D; props.routes[requestedRoute].component;
+            onNavItemClick(requestedRoute);
+            outlet.innerHTML &#x3D; &#x60;&lt;${activatedComponent.selector}&gt;&lt;/${activatedComponent.selector}&gt;&#x60;;
+          } else {
+            console.warn(
+              &#x27;[NYAF] A router link call has been executed,&#x27;
+              + &#x27;but requestes link is not properly configured: &#x27;
+              + (&lt;HTMLAnchorElement&gt;e.target).href
+            );
+          }
         }
       });
+      // set default &#x27;/&#x27;: { component: DemoComponent },
+      const defaultRoute &#x3D; props.routes[&#x27;/&#x27;];
+      if (defaultRoute) {
+        const activatedComponent &#x3D; defaultRoute.component;
+        outlet.innerHTML &#x3D; &#x60;&lt;${activatedComponent.selector}&gt;&lt;/${activatedComponent.selector}&gt;&#x60;;
+      }
     }
-
   }
   /**
    * All events are handled by this helper function. This function shall not be called from user code.
    */
   private static eventHub(e: UIEvent) {
-    let evt &#x3D; (&lt;HTMLElement&gt;e.target).getAttribute(&#x60;n-on-${e.type}&#x60;);
+    const evt &#x3D; (&lt;HTMLElement&gt;e.target).getAttribute(&#x60;n-on-${e.type}&#x60;);
     if (evt) {
       // if there is a method attached call with right binding
       if ((&lt;HTMLElement&gt;e.target).parentElement[evt]) {
@@ -250,7 +301,8 @@ export class globalProvider {
       }
     }
   }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

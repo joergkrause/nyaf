@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/nyaf/src/lib/dom-operations.ts</code>
+            <code>packages/@nyaf/lib/src/lib/dom-operations.ts</code>
         </p>
 
 
@@ -139,8 +139,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/nyaf/src/lib/dom-operations.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">packages/@nyaf/lib/src/lib/dom-operations.ts:66</a></div>
                 </td>
             </tr>
 
@@ -217,7 +217,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/nyaf/src/lib/dom-operations.ts:33</a></div>
+                            class="link-to-prism">packages/@nyaf/lib/src/lib/dom-operations.ts:33</a></div>
                 </td>
             </tr>
 
@@ -298,7 +298,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getParents(elem, selector)</code>
+                    <code>getParents(elem: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, selector: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -306,7 +306,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="8"
-                            class="link-to-prism">projects/nyaf/src/lib/dom-operations.ts:8</a></div>
+                            class="link-to-prism">packages/@nyaf/lib/src/lib/dom-operations.ts:8</a></div>
                 </td>
             </tr>
 
@@ -322,6 +322,7 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                     <td>Description</td>
                                 </tr>
@@ -329,6 +330,9 @@
                             <tbody>
                                 <tr>
                                     <td>elem</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -342,6 +346,9 @@
                                 </tr>
                                 <tr>
                                     <td>selector</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -395,7 +402,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/nyaf/src/lib/dom-operations.ts:41</a></div>
+                            class="link-to-prism">packages/@nyaf/lib/src/lib/dom-operations.ts:41</a></div>
                 </td>
             </tr>
 
@@ -467,83 +474,80 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class DomOp {
-	/**
-	 * Get all of an element&#x27;s parent elements up the DOM tree
-	 * @param  {Node}   elem     The element
-	 * @param  {String} selector Selector to match against [optional]
-	 * @return {Array}           The parent elements
-	 */
-	static getParents(elem, selector) {
-		// Setup parents array
-		var parents &#x3D; [];
+  /**
+   * Get all of an element&#x27;s parent elements up the DOM tree
+   * @param  {Node}   elem     The element
+   * @param  {String} selector Selector to match against [optional]
+   * @return {Array}           The parent elements
+   */
+  static getParents(elem: any, selector: string) {
+    // Setup parents array
+    const parents &#x3D; [];
 
-		// Get matching parent elements
-		for (; elem &amp;&amp; elem !&#x3D;&#x3D; document; elem &#x3D; elem.parentNode) {
-			// Add matching parents to array
-			if (selector) {
-				if (elem.matches(selector)) {
-					parents.push(elem);
-				}
-			} else {
-				parents.push(elem);
-			}
-		}
+    // Get matching parent elements
+    for (; elem &amp;&amp; elem !&#x3D;&#x3D; document; elem &#x3D; elem.parentNode) {
+      // Add matching parents to array
+      if (selector) {
+        if (elem.matches(selector)) {
+          parents.push(elem);
+        }
+      } else {
+        parents.push(elem);
+      }
+    }
 
-		return parents;
-	}
+    return parents;
+  }
 
-	/**
-	 * Get the first parent that matches the selector, or null if there is none.
-	 * @param  {Node}   elem     The element
-	 * @param  {String} selector Selector to match against [optional]
-	 * @return {Node}   The parent element
-	 */
-	static getParent(elem, selector){
-		var parents &#x3D; DomOp.getParents(elem, selector);
-		if (parents &amp;&amp; parents.length) {
-			return parents[0];
-		}
-		return null;
-	}
+  /**
+   * Get the first parent that matches the selector, or null if there is none.
+   * @param  {Node}   elem     The element
+   * @param  {String} selector Selector to match against [optional]
+   * @return {Node}   The parent element
+   */
+  static getParent(elem, selector) {
+    const parents &#x3D; DomOp.getParents(elem, selector);
+    if (parents &amp;&amp; parents.length) {
+      return parents[0];
+    }
+    return null;
+  }
 
-	static getParentsUntil ( elem, parent, selector ) {
+  static getParentsUntil(elem, parent, selector) {
+    // Setup parents array
+    const parents &#x3D; [];
 
-		// Setup parents array
-		var parents &#x3D; [];
+    // Get matching parent elements
+    for (; elem &amp;&amp; elem !&#x3D;&#x3D; document; elem &#x3D; elem.parentNode) {
+      if (parent) {
+        if (elem.matches(parent)) {
+          break;
+        }
+      }
 
-		// Get matching parent elements
-		for ( ; elem &amp;&amp; elem !&#x3D;&#x3D; document; elem &#x3D; elem.parentNode ) {
+      if (selector) {
+        if (elem.matches(selector)) {
+          parents.push(elem);
+        }
+        break;
+      }
 
-			if ( parent ) {
-				if ( elem.matches( parent ) ) break;
-			}
+      parents.push(elem);
+    }
 
-			if ( selector ) {
-				if ( elem.matches( selector ) ) {
-					parents.push( elem );
-				}
-				break;
-			}
+    return parents;
+  }
 
-			parents.push( elem );
+  static getClosest(elem, selector) {
+    // Get closest match
+    for (; elem &amp;&amp; elem !&#x3D;&#x3D; document; elem &#x3D; elem.parentNode) {
+      if (elem.matches(selector)) {
+        return elem;
+      }
+    }
 
-		}
-
-		return parents;
-
-	}
-
-	static getClosest ( elem, selector ) {
-
-		// Get closest match
-		for ( ; elem &amp;&amp; elem !&#x3D;&#x3D; document; elem &#x3D; elem.parentNode ) {
-			if ( elem.matches( selector ) ) return elem;
-		}
-
-		return null;
-
-	}
-
+    return null;
+  }
 }
 </code></pre>
     </div>
