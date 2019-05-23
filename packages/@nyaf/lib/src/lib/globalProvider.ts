@@ -51,7 +51,12 @@ export class GlobalProvider {
       };
       // listen for any click event and check n-link attribute
       document.addEventListener('click', e => {
-        if ((<HTMLElement>e.target).getAttribute('n-link')) {
+        const nLink = (<HTMLElement>e.target).getAttribute('n-link');
+        if (nLink) {
+          // handle classes
+          document.querySelectorAll('[n-link]').forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute('n-link')));
+          (<HTMLElement>e.target).classList.add(nLink);
+          // handle click
           const pf = (<HTMLAnchorElement>e.target).href.split('#');
           let requestedRoute = '';
           let needFallback = false;
