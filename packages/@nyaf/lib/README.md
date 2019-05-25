@@ -213,6 +213,18 @@ Please note the hash sign (#). It's required. No code or strategies here, write 
 
 > Pro Tip! Import the router definition and use additional fields to create a menu directly from router configuration.
 
+If you have some sort of CSS framework running, that provides support for menu navigation by classes, just add the class for the currently active element to the `n-link` attribute like this:
+
+~~~
+<a href="#/" n-link="active">Home</a>
+<a href="#/about" n-link="active">About</a>
+<a href="#/demo" n-link="active">Demo</a>
+<a href="#/contact" n-link="active">Contact</a>
+<div n-router-outlet></div>
+~~~
+
+After this, by clicking the hyperlink, the class "active" will be added to the anchor tag. Any click on any `n-link` decorated tag will remove all these classes from all these elements, first. The class' name can differ and you can add multiple classes. It's treated as string internally.
+
 ### Shadow DOM
 
 By default the shadow DOM is ____not____ used. If it would, it would mean, that styles are isolated. No global styles are available, then.
