@@ -1,7 +1,6 @@
 [![Build](https://img.shields.io/travis/joergkrause/nyaf/master.svg?style=flat-square)](https://travis-ci.org/joergkrause/nyaf)
-[![Downloads](https://img.shields.io/npm/dm/nyaf.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
-[![Version](https://img.shields.io/npm/v/nyaf.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
-[![License](https://img.shields.io/npm/l/nyaf.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
+[![Version](https://img.shields.io/npm/v/%40nyaf%2Flib.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
+[![License](https://img.shields.io/npm/l/%40nyaf%2Flib.svg?style=flat-square)](https://npmjs.com/packages/@nyaf/lib)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/joergisageek)
 
 # NYAF is "Not Yet Another Framework" 
@@ -18,7 +17,7 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 * I want to use any current HTML 5 API, such as web components, fetch, and all this with ES2015.
 * I want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
 * I want to use TypeScript from the beginning.
-* I want to have a very small package.
+* I want to get a very small package.
 * I want to use WebPack and other common tools.
 * I want to use standards, no weird CLI, no vendor lock in.
 * I want to use smart decorators for controlling stuff, not code within the component, for separation of concerns style.

@@ -41,7 +41,15 @@ export class GlobalProvider {
     document.addEventListener('keypress', e => GlobalProvider.eventHub(e));
     document.addEventListener('dblclick', e => GlobalProvider.eventHub(e));
     // register routes
-    // find the outlet
+    document.onreadystatechange = () => {
+      if (document.readyState === 'complete') {
+        this.registerRouter(props);
+      }
+    };
+  }
+
+  private static registerRouter(props: BootstrapProp) {
+    // find the outlet after ready 
     const outlet = document.querySelector('[n-router-outlet]');
     // is completely voluntery
     if (outlet) {
@@ -99,6 +107,7 @@ export class GlobalProvider {
       }
     }
   }
+
   /**
    * All events are handled by this helper function. This function shall not be called from user code.
    */
