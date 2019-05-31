@@ -49,7 +49,7 @@ export class GlobalProvider {
   }
 
   private static registerRouter(props: BootstrapProp) {
-    // find the outlet after ready 
+    // find the outlet after ready
     const outlet = document.querySelector('[n-router-outlet]');
     // is completely voluntery
     if (outlet) {
@@ -92,9 +92,7 @@ export class GlobalProvider {
             outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
           } else {
             console.warn(
-              '[NYAF] A router link call has been executed,'
-              + 'but requestes link is not properly configured: '
-              + (<HTMLAnchorElement>e.target).href
+              '[NYAF] A router link call has been executed,' + 'but requestes link is not properly configured: ' + (<HTMLAnchorElement>e.target).href
             );
           }
         }
@@ -112,13 +110,19 @@ export class GlobalProvider {
    * All events are handled by this helper function. This function shall not be called from user code.
    */
   private static eventHub(e: UIEvent) {
-    const evt = (<HTMLElement>e.target).getAttribute(`n-on-${e.type}`);
+    let evt = (<HTMLElement>e.target).getAttribute(`n-on-${e.type}`);
     if (evt) {
       // if there is a method attached call with right binding
       if ((<HTMLElement>e.target).parentElement[evt]) {
         (<HTMLElement>e.target).parentElement[evt].call((<HTMLElement>e.target).parentElement, e);
       } else {
-        throw new Error(`[NYAF] There is an event handler ${evt} attached that is not supported by corresponding method in ${e.target}`);
+        // could be an expression
+        evt = evt.replace(/^(\(?.\)?\s+=>\s+this\.)/, '');
+        if ((<HTMLElement>e.target).parentElement[evt]) {
+          (<HTMLElement>e.target).parentElement[evt].call((<HTMLElement>e.target).parentElement, e);
+        } else {
+          throw new Error(`[NYAF] There is an event handler ${evt} attached that is not supported by corresponding method in ${e.target}`);
+        }
       }
     }
   }

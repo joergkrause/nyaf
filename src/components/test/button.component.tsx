@@ -18,7 +18,7 @@ export class ButtonComponent extends BaseComponent {
 
   render() {
     return (
-      <button type="button" n-on-click={e => this.clickMe(e)}>
+      <button type='button' n-on-Click={e => this.clickMe}>
         OK
       </button>
     );
