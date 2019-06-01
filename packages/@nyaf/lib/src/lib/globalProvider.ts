@@ -20,6 +20,9 @@ export class BootstrapProp {
  * Main support class that provides all global functions.
  */
 export class GlobalProvider {
+
+  static registeredElements: Array<string> = [];
+
   /**
    *
    * @param type Called to register a component. The component must have either the decorator @see CustomElement or
@@ -28,6 +31,7 @@ export class GlobalProvider {
   static register(type: Component) {
     console.log('register', type.selector);
     customElements.define(type.selector, type);
+    GlobalProvider.registeredElements.push(type.selector.toUpperCase());
   }
 
   /**
@@ -109,31 +113,44 @@ export class GlobalProvider {
    * All events are handled by this helper function. This function shall not be called from user code.
    */
   private static eventHub(e: Event) {
+
+    const parentWalk = (el) => {
+      if (!el.parentElement) {
+        return el;
+      }
+      // not really good, will hit parent components with content
+      if (GlobalProvider.registeredElements.some(te => (<HTMLElement>el.parentElement).tagName === te)) {
+        return el.parentElement;
+      }
+      return parentWalk(el.parentElement);
+    };
+
     if ((<HTMLElement>e.target).getAttribute) {
       let evt = (<HTMLElement>e.target).getAttribute(`n-on-${e.type}`);
       if (evt) {
         let call = false;
         let asy = false;
+        const parent = parentWalk(e.target);
         // if there is a method attached call with right binding
-        if ((<HTMLElement>e.target).parentElement[evt]) {
+        if (parent[evt]) {
           call = true;
         } else {
           // could be an expression
           evt = evt.replace(/^(\(?.\)?\s+(=>)?\s+this\.)/, '');
-          if ((<HTMLElement>e.target).parentElement[evt]) {
+          if (parent[evt]) {
             call = true;
             asy = !!(<HTMLElement>e.target).getAttribute(`n-async`);
-          } else {
-            throw new Error(`[NYAF] There is an event handler ${evt} attached
-            that is not supported by corresponding method in ${e.target}`);
           }
         }
         if (call) {
           if (asy) {
-            setTimeout((<HTMLElement>e.target).parentElement[evt].call((<HTMLElement>e.target).parentElement, e), 0);
+            setTimeout(parent[evt].call(parent, e), 0);
           } else {
-            (<HTMLElement>e.target).parentElement[evt].call((<HTMLElement>e.target).parentElement, e);
+            parent[evt].call(parent, e);
           }
+        } else {
+          throw new Error(`[NYAF] There is an event handler ${evt} attached
+          that is not supported by corresponding method in <${parent.tagName}> component.`);
         }
       }
     }
