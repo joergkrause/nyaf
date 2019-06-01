@@ -1,5 +1,6 @@
 import { Component, ComponentType } from '../types/common';
 import { BaseComponent } from '../components/base.component';
+import events from './events';
 
 /**
  * For registration we handle just the types, not actual instances. And types are actually functions.
@@ -37,9 +38,7 @@ export class GlobalProvider {
     // register components
     props.components.forEach(c => GlobalProvider.register(c));
     // register events
-    document.addEventListener('click', e => GlobalProvider.eventHub(e));
-    document.addEventListener('keypress', e => GlobalProvider.eventHub(e));
-    document.addEventListener('dblclick', e => GlobalProvider.eventHub(e));
+    events.map(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     // register routes
     document.onreadystatechange = () => {
       if (document.readyState === 'complete') {
@@ -109,19 +108,32 @@ export class GlobalProvider {
   /**
    * All events are handled by this helper function. This function shall not be called from user code.
    */
-  private static eventHub(e: UIEvent) {
-    let evt = (<HTMLElement>e.target).getAttribute(`n-on-${e.type}`);
-    if (evt) {
-      // if there is a method attached call with right binding
-      if ((<HTMLElement>e.target).parentElement[evt]) {
-        (<HTMLElement>e.target).parentElement[evt].call((<HTMLElement>e.target).parentElement, e);
-      } else {
-        // could be an expression
-        evt = evt.replace(/^(\(?.\)?\s+=>\s+this\.)/, '');
+  private static eventHub(e: Event) {
+    if ((<HTMLElement>e.target).getAttribute) {
+      let evt = (<HTMLElement>e.target).getAttribute(`n-on-${e.type}`);
+      if (evt) {
+        let call = false;
+        let asy = false;
+        // if there is a method attached call with right binding
         if ((<HTMLElement>e.target).parentElement[evt]) {
-          (<HTMLElement>e.target).parentElement[evt].call((<HTMLElement>e.target).parentElement, e);
+          call = true;
         } else {
-          throw new Error(`[NYAF] There is an event handler ${evt} attached that is not supported by corresponding method in ${e.target}`);
+          // could be an expression
+          evt = evt.replace(/^(\(?.\)?\s+(=>)?\s+this\.)/, '');
+          if ((<HTMLElement>e.target).parentElement[evt]) {
+            call = true;
+            asy = !!(<HTMLElement>e.target).getAttribute(`n-async`);
+          } else {
+            throw new Error(`[NYAF] There is an event handler ${evt} attached
+            that is not supported by corresponding method in ${e.target}`);
+          }
+        }
+        if (call) {
+          if (asy) {
+            setTimeout((<HTMLElement>e.target).parentElement[evt].call((<HTMLElement>e.target).parentElement, e), 0);
+          } else {
+            (<HTMLElement>e.target).parentElement[evt].call((<HTMLElement>e.target).parentElement, e);
+          }
         }
       }
     }

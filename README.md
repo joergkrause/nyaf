@@ -113,6 +113,16 @@ You can get the (original HTML 5 API) event using a parameter, like *e* in the e
 <button n-on-click={(e) => this.clickMe(e)}>OK</button>
 ~~~
 
+There is an alternative syntax that takes the method name directly:
+
+<button n-on-click='clickMe'>OK</button>
+
+#### Async
+
+You can combine any event with the attribute `n-async` to make the call to the event's handler function async. This attribute does not take any parameters. The handler method must not be decorated with `async`.
+
+<button n-on-click={(e) => this.clickMe(e)} n-async>OK</button>
+
 ## Components
 
 ### Registration

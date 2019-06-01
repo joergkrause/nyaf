@@ -4,6 +4,9 @@ import JSX, { CustomElement } from '@nyaf/lib';
 // Step 1: Create the Components active parts
 @CustomElement('app-button')
 export class ButtonComponent extends BaseComponent {
+
+  eventData: any;
+
   protected getData(): ComponentData {
     return null;
   }
@@ -14,13 +17,20 @@ export class ButtonComponent extends BaseComponent {
 
   clickMe(e) {
     console.log('Button Element Click ', e);
+    this.eventData = e;
+    super.setup();
   }
 
   render() {
     return (
-      <button type='button' n-on-Click={e => this.clickMe}>
-        OK
-      </button>
+      <>
+        <button type='button' n-on-Click={e => this.clickMe(e)}>Full expression</button>
+        <button type='button' n-on-Click={e => this.clickMe(e)} n-async>Full expression</button>
+        <button type='button' n-on-Click='clickMe'>No expression (Function Name)</button>
+        <pre style='border: 1px solid gray;'>
+          {JSON.stringify(this.eventData)}
+        </pre>
+      </>
     );
   }
 }
