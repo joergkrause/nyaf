@@ -7,12 +7,15 @@ import { ButtonComponent } from './components/test/button.component';
 import { AboutComponent } from './components/test/pages/about.component';
 import { DemoComponent } from './components/test/pages/demo.component';
 import { ContactComponent } from './components/test/pages/contact.component';
+import { CounterComponent } from 'components/test/counter.component';
+import { HomeComponent } from 'components/test/pages/home.component';
+import { DocuComponent } from 'components/test/pages/docu.component';
 
 import './main.scss';
-import { CounterComponent } from 'components/test/counter.component';
 
 let routes = {
-  '/': { component: DemoComponent },
+  '/': { component: HomeComponent },
+  '/docu': { component: DocuComponent },
   '/about': { component: AboutComponent },
   '/demo': { component: DemoComponent },
   '/contact': { component: ContactComponent }
@@ -21,7 +24,17 @@ let routes = {
 GlobalProvider.bootstrap({
   // register all components directly used in templates
   components: [
-    MainComponent, ButtonComponent, TabComponent, TabsComponent, ContactComponent, AboutComponent, DemoComponent, CounterComponent],
+    MainComponent,
+    ButtonComponent,
+    TabComponent,
+    TabsComponent,
+    ContactComponent,
+    AboutComponent,
+    DemoComponent,
+    CounterComponent,
+    HomeComponent,
+    DocuComponent
+  ],
   // register for router
   routes: routes
 });

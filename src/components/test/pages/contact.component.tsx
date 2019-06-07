@@ -5,7 +5,7 @@ import { ViewModel } from '@nyaf/forms/';
 
 // Step 1: Create the Components active parts
 @CustomElement('app-contact')
-@ShadowDOM(true)
+@ShadowDOM(false)
 @ViewModel<ContactModel>()
 export class ContactComponent extends BaseComponent {
 
@@ -29,7 +29,7 @@ export class ContactComponent extends BaseComponent {
     return (
       <>
         <h2>Contact</h2>
-        <div class="alert alert-danger">Contact Me</div>
+        <div class="alert alert-danger">This page makes use of the forms extension and is not yet ready.</div>
         <form n-model={this.contactModel}>
           <label n-model={() => this.contactModel.name }></label>
           <input n-model={() => this.contactModel.name } />

@@ -16,32 +16,41 @@ export class MainComponent extends BaseComponent<{}> {
   }
 
   render() {
-    const tabs = [];
-    tabs.push({ content: 'test one', title: 't1' });
-    tabs.push({ content: 'test two', title: 't2' });
-    tabs.push({ content: 'test three', title: 't3' });
-    tabs.push({ content: 'test four', title: 't4' });
-    tabs.push({ content: 'test five', title: 't5' });
     return (
       <section>
-        <h2>Demo</h2>
-        <div id='app-content' class='row'>
-          <app-tabs class='col' title='Tabs Demo Title' tabs={tabs} />
-        </div>
-        <a href='#/' n-link>
-          Home
-        </a>
-        <a href='#/about' n-link>
-          About
-        </a>
-        <a href='#/demo' n-link>
-          Demo
-        </a>
-        <a href='#/contact' n-link>
-          Contact
-        </a>
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link" href="#/" n-link="active">
+              Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/docu" n-link="active">
+              Quickstart
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="documentation/index.html" target="tech-docu">
+              Technical Documentation (new tab)
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/about" n-link="active">
+              About
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/demo" n-link="active">
+              Demo
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/contact" n-link="active">
+              Contact
+            </a>
+          </li>
+        </ul>
         <div n-router-outlet />
-        <app-button />
       </section>
     );
   }

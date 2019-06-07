@@ -33,9 +33,76 @@ Excerpt from `tsconfig.json`:
 "reactNamespace": "JSX",
 ~~~
 
-A class `JSX` is the core, it handels the element definitions and extract the template extensions.
+A class `JSX` is the core, it handles the element definitions and extract the template extensions.
+
+## Components
+
+Components are the core ingredients. You write components as classes, decorated with the decorator `CustomElement`. This defines a Web Component. The Component must be registered, then. This is done by calling the static method `GlobalProvider.bootstrap`.
+
+### Registration
+
+Web Components must be registered. To support this, I use decorators:
+
+~~~
+import { CustomElement } from '@nyaf/lib;
+
+@CustomElement('app-main')
+export class MainComponent extends BaseComponent {
+
+  constructor() {
+    super();
+  }
+
+  protected render() {
+    return (
+      <>
+        <h1>Demo</h1>
+      </>
+    );
+  }
+
+}
+~~~
+
+The name is determined by `@CustomElement('app-main')`. This is mandatory.
+
+In *main.ts* (or wherever your app is bootstrapped) call this:
+
+~~~
+import { GlobalProvider } from '@nyaf/lib;
+import { MainComponent } from './components/main.component';
+
+GlobalProvider.bootstrap({
+  components: [MainComponent]
+});
+
+~~~
+
+That's it, the component works now. Use it in the HTML part:
+
+~~~
+<body class="container">
+  <app-main></app-main>
+</body>
+~~~
+
+Once you have more components, it may look like this:
+
+~~~
+GlobalProvider.bootstrap({
+  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
+});
+~~~
+
+The main goal is to add template features to the JSX part.
 
 ## Template Features
+
+Template Features avoid using creepy JavaScript for loops and branches. You can use:
+
+* `n-repeat`
+* `n-if`, `n-else`
+* `n-hide`, `n-show`
 
 ### n-repeat
 
@@ -97,6 +164,10 @@ If there is an else-branch it can direct to a slot template. `<slot>` elements a
 
 Works same as `n-if`, but just adds an inline style `display: none` or not if `true` (`n-hide`) or `false` (`n-show`).
 
+## Events
+
+Events are defined by a special instruction. The are attached to `document` object, regardless the usage.
+
 ### n-on-[event]
 
 Events are easy to add directly using it like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
@@ -105,7 +176,7 @@ Events are easy to add directly using it like `n-on-click`. All JavaScript event
 <button n-on-click={() => this.clickMe()}>OK</button>
 ~~~
 
-> There is no `bind` necessary, events are bound to component anyway.
+> There is no `bind` necessary, events are bound to components anyway.
 
 You can get the (original HTML 5 API) event using a parameter, like *e* in the example below:
 
@@ -119,7 +190,7 @@ There is an alternative syntax that takes the method name directly:
 <button n-on-click='clickMe'>OK</button>
 ~~~
 
-#### Async
+### Async
 
 You can combine any event with the attribute `n-async` to make the call to the event's handler function async. This attribute does not take any parameters. The handler method must not be decorated with `async`.
 
@@ -127,54 +198,7 @@ You can combine any event with the attribute `n-async` to make the call to the e
 <button n-on-click={(e) => this.clickMe(e)} n-async>OK</button>
 ~~~
 
-## Components
-
-### Registration
-
-Web Components must be registered. To support this, I use decorators:
-
-~~~
-@CustomElement('app-main')
-export class MainComponent extends BaseComponent {
-
-  constructor() {
-    super();
-  }
-
-  protected render() {
-    return (
-      <>
-        <h1>Demo</h1>
-      </>
-    );
-  }
-
-}
-~~~
-
-The name is determined by `@CustomElement('app-main')`.
-
-In *main.ts* call this:
-
-~~~
-GlobalProvider.bootstrap({
-  components: [MainComponent]
-});
-
-~~~
-
-That's it, the component works now.
-
-Once you have more components, it may look like this:
-
-~~~
-GlobalProvider.bootstrap({
-  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
-});
-
-~~~
-
-### Router 
+## Router 
 
 Everybody want's a SPA (Single Page App). Hence we need a router. The included router is very simple.
 
@@ -186,7 +210,7 @@ First, define an outlet where the components appear:
 
 Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content need registration too. They  ___must___ have a name, too, because that's the way the router internally activates the component.
 
-#### Register Routes
+### Register Routes
 
 The following code shows how to register routes:
 
@@ -208,7 +232,7 @@ GlobalProvider.bootstrap({
 The first entry `'/': { component: DemoComponent },` shall always exist, it's the default route loaded on start. It's being recognized by the `'/'` key (the position in the array doesn't matter).
 The entry `'**': { component: DemoComponent }` is optional and defines a fallback in case an invalid path is being used.
 
-#### Use Routes
+### Use Routes
 
 To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
 
@@ -238,7 +262,7 @@ If you have some sort of CSS framework running, that provides support for menu n
 
 After this, by clicking the hyperlink, the class "active" will be added to the anchor tag. Any click on any `n-link` decorated tag will remove all these classes from all these elements, first. The class' name can differ and you can add multiple classes. It's treated as string internally.
 
-### Shadow DOM
+## Shadow DOM
 
 By default the shadow DOM is ____not____ used. If it would, it would mean, that styles are isolated. No global styles are available, then.
 
@@ -293,7 +317,6 @@ A simple counter shows how to use:
 
 ~~~
 export class CounterComponent extends BaseComponent<{ cnt: number }> {
-  eventData: any;
 
   constructor() {
     super();
@@ -301,12 +324,10 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
   }
 
   clickMeAdd(v: number) {
-    console.log('Counter Element Click');
     super.setData('cnt', super.data.cnt + 1);
   }
 
   clickMeSub(v: number) {
-    console.log('Counter Element Click');
     super.setData('cnt', super.data.cnt - 1);
   }
 
@@ -314,10 +335,10 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
     return (
       <>
         <div>
-          <button type='button' n-on-Click={e => this.clickMeAdd(e)}>
+          <button type='button' n-on-click={e => this.clickMeAdd(e)}>
             Add 1
           </button>
-          <button type='button' n-on-Click={e => this.clickMeSub(e)}>
+          <button type='button' n-on-click={e => this.clickMeSub(e)}>
             Sub 1
           </button>
         </div>
@@ -389,6 +410,8 @@ export class MainComponent extends BaseComponent {
 
 # How to use
 
+This section describes setup and first steps.
+
 ## Prepare a project
 
 Install the package:
@@ -400,7 +423,7 @@ npm i @nyaf/lib -S
 Create a file `main.ts` in the *src* folder that looks like this:
 
 ~~~
-import { GlobalProvider } from 'nyaf';
+import { GlobalProvider } from '@nyaf/lib';
 
 import { MainComponent } from './main.component';
 
@@ -412,8 +435,8 @@ GlobalProvider.bootstrap({
 Create file *main.component.ts* in the same folder. Fill this content in:
 
 ~~~
-import { BaseComponent, ComponentData } from 'nyaf';
-import JSX, { CustomElement } from 'nyaf';
+import { BaseComponent, ComponentData } from '@nyaf/lib';
+import JSX, { CustomElement } from '@nyaf/lib';
 
 @CustomElement('app-main')
 export class MainComponent extends BaseComponent {
@@ -466,13 +489,37 @@ Now, because it's based on TypeScript, it's very recommended to use WebPack and 
 
 The *tsconfig.json* looks like this:
 
-~~~
-~~~
+~~~~~
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "lib": [
+      "es2018",
+      "es5",
+      "dom"
+    ],
+    "jsx": "react",
+    "declaration": true,
+    "reactNamespace": "JSX",
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "removeComments": false,
+    "outDir": "out-tsc",
+    "baseUrl": "src",
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ]
+  } 
+}
+~~~~~
 
 The *webpack.config.json* looks like this:
-
-~~~
-~~~
 
 The *package.json* gets an entry in `scripts` section:
 
@@ -496,7 +543,7 @@ An now enjoy writing a component based SPA with only very few KB of lib code.
 
 Is it worth coding with NYAF and vanilla JS? For smaller projects and for apps that must load quickly, yes.
 
-The zipped package of the lib is 7 KBytes. Expanded just 23 KBytes.
+The zipped package of the lib is 7 KBytes. Expanded just 23 KBytes. Demo code is 115 KB but already includes a good bunch of Bootstrap's CSS.
 
 However, compared with React or Angular it's a lot simpler. Compared to Vue it's simpler and even smaller, but the delta is not that thrilling.
 
@@ -506,5 +553,5 @@ The package runs, if there are no polyfills, only with ES2015. This limits the u
 
 # Next
 
-Look out for 'nyaf-forms' (forms validation) and 'nyaf-store' (flux store). Simple but powerful!
+Look out for 'nyaf-forms' (forms validation) and 'nyaf-store' (flux store). Simple but powerful! Available mid of 2019.
 

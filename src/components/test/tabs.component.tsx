@@ -39,8 +39,6 @@ export class TabsComponent extends BaseComponent<{}> {
         <ul class="nav nav-tabs" id="header-tabs">
           <app-tab n-repeat={tabs} title="@title" content="@tab" />
         </ul>
-        Counter:
-        <app-counter />
       </>
     );
   }

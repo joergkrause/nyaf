@@ -17,6 +17,22 @@ export class DemoComponent extends BaseComponent {
   }
 
   render() {
-    return <h2>Demo</h2>;
+    const tabs = [];
+    tabs.push({ content: 'test one', title: 't1' });
+    tabs.push({ content: 'test two', title: 't2' });
+    tabs.push({ content: 'test three', title: 't3' });
+    tabs.push({ content: 'test four', title: 't4' });
+    tabs.push({ content: 'test five', title: 't5' });
+    return (
+      <>
+        <h2>Demo</h2>
+        <div id="app-content" class="row">
+          <app-tabs class="col" title="Tabs Demo Title" tabs={tabs} />
+        </div>
+        Counter:
+        <app-counter />
+
+      </>
+    );
   }
 }
