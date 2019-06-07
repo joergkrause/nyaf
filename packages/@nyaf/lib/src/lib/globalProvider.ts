@@ -136,7 +136,7 @@ export class GlobalProvider {
           call = true;
         } else {
           // could be an expression
-          evt = evt.replace(/^(\(?.\)?\s+(=>)?\s+this\.)/, '');
+          evt = evt.replace(/^(\(?.\)?|.?)\s?=>\s?this\.(.*)(\(.?\))?/, `$2`);
           if (parent[evt]) {
             call = true;
             asy = !!(<HTMLElement>e.target).getAttribute(`n-async`);
@@ -149,8 +149,8 @@ export class GlobalProvider {
             parent[evt].call(parent, e);
           }
         } else {
-          throw new Error(`[NYAF] There is an event handler ${evt} attached
-          that is not supported by corresponding method in <${parent.tagName}> component.`);
+          throw new Error(`[NYAF] There is an event handler '${evt}' attached
+          that could not be found in the component <${parent.tagName}>.`);
         }
       }
     }
