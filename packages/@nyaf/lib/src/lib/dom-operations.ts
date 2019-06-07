@@ -1,3 +1,6 @@
+/**
+ * A helper class that supports the renderer.
+ */
 export class DomOp {
   /**
    * Get all of an element's parent elements up the DOM tree

@@ -1,6 +1,10 @@
 import { LifeCycle } from './lifecycle.enum';
 
 // TODO: Implement https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445
+
+/**
+ * The structure that defines the state object.
+ */
 export interface ComponentData {
   [key: string]: any;
 }

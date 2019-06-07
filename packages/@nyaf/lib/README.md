@@ -29,8 +29,8 @@ I'm using TSX. I don't use React, though. So it's just a feature of the TypeScri
 Excerpt from `tsconfig.json`:
 
 ~~~
-"jsx": "react",
-"reactNamespace": "JSX",
+  "jsx": "react",
+  "reactNamespace": "JSX",
 ~~~
 
 A class `JSX` is the core, it handles the element definitions and extract the template extensions.
@@ -44,24 +44,24 @@ Components are the core ingredients. You write components as classes, decorated 
 Web Components must be registered. To support this, I use decorators:
 
 ~~~
-import { CustomElement } from '@nyaf/lib;
+  import { CustomElement } from '@nyaf/lib;
 
-@CustomElement('app-main')
-export class MainComponent extends BaseComponent {
+  @CustomElement('app-main')
+  export class MainComponent extends BaseComponent {
 
-  constructor() {
-    super();
+    constructor() {
+      super();
+    }
+
+    protected render() {
+      return (
+        <>
+          <h1>Demo</h1>
+        </>
+      );
+    }
+
   }
-
-  protected render() {
-    return (
-      <>
-        <h1>Demo</h1>
-      </>
-    );
-  }
-
-}
 ~~~
 
 The name is determined by `@CustomElement('app-main')`. This is mandatory.
@@ -69,29 +69,28 @@ The name is determined by `@CustomElement('app-main')`. This is mandatory.
 In *main.ts* (or wherever your app is bootstrapped) call this:
 
 ~~~
-import { GlobalProvider } from '@nyaf/lib;
-import { MainComponent } from './components/main.component';
+  import { GlobalProvider } from '@nyaf/lib;
+  import { MainComponent } from './components/main.component';
 
-GlobalProvider.bootstrap({
-  components: [MainComponent]
-});
-
+  GlobalProvider.bootstrap({
+    components: [MainComponent]
+  });
 ~~~
 
 That's it, the component works now. Use it in the HTML part:
 
 ~~~
-<body class="container">
-  <app-main></app-main>
-</body>
+  <body class="container">
+    <app-main></app-main>
+  </body>
 ~~~
 
 Once you have more components, it may look like this:
 
 ~~~
-GlobalProvider.bootstrap({
-  components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
-});
+  GlobalProvider.bootstrap({
+    components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
+  });
 ~~~
 
 The main goal is to add template features to the JSX part.
@@ -111,28 +110,28 @@ Repeats the element. The argument must be an array.
 Assume we have this object:
 
 ~~~
-{ text: string, content: string }
+  { text: string, content: string }
 ~~~
 
 In an array like this:
 
 ~~~
-[
-  {
-    text: "hallo", 
-    content: "Hello NYAF" 
-  }, 
-  { 
-    text: "world", 
-    content: "This is really nice" 
-  }
-]
+  [
+    {
+      text: "hallo", 
+      content: "Hello NYAF" 
+    }, 
+    { 
+      text: "world", 
+      content: "This is really nice" 
+    }
+  ]
 ~~~
 
 Than you show the data on screen like this:
 
 ~~~
-<app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
+  <app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
 ~~~
 
 The array shall contain objects. If the property is needed, it's accessible within any attribute by writing `attribute="@propName"`. Note the usage of the quotes.
@@ -144,20 +143,20 @@ You can repeat anything, even plain HTML elements such as `<span>` or `<li>`.
 The value will be evaluated and the element does or does not render, then:
 
 ~~~
-<div class="main-header" n-if={this.props.title !== 't1'}>
-  <span>Any content will not render if container doesn't render
-</div>
+  <div class="main-header" n-if={this.props.title !== 't1'}>
+    <span>Any content will not render if container doesn't render
+  </div>
 ~~~
 
 If there is an else-branch it can direct to a slot template. `<slot>` elements are native web component parts.
 
 ~~~
-<div class="main-header" n-if={this.props.title !== 't1'} n-else="noShow">
-  <span>Any content will not render if container doesn't render
-</div>
-<slot name="noShow">
-  This is shown instead.
-</slot>
+  <div class="main-header" n-if={this.props.title !== 't1'} n-else="noShow">
+    <span>Any content will not render if container doesn't render
+  </div>
+  <slot name="noShow">
+    This is shown instead.
+  </slot>
 ~~~
 
 ### n-hide, n-show
@@ -172,8 +171,8 @@ Events are defined by a special instruction. The are attached to `document` obje
 
 Events are easy to add directly using it like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
 
-~~~
-<button n-on-click={() => this.clickMe()}>OK</button>
+~~~ 
+  <button n-on-click={() => this.clickMe()}>OK</button>
 ~~~
 
 > There is no `bind` necessary, events are bound to components anyway.
@@ -181,13 +180,13 @@ Events are easy to add directly using it like `n-on-click`. All JavaScript event
 You can get the (original HTML 5 API) event using a parameter, like *e* in the example below:
 
 ~~~
-<button n-on-click={(e) => this.clickMe(e)}>OK</button>
+  <button n-on-click={(e) => this.clickMe(e)}>OK</button>
 ~~~
 
 There is an alternative syntax that takes the method name directly:
 
 ~~~
-<button n-on-click='clickMe'>OK</button>
+  <button n-on-click='clickMe'>OK</button>
 ~~~
 
 ### Async
@@ -205,7 +204,7 @@ Everybody want's a SPA (Single Page App). Hence we need a router. The included r
 First, define an outlet where the components appear:
 
 ~~~
-<div n-router-outlet></div>
+  <div n-router-outlet></div>
 ~~~
 
 Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content need registration too. They  ___must___ have a name, too, because that's the way the router internally activates the component.
@@ -215,18 +214,18 @@ Any kind of parent element will do. The router code sets the property `innerHTML
 The following code shows how to register routes:
 
 ~~~
-let routes = {
-  '/': { component: DemoComponent },
-  '/about': { component: AboutComponent },
-  '/demo': { component: DemoComponent },
-  '/contact': { component: ContactComponent },
-  '**': { component: DemoComponent }
-};
+  let routes = {
+    '/': { component: DemoComponent },
+    '/about': { component: AboutComponent },
+    '/demo': { component: DemoComponent },
+    '/contact': { component: ContactComponent },
+    '**': { component: DemoComponent }
+  };
 
-GlobalProvider.bootstrap({
-  components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
-  routes: routes
-});
+  GlobalProvider.bootstrap({
+    components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
+    routes: routes
+  });
 ~~~
 
 The first entry `'/': { component: DemoComponent },` shall always exist, it's the default route loaded on start. It's being recognized by the `'/'` key (the position in the array doesn't matter).
@@ -237,11 +236,11 @@ The entry `'**': { component: DemoComponent }` is optional and defines a fallbac
 To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
 
 ~~~
-<a href="#/" n-link>Home</a>
-<a href="#/about" n-link>About</a>
-<a href="#/demo" n-link>Demo</a>
-<a href="#/contact" n-link>Contact</a>
-<div n-router-outlet></div>
+  <a href="#/" n-link>Home</a>
+  <a href="#/about" n-link>About</a>
+  <a href="#/demo" n-link>Demo</a>
+  <a href="#/contact" n-link>Contact</a>
+  <div n-router-outlet></div>
 ~~~
 
 The important part here is the `n-link` attribute. Using this you can distinguish between navigation links for routing and any other anchor tag. You can also use a `<button>` element or any other. Internally it's just a `click`-event that's handled and that checks for the attribute, then.
@@ -253,11 +252,11 @@ Please note the hash sign (#). It's required. No code or strategies here, write 
 If you have some sort of CSS framework running, that provides support for menu navigation by classes, just add the class for the currently active element to the `n-link` attribute like this:
 
 ~~~
-<a href="#/" n-link="active">Home</a>
-<a href="#/about" n-link="active">About</a>
-<a href="#/demo" n-link="active">Demo</a>
-<a href="#/contact" n-link="active">Contact</a>
-<div n-router-outlet></div>
+  <a href="#/" n-link="active">Home</a>
+  <a href="#/about" n-link="active">About</a>
+  <a href="#/demo" n-link="active">Demo</a>
+  <a href="#/contact" n-link="active">Contact</a>
+  <div n-router-outlet></div>
 ~~~
 
 After this, by clicking the hyperlink, the class "active" will be added to the anchor tag. Any click on any `n-link` decorated tag will remove all these classes from all these elements, first. The class' name can differ and you can add multiple classes. It's treated as string internally.
@@ -278,13 +277,13 @@ One option to activate the Shadow DOM:
 The property can be set explicitly. The default is `false`, hence if the decorator is being omitted, the component is ____not____ shadowed.
 
 ~~~
-@ShadowDOM(true | false)
+  @ShadowDOM(true | false)
 ~~~
 
 Another interesting option controls the style behavior:
 
 ~~~
-@UseParentStyles()
+  @UseParentStyles()
 ~~~
 
 * Use *ShadowDOM* must be set, otherwise the decorator does nothing
@@ -301,9 +300,9 @@ There is no explicit difference between State and Property. Compared with React 
 To declare a state object use a generic like this:
 
 ~~~
-export class MainComponent extends BaseComponent<{ cnt: number}> {
-  // ... omitted for brevity
-}
+  export class MainComponent extends BaseComponent<{ cnt: number}> {
+    // ... omitted for brevity
+  }
 ~~~
 
 > The State generic is optional. If there is no state necessary just skip.
@@ -316,37 +315,37 @@ Now two functions are available:
 A simple counter shows how to use:
 
 ~~~
-export class CounterComponent extends BaseComponent<{ cnt: number }> {
+  export class CounterComponent extends BaseComponent<{ cnt: number }> {
 
-  constructor() {
-    super();
-    super.setData('cnt',  10);
-  }
+    constructor() {
+      super();
+      super.setData('cnt',  10);
+    }
 
-  clickMeAdd(v: number) {
-    super.setData('cnt', super.data.cnt + 1);
-  }
+    clickMeAdd(v: number) {
+      super.setData('cnt', super.data.cnt + 1);
+    }
 
-  clickMeSub(v: number) {
-    super.setData('cnt', super.data.cnt - 1);
-  }
+    clickMeSub(v: number) {
+      super.setData('cnt', super.data.cnt - 1);
+    }
 
-  render() {
-    return (
-      <>
-        <div>
-          <button type='button' n-on-click={e => this.clickMeAdd(e)}>
-            Add 1
-          </button>
-          <button type='button' n-on-click={e => this.clickMeSub(e)}>
-            Sub 1
-          </button>
-        </div>
-        <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>
-      </>
-    );
+    render() {
+      return (
+        <>
+          <div>
+            <button type='button' n-on-click={e => this.clickMeAdd(e)}>
+              Add 1
+            </button>
+            <button type='button' n-on-click={e => this.clickMeSub(e)}>
+              Sub 1
+            </button>
+          </div>
+          <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>
+        </>
+      );
+    }
   }
-}
 ~~~
 
 ### Properties
@@ -354,11 +353,11 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
 To use properties, you can define those. Each property is automatically part of the state and once it changes, the component re-renders.
 
 ~~~
-@CustomElement('app-main')
-@Properties<{ title: string }>({ title: 'Default' })
-export class MainComponent extends BaseComponent<{ title: string, cnt: number }> {
-  // ... omitted for brevity
-}
+  @CustomElement('app-main')
+  @Properties<{ title: string }>({ title: 'Default' })
+  export class MainComponent extends BaseComponent<{ title: string, cnt: number }> {
+    // ... omitted for brevity
+  }
 ~~~
 
 The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
@@ -370,17 +369,17 @@ The base component's generic controls the render behavior. There might be additi
 For a nice view decorators applied to class properties control the appearance.
 
 ~~~
-export class Model {
-  id: number = 0;
-  name: string = '';
-}
+  export class Model {
+    id: number = 0;
+    name: string = '';
+  }
 
 
-@CustomElement('app-main')
-@Properties<{ data: Model }>()
-export class MainComponent extends BaseComponent {
-  // ... omitted for brevity
-}
+  @CustomElement('app-main')
+  @Properties<{ data: Model }>()
+  export class MainComponent extends BaseComponent {
+    // ... omitted for brevity
+  }
 ~~~
 
 Within the component, this is now present. In the above definition `this.props.data` contains an actual model. 
@@ -390,18 +389,18 @@ Within the component, this is now present. In the above definition `this.props.d
 Want to access an injectable service?
 
 ~~~
-@CustomElement('app-main')
-@InjectService(ServiceClass1)
-@InjectService(ServiceClass2)
-export class MainComponent extends BaseComponent {
-  // ... omitted for brevity
+  @CustomElement('app-main')
+  @InjectService(ServiceClass1)
+  @InjectService(ServiceClass2)
+  export class MainComponent extends BaseComponent {
+    // ... omitted for brevity
 
 
-  protected async render() {
-    let data = await this.services<ServiceClass1>().callAnyServiceFunctionHereAsync();
+    protected async render() {
+      let data = await this.services<ServiceClass1>().callAnyServiceFunctionHereAsync();
+    }
+
   }
-
-}
 ~~~
 
 > Async is an option, can by sync, too.
@@ -417,52 +416,52 @@ This section describes setup and first steps.
 Install the package:
 
 ~~~
-npm i @nyaf/lib -S
+  npm i @nyaf/lib -S
 ~~~
 
 Create a file `main.ts` in the *src* folder that looks like this:
 
 ~~~
-import { GlobalProvider } from '@nyaf/lib';
+  import { GlobalProvider } from '@nyaf/lib';
 
-import { MainComponent } from './main.component';
+  import { MainComponent } from './main.component';
 
-GlobalProvider.bootstrap({
-  components: [MainComponent],
-});
+  GlobalProvider.bootstrap({
+    components: [MainComponent],
+  });
 ~~~
 
 Create file *main.component.ts* in the same folder. Fill this content in:
 
 ~~~
-import { BaseComponent, ComponentData } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
+  import { BaseComponent, ComponentData } from '@nyaf/lib';
+  import JSX, { CustomElement } from '@nyaf/lib';
 
-@CustomElement('app-main')
-export class MainComponent extends BaseComponent {
+  @CustomElement('app-main')
+  export class MainComponent extends BaseComponent {
 
-	constructor() {
-		super();
-	}
+  	constructor() {
+  		super();
+  	}
 
-	protected getData(): ComponentData {
-		return null;
-	}
+  	protected getData(): ComponentData {
+  		return null;
+  	}
 
-	static get observedAttributes() {
-		return [];
-	}
+  	static get observedAttributes() {
+  		return [];
+  	}
 
-	render() {
-		return (
-			<section>
-        <h2>Demo</h2>
-        <p>Hello NYAF</p>
-			</section>
-		);
-	}
+  	render() {
+  		return (
+  			<section>
+          <h2>Demo</h2>
+          <p>Hello NYAF</p>
+  			</section>
+  		);
+  	}
 
-}
+  }
 ~~~
 
 Create a file named *index.html* in the very same folder and fill it like this:

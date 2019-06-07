@@ -9,11 +9,11 @@
     "nyaf-lib": "webpack --config webpack.config.lib.js --mode \"production\"",
     "build": "rimraf dist && cp README.md ./packages/@nyaf/lib && npm run nyaf-lib && gulp",
     "start": "webpack-dev-server --open",
-    "demo": "npm run build && showdown makehtml -i README.md -o dist/docu.html && webpack --config webpack.config.js --mode \"production\"",
+    "demo": "npm run build && showdown makehtml -i README.md -o dist/docu.html && webpack --config webpack.config.js --mode \"production\" && npm run codedoc",
     "codedoc": "npm run codedoc-nyaf-lib && npm run codedoc-nyaf-forms && npm run codedoc-nyaf-store",
-    "codedoc-nyaf-lib": "compodoc -p ./packages/@nyaf/lib/tsconfig.json --output ./docs/documentation",
-    "codedoc-nyaf-forms": "compodoc -p ./packages/@nyaf/forms/tsconfig.json --output ./docs/documentation",
-    "codedoc-nyaf-store": "compodoc -p ./packages/@nyaf/store/tsconfig.json --output ./docs/documentation"
+    "codedoc-nyaf-lib": "compodoc -p ./packages/@nyaf/lib/tsconfig.json --output ./dist/documentation",
+    "codedoc-nyaf-forms": "compodoc -p ./packages/@nyaf/forms/tsconfig.json --output ./dist/documentation/forms",
+    "codedoc-nyaf-store": "compodoc -p ./packages/@nyaf/store/tsconfig.json --output ./dist/documentation/store"
   },
   "repository": {
     "type": "git",

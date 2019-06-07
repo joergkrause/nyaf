@@ -1,3 +1,6 @@
+/**
+ * The events supported in components.
+ */
 const eventList = [
 'abort',
 'afterprint',
