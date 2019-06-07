@@ -268,19 +268,81 @@ Another interesting option controls the style behavior:
 
 > It's a trade-off. Shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.
 
+## State and Properties
+
+There is no explicit difference between State and Property. Compared with React it's much more simpler. A state still exists and it supports smart rendering.
+
+### State 
+
+To declare a state object use a generic like this:
+
+~~~
+export class MainComponent extends BaseComponent<{ cnt: number}> {
+  // ... omitted for brevity
+}
+~~~
+
+> The State generic is optional. If there is no state necessary just skip.
+
+Now two functions are available:
+
+* `data`: Returns the instance of the data object and contains all properties defined in the generic.
+* `setData`: Sets a changed value and, if the value differs, re-renders the component.
+
+A simple counter shows how to use:
+
+~~~
+export class CounterComponent extends BaseComponent<{ cnt: number }> {
+  eventData: any;
+
+  constructor() {
+    super();
+    super.setData('cnt',  10);
+  }
+
+  clickMeAdd(v: number) {
+    console.log('Counter Element Click');
+    super.setData('cnt', super.data.cnt + 1);
+  }
+
+  clickMeSub(v: number) {
+    console.log('Counter Element Click');
+    super.setData('cnt', super.data.cnt - 1);
+  }
+
+  render() {
+    return (
+      <>
+        <div>
+          <button type='button' n-on-Click={e => this.clickMeAdd(e)}>
+            Add 1
+          </button>
+          <button type='button' n-on-Click={e => this.clickMeSub(e)}>
+            Sub 1
+          </button>
+        </div>
+        <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>
+      </>
+    );
+  }
+}
+~~~
+
 ### Properties
 
-To use properties, you can define those.
+To use properties, you can define those. Each property is automatically part of the state and once it changes, the component re-renders.
 
 ~~~
 @CustomElement('app-main')
 @Properties<{ title: string }>({ title: 'Default' })
-export class MainComponent extends BaseComponent {
+export class MainComponent extends BaseComponent<{ title: string, cnt: number }> {
   // ... omitted for brevity
 }
 ~~~
 
 The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
+
+The base component's generic controls the render behavior. There might be additional state properties.
 
 ### Properties and View Models
 
@@ -302,7 +364,7 @@ export class MainComponent extends BaseComponent {
 
 Within the component, this is now present. In the above definition `this.props.data` contains an actual model. 
 
-### Services
+## Services
 
 Want to access an injectable service?
 

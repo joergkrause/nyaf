@@ -8,7 +8,7 @@ export interface TabProps {
 
 // Step 1: Create the Components active parts
 @CustomElement('app-tab')
-export class TabComponent extends BaseComponent {
+export class TabComponent extends BaseComponent<{}> {
 
   public props: TabProps;
 

@@ -16,3 +16,4 @@ export * from './decorators/ui/hint-hidden.decorator';
 export * from './decorators/ui/hint-templatehint.decorator';
 export * from './decorators/ui/hint-placeholder.decorator';
 export * from './decorators/ui/hint-readonly.decorator';
+export * from './decorators/viewmodel.decorator';

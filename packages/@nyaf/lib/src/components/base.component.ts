@@ -1,5 +1,6 @@
-// TODO: Implement https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445
+import { LifeCycle } from './lifecycle.enum';
 
+// TODO: Implement https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445
 export interface ComponentData {
   [key: string]: any;
 }
@@ -21,7 +22,7 @@ export interface ComponentData {
  *
  *
  */
-export abstract class BaseComponent extends HTMLElement {
+export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLElement {
   /**
    * Set by decorator @see {UseParentStyles}. If set, it copies styles to a shadowed component.
    * If not shadowed, it's being ignored. See @see {UseShadowDOM} decorator, too.
@@ -43,7 +44,12 @@ export abstract class BaseComponent extends HTMLElement {
   /**
    * Declares that the render method has been called at least one times.
    */
-  protected initialized: boolean;
+  protected set lifeCycleState(lc: LifeCycle) {
+    this._lifeCycleState = lc;
+    this.lifeCycle(lc);
+  }
+  private _lifeCycleState: LifeCycle;
+  private _data: P;
 
   /**
    *
@@ -52,6 +58,8 @@ export abstract class BaseComponent extends HTMLElement {
    */
   constructor() {
     super();
+    this._data = {} as P;
+    this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
     if (BaseComponent.useParentStyles && BaseComponent.withShadow && !BaseComponent.globalStyle) {
       for (let i = 0; i <= this.ownerDocument.styleSheets.length; i++) {
@@ -72,14 +80,36 @@ export abstract class BaseComponent extends HTMLElement {
     }
   }
 
-  abstract render(): string;
+  /**
+   * Inform caller about reaching a state in life cycle.
+   *
+   * @param cycle The state reached.
+   */
+  protected lifeCycle(cycle: LifeCycle): void {}
 
+  /**
+   * Implement and return a string with HTML. Ideally use JSX to create elements.
+   */
+  public abstract render(): string;
+
+  /**
+   * Clean up any resources here.
+   */
   protected dispose(): void {}
 
-  protected abstract getData(): ComponentData;
+  /**
+   * Get the assigned state data the component holds internally.
+   * @param key Optionally pull just one key from the dictionary.
+   */
+  protected get data(): P {
+    return this._data;
+  }
 
+  /**
+   * Refresh the content after changes. Called automatically after changes of attrbibutes.
+   */
   protected setup() {
-    this.initialized = true;
+    this.lifeCycleState = LifeCycle.PreRender;
     console.log((<any>this.constructor).selector + ' WS ', (<any>this.constructor).withShadow);
     if ((<any>this.constructor).withShadow) {
       const template = document.createElement('template');
@@ -93,19 +123,27 @@ export abstract class BaseComponent extends HTMLElement {
           this.shadowRoot.appendChild(style);
         }
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this.addEventListener('click', e => {
-          const new_e = new MouseEvent('shadowclick');
-          this.dispatchEvent(new_e);
-        });
+        // this.addEventListener('click', e => {
+        //   const new_e = new MouseEvent('shadowclick');
+        //   this.dispatchEvent(new_e);
+        // });
       }
     } else {
       this.innerHTML = this.render();
     }
+    this.lifeCycleState = LifeCycle.Load;
   }
 
+  /**
+   * Change the state of the internal data object. If necessary, the component re-renders.
+   *
+   * @param key Name of the value.
+   * @param newValue The actual new value.
+   */
   public setData(key: string, newValue: any): void {
-    const rerender = this.getData()[key] !== newValue;
-    this.getData()[key] = newValue;
+    this.lifeCycleState = LifeCycle.SetData;
+    const rerender = this.data[key] !== newValue;
+    this.data[key] = newValue;
     // something is new so we rerender
     if (rerender) {
       this.setup();
@@ -114,12 +152,13 @@ export abstract class BaseComponent extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      this.getData()[name] = newValue;
+      this.data[name] = newValue;
       this.setup();
     }
   }
 
   connectedCallback() {
+    this.lifeCycleState = LifeCycle.Connect;
     this.setup();
   }
 
@@ -128,6 +167,8 @@ export abstract class BaseComponent extends HTMLElement {
   }
 
   disconnectedCallback() {
+    this.lifeCycleState = LifeCycle.DisConnect;
     this.dispose();
+    this.lifeCycleState = LifeCycle.Disposed;
   }
 }

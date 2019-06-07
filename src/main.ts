@@ -9,17 +9,19 @@ import { DemoComponent } from './components/test/pages/demo.component';
 import { ContactComponent } from './components/test/pages/contact.component';
 
 import './main.scss';
+import { CounterComponent } from 'components/test/counter.component';
 
 let routes = {
   '/': { component: DemoComponent },
   '/about': { component: AboutComponent },
   '/demo': { component: DemoComponent },
-  '/contact': { component: ContactComponent },
+  '/contact': { component: ContactComponent }
 };
 
 GlobalProvider.bootstrap({
   // register all components directly used in templates
-  components: [MainComponent, ButtonComponent, TabComponent, TabsComponent, ContactComponent, AboutComponent, DemoComponent],
+  components: [
+    MainComponent, ButtonComponent, TabComponent, TabsComponent, ContactComponent, AboutComponent, DemoComponent, CounterComponent],
   // register for router
   routes: routes
 });

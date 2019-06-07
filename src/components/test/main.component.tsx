@@ -2,7 +2,7 @@ import { BaseComponent, ComponentData } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 
 @CustomElement('app-main')
-export class MainComponent extends BaseComponent {
+export class MainComponent extends BaseComponent<{}> {
   constructor() {
     super();
   }

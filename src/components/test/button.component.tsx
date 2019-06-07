@@ -3,7 +3,7 @@ import JSX, { CustomElement } from '@nyaf/lib';
 
 // Step 1: Create the Components active parts
 @CustomElement('app-button')
-export class ButtonComponent extends BaseComponent {
+export class ButtonComponent extends BaseComponent<{}> {
   eventData: any;
 
   protected getData(): ComponentData {
