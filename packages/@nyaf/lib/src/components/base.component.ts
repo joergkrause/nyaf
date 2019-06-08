@@ -167,7 +167,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   }
 
   disconnectedCallback() {
-    this.lifeCycleState = LifeCycle.DisConnect;
+    this.lifeCycleState = LifeCycle.Disconnect;
     this.dispose();
     this.lifeCycleState = LifeCycle.Disposed;
   }

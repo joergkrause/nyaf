@@ -8,10 +8,6 @@ export class HomeComponent extends BaseComponent {
     super();
   }
 
-  static get observedAttributes() {
-    return [];
-  }
-
   render() {
     return (
       <>

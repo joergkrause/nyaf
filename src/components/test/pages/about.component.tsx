@@ -8,14 +8,6 @@ export class AboutComponent extends BaseComponent {
     super();
   }
 
-  protected getData(): ComponentData {
-    return null;
-  }
-
-  static get observedAttributes() {
-    return [];
-  }
-
   render() {
     return (
       <>

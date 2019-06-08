@@ -95,6 +95,30 @@ Once you have more components, it may look like this:
 
 The main goal is to add template features to the JSX part.
 
+### Life Cycle
+
+Components have a life cycle. Instead of several events, there is just one method you override:
+
+~~~
+lifeCycle(cycle: LifeCycle){
+  if (cycle === LifeCycle.Load){
+    // it's ready to go
+  }
+}
+~~~
+
+The `LifeCycle`-enum has these fields:
+
+* `Init`: Start, ctor is being called.
+* `Connect`: Component connects to backend
+* `SetData`: A change in the data object occurred.
+* `Load`: The render process is done and the component has been loaded
+* `PreRender`: The render method has been called and content is written to `innerHTML`.
+* `Disconnect`: Component is going to be unloaded.
+* `Disposed`: After calling the `dispose` method.
+
+
+
 ## Template Features
 
 Template Features avoid using creepy JavaScript for loops and branches. You can use:

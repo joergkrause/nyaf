@@ -25,7 +25,7 @@ export enum LifeCycle {
   /**
    * Component is going to be unloaded.
    */
-  DisConnect,
+  Disconnect,
   /**
    * After calling the `dispose` method.
    */

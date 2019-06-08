@@ -15,8 +15,8 @@ export class TabsComponent extends BaseComponent<{}> {
     super();
     // set by @Properties<T>(t)
     this.props = {
-      title: this.readAttribute('title', 'Anzeigen'),
-      tabs: this.readAttribute('tabs', [])
+      title: super.readAttribute('title', 'Anzeigen'),
+      tabs: super.readAttribute('tabs', [])
     };
   }
 

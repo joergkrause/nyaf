@@ -17,14 +17,6 @@ export class ContactComponent extends BaseComponent {
     this.contactModel = new ContactModel();
   }
 
-  protected getData(): ComponentData {
-    return null;
-  }
-
-  static get observedAttributes() {
-    return [];
-  }
-
   render() {
     console.log('contact');
     return (

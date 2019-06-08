@@ -7,10 +7,6 @@ export class MainComponent extends BaseComponent<{}> {
     super();
   }
 
-  static get observedAttributes() {
-    return [];
-  }
-
   render() {
     return (
       <section>

@@ -95,6 +95,30 @@ Once you have more components, it may look like this:
 
 The main goal is to add template features to the JSX part.
 
+### Life Cycle
+
+Components have a life cycle. Instead of several events, there is just one method you override:
+
+~~~
+lifeCycle(cycle: LifeCycle){
+  if (cycle === LifeCycle.Load){
+    // it's ready to go
+  }
+}
+~~~
+
+The `LifeCycle`-enum has these fields:
+
+* `Init`: Start, ctor is being called.
+* `Connect`: Component connects to backend
+* `SetData`: A change in the data object occurred.
+* `Load`: The render process is done and the component has been loaded
+* `PreRender`: The render method has been called and content is written to `innerHTML`.
+* `Disconnect`: Component is going to be unloaded.
+* `Disposed`: After calling the `dispose` method.
+
+
+
 ## Template Features
 
 Template Features avoid using creepy JavaScript for loops and branches. You can use:
@@ -605,15 +629,30 @@ An now enjoy writing a component based SPA with only very few KB of lib code.
 
 Is it worth coding with NYAF and vanilla JS? For smaller projects and for apps that must load quickly, yes.
 
-The zipped package of the lib is 7 KBytes. Expanded just 23 KBytes. Demo code is 115 KB but already includes a good bunch of Bootstrap's CSS.
+The zipped package of the lib is 7 KBytes. Expanded just 20 KBytes. Demo code is 115 KB but already includes a good bunch of Bootstrap's CSS.
 
 However, compared with React or Angular it's a lot simpler. Compared to Vue it's simpler and even smaller, but the delta is not that thrilling.
+
+## Tool Support
+
+What tool support? It's Web Components - any editor will do. It's JSX/TSX, so any good editor can handle this. And there are TypeScript decorators, event this is well supported. So, you don't need to tweak your editor. It works, no red squiggles, guaranteed.
 
 ## Restrictions
 
 The package runs, if there are no polyfills, only with ES2015. This limits the usage to any modern browser. It's pretty bold in Electron projects.
 
-# Next
+## Credits
+
+Inspired by:
+
+* Angular (thanks for the idea of using decorators)
+* Polymer (especially lit-element, thanks for showing that Web Components are bold)
+* React (thanks for JSX)
+* Vue (thanks for showing short custom attributes)
+* TypeScript (I love it, period)
+
+
+## Next
 
 Look out for 'nyaf-forms' (forms validation) and 'nyaf-store' (flux store). Simple but powerful! Available mid of 2019.
 

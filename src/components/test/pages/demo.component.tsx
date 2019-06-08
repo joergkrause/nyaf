@@ -8,14 +8,6 @@ export class DemoComponent extends BaseComponent {
     super();
   }
 
-  protected getData(): ComponentData {
-    return null;
-  }
-
-  static get observedAttributes() {
-    return [];
-  }
-
   clickBtn(e) {
     alert('Button clicked');
   }
@@ -31,8 +23,8 @@ export class DemoComponent extends BaseComponent {
     return (
       <>
         <h2>Demo</h2>
-        <div id="app-content" class="row">
-          <app-tabs class="col" title="Tabs Demo Title" tabs={tabs} />
+        <div id='app-content' class='row'>
+          <app-tabs class='col' title='Tabs Demo Title' tabs={tabs} />
         </div>
         <h3>Counter</h3>
         <app-counter />

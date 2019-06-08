@@ -9,10 +9,6 @@ export class DocuComponent extends BaseComponent<{ content: string }> {
     this.loadDocu();
   }
 
-  static get observedAttributes() {
-    return [];
-  }
-
   loadDocu(): void {
     fetch('./docu.html')
     .then(data => data.text())
