@@ -210,3 +210,7 @@ Install the package:
 ~~~
 npm i @nyaf/forms -S
 ~~~
+
+## Depencencies
+
+Depends on *@nyaf/lib*.

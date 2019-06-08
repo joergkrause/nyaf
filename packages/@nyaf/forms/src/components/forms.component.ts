@@ -4,9 +4,9 @@ import { ModelState } from '../models/modelstate.model';
 /**
  * Use this as base class for model driven forms.
  */
-export abstract class FormsComponent extends BaseComponent<{}> {
-  protected modelState: ModelState<{}>;
-  protected model: {};
+export abstract class FormsComponent<T> extends BaseComponent<T> {
+  protected modelState: ModelState<T>;
+  protected model: T;
 
   constructor() {
     super();
@@ -14,5 +14,4 @@ export abstract class FormsComponent extends BaseComponent<{}> {
 
   abstract render(): string;
 
-  protected abstract getData(): ComponentData;
 }
