@@ -291,6 +291,17 @@ Another interesting option controls the style behavior:
 
 > It's a trade-off. Shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.
 
+Example:
+
+~~~
+@CustomElement('app-contact')
+@ShadowDOM()
+@UseParentStyles()
+export class ContactComponent extends BaseComponent {
+  // omitted for brevity
+}
+~~~
+
 ## State and Properties
 
 There is no explicit difference between State and Property. Compared with React it's much more simpler. A state still exists and it supports smart rendering.
@@ -370,6 +381,51 @@ return (<app-btn title={someTitle} />);
 ~~~
 
 The `@Properties` decorator defines all properties, that are now monitored (observed) and hence the value is evaluated and rendered. If the value changes the component renders itself automatically.
+
+### Custom Events
+
+Sometimes the JavaScript events are not flexible enough. So you can define your own ones. That's done by three simple steps:
+
+* Add a decorator `@Events` to declare the events
+* Create `CustomEvent` object and dispatch (that's native Web Component behavior)
+* use the `n-on-customName` attribute to attach the event.
+
+Imagine a button component like this:
+
+~~~
+@CustomElement('app-button')
+@Events(['showAlert'])
+export class ButtonComponent extends BaseComponent {
+  constructor() {
+    super();
+  }
+
+  clickMe(e) {
+    const checkEvent = new CustomEvent('showAlert', {
+      bubbles: true,
+      cancelable: false,
+    });
+    super.dispatchEvent(checkEvent);
+  }
+
+  render() {
+    return (
+      <button type="button" n-on-click={e => this.clickMe(e)}>
+        Demo
+      </button>
+    );
+  }
+}
+~~~
+
+The custom event is called *showAlert*. It's invoked by a click. The element's host component has code like this:
+
+~~~
+<app-button n-on-showAlert={(e) => this.someHandler(e)} />
+~~~
+
+The argument *e* contains the `CustomEvent` object. It can carry any number of custom data.
+
 
 ### Properties and View Models
 

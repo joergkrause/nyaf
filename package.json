@@ -9,6 +9,7 @@
     "nyaf-lib": "webpack --config webpack.config.lib.js --mode \"production\"",
     "build": "rimraf dist && cp README.md ./packages/@nyaf/lib && npm run nyaf-lib && gulp",
     "start": "webpack-dev-server --open",
+    "publish": "cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public",
     "demo": "npm run build && showdown makehtml -i README.md -o dist/docu.html && webpack --config webpack.config.js --mode \"production\" && npm run codedoc",
     "codedoc": "npm run codedoc-nyaf-lib && npm run codedoc-nyaf-forms && npm run codedoc-nyaf-store",
     "codedoc-nyaf-lib": "compodoc -p ./packages/@nyaf/lib/tsconfig.json --output ./dist/documentation",
