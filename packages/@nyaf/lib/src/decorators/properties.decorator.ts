@@ -1,7 +1,7 @@
 ﻿/**
  * The Properties decorator.
  *
- * If decorated, the component uses or not uses shadow DOM according the parameter.
+ * Properties decorated with this are now observed attributes.
  *
  */
 export function Properties<T extends {}>(defaults: T) {
@@ -15,12 +15,9 @@ export function Properties<T extends {}>(defaults: T) {
 }
 
 export function propInternalSetup<T>(target: any, defaults: T) {
-  Object.defineProperty(target, 'props', {
-    value: function() {
-      const props = {};
-      const defs = Object.keys(defaults);
-      defs.forEach(d => (props[d] = target.readAttribute(d, defaults[d])));
-      return props;
+  Object.defineProperty(target, 'observedAttributes', {
+    get: function() {
+      return Object.keys(defaults);
     },
     enumerable: false,
     configurable: false

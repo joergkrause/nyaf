@@ -16,6 +16,10 @@ export class DemoComponent extends BaseComponent {
     return [];
   }
 
+  clickBtn(e) {
+    alert('Button clicked');
+  }
+
   render() {
     const tabs = [];
     tabs.push({ content: 'test one', title: 't1' });
@@ -23,15 +27,17 @@ export class DemoComponent extends BaseComponent {
     tabs.push({ content: 'test three', title: 't3' });
     tabs.push({ content: 'test four', title: 't4' });
     tabs.push({ content: 'test five', title: 't5' });
+    const btnText = 'Static Button Text';
     return (
       <>
         <h2>Demo</h2>
         <div id="app-content" class="row">
           <app-tabs class="col" title="Tabs Demo Title" tabs={tabs} />
         </div>
-        Counter:
+        <h3>Counter</h3>
         <app-counter />
-
+        <h3>Button</h3>
+        <app-button text={btnText} n-on-showAlert={(e) => this.clickBtn(e)} />
       </>
     );
   }

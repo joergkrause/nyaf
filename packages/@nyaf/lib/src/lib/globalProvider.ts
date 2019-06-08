@@ -20,7 +20,6 @@ export class BootstrapProp {
  * Main support class that provides all global functions.
  */
 export class GlobalProvider {
-
   static registeredElements: Array<string> = [];
 
   /**
@@ -32,6 +31,9 @@ export class GlobalProvider {
     console.log('register', type.selector);
     customElements.define(type.selector, type);
     GlobalProvider.registeredElements.push(type.selector.toUpperCase());
+    if (type.customEvents) {
+      type.customEvents.map(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
+    }
   }
 
   /**
@@ -40,7 +42,10 @@ export class GlobalProvider {
    */
   static bootstrap(props: BootstrapProp) {
     // register components
-    props.components.forEach(c => GlobalProvider.register(c));
+    props.components.forEach(c => {
+      // add to browsers web component registry
+      GlobalProvider.register(c);
+    });
     // register events
     events.map(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     // register routes
@@ -113,8 +118,7 @@ export class GlobalProvider {
    * All events are handled by this helper function. This function shall not be called from user code.
    */
   private static eventHub(e: Event) {
-
-    const parentWalk = (el) => {
+    const parentWalk = el => {
       if (!el.parentElement) {
         return el;
       }

@@ -353,16 +353,68 @@ A simple counter shows how to use:
 To use properties, you can define those. Each property is automatically part of the state and once it changes, the component re-renders.
 
 ~~~
-  @CustomElement('app-main')
+  @CustomElement('app-btn')
   @Properties<{ title: string }>({ title: 'Default' })
-  export class MainComponent extends BaseComponent<{ title: string, cnt: number }> {
+  export class ButtonComponent extends BaseComponent<{ title: string, cnt: number }> {
     // ... omitted for brevity
   }
 ~~~
 
 The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
 
-The base component's generic controls the render behavior. There might be additional state properties.
+This is how you use such a component (part of the render method):
+
+~~~
+const someTitle='Demo';
+return (<app-btn title={someTitle} />);
+~~~
+
+The `@Properties` decorator defines all properties, that are now monitored (observed) and hence the value is evaluated and rendered. If the value changes the component renders itself automatically.
+
+### Custom Events
+
+Sometimes the JavaScript events are not flexible enough. So you can define your own ones. That's done by three simple steps:
+
+* Add a decorator `@Events` to declare the events
+* Create `CustomEvent` object and dispatch (that's native Web Component behavior)
+* use the `n-on-customName` attribute to attach the event.
+
+Imagine a button component like this:
+
+~~~
+@CustomElement('app-button')
+@Events(['showAlert'])
+export class ButtonComponent extends BaseComponent {
+  constructor() {
+    super();
+  }
+
+  clickMe(e) {
+    const checkEvent = new CustomEvent('showAlert', {
+      bubbles: true,
+      cancelable: false,
+    });
+    super.dispatchEvent(checkEvent);
+  }
+
+  render() {
+    return (
+      <button type="button" n-on-click={e => this.clickMe(e)}>
+        Demo
+      </button>
+    );
+  }
+}
+~~~
+
+The custom event is called *showAlert*. It's invoked by a click. The element's host component has code like this:
+
+~~~
+<app-button n-on-showAlert={(e) => this.someHandler(e)} />
+~~~
+
+The argument *e* contains the `CustomEvent` object. It can carry any number of custom data.
+
 
 ### Properties and View Models
 
@@ -382,7 +434,7 @@ For a nice view decorators applied to class properties control the appearance.
   }
 ~~~
 
-Within the component, this is now present. In the above definition `this.props.data` contains an actual model. 
+Within the component, this is now present. In the above definition `super.data` contains an actual model. 
 
 ## Services
 

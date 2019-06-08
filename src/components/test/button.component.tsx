@@ -1,41 +1,33 @@
-import { BaseComponent, ComponentData } from '@nyaf/lib';
+import { BaseComponent, Properties, Events } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
+
+interface ButtonPropType {
+  text: string;
+}
 
 // Step 1: Create the Components active parts
 @CustomElement('app-button')
-export class ButtonComponent extends BaseComponent<{}> {
-  eventData: any;
-
-  protected getData(): ComponentData {
-    return null;
-  }
-
+@Properties<ButtonPropType>({ text: '' })
+@Events(['showAlert'])
+export class ButtonComponent extends BaseComponent<ButtonPropType> {
   constructor() {
     super();
   }
 
   clickMe(e) {
     console.log('Button Element Click ', e);
-    this.eventData = e;
-    super.setup();
+    const checkEvent = new CustomEvent('showAlert', {
+      bubbles: true,
+      cancelable: false
+    });
+    super.dispatchEvent(checkEvent);
   }
 
   render() {
     return (
-      <>
-        <div>
-          <button type='button' n-on-Click={e => this.clickMe(e)}>
-            Full expression
-          </button>
-          <button type='button' n-on-Click={e => this.clickMe(e)} n-async>
-            Full expression
-          </button>
-          <button type='button' n-on-Click='clickMe'>
-            No expression (Function Name)
-          </button>
-        </div>
-        <pre style='border: 1px solid gray;'>{JSON.stringify(this.eventData)}</pre>
-      </>
+      <button type="button" n-on-click={e => this.clickMe(e)}>
+        {super.data.text}
+      </button>
     );
   }
 }

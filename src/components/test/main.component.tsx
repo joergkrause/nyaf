@@ -7,10 +7,6 @@ export class MainComponent extends BaseComponent<{}> {
     super();
   }
 
-  protected getData(): ComponentData {
-    return null;
-  }
-
   static get observedAttributes() {
     return [];
   }

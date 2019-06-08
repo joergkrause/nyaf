@@ -12,6 +12,7 @@ import { HomeComponent } from 'components/test/pages/home.component';
 import { DocuComponent } from 'components/test/pages/docu.component';
 
 import './main.scss';
+import { ButtonsComponent } from 'components/test/buttons.component';
 
 let routes = {
   '/': { component: HomeComponent },
@@ -26,6 +27,7 @@ GlobalProvider.bootstrap({
   components: [
     MainComponent,
     ButtonComponent,
+    ButtonsComponent,
     TabComponent,
     TabsComponent,
     ContactComponent,

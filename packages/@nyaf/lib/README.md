@@ -353,16 +353,23 @@ A simple counter shows how to use:
 To use properties, you can define those. Each property is automatically part of the state and once it changes, the component re-renders.
 
 ~~~
-  @CustomElement('app-main')
+  @CustomElement('app-btn')
   @Properties<{ title: string }>({ title: 'Default' })
-  export class MainComponent extends BaseComponent<{ title: string, cnt: number }> {
+  export class ButtonComponent extends BaseComponent<{ title: string, cnt: number }> {
     // ... omitted for brevity
   }
 ~~~
 
 The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
 
-The base component's generic controls the render behavior. There might be additional state properties.
+This is how you use such a component (part of the render method):
+
+~~~
+const someTitle='Demo';
+return (<app-btn title={someTitle} />);
+~~~
+
+The `@Properties` decorator defines all properties, that are now monitored (observed) and hence the value is evaluated and rendered. If the value changes the component renders itself automatically.
 
 ### Properties and View Models
 
@@ -382,7 +389,7 @@ For a nice view decorators applied to class properties control the appearance.
   }
 ~~~
 
-Within the component, this is now present. In the above definition `this.props.data` contains an actual model. 
+Within the component, this is now present. In the above definition `super.data` contains an actual model. 
 
 ## Services
 
