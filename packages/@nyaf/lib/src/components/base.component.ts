@@ -65,13 +65,13 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     this._data = {} as P;
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
-    if (BaseComponent.useParentStyles && BaseComponent.withShadow && !BaseComponent.globalStyle) {
-      for (let i = 0; i <= this.ownerDocument.styleSheets.length; i++) {
+    if (this.constructor['useParentStyles'] && this.constructor['withShadow'] && !this.constructor['globalStyle']) {
+      for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
         const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
         if (css.rules[0].cssText.startsWith(':ignore')) {
           continue;
         }
-        BaseComponent.globalStyle = Object.keys(css.cssRules)
+        this.constructor['globalStyle'] = Object.keys(css.cssRules)
           .map(k => css.cssRules[k].cssText)
           .join('');
       }
@@ -121,16 +121,12 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {
         this.attachShadow({ mode: 'open' });
         // copy styles to shadow if shadowed and there is something to add
-        if ((<any>this.constructor).useParentStyles && BaseComponent.globalStyle) {
+        if ((<any>this.constructor).useParentStyles && (<any>this.constructor).globalStyle) {
           const style = document.createElement('style');
-          style.textContent = BaseComponent.globalStyle;
+          style.textContent = (<any>this.constructor).globalStyle;
           this.shadowRoot.appendChild(style);
         }
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-        // this.addEventListener('click', e => {
-        //   const new_e = new MouseEvent('shadowclick');
-        //   this.dispatchEvent(new_e);
-        // });
       }
     } else {
       this.innerHTML = this.render();

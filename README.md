@@ -291,6 +291,17 @@ Another interesting option controls the style behavior:
 
 > It's a trade-off. Shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.
 
+Example:
+
+~~~
+@CustomElement('app-contact')
+@ShadowDOM()
+@UseParentStyles()
+export class ContactComponent extends BaseComponent {
+  // omitted for brevity
+}
+~~~
+
 ## State and Properties
 
 There is no explicit difference between State and Property. Compared with React it's much more simpler. A state still exists and it supports smart rendering.

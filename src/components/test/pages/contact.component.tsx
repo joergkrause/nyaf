@@ -1,11 +1,12 @@
 import { BaseComponent, ComponentData } from '@nyaf/lib';
-import JSX, { CustomElement, ShadowDOM } from '@nyaf/lib';
+import JSX, { CustomElement, ShadowDOM, UseParentStyles } from '@nyaf/lib';
 import { ContactModel } from './models/contact.model';
 import { ViewModel } from '@nyaf/forms/';
 
 // Step 1: Create the Components active parts
 @CustomElement('app-contact')
-@ShadowDOM(false)
+@ShadowDOM(true)
+@UseParentStyles()
 @ViewModel<ContactModel>()
 export class ContactComponent extends BaseComponent {
 
