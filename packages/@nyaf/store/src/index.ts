@@ -1,3 +1,3 @@
-export * from './store.service';
-export * from './store';
-export * from './action';
+export * from './store/store';
+export * from './store/actions';
+export * from './store/mutations';

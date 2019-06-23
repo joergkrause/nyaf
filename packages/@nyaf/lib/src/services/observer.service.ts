@@ -1,56 +1,51 @@
 /**
- * Implement a simple pub/sub pattern to have components communication without attributes.
- * This class is Singleton, use getInstance to get the global obj.
+ * Simple Publish Subscribe class. Used by @nyaf/store.
  */
 export class Observer {
-  private static _instance;
+  events: any;
 
-  private topics: { [id: string]: Array<Function> } = {};
-  private hOP: Function;
-
-  constructor(s: any) {
-    if (s) {
-      throw new Error('Observer is Singleton, don\'t call the ctor');
-    }
-    this.hOP = this.topics.hasOwnProperty;
+  constructor() {
+    this.events = {};
   }
 
-  public static getInstance(): Observer {
-    if (!Observer._instance) {
-      Observer._instance = new Observer(void 0);
+  /**
+   * Either create a new event instance for passed `event` name
+   * or push a new callback into the existing collection
+   *
+   * @param {string} event
+   * @param {function} callback
+   * @returns {number} A count of callbacks for this event
+   * @memberof PubSub
+   */
+  subscribe(event: string, callback: (data: any) => void) {
+    // If there's not already an event with this name set in our collection
+    // go ahead and create a new one and set it with an empty array, so we don't
+    // have to type check it later down-the-line
+    if (!this.events.hasOwnProperty(event)) {
+      this.events[event] = [];
     }
-    return Observer._instance;
+
+    // We know we've got an array for this event, so push our callback in there with no fuss
+    return this.events[event].push(callback);
   }
 
-  subscribe(topic: string, listener: Function): { remove: Function } {
-    // console.log('Observer::Subscribe::' + topic);
-    // Create the topic's object if not yet created
-    if (!this.hOP.call(this.topics, topic)) {
-      this.topics[topic] = [];
+  /**
+   * If the passed event has callbacks attached to it, loop through each one
+   * and call it
+   *
+   * @param {string} event
+   * @param {object} [data={}]
+   * @returns {array} The callbacks for this event, or an empty array if no event exits
+   * @memberof PubSub
+   */
+  publish(event: string, data = {}) {
+
+    // There's no event to publish to, so bail out
+    if (!this.events.hasOwnProperty(event)) {
+      return [];
     }
 
-    // Add the listener to queue
-    const index = this.topics[topic].push(listener) - 1;
-    const self = this;
-    // Provide handle back for removal of topic
-    return {
-      remove: function() {
-        delete self.topics[topic][index]; // kill handler
-        self.topics[topic].splice(index, 1); // shrink array
-      }
-    };
-  }
-
-  publish(topic: string, info: any): void {
-    // console.log('Observer::Publish');
-    // If the topic doesn't exist, or there's no listeners in queue, just leave
-    if (!this.hOP.call(this.topics, topic)) {
-      return;
-    }
-    // console.log('Observer::Publish::Cycle::' + this.topics[topic].length);
-    // Cycle through topics queue, fire!
-    this.topics[topic].forEach(item => {
-      item(info);
-    });
+    // Get each subscription and call its callback with the passed data
+    return this.events[event].map(callback => callback(data));
   }
 }

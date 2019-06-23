@@ -14,6 +14,7 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 ## Idea
 
 * I want to use JSX/TSX syntax for quick component dev.
+* I want to have support to make a Single Page App (SPA).
 * I want to use any current HTML 5 API, such as web components, fetch, and all this with ES2015.
 * I want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
 * I want to use TypeScript from the beginning.
@@ -117,8 +118,6 @@ The `LifeCycle`-enum has these fields:
 * `Disconnect`: Component is going to be unloaded.
 * `Disposed`: After calling the `dispose` method.
 
-
-
 ## Template Features
 
 Template Features avoid using creepy JavaScript for loops and branches. You can use:
@@ -189,7 +188,7 @@ Works same as `n-if`, but just adds an inline style `display: none` or not if `t
 
 ## Events
 
-Events are defined by a special instruction. The are attached to `document` object, regardless the usage.
+Events are defined by a special instruction. They are attached to `document` object, regardless the usage.
 
 ### n-on-[event]
 
@@ -220,6 +219,50 @@ You can combine any event with the attribute `n-async` to make the call to the e
 ~~~
 <button n-on-click={(e) => this.clickMe(e)} n-async>OK</button>
 ~~~
+
+### Custom Events
+
+Sometimes the JavaScript events are not flexible enough. So you can define your own ones. That's done by three simple steps:
+
+* Add a decorator `@Events` to declare the events
+* Create `CustomEvent` object and dispatch (that's native Web Component behavior)
+* use the `n-on-customName` attribute to attach the event.
+
+Imagine a button component like this:
+
+~~~
+@CustomElement('app-button')
+@Events(['showAlert'])
+export class ButtonComponent extends BaseComponent {
+  constructor() {
+    super();
+  }
+
+  clickMe(e) {
+    const checkEvent = new CustomEvent('showAlert', {
+      bubbles: true,
+      cancelable: false,
+    });
+    super.dispatchEvent(checkEvent);
+  }
+
+  render() {
+    return (
+      <button type="button" n-on-click={e => this.clickMe(e)}>
+        Demo
+      </button>
+    );
+  }
+}
+~~~
+
+The custom event is called *showAlert*. It's invoked by a click. The element's host component has code like this:
+
+~~~
+<app-button n-on-showAlert={(e) => this.someHandler(e)} />
+~~~
+
+The argument *e* contains the `CustomEvent` object. It can carry any number of custom data.
 
 ## Router 
 
@@ -406,51 +449,6 @@ return (<app-btn title={someTitle} />);
 
 The `@Properties` decorator defines all properties, that are now monitored (observed) and hence the value is evaluated and rendered. If the value changes the component renders itself automatically.
 
-### Custom Events
-
-Sometimes the JavaScript events are not flexible enough. So you can define your own ones. That's done by three simple steps:
-
-* Add a decorator `@Events` to declare the events
-* Create `CustomEvent` object and dispatch (that's native Web Component behavior)
-* use the `n-on-customName` attribute to attach the event.
-
-Imagine a button component like this:
-
-~~~
-@CustomElement('app-button')
-@Events(['showAlert'])
-export class ButtonComponent extends BaseComponent {
-  constructor() {
-    super();
-  }
-
-  clickMe(e) {
-    const checkEvent = new CustomEvent('showAlert', {
-      bubbles: true,
-      cancelable: false,
-    });
-    super.dispatchEvent(checkEvent);
-  }
-
-  render() {
-    return (
-      <button type="button" n-on-click={e => this.clickMe(e)}>
-        Demo
-      </button>
-    );
-  }
-}
-~~~
-
-The custom event is called *showAlert*. It's invoked by a click. The element's host component has code like this:
-
-~~~
-<app-button n-on-showAlert={(e) => this.someHandler(e)} />
-~~~
-
-The argument *e* contains the `CustomEvent` object. It can carry any number of custom data.
-
-
 ### Properties and View Models
 
 For a nice view decorators applied to class properties control the appearance.
@@ -521,22 +519,13 @@ Create a file `main.ts` in the *src* folder that looks like this:
 Create file *main.component.ts* in the same folder. Fill this content in:
 
 ~~~
-  import { BaseComponent, ComponentData } from '@nyaf/lib';
-  import JSX, { CustomElement } from '@nyaf/lib';
+  import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
 
   @CustomElement('app-main')
   export class MainComponent extends BaseComponent {
 
   	constructor() {
   		super();
-  	}
-
-  	protected getData(): ComponentData {
-  		return null;
-  	}
-
-  	static get observedAttributes() {
-  		return [];
   	}
 
   	render() {
@@ -550,6 +539,8 @@ Create file *main.component.ts* in the same folder. Fill this content in:
 
   }
 ~~~
+
+> Watch the default import for *JSX* - this IS required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files.
 
 Create a file named *index.html* in the very same folder and fill it like this:
 
@@ -605,7 +596,81 @@ The *tsconfig.json* looks like this:
 }
 ~~~~~
 
-The *webpack.config.json* looks like this:
+The *webpack.config.json* looks like this (with SCSS support and dev server):
+
+~~~
+const dev = process.env.NODE_ENV === 'dev';
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// Main entry point
+const indexConfig = {
+  template: './src/index.html',
+  inject: 'body',
+  baseHref: './'
+};
+
+const webpackConfig = {
+  mode: 'development',
+  // How source maps are generated : style of source mapping
+  devtool: dev ? 'eval-cheap-module-source-map' : false,
+  // Development server configuration
+  devServer: {
+    historyApiFallback: true,
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000
+  },
+  // Where webpack looks to start building the bundle
+  entry: {
+    app: './src/main.ts' // Demo app entry point
+  },
+  // How the different types of modules within a project will be treated
+  module: {
+    rules: [
+      { test: /\.ts|\.tsx$/, loader: 'ts-loader' },
+      // All files with a '.scss' extension will be handled by sass-loader
+      {
+        test: /\.(scss)$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+        // })
+      },
+      // CSS loader
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  },
+  // Configure how modules are resolved
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.scss']
+  },
+  // How and where webpack should output bundles, assets and anything else
+  output: {
+    path: path.resolve('./dist'),
+    filename: '[name].js'
+  },
+  // What bundle information gets displayed
+  stats: {
+    warnings: false
+  },
+  // Target a specific environment (cf. doc)
+  target: 'web',
+  // Customize the webpack build process with additionals plugins
+  plugins: [
+    new HtmlWebpackPlugin(indexConfig)
+  ]
+};
+
+// Export the config
+module.exports = webpackConfig;
+~~~
 
 The *package.json* gets an entry in `scripts` section:
 
@@ -631,7 +696,7 @@ Is it worth coding with NYAF and vanilla JS? For smaller projects and for apps t
 
 The zipped package of the lib is 7 KBytes. Expanded just 20 KBytes. Demo code is 115 KB but already includes a good bunch of Bootstrap's CSS.
 
-However, compared with React or Angular it's a lot simpler. Compared to Vue it's simpler and even smaller, but the delta is not that thrilling.
+However, compared with React or Angular it's a lot simpler. Compared to Vue or Polymer it's simpler and even smaller, but the delta is not that thrilling.
 
 ## Tool Support
 
@@ -651,8 +716,8 @@ Inspired by:
 * Vue (thanks for showing short custom attributes)
 * TypeScript (I love it, period)
 
-
 ## Next
 
 Look out for 'nyaf-forms' (forms validation) and 'nyaf-store' (flux store). Simple but powerful! Available mid of 2019.
 
+Add https://github.com/ArthurClemens/Polythene support.
