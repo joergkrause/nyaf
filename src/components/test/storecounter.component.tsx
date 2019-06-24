@@ -1,49 +1,75 @@
 import { BaseComponent, ComponentData } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
-import { Store, Action, Mutations } from '@nyaf/store';
+import { Store } from '@nyaf/store';
 
 const store = new Store({
-  actions: new Action(),
-  mutations: new Mutations()
+  actions: {
+    INC: () => (1), // initial value of payload
+    DEC: () => (-1),
+    SET: () => 0
+  },
+  mutations: {
+    // get state, modify, return
+    INC: (state, payload) => {
+      state.counter = state.counter + payload;
+      return state;
+    },
+    DEC: (state, payload) => {
+      state.counter = state.counter + payload;
+      return state;
+    },
+    SET: (state, payload) => {
+      state.counter = payload;
+      return state;
+    }
+  },
+  state: {
+    counter: 0
+  }
 });
 
 // Step 1: Create the Components active parts
 @CustomElement('app-store-counter')
 export class StoreCounterComponent extends BaseComponent<{ cnt: number }> {
-  eventData: number;
- 
+
   constructor() {
     super();
-    super.setData('cnt',  10);
-    store.subscribe('COUNTER', (data) => {
-      this.eventData = data;
-      super.setData('cnt', data);
+    super.setData('cnt', 10);
+    // fire if a value changes in the store, takes name of the store value
+    store.subscribe('counter', str => {
+      super.setData('cnt', str.counter);
     });
   }
 
-  clickMeAdd(v: number) {
-    console.log('Counter Element Click');
-    store.dispatch('COUNT', this.eventData + 1);
+  clickMeAdd(e) {
+    console.log('Counter Element Click INC');
+    store.dispatch('INC', super.data.cnt);
   }
 
-  clickMeSub(v: number) {
-    console.log('Counter Element Click');
-    store.dispatch('COUNT', this.eventData - 1);
+  clickMeSub(e) {
+    console.log('Counter Element Click DEC');
+    store.dispatch('DEC', super.data.cnt);
   }
 
+  clickMeSet(e) {
+    console.log('Counter Element Click SET');
+    store.dispatch('SET', 100);
+  }
 
   render() {
     return (
       <>
         <div>
-          <button type='button' n-on-Click={e => this.clickMeAdd(e)}>
+          <button type="button" n-on-Click={e => this.clickMeAdd(e)}>
             Add 1
           </button>
-          <button type='button' n-on-Click={e => this.clickMeSub(e)} n-async>
+          <button type="button" n-on-Click={e => this.clickMeSub(e)} n-async>
             Sub 1
           </button>
-        </div>
-        <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>
+          <button type="button" n-on-Click={e => this.clickMeSet(e)} n-async>
+            Set 100
+          </button>        </div>
+        <pre style="border: 1px solid gray;">{super.data.cnt}</pre>
       </>
     );
   }

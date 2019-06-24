@@ -27,7 +27,11 @@ export class DemoComponent extends BaseComponent {
           <app-tabs class='col' title='Tabs Demo Title' tabs={tabs} />
         </div>
         <h3>Counter</h3>
+        <p>Simple counter using events.</p>
         <app-counter />
+        <h3>Store Counter</h3>
+        <p>Counter using the Store and maintain state during unload/load</p> 
+        <app-store-counter />
         <h3>Button</h3>
         <app-button text={btnText} n-on-showAlert={(e) => this.clickBtn(e)} />
       </>
