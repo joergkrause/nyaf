@@ -23,7 +23,7 @@ const webpackConfig = {
   },
   // Where webpack looks to start building the bundle
   entry: {
-    app: './src/main.ts' // Demo app entry point
+    'app': './src/main.ts' // Demo app entry point
   },
   // How the different types of modules within a project will be treated
   module: {

@@ -11,9 +11,9 @@ import { CounterComponent } from 'components/test/counter.component';
 import { StoreCounterComponent } from './components/test/storecounter.component';
 import { HomeComponent } from 'components/test/pages/home.component';
 import { DocuComponent } from 'components/test/pages/docu.component';
+import { ButtonsComponent } from 'components/test/buttons.component';
 
 import './main.scss';
-import { ButtonsComponent } from 'components/test/buttons.component';
 
 const routes = {
   '/': { component: HomeComponent },
