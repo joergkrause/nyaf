@@ -13,20 +13,24 @@ This is an extension to the famous micro framework NYAF. You need to build your 
 
 This is the store implementation, a mini flux variant without the burden of Redux.
 
-
 ## How it works
 
 It's very much like Redux, but makes use of decorators to write less code.
 
 ### Actions
 
-Define the capabilities of your app.
+Define the capabilities of your app, along with some default or initial value. In this example I use `Symbol` to define unique constants that are being used for any further request of an action.
 
 ~~~
-interface Action {
-  type: string;
-  payload?: any;
-}
+export const INC = 'INC';
+export const DEC = 'DEC';
+export const SET = 'SET';
+
+export default {
+  [INC]: () => 1, // initial value of payload
+  [DEC]: () => -1,
+  [SET]: () => 0
+};
 ~~~
 
 ### Reducer
@@ -34,80 +38,109 @@ interface Action {
 Define, what happens if an action is being dispatched:
 
 ~~~
-@Reduce(Action)
-export default function(state: State){
-  // do something
-  return state;
-}
+import { INC, DEC } from '../actions/counter.action';
+import stateType from '../states/counter.state';
+
+export default {
+    [INC]: (state: stateType, payload: number) => {
+      state.counter = state.counter + payload;
+      return state;
+    },
+    [DEC]: (state: stateType, payload: number) => {
+      state.counter = state.counter - payload;
+      return state;
+    }
+};
 ~~~
 
-Add multiple reducers, if you like side effects. The returned payload is a fragment of the store.
+The returned payload is the whole store object by reference. The type for the store is optional and helps elevating the power of TypeScript and getting a type safe store.
 
 ### Store and Dispatcher
 
-The store holds the state, provides a dispatch function and fires events in case a store value changes.
+The store holds the state, provides a dispatch function and fires events in case a store value changes. First, the store can by defined by types, but this is an option and you may decide to go with a simple object just for the sake of simplicity. The example shows a store that consists of fragments. This allows one to use parts of the store just by using the type fragments.
 
 ~~~
-// store any data globally and readonly
-@Store()
-class MyStore extends NyafStore {
-  success: boolean;
+// This is a store fragment
+export interface DemoTitleStore {
+  title: string;
 }
-
-// define how to move data and commands around
-@Action('LOGIN')
-class LoginAction implements Action {  
-  constructor(public payload: { username: string }) {    
-  }
+// This is a store fragment
+export interface CounterStore {
+  counter: number;
 }
+// This is the complete store, which can be used complete or in fragments
+type store = CounterStore & DemoTitleStore;
+// This is for convenient access
+export default store;
+~~~
 
-// define pure function calls that react to actions and change the store's state
-@Reduce(LoginAction)
-async function LoginReducer(action: { username: string }){
-  // do something 
-  const result = await CallMyLoginServiceAsync(action.username);
-  return { success: result };
-}
+Now the usage within a component. First, you must configure the store with the elements written before. As shown it's easy to combine reducers and add the various actions. To have the state typed a generic is being used.
 
-// make usage of all this in a component
+~~~
+import counterReducer from '../reducer/counter.reducer';
+import setReducer from '../reducer/set.reducer';
+import counterActions from '../actions/counter.action';
+import storeStateType from '../states/counter.state';
 
-@InjectService(MyStore)                    // access an instance of the service
-@Observed(['data'])                          // if the value changes it calls render internally
-class MyComponent extends BaseComponent {
+const store = new Store<storeStateType>({
+  actions: counterActions,
+  mutations: { ...counterReducer, ...setReducer  },
+  state: { counter: 0 }
+});
+~~~
 
-  private data: boolean;
+Now make the *store* constant available in the component, if it's not yet defined there. This store can handle just on single component or spread multiple components and form eventually a single source of truth for the whole application.
 
+~~~
+@CustomElement('app-store-counter')
+@ProvideStore<storeStateType>(store)
+export class StoreCounterComponent extends StoreComponent<storeStateType, { cnt: number }> {
   constructor() {
     super();
-    this.services['MyStore']                // access the service
-        .watch('success')                     // watch for state changes
-        .then(s => this.data = s);            // retrieve the new payload
-  }  
+    super.setData('cnt', 0);
+    // fire if a value changes in the store, takes name of the store value
+    this.store.subscribe('counter', str => {
+      super.setData('cnt', str.counter);
+    });
+  }
 
-  clickMe(userName: string): void {
-    this.services['MyStore']                // access the service
-        .dispatch(new LoginAction(userName)); // dispatch an action with payload
+  clickMeAdd(e) {
+    console.log('Counter Element Click INC');
+    this.store.dispatch(INC, 1);
+  }
+
+  clickMeSub(e) {
+    console.log('Counter Element Click DEC');
+    this.store.dispatch(DEC, 1);
+  }
+
+  clickMeSet(e) {
+    console.log('Counter Element Click SET');
+    this.store.dispatch(SET, 100);
   }
 
   render() {
-    if (this.data){
-      // render success
-    } else {
-      // render failure
-    }
+    return (
+      <>
+        <div>
+          <button type='button' n-on-Click={e => this.clickMeAdd(e)}>
+            Add 1
+          </button>
+          <button type='button' n-on-Click={e => this.clickMeSub(e)} n-async>
+            Sub 1
+          </button>
+          <button type='button' n-on-Click={e => this.clickMeSet(e)} n-async>
+            Set 100
+          </button>
+        </div>
+        <pre style='border: 1px solid gray;'>{super.data.cnt}</pre>
+      </>
+    );
   }
-
 }
 
-// register all the stuff in *globalProvider*
-
-globalProvider.store({
-  actions: [],
-  reducers: [],
-  stores: []
-})
-
 ~~~
+
 
 # Installation
 

@@ -1,34 +1,34 @@
 import { Observer } from '@nyaf/lib';
 
-export interface StoreParams {
-  actions: { [key: string]: (payload: any) => void; };
-  mutations: { [key: string]: (state: any, payload: any) => void };
-  state: any;
+export interface StoreParams<ST> {
+  actions: { [key: string]: any };
+  reducer: { [key: string]: (state: any, payload: any) => void };
+  state: ST;
 }
 
-export class Store extends Observer {
-  private actions: { [key: string]: (payload: any) => void; };
-  private mutations: { [key: string]: (state: any, payload: any) => void };
+export class Store<ST> extends Observer {
+  private actions: Map<string, any>;
+  private reducer: Map<string, (state: any, payload: any) => void>;
   private _status: string;
   private state: any;
 
-  constructor(params: StoreParams) {
+  constructor(params: StoreParams<ST>) {
     super();
-    // A status enum to set during actions and mutations
+    // A status enum to set during actions and reducer
     this._status = 'resting';
 
-    // Look in the passed params object for actions and mutations
+    // Look in the passed params object for actions and reducer
     // that might have been passed in
     if (params.hasOwnProperty('actions')) {
-      this.actions = params.actions;
+      this.actions = new Map(Object.entries(params.actions));
     } else {
-      this.actions = {};
+      this.actions = new Map<string, any>();
     }
 
-    if (params.hasOwnProperty('mutations')) {
-      this.mutations = params.mutations;
+    if (params.hasOwnProperty('reducer')) {
+      this.reducer = new Map(Object.entries(params.reducer));
     } else {
-      this.mutations = {};
+      this.reducer = new Map<string, (state: any, payload: any) => void>();
     }
 
     // Set our state to be a Proxy. We are setting the default state by
@@ -66,29 +66,29 @@ export class Store extends Observer {
   dispatch(actionKey: string, payload: any): boolean {
     // Run a quick check to see if the action actually exists
     // before we try to run it
-    if (typeof this.actions[actionKey] !== 'function') {
-      console.error(`Action "${actionKey} doesn't exist.`);
+    if (this.actions.has(actionKey) === false) {
+      console.error(`Action "${String(actionKey)} doesn't exist.`);
       return false;
     }
     // Create a console group which will contain the logs from our Proxy etc
-    console.groupCollapsed(`ACTION: ${actionKey}`);
+    console.groupCollapsed(`ACTION: ${String(actionKey)}`);
     // Let anything that's watching the status know that we're dispatching an action
     this._status = 'action';
     // Actually call the action and pass it the Store context and whatever payload was passed
-    const value = payload || this.actions[actionKey](payload);
+    const value = payload || this.actions.get(actionKey)(payload);
     // Close our console group to keep things nice and neat
     console.groupEnd();
     // forward the actions value as initial value to the reducer
     // Run a quick check to see if this mutation actually exists
     // before trying to run it
-    if (typeof this.mutations[actionKey] !== 'function') {
-      console.log(`Mutation "${actionKey}" doesn't exist`);
+    if (this.reducer.has(actionKey) === false) {
+      console.log(`Reducer "${String(actionKey)}" doesn't exist`);
       return false;
     }
     // Let anything that's watching the status know that we're mutating state
     this._status = 'mutation';
     // Get a new version of the state by running the mutation and storing the result of it
-    const newState = this.mutations[actionKey](this.state, value);
+    const newState = this.reducer.get(actionKey)(this.state, value);
     // Merge the old and new together to create a new state and set it
     this.state = Object.assign(this.state, newState);
     return true;
@@ -97,5 +97,4 @@ export class Store extends Observer {
   get status() {
     return this._status;
   }
-
 }
