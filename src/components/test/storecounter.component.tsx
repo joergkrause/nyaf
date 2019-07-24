@@ -12,7 +12,9 @@ const store = new Store<storeStateType>({
   state: { counter: 0, title: '' }
 });
 
-// Step 1: Create the Components active parts
+/**
+ * Shows a component that's using the store to handle the business logic outside the component.
+ */
 @CustomElement('app-store-counter')
 @ProvideStore<storeStateType>(store)
 export class StoreCounterComponent extends StoreComponent<storeStateType, { cnt: number }> {

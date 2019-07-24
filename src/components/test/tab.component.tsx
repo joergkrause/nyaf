@@ -21,8 +21,8 @@ export class TabComponent extends BaseComponent<{}> {
 
   render() {
     return (
-      <li class="nav nav-tabs" id="header-tabs" n-if={this.props.title !== 't1'}>
-        {this.props.title} <small>{this.props.content}</small>
+      <li class='nav-item' n-if={this.props.title !== 't1'}>
+        <a class='nav-link' href='#'> {this.props.title} <small>{this.props.content}</small></a>
       </li>
     );
   }

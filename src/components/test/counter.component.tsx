@@ -1,7 +1,9 @@
 import { BaseComponent, ComponentData } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 
-// Step 1: Create the Components active parts
+/**
+ * Shows how to create a simple interactive component using events and state.
+ */
 @CustomElement('app-counter')
 export class CounterComponent extends BaseComponent<{ cnt: number }> {
   eventData: any;

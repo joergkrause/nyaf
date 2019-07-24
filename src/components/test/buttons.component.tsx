@@ -1,7 +1,9 @@
 import { BaseComponent, ComponentData } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 
-// Step 1: Create the Components active parts
+/**
+ * Simple event handling.
+ */
 @CustomElement('app-buttons')
 export class ButtonsComponent extends BaseComponent<{}> {
   eventData: any;

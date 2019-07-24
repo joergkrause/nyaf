@@ -100,12 +100,15 @@ For a good UI you need a label usually:
 
 ### Forms
 
-Writing `n-model` again and again is boring. Use the `form` tag better (creation of model omitted for brevity):
+Writing `n-model` again and again is boring. Use the `form` tag instead (creation of model omitted for brevity):
 
 ~~~
 <form n-model={model}>
   <label n-for="@userName" for="un"/>
-  <input n-for="@userName" id="un">
+  <input n-for={model} name="@userName" id="un" />
+  <br />
+  <label n-for="@city" for="city"/>
+  <input n-for={model} name="@city" id ="city" />
 </form>
 ~~~
 

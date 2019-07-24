@@ -5,7 +5,9 @@ interface ButtonPropType {
   text: string;
 }
 
-// Step 1: Create the Components active parts
+/**
+ * Event handling and used in up-level component.
+ */
 @CustomElement('app-button')
 @Properties<ButtonPropType>({ text: '' })
 @Events(['showAlert'])
@@ -25,7 +27,7 @@ export class ButtonComponent extends BaseComponent<ButtonPropType> {
 
   render() {
     return (
-      <button type="button" n-on-click={e => this.clickMe(e)}>
+      <button type='button' n-on-click={e => this.clickMe(e)}>
         {super.data.text}
       </button>
     );

@@ -34,10 +34,9 @@ export class TabsComponent extends BaseComponent<{}> {
     console.log('tabs.component:title', title);
     return (
       <>
-        <hr />
-        <h3>{title}</h3>
-        <ul class="nav nav-tabs" id="header-tabs">
-          <app-tab n-repeat={tabs} title="@title" content="@tab" />
+        <h5>{title}</h5>
+        <ul class='nav nav-tabs' id='header-tabs'>
+          <app-tab n-repeat={tabs} title='@title' content='@tab' />
         </ul>
       </>
     );
