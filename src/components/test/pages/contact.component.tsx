@@ -9,7 +9,6 @@ import { ViewModel } from '@nyaf/forms/';
 @UseParentStyles()
 @ViewModel<ContactModel>()
 export class ContactComponent extends BaseComponent {
-
   contactModel: ContactModel;
 
   constructor() {
@@ -22,10 +21,10 @@ export class ContactComponent extends BaseComponent {
     return (
       <>
         <h2>Contact</h2>
-        <div class="alert alert-danger">This page makes use of the forms extension and is not yet ready.</div>
+        <div class='alert alert-danger'>This page makes use of the forms extension and is not yet ready.</div>
         <form n-model={this.contactModel}>
-          <label n-model={() => this.contactModel.name }></label>
-          <input n-model={() => this.contactModel.name } />
+          <label n-model={() => this.contactModel.name} />
+          <input n-model={() => this.contactModel.name} />
         </form>
       </>
     );

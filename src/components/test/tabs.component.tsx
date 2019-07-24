@@ -8,7 +8,7 @@ interface MainProps {
 
 // Step 1: Create the Components active parts
 @CustomElement('app-tabs')
-export class TabsComponent extends BaseComponent<{}> {
+export class TabsComponent extends BaseComponent<{ current: string }> {
   public props: MainProps;
 
   constructor() {
@@ -18,6 +18,7 @@ export class TabsComponent extends BaseComponent<{}> {
       title: super.readAttribute('title', 'Anzeigen'),
       tabs: super.readAttribute('tabs', [])
     };
+    this.current = '';
   }
 
   protected getData(): ComponentData {
@@ -28,6 +29,11 @@ export class TabsComponent extends BaseComponent<{}> {
     return ['title', 'tabs'];
   }
 
+  select(e) {
+    this.data.current = e.srcElement.attributes['title'];
+    render();
+  }
+
   render() {
     const { tabs, title } = this.props;
     console.log('tabs.component:tabs', tabs);
@@ -36,7 +42,7 @@ export class TabsComponent extends BaseComponent<{}> {
       <>
         <h5>{title}</h5>
         <ul class='nav nav-tabs' id='header-tabs'>
-          <app-tab n-repeat={tabs} title='@title' content='@tab' />
+          <app-tab n-repeat={tabs} title='@title' content='@tab' active={this.data.current} n-on-click={e => this.select(e)} />
         </ul>
       </>
     );
