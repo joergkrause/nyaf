@@ -1,20 +1,20 @@
 {
   "name": "nyaf",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "lint": "tslint './packages/@nyaf/lib/src/**/*.ts' && tslint './packages/@nyaf/forms/src/**/*.ts' && tslint './packages/@nyaf/store/src/**/*.ts'",
+    "lint": "tslint './src/packages/@nyaf/lib/src/**/*.ts' && tslint './src/packages/@nyaf/forms/src/**/*.ts' && tslint './src/packages/@nyaf/store/src/**/*.ts'",
     "nyaf-lib": "webpack --config webpack.config.lib.js --mode \"production\"",
-    "build": "rimraf dist && cp README.md ./packages/@nyaf/lib && npm run nyaf-lib && gulp",
+    "build": "rimraf dist && cp README.md ./src/packages/@nyaf/lib && npm run nyaf-lib && gulp",
     "start": "webpack-dev-server --open",
-    "publish": "cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public",
+    "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public",
     "demo": "npm run build && showdown makehtml -i README.md -o dist/docu.html && webpack --config webpack.config.js --mode \"production\" && npm run codedoc",
     "codedoc": "npm run codedoc-nyaf-lib && npm run codedoc-nyaf-forms && npm run codedoc-nyaf-store",
-    "codedoc-nyaf-lib": "compodoc -p ./packages/@nyaf/lib/tsconfig.json --output ./dist/documentation",
-    "codedoc-nyaf-forms": "compodoc -p ./packages/@nyaf/forms/tsconfig.json --output ./dist/documentation/forms",
-    "codedoc-nyaf-store": "compodoc -p ./packages/@nyaf/store/tsconfig.json --output ./dist/documentation/store"
+    "codedoc-nyaf-lib": "compodoc -p ./src/packages/@nyaf/lib/tsconfig.json --output ./dist/documentation",
+    "codedoc-nyaf-forms": "compodoc -p ./src/packages/@nyaf/forms/tsconfig.json --output ./dist/documentation/forms",
+    "codedoc-nyaf-store": "compodoc -p ./src/packages/@nyaf/store/tsconfig.json --output ./dist/documentation/store"
   },
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.9",
-    "@types/jest": "^24.0.12",
+    "@types/jest": "^24.0.18",
     "@types/node": "^12.0.0",
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",

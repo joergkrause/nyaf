@@ -18,7 +18,7 @@ export class TabsComponent extends BaseComponent<{ current: string }> {
       title: super.readAttribute('title', 'Anzeigen'),
       tabs: super.readAttribute('tabs', [])
     };
-    this.current = '';
+    super.data.current = '';
   }
 
   protected getData(): ComponentData {
@@ -30,8 +30,8 @@ export class TabsComponent extends BaseComponent<{ current: string }> {
   }
 
   select(e) {
-    this.data.current = e.srcElement.attributes['title'];
-    render();
+    super.data.current = e.srcElement.attributes['title'];
+    this.render();
   }
 
   render() {
@@ -42,7 +42,7 @@ export class TabsComponent extends BaseComponent<{ current: string }> {
       <>
         <h5>{title}</h5>
         <ul class='nav nav-tabs' id='header-tabs'>
-          <app-tab n-repeat={tabs} title='@title' content='@tab' active={this.data.current} n-on-click={e => this.select(e)} />
+          <app-tab n-repeat={tabs} title='@title' content='@tab' active={super.data.current} n-on-click={e => this.select(e)} />
         </ul>
       </>
     );

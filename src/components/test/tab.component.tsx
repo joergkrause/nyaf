@@ -14,20 +14,20 @@ export class TabComponent extends BaseComponent<{ current: string }> {
 
   constructor() {
     super();
-    this.props = {
+    super.props = {
       title: super.readAttribute('title', 'Tab Title'),
       content: super.readAttribute('content', 'Tab content'),
-      content: super.readAttribute('active', 'active')
+      active: super.readAttribute('active', 'active')
     };
   }
 
   render() {
-    const tabClass = 'nav-link ' + this.props.active;
+    const tabClass = 'nav-link ' + super.props.active;
     return (
-      <li class='nav-item' n-if={this.props.title !== 't1'}>
+      <li class='nav-item' n-if={super.props.title !== 't1'}>
         <a class={tabClass} href='#'>
           {' '}
-          {this.props.title} <small>{this.props.content}</small>
+          {super.props.title} <small>{super.props.content}</small>
         </a>
       </li>
     );

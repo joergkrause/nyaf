@@ -3,6 +3,8 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const tsconfig = require('../tsconfig.json');
+
 // Main entry point
 const indexConfig = {
   template: './src/index.html',
@@ -54,13 +56,10 @@ const webpackConfig = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.scss'],
     modules: [path.resolve('./src'), path.resolve('./node_modules')],
-    alias: {
-      // bind to modules;
-      modules: path.join(__dirname, 'node_modules'),
-      "@nyaf/lib": path.join(__dirname, 'packages/@nyaf/lib/src'),
-      "@nyaf/forms": path.join(__dirname, 'packages/@nyaf/forms/src'),
-      "@nyaf/store": path.join(__dirname, 'packages/@nyaf/store/src')
-    }
+    alias: Object.keys(tsconfig.compilerOptions.paths).reduce((aliases, aliasName) => {
+      aliases[aliasName] = path.resolve(__dirname, `src/${tsconfig.compilerOptions.paths[aliasName][0]}`);
+      return aliases;
+    }, {})
   },
   // How and where webpack should output bundles, assets and anything else
   output: {

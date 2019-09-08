@@ -1,4 +1,4 @@
-import { Required, Email, MaxLength } from '@nyaf/forms/';
+import { Required, Email, MaxLength } from '@nyaf/forms';
 
 export class ContactModel {
   @Required()
