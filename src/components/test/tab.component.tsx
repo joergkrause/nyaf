@@ -9,25 +9,22 @@ export interface TabProps {
 
 // Step 1: Create the Components active parts
 @CustomElement('app-tab')
-export class TabComponent extends BaseComponent<{ current: string }> {
-  public props: TabProps;
+export class TabComponent extends BaseComponent<TabProps> {
 
   constructor() {
     super();
-    super.props = {
-      title: super.readAttribute('title', 'Tab Title'),
-      content: super.readAttribute('content', 'Tab content'),
-      active: super.readAttribute('active', 'active')
-    };
+    super.data.title = super.readAttribute('title', 'Tab Title');
+    super.data.content = super.readAttribute('content', 'Tab content');
+    super.data.active = super.readAttribute('active', 'active');
   }
 
   render() {
-    const tabClass = 'nav-link ' + super.props.active;
+    const tabClass = 'nav-link ' + super.data.active;
     return (
-      <li class='nav-item' n-if={super.props.title !== 't1'}>
+      <li class='nav-item' n-if={super.data.title !== 't1'}>
         <a class={tabClass} href='#'>
           {' '}
-          {super.props.title} <small>{super.props.content}</small>
+          {super.data.title} <small>{super.data.content}</small>
         </a>
       </li>
     );

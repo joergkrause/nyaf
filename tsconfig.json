@@ -18,16 +18,13 @@
     "suppressImplicitAnyIndexErrors": true,
     "removeComments": false,
     "outDir": "out-tsc",
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "typeRoots": [
       "node_modules/@types",
       "src/types"
     ],
     "paths": {
-      "@nyaf/*": ["packages/*"],
-      "@nyaf/lib/*": ["packages/@nyaf/lib/*"],
-      "@nyaf/forms": ["packages/@nyaf/forms/*"],
-      "@nyaf/store": ["packages/@nyaf/store/*"]
+      "@nyaf/*": ["packages/@nyaf/*"]
     }
   },
   "files": [
