@@ -1,7 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "src",
-    "outDir": "out-tsc/packages/forms",
-  } 
-}
