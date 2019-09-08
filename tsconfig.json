@@ -24,9 +24,16 @@
       "src/types"
     ],
     "paths": {
-      "@nyaf/lib/*": ["packages/@nyaf/lib/src/*"],
-      "@nyaf/forms/*": ["packages/@nyaf/forms/src/*"],
-      "@nyaf/store/*": ["packages/@nyaf/store/src/*"]
+      "@nyaf/*": ["packages/*"],
+      "@nyaf/lib/*": ["packages/@nyaf/lib/*"],
+      "@nyaf/forms": ["packages/@nyaf/forms/*"],
+      "@nyaf/store": ["packages/@nyaf/store/*"]
     }
-  }
+  },
+  "files": [
+    "./src/main.ts",
+    "./src/packages/@nyaf/lib/index.ts",
+    "./src/packages/@nyaf/forms/index.ts",
+    "./src/packages/@nyaf/store/index.ts"    
+  ]
 }
