@@ -1,10 +1,8 @@
 {
-  "name": "@nyaf/store",
-  "version": "0.0.14",
-  "description": "An extension to \"Not Yet Another Framework\". A simple store based on a flux like architecture.",
-  "main": "store.umd.js",
+  "name": "nyaf",
+  "version": "1.0.0",
+  "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "private": false,
-  "typings": "src/index.d.ts",
   "scripts": {
     "test": "jest",
     "build": "webpack"
@@ -19,8 +17,5 @@
   "bugs": {
     "url": "https://github.com/joergkrause/nyaf/issues"
   },
-  "homepage": "https://github.com/joergkrause/nyaf#readme",
-  "dependencies": {
-    "@nyaf/lib": "0.0.14"
-  }
+  "homepage": "https://github.com/joergkrause/nyaf#readme"
 }

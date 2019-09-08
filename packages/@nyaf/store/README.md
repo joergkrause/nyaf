@@ -1,3 +1,6 @@
+[![Version](https://img.shields.io/npm/v/%40nyaf%2Fstore.svg?style=flat-square)](https://npmjs.com/package/@nyaf/store)
+[![License](https://img.shields.io/npm/l/%40nyaf%2Fstore.svg?style=flat-square)](https://npmjs.com/package/@nyaf/store)
+
 # NYAF is "Not Yet Another Framework" 
 
 And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools.

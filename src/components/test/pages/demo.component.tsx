@@ -30,11 +30,11 @@ export class DemoComponent extends BaseComponent {
             Data prepared in the component:
             <pre>
               {`const tabs = [];
-tabs.push({ content: 'test one', title: 't1' });
-tabs.push({ content: 'test two', title: 't2' });
-tabs.push({ content: 'test three', title: 't3' });
-tabs.push({ content: 'test four', title: 't4' });
-tabs.push({ content: 'test five', title: 't5' });
+tabs.push({ content: 'test one', title: 'Title 1' });
+tabs.push({ content: 'test two', title: 'Title 2' });
+tabs.push({ content: 'test three', title: 'Title 3' });
+tabs.push({ content: 'test four', title: 'Title 4' });
+tabs.push({ content: 'test five', title: 'Title 5' });
 `}
             </pre>
             Markup in component:
