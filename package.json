@@ -1,6 +1,6 @@
 {
   "name": "nyaf",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",
   "scripts": {
