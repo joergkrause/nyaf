@@ -38,7 +38,7 @@ A class `JSX` is the core, it handles the element definitions and extract the te
 
 ## Components
 
-Components are the core ingredients. You write components as classes, decorated with the decorator `CustomElement`. This defines a Web Component. The Component must be registered, then. This is done by calling the static method `GlobalProvider.bootstrap`.
+Components are the core ingredients. You write components as classes, decorated with the decorator `CustomElement`. This defines a [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components). The Component must be registered, then. This is done by calling the static method `GlobalProvider.bootstrap`.
 
 ### Registration
 
@@ -48,7 +48,7 @@ Web Components must be registered. To support this, I use decorators:
   import { CustomElement } from '@nyaf/lib;
 
   @CustomElement('app-main')
-  export class MainComponent extends BaseComponent {
+  export class MainComponent extends BaseComponent<{}> {
 
     constructor() {
       super();
@@ -65,32 +65,36 @@ Web Components must be registered. To support this, I use decorators:
   }
 ~~~
 
-The name is determined by `@CustomElement('app-main')`. This is mandatory.
+The name is determined by `@CustomElement('app-main')`. This is mandatory. Also note the base class, which gets a generic that later controls the properties.
 
 In *main.ts* (or wherever your app is bootstrapped) call this:
 
 ~~~
-  import { GlobalProvider } from '@nyaf/lib;
-  import { MainComponent } from './components/main.component';
+import { GlobalProvider } from '@nyaf/lib;
+import { MainComponent } from './components/main.component';
 
-  GlobalProvider.bootstrap({
-    components: [MainComponent]
-  });
+GlobalProvider.bootstrap({
+  components: [MainComponent]
+});
 ~~~
 
 That's it, the component works now. Use it in the HTML part:
 
 ~~~
-  <body class="container">
-    <app-main></app-main>
-  </body>
+<body class="container">
+  <app-main></app-main>
+</body>
 ~~~
 
 Once you have more components, it may look like this:
 
 ~~~
   GlobalProvider.bootstrap({
-    components: [ButtonComponent, TabComponent, TabsComponent, MainComponent]
+    components: [
+      ButtonComponent, 
+      TabComponent, 
+      TabsComponent, 
+      MainComponent]
   });
 ~~~
 
@@ -98,7 +102,7 @@ The main goal is to add template features to the JSX part.
 
 ### Life Cycle
 
-Components have a life cycle. Instead of several events, there is just one method you override:
+Components have a life cycle. Instead of several events, there is just one method you must override (or ignore if not needed):
 
 ~~~
 lifeCycle(cycle: LifeCycle){
@@ -108,7 +112,7 @@ lifeCycle(cycle: LifeCycle){
 }
 ~~~
 
-The `LifeCycle`-enum has these fields:
+Note, that the method has lower case "l". The `LifeCycle`-enum (upper case "L") has these fields:
 
 * `Init`: Start, ctor is being called.
 * `Connect`: Component connects to backend
@@ -125,6 +129,7 @@ Template Features avoid using creepy JavaScript for loops and branches. You can 
 * `n-repeat`
 * `n-if`, `n-else`
 * `n-hide`, `n-show`
+* `n-on-<event>` (see further down)
 
 ### n-repeat
 
@@ -133,53 +138,56 @@ Repeats the element. The argument must be an array.
 Assume we have this object:
 
 ~~~
-  { text: string, content: string }
+{ text: string, content: string }
 ~~~
 
-In an array like this:
+It's in an array like this:
 
 ~~~
-  [
-    {
-      text: "hallo", 
-      content: "Hello NYAF" 
-    }, 
-    { 
-      text: "world", 
-      content: "This is really nice" 
-    }
-  ]
+[
+  {
+    text: "hallo", 
+    content: "Hello NYAF" 
+  }, 
+  { 
+    text: "world", 
+    content: "This is really nice" 
+  }
+]
 ~~~
 
-Than you show the data on screen like this:
+Than you show the data on the page like this:
 
 ~~~
-  <app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
+<app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
 ~~~
 
-The array shall contain objects. If the property is needed, it's accessible within any attribute by writing `attribute="@propName"`. Note the usage of the quotes.
+The array shall contain objects. If one property is needed, it's accessible within any attribute by writing `attribute="@propName"`. Note the usage of the quotes and the "@" character.
 
-You can repeat anything, even plain HTML elements such as `<span>` or `<li>`.
+You can repeat anything, even plain HTML elements such as `<span>` or `<li>`. The behavior is comparable with Angular's `*ngFor` directive.
 
 ### n-if, n-else
 
 The value will be evaluated and the element does or does not render, then:
 
 ~~~
-  <div class="main-header" n-if={this.props.title !== 't1'}>
-    <span>Any content will not render if container doesn't render
-  </div>
+<div class="main-header" 
+     n-if={this.props.title !== 't1'}>
+  <span>Any content will not render if container doesn't render</span>
+</div>
 ~~~
 
 If there is an else-branch it can direct to a slot template. `<slot>` elements are native web component parts.
 
 ~~~
-  <div class="main-header" n-if={this.props.title !== 't1'} n-else="noShow">
-    <span>Any content will not render if container doesn't render
-  </div>
-  <slot name="noShow">
-    This is shown instead.
-  </slot>
+<div class="main-header" 
+     n-if={this.props.title !== 't1'} 
+     n-else="noShow">
+  <span>Any content will not render if container doesn't render</span>
+</div>
+<slot name="noShow">
+  This is shown instead.
+</slot>
 ~~~
 
 ### n-hide, n-show
@@ -206,11 +214,22 @@ You can get the (original HTML 5 API) event using a parameter, like *e* in the e
   <button n-on-click={(e) => this.clickMe(e)}>OK</button>
 ~~~
 
-There is an alternative syntax that takes the method name directly:
+There is an alternative syntax that takes the method name directly (note that here are single quotes being used instead of curly braces):
 
 ~~~
   <button n-on-click='clickMe'>OK</button>
 ~~~
+
+The method is bound with the event object as a parameter, hence the method can have a parameter like this:
+
+~~~
+clickMe(e: Event) {
+
+}
+~~~
+
+The `Event` type conforms to HTML 5 DOM. Replace according the attached event (`MouseEvent` etc., see [here](https://developer.mozilla.org/en-US/docs/Web/API/Event) for details).
+
 
 ### Async
 
@@ -224,9 +243,9 @@ You can combine any event with the attribute `n-async` to make the call to the e
 
 Sometimes the JavaScript events are not flexible enough. So you can define your own ones. That's done by three simple steps:
 
-* Add a decorator `@Events` to declare the events
-* Create `CustomEvent` object and dispatch (that's native Web Component behavior)
-* use the `n-on-customName` attribute to attach the event.
+* Add a decorator `@Events` to declare the events (it's an array to declare multiple in one step)
+* Create `CustomEvent` object and dispatch (that's [native Web Component behavior](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent))
+* use the `n-on-<myCustomEventName>` attribute to attach the event.
 
 Imagine a button component like this:
 
@@ -271,28 +290,28 @@ Everybody want's a SPA (Single Page App). Hence we need a router. The included r
 First, define an outlet where the components appear:
 
 ~~~
-  <div n-router-outlet></div>
+<div n-router-outlet></div>
 ~~~
 
-Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content need registration too. They  ___must___ have a name, too, because that's the way the router internally activates the component.
+Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content need registration too. They ___must___ have a name, too, because that's the way the router internally activates the component.
 
 ### Register Routes
 
 The following code shows how to register routes:
 
 ~~~
-  let routes = {
-    '/': { component: DemoComponent },
-    '/about': { component: AboutComponent },
-    '/demo': { component: DemoComponent },
-    '/contact': { component: ContactComponent },
-    '**': { component: DemoComponent }
-  };
+let routes = {
+  '/': { component: DemoComponent },
+  '/about': { component: AboutComponent },
+  '/demo': { component: DemoComponent },
+  '/contact': { component: ContactComponent },
+  '**': { component: DemoComponent }
+};
 
-  GlobalProvider.bootstrap({
-    components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
-    routes: routes
-  });
+GlobalProvider.bootstrap({
+  components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
+  routes: routes
+});
 ~~~
 
 The first entry `'/': { component: DemoComponent },` shall always exist, it's the default route loaded on start. It's being recognized by the `'/'` key (the position in the array doesn't matter).
@@ -303,11 +322,11 @@ The entry `'**': { component: DemoComponent }` is optional and defines a fallbac
 To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
 
 ~~~
-  <a href="#/" n-link>Home</a>
-  <a href="#/about" n-link>About</a>
-  <a href="#/demo" n-link>Demo</a>
-  <a href="#/contact" n-link>Contact</a>
-  <div n-router-outlet></div>
+<a href="#/" n-link>Home</a>
+<a href="#/about" n-link>About</a>
+<a href="#/demo" n-link>Demo</a>
+<a href="#/contact" n-link>Contact</a>
+<div n-router-outlet></div>
 ~~~
 
 The important part here is the `n-link` attribute. Using this you can distinguish between navigation links for routing and any other anchor tag. You can also use a `<button>` element or any other. Internally it's just a `click`-event that's handled and that checks for the attribute, then.
@@ -319,11 +338,11 @@ Please note the hash sign (#). It's required. No code or strategies here, write 
 If you have some sort of CSS framework running, that provides support for menu navigation by classes, just add the class for the currently active element to the `n-link` attribute like this:
 
 ~~~
-  <a href="#/" n-link="active">Home</a>
-  <a href="#/about" n-link="active">About</a>
-  <a href="#/demo" n-link="active">Demo</a>
-  <a href="#/contact" n-link="active">Contact</a>
-  <div n-router-outlet></div>
+<a href="#/" n-link="active">Home</a>
+<a href="#/about" n-link="active">About</a>
+<a href="#/demo" n-link="active">Demo</a>
+<a href="#/contact" n-link="active">Contact</a>
+<div n-router-outlet></div>
 ~~~
 
 After this, by clicking the hyperlink, the class "active" will be added to the anchor tag. Any click on any `n-link` decorated tag will remove all these classes from all these elements, first. The class' name can differ and you can add multiple classes. It's treated as string internally.
@@ -344,13 +363,13 @@ One option to activate the Shadow DOM:
 The property can be set explicitly. The default is `false`, hence if the decorator is being omitted, the component is ____not____ shadowed.
 
 ~~~
-  @ShadowDOM(true | false)
+@ShadowDOM(true | false)
 ~~~
 
 Another interesting option controls the style behavior:
 
 ~~~
-  @UseParentStyles()
+@UseParentStyles()
 ~~~
 
 * Use *ShadowDOM* must be set, otherwise the decorator does nothing
@@ -378,9 +397,9 @@ There is no explicit difference between State and Property. Compared with React 
 To declare a state object use a generic like this:
 
 ~~~
-  export class MainComponent extends BaseComponent<{ cnt: number}> {
-    // ... omitted for brevity
-  }
+export class MainComponent extends BaseComponent<{ cnt: number}> {
+  // ... omitted for brevity
+}
 ~~~
 
 > The State generic is optional. If there is no state necessary just skip.
@@ -393,37 +412,37 @@ Now two functions are available:
 A simple counter shows how to use:
 
 ~~~
-  export class CounterComponent extends BaseComponent<{ cnt: number }> {
+export class CounterComponent extends BaseComponent<{ cnt: number }> {
 
-    constructor() {
-      super();
-      super.setData('cnt',  10);
-    }
-
-    clickMeAdd(v: number) {
-      super.setData('cnt', super.data.cnt + 1);
-    }
-
-    clickMeSub(v: number) {
-      super.setData('cnt', super.data.cnt - 1);
-    }
-
-    render() {
-      return (
-        <>
-          <div>
-            <button type='button' n-on-click={e => this.clickMeAdd(e)}>
-              Add 1
-            </button>
-            <button type='button' n-on-click={e => this.clickMeSub(e)}>
-              Sub 1
-            </button>
-          </div>
-          <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>
-        </>
-      );
-    }
+  constructor() {
+    super();
+    super.setData('cnt',  10);
   }
+
+  clickMeAdd(v: number) {
+    super.setData('cnt', super.data.cnt + 1);
+  }
+
+  clickMeSub(v: number) {
+    super.setData('cnt', super.data.cnt - 1);
+  }
+
+  render() {
+    return (
+      <>
+        <div>
+          <button type='button' n-on-click={e => this.clickMeAdd(e)}>
+            Add 1
+          </button>
+          <button type='button' n-on-click={e => this.clickMeSub(e)}>
+            Sub 1
+          </button>
+        </div>
+        <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>
+      </>
+    );
+  }
+}
 ~~~
 
 ### Properties
@@ -431,11 +450,11 @@ A simple counter shows how to use:
 To use properties, you can define those. Each property is automatically part of the state and once it changes, the component re-renders.
 
 ~~~
-  @CustomElement('app-btn')
-  @Properties<{ title: string }>({ title: 'Default' })
-  export class ButtonComponent extends BaseComponent<{ title: string, cnt: number }> {
-    // ... omitted for brevity
-  }
+@CustomElement('app-btn')
+@Properties<{ title: string }>({ title: 'Default' })
+export class ButtonComponent extends BaseComponent<{ title: string, cnt: number }> {
+  // ... omitted for brevity
+}
 ~~~
 
 The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
@@ -454,17 +473,17 @@ The `@Properties` decorator defines all properties, that are now monitored (obse
 For a nice view decorators applied to class properties control the appearance.
 
 ~~~
-  export class Model {
-    id: number = 0;
-    name: string = '';
-  }
+export class Model {
+  id: number = 0;
+  name: string = '';
+}
 
 
-  @CustomElement('app-main')
-  @Properties<{ data: Model }>()
-  export class MainComponent extends BaseComponent {
-    // ... omitted for brevity
-  }
+@CustomElement('app-main')
+@Properties<{ data: Model }>()
+export class MainComponent extends BaseComponent {
+  // ... omitted for brevity
+}
 ~~~
 
 Within the component, this is now present. In the above definition `super.data` contains an actual model. 
@@ -474,18 +493,18 @@ Within the component, this is now present. In the above definition `super.data` 
 Want to access an injectable service?
 
 ~~~
-  @CustomElement('app-main')
-  @InjectService(ServiceClass1)
-  @InjectService(ServiceClass2)
-  export class MainComponent extends BaseComponent {
-    // ... omitted for brevity
+@CustomElement('app-main')
+@InjectService(ServiceClass1)
+@InjectService(ServiceClass2)
+export class MainComponent extends BaseComponent {
+  // ... omitted for brevity
 
 
-    protected async render() {
-      let data = await this.services<ServiceClass1>().callAnyServiceFunctionHereAsync();
-    }
-
+  protected async render() {
+    let data = await this.services<ServiceClass1>().callAnyServiceFunctionHereAsync();
   }
+
+}
 ~~~
 
 > Async is an option, can by sync, too.
@@ -501,43 +520,43 @@ This section describes setup and first steps.
 Install the package:
 
 ~~~
-  npm i @nyaf/lib -S
+npm i @nyaf/lib -S
 ~~~
 
 Create a file `main.ts` in the *src* folder that looks like this:
 
 ~~~
-  import { GlobalProvider } from '@nyaf/lib';
+import { GlobalProvider } from '@nyaf/lib';
 
-  import { MainComponent } from './main.component';
+import { MainComponent } from './main.component';
 
-  GlobalProvider.bootstrap({
-    components: [MainComponent],
-  });
+GlobalProvider.bootstrap({
+  components: [MainComponent],
+});
 ~~~
 
 Create file *main.component.ts* in the same folder. Fill this content in:
 
 ~~~
-  import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
+import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
 
-  @CustomElement('app-main')
-  export class MainComponent extends BaseComponent {
+@CustomElement('app-main')
+export class MainComponent extends BaseComponent {
 
-  	constructor() {
-  		super();
-  	}
+	constructor() {
+		super();
+	}
 
-  	render() {
-  		return (
-  			<section>
-          <h2>Demo</h2>
-          <p>Hello NYAF</p>
-  			</section>
-  		);
-  	}
+	render() {
+		return (
+			<section>
+        <h2>Demo</h2>
+        <p>Hello NYAF</p>
+			</section>
+		);
+	}
 
-  }
+}
 ~~~
 
 > Watch the default import for *JSX* - this IS required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files.
@@ -682,7 +701,7 @@ build: "webpack",
 
 Now, on command line, just type `npm run build`.
 
-To start webpack's dev server type:
+To start WebPack's dev server type:
 
 ~~~
 npm start
@@ -700,7 +719,7 @@ However, compared with React or Angular it's a lot simpler. Compared to Vue or P
 
 ## Tool Support
 
-What tool support? It's Web Components - any editor will do. It's JSX/TSX, so any good editor can handle this. And there are TypeScript decorators, event this is well supported. So, you don't need to tweak your editor. It works, no red squiggles, guaranteed.
+What tool support? It's Web Components - any editor will do. It's JSX/TSX, so any good editor can handle this. And there are TypeScript decorators, even this is well supported. So, you don't need to tweak your editor. It works, no red squiggles, guaranteed.
 
 ## Restrictions
 
@@ -714,10 +733,10 @@ Inspired by:
 * Polymer (especially lit-element, thanks for showing that Web Components are bold)
 * React (thanks for JSX)
 * Vue (thanks for showing short custom attributes)
-* TypeScript (I love it, period)
+* TypeScript (thanks for making JS cool again)
 
 ## Next
 
-Look out for 'nyaf-forms' (forms validation) and 'nyaf-store' (flux store). Simple but powerful! Available mid of 2019.
+Look out for 'nyaf-forms' (forms validation) and 'nyaf-store' (flux store). Simple but powerful!
 
 Add https://github.com/ArthurClemens/Polythene support.
