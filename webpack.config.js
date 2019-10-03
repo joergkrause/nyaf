@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const tsconfig = require('../tsconfig.json');
+const tsconfig = require('./tsconfig.json');
 
 // Main entry point
 const indexConfig = {
@@ -55,7 +55,11 @@ const webpackConfig = {
   // Configure how modules are resolved
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.scss'],
-    modules: [path.resolve('./src'), path.resolve('./node_modules')],
+    modules: [
+      path.resolve('./src'),
+      path.resolve('./src/packages'),
+      path.resolve('./node_modules')
+    ],
     alias: Object.keys(tsconfig.compilerOptions.paths).reduce((aliases, aliasName) => {
       aliases[aliasName] = path.resolve(__dirname, `src/${tsconfig.compilerOptions.paths[aliasName][0]}`);
       return aliases;

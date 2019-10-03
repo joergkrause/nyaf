@@ -5,11 +5,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "lib": [
-      "es2018",
-      "es5",
-      "dom"
-    ],
+    "lib": ["es2018", "es5", "dom"],
     "jsx": "react",
     "declaration": true,
     "reactNamespace": "JSX",
@@ -19,18 +15,10 @@
     "removeComments": false,
     "outDir": "out-tsc",
     "baseUrl": "./src",
-    "typeRoots": [
-      "node_modules/@types",
-      "src/types"
-    ],
+    "typeRoots": ["node_modules/@types", "src/types"],
     "paths": {
-      "@nyaf/*": ["packages/@nyaf/*"]
+      "@nyaf/*": ["packages/@nyaf/*", "src/packages/@nyaf/*"]
     }
   },
-  "files": [
-    "./src/main.ts",
-    "./src/packages/@nyaf/lib/index.ts",
-    "./src/packages/@nyaf/forms/index.ts",
-    "./src/packages/@nyaf/store/index.ts"    
-  ]
+  "files": ["./src/main.ts", "./src/packages/@nyaf/lib/index.ts", "./src/packages/@nyaf/forms/index.ts", "./src/packages/@nyaf/store/index.ts"]
 }

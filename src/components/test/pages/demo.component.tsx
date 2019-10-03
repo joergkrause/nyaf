@@ -25,7 +25,7 @@ export class DemoComponent extends BaseComponent {
         <h2>Demo</h2>
         <h3>Tabs</h3>
         <div class='row'>
-          <div class='alert alert-info col-6'>Control tabs with data provides as attribute (data binding).</div>          
+          <div class='alert alert-info col-6'>Control tabs with data provides as attribute (data binding).</div>
           <div class='col-6'>
             Data prepared in the component:
             <pre>

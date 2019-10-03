@@ -2,6 +2,10 @@ import { Component, ComponentType } from '../types/common';
 import { BaseComponent } from '../components/base.component';
 import events from './events';
 
+export interface Routes {
+  [path: string]: { component: Component; outlet?: string, data?: any };
+}
+
 /**
  * For registration we handle just the types, not actual instances. And types are actually functions.
  */
@@ -13,7 +17,7 @@ export class BootstrapProp {
   /**
    * Optional. Add the router definition here. Path's shall not contain hash signs, even if used in link tags.
    */
-  routes?: { [path: string]: { component: Component; data?: any } };
+  routes?: Routes;
 }
 
 /**
@@ -57,10 +61,10 @@ export class GlobalProvider {
   }
 
   private static registerRouter(props: BootstrapProp) {
-    // find the outlet after ready
-    const outlet = document.querySelector('[n-router-outlet]');
+    // find the outlets after ready
+    const outlets = document.querySelectorAll('[n-router-outlet]');
     // is completely voluntery
-    if (outlet) {
+    if (outlets) {
       // handle history
       const onNavItemClick = pathName => {
         window.history.pushState({}, pathName, window.location.origin + pathName);
@@ -76,6 +80,7 @@ export class GlobalProvider {
           const pf = (<HTMLAnchorElement>e.target).href.split('#');
           let requestedRoute = '';
           let needFallback = false;
+          let outletName = '';
           // fallback strategy
           do {
             if (pf.length !== 2) {
@@ -91,16 +96,20 @@ export class GlobalProvider {
               needFallback = true;
               break;
             }
+            outletName = props.routes[requestedRoute].outlet;
             break;
           } while (true);
-          // only execute if useful
+          // only execute if useful, here we have a valid route
           if (!needFallback || (needFallback && props.routes['**'])) {
             const activatedComponent = props.routes[requestedRoute].component;
             onNavItemClick(requestedRoute);
-            outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
+            const outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
+            GlobalProvider.setRouterOutlet(activatedComponent, outlet);
           } else {
             console.warn(
-              '[NYAF] A router link call has been executed,' + 'but requestes link is not properly configured: ' + (<HTMLAnchorElement>e.target).href
+              '[NYAF] A router link call has been executed,' +
+              'but requestes link is not properly configured: ' +
+              (<HTMLAnchorElement>e.target).href
             );
           }
         }
@@ -109,9 +118,15 @@ export class GlobalProvider {
       const defaultRoute = props.routes['/'];
       if (defaultRoute) {
         const activatedComponent = defaultRoute.component;
-        outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
+        // default route goes always to default outlet
+        const outlet = document.querySelector(`[n-router-outlet]`);
+        GlobalProvider.setRouterOutlet(activatedComponent, outlet);
       }
     }
+  }
+
+  private static setRouterOutlet(activatedComponent: Component, outlet: Element) {
+    outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
   }
 
   /**
