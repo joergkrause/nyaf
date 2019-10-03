@@ -52,10 +52,25 @@ tabs.push({ content: 'test five', title: 'Title 5' });
         <h3>Counter</h3>
         <div class='row'>
           <div class='alert alert-info col-6'>Simple counter using events.</div>
-          <div class='col-6'>...</div>
+          <div class='col-6'>
+            A simple counter with direct events and logic within the component.
+          </div>
         </div>
         <div class='row'>
           <app-counter class='col-6' />
+        </div>
+        <hr />
+        <h3>Service Counter</h3>
+        <div class='row'>
+          <div class='alert alert-info col-6'>Simple counter using a service.</div>
+          <div class='col-6'>
+          A counter using a service class being injected as singleton. Use this to define:<br></br>
+            <pre>{'@InjectService(CounterService)'}</pre>
+            <br></br>
+          </div>
+        </div>
+        <div class='row'>
+          <app-service-counter class='col-6' />
         </div>
         <hr />
         <h3>Store Counter</h3>

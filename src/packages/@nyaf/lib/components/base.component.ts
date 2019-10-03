@@ -1,4 +1,5 @@
 import { LifeCycle } from './lifecycle.enum';
+import { Type } from '../types/common';
 
 // TODO: Implement https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445
 
@@ -54,6 +55,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   }
   private _lifeCycleState: LifeCycle;
   private _data: P;
+  private _services: Map<string, any>;
 
   /**
    *
@@ -107,6 +109,14 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    */
   protected get data(): P {
     return this._data;
+  }
+
+  /**
+   * Returns the service's instance. Defined using the @see InjectService decorator. The decorator uses a local name for the custom service.
+   * @param service The name of a registered service 
+   */
+  protected services(service: string): any {
+    return this._services.get(service);
   }
 
   /**

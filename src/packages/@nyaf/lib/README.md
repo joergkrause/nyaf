@@ -30,8 +30,8 @@ I'm using TSX. I don't use React, though. So it's just a feature of the TypeScri
 Excerpt from `tsconfig.json`:
 
 ~~~
-  "jsx": "react",
-  "reactNamespace": "JSX",
+"jsx": "react",
+"reactNamespace": "JSX",
 ~~~
 
 A class `JSX` is the core, it handles the element definitions and extract the template extensions.
@@ -42,27 +42,27 @@ Components are the core ingredients. You write components as classes, decorated 
 
 ### Registration
 
-Web Components must be registered. To support this, I use decorators:
+Web Components must be registered. To support this, you must use decorators:
 
 ~~~
-  import { CustomElement } from '@nyaf/lib;
+import { CustomElement } from '@nyaf/lib;
 
-  @CustomElement('app-main')
-  export class MainComponent extends BaseComponent<{}> {
+@CustomElement('app-main')
+export class MainComponent extends BaseComponent<{}> {
 
-    constructor() {
-      super();
-    }
-
-    protected render() {
-      return (
-        <>
-          <h1>Demo</h1>
-        </>
-      );
-    }
-
+  constructor() {
+    super();
   }
+
+  protected render() {
+    return (
+      <>
+        <h1>Demo</h1>
+      </>
+    );
+  }
+
+}
 ~~~
 
 The name is determined by `@CustomElement('app-main')`. This is mandatory. Also note the base class, which gets a generic that later controls the properties.
@@ -164,7 +164,7 @@ Than you show the data on the page like this:
 
 The array shall contain objects. If one property is needed, it's accessible within any attribute by writing `attribute="@propName"`. Note the usage of the quotes and the "@" character.
 
-You can repeat anything, even plain HTML elements such as `<span>` or `<li>`. The behavior is comparable with Angular's `*ngFor` directive.
+You can repeat anything, even plain HTML elements such as `<span>` or `<li>`. The behavior is comparable to Angular's `*ngFor` directive.
 
 ### n-if, n-else
 
@@ -192,7 +192,7 @@ If there is an else-branch it can direct to a slot template. `<slot>` elements a
 
 ### n-hide, n-show
 
-Works same as `n-if`, but just adds an inline style `display: none` or not if `true` (`n-hide`) or `false` (`n-show`).
+Works same as `n-if`, but just adds an inline style `display: none` (or remove one) if `true` (`n-hide`) or `false` (`n-show`).
 
 ## Events
 
@@ -275,17 +275,17 @@ export class ButtonComponent extends BaseComponent {
 }
 ~~~
 
-The custom event is called *showAlert*. It's invoked by a click. The element's host component has code like this:
+The custom event in this example is called *showAlert*. It's invoked by a click. The element's host component has code like this:
 
 ~~~
 <app-button n-on-showAlert={(e) => this.someHandler(e)} />
 ~~~
 
-The argument *e* contains the `CustomEvent` object. It can carry any number of custom data.
+The argument *e* contains the `CustomEvent` object. It can carry any number of custom data. The `click`-invoker is just an example, any action can call a custom event, even a web socket callback, a timer, or an HTTP request result.
 
 ## Router 
 
-Everybody want's a SPA (Single Page App). Hence we need a router. The included router is very simple.
+Usually we create SPAs (Single Page Apps). Hence we need a router. The included router is very simple.
 
 First, define an outlet where the components appear:
 
@@ -294,6 +294,8 @@ First, define an outlet where the components appear:
 ~~~
 
 Any kind of parent element will do. The router code sets the property `innerHTML`. Components, that are being used to provide router content need registration too. They ___must___ have a name, too, because that's the way the router internally activates the component.
+
+> There is just one default outlet. See further below for using named outlets.
 
 ### Register Routes
 
@@ -333,7 +335,7 @@ The important part here is the `n-link` attribute. Using this you can distinguis
 
 Please note the hash sign (#). It's required. No code or strategies here, write it by yourself and then enjoy the very small footprint of the outcome.
 
-> Pro Tip! Import the router definition and use additional fields to create a menu directly from router configuration.
+> **Pro Tip!** Import the router definition and use additional fields to create a menu directly from router configuration.
 
 If you have some sort of CSS framework running, that provides support for menu navigation by classes, just add the class for the currently active element to the `n-link` attribute like this:
 
@@ -346,6 +348,39 @@ If you have some sort of CSS framework running, that provides support for menu n
 ~~~
 
 After this, by clicking the hyperlink, the class "active" will be added to the anchor tag. Any click on any `n-link` decorated tag will remove all these classes from all these elements, first. The class' name can differ and you can add multiple classes. It's treated as string internally.
+
+### Named Routes
+
+The underlying Route definition type `Routes`, allows two additional fields:
+
+~~~
+const routes: Routes = {
+  '/': { component: HomeComponent },
+  '/docu': { component: DocuComponent, data: { notlocal: true} },
+  '/about': { component: AboutComponent },
+  '/demo': { component: DemoComponent,
+  '/router': { component: RouterComponent },
+  '/router/page1': { component: Page1Component, outlet: 'router' },
+  '/router/page2': { component: Page2Component, outlet: 'router' },
+  '/router/page2/other': { component: Page2Component, outlet: 'other' },
+  '/router/page3/other': { component: Page3Component, outlet: 'other' },
+  '/contact': { component: ContactComponent }
+};
+~~~
+
+With `outlet` one can define a named outlet. It my reside everywhere. It may look like this:
+
+~~~
+<div n-router-outlet="other"></div>
+~~~
+
+There is no difference on the link side, the decision to address another outlet is made in the configuration only. If the outlet doesn't exists nothing happens and a warning appears on the console (in DEBUG mode).
+
+> In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet. 
+
+### Addition Data
+
+The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.
 
 ## Shadow DOM
 
@@ -402,7 +437,7 @@ export class MainComponent extends BaseComponent<{ cnt: number}> {
 }
 ~~~
 
-> The State generic is optional. If there is no state necessary just skip.
+> The State generic is optional. If there is no state necessary just use `any` or an empty object such  as `{}`.
 
 Now two functions are available:
 

@@ -36,7 +36,7 @@ export class GlobalProvider {
     customElements.define(type.selector, type);
     GlobalProvider.registeredElements.push(type.selector.toUpperCase());
     if (type.customEvents) {
-      type.customEvents.map(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
+      type.customEvents.forEach(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     }
   }
 

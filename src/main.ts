@@ -9,6 +9,7 @@ import { DemoComponent } from './components/test/pages/demo.component';
 import { ContactComponent } from './components/test/pages/contact.component';
 import { CounterComponent } from 'components/test/counter.component';
 import { StoreCounterComponent } from './components/test/storecounter.component';
+import { ServiceCounterComponent } from './components/test/servicecounter.component';
 import { HomeComponent } from 'components/test/pages/home.component';
 import { DocuComponent } from 'components/test/pages/docu.component';
 import { ButtonsComponent } from 'components/test/buttons.component';
@@ -22,7 +23,7 @@ import './main.scss';
 
 const routes: Routes = {
   '/': { component: HomeComponent },
-  '/docu': { component: DocuComponent },
+  '/docu': { component: DocuComponent, data: { notlocal: true } },
   '/about': { component: AboutComponent },
   '/demo': { component: DemoComponent },
   '/router': { component: RouterComponent },
@@ -46,6 +47,7 @@ GlobalProvider.bootstrap({
     DemoComponent,
     CounterComponent,
     StoreCounterComponent,
+    ServiceCounterComponent,
     HomeComponent,
     DocuComponent,
     FormComponent,
