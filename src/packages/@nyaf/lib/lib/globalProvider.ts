@@ -102,6 +102,9 @@ export class GlobalProvider {
           // only execute if useful, here we have a valid route
           if (!needFallback || (needFallback && props.routes['**'])) {
             const activatedComponent = props.routes[requestedRoute].component;
+            if (!requestedRoute.startsWith('#')) {
+              requestedRoute = `#${requestedRoute}`;
+            }
             onNavItemClick(requestedRoute);
             const outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
             GlobalProvider.setRouterOutlet(activatedComponent, outlet);

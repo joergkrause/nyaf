@@ -19,13 +19,15 @@ export class ServiceCounterComponent extends BaseComponent<{ cnt: number }> {
   clickMeAdd(v: number) {
     console.log('Counter Service Element Click');
     this.services(COUNTER_SERVICE).increment();
-    super.setData('cnt', this.services('myService').value);
+    const count = this.services(COUNTER_SERVICE).value;
+    super.setData('cnt', count);
   }
 
   clickMeSub(v: number) {
     console.log('Counter Element Click');
     this.services(COUNTER_SERVICE).decrement();
-    super.setData('cnt', this.services('myService').value);
+    const count = this.services(COUNTER_SERVICE).value;
+    super.setData('cnt', count);
   }
 
   render() {

@@ -22,24 +22,24 @@ export class StoreCounterComponent extends StoreComponent<storeStateType, { cnt:
     super();
     super.setData('cnt', 0);
     // fire if a value changes in the store, takes name of the store value
-    super.store.subscribe('counter', str => {
+    this.store.subscribe('counter', str => {
       super.setData('cnt', str.counter);
     });
   }
 
   clickMeAdd(e) {
     console.log('Counter Element Click INC');
-    super.store.dispatch(INC, 1);
+    this.store.dispatch(INC, 1);
   }
 
   clickMeSub(e) {
     console.log('Counter Element Click DEC');
-    super.store.dispatch(DEC, 1);
+    this.store.dispatch(DEC, 1);
   }
 
   clickMeSet(e) {
     console.log('Counter Element Click SET');
-    super.store.dispatch(SET, 100);
+    this.store.dispatch(SET, 100);
   }
 
   render() {

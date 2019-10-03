@@ -90,7 +90,6 @@ export class Store<ST> extends Observer {
     // Get a new version of the state by running the mutation and storing the result of it
     const newState = this.reducer.get(actionKey)(this.state, value);
     // Merge the old and new together to create a new state and set it
-    this.state = Object.assign(this.state, newState);
     return true;
   }
 
