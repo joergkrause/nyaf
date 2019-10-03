@@ -15,9 +15,11 @@ export function InjectService<T>(name: string, type: ServiceType<T>) {
     if (!target.prototype['_services']) {
       target.prototype['_services'] = new Map<string, any>();
     }
-    const t = new type();
-    (<Map<string, any>>target.prototype['_services']).set(name, t);
-    // we define the access on "this" level, but let the definction run on "super" level to make all services singleton
+    if (!(<Map<string, any>>target.prototype['_services']).has(name)) {
+      const t = new type();
+      (<Map<string, any>>target.prototype['_services']).set(name, t);
+    }
+    // we define the access on "this" level, but let the definition run on "super" level
     Object.defineProperty(target, 'services', {
       get: function () {
         return target.prototype['_services'];

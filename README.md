@@ -529,14 +529,14 @@ Want to access an injectable service?
 
 ~~~
 @CustomElement('app-main')
-@InjectService(ServiceClass1)
-@InjectService(ServiceClass2)
-export class MainComponent extends BaseComponent {
+@InjectService('localNameA', ServiceClass1)
+@InjectService('localNameB', ServiceClass2)
+export class MainComponent extends BaseComponent<{}> {
+
   // ... omitted for brevity
 
-
   protected async render() {
-    let data = await this.services<ServiceClass1>().callAnyServiceFunctionHereAsync();
+    let data = await this.services('localNameA').callAnyServiceFunctionHereAsync();
   }
 
 }
@@ -544,7 +544,7 @@ export class MainComponent extends BaseComponent {
 
 > Async is an option, can by sync, too.
 
-*this.services* is a function, that returns an instance of the service. Services are singleton by default.
+*this.services* is a function, that returns an instance of the service. Services are singleton on the level of the local name. The same name used in different components will return the same instance. Using a different name will create a new instance.
 
 # How to use
 
