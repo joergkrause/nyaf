@@ -71,13 +71,20 @@ export class GlobalProvider {
       };
       // listen for any click event and check n-link attribute
       document.addEventListener('click', e => {
-        const nLink = (<HTMLElement>e.target).getAttribute('n-link');
+        let target = <HTMLElement>e.target;
+        let parent = target.parentElement;
+        let nLink = target.getAttribute('n-link');
+        if (!nLink) {
+          target = parent;
+          parent = parent.parentElement;
+          nLink = target.getAttribute('n-link');
+        }
         if (nLink) {
           // handle classes
-          document.querySelectorAll('[n-link]').forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute('n-link')));
-          (<HTMLElement>e.target).classList.add(nLink);
+          (parent || target).querySelectorAll('[n-link]').forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute('n-link')));
+          (<HTMLElement>target).classList.add(nLink);
           // handle click
-          const pf = (<HTMLAnchorElement>e.target).href.split('#');
+          const pf = (<HTMLAnchorElement>target).href.split('#');
           let requestedRoute = '';
           let needFallback = false;
           let outletName = '';
