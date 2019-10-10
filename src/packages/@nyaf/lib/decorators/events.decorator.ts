@@ -6,7 +6,7 @@
  * @example
  *   @CustomElement('app-button')
  *   @Properties<ButtonPropType>({ text: ''})
- *   @Events(['xxx'])
+ *   @Events(['custom'])
  *   export class ButtonComponent extends BaseComponent<ButtonPropType> {
  *     constructor() {
  *       super();
@@ -14,11 +14,11 @@
  *
  *     clickMe(e) {
  *       console.log('Button Element Click ', e);
- *       const checkEvent = new CustomEvent('xxx', {
+ *       const checkEvent: CustomEventInit = {
  *         bubbles: true,
  *         cancelable: false,
- *       });
- *       super.dispatchEvent(checkEvent);
+ *       };
+ *       super.dispatch('custom', checkEvent);
  *     }
  *
  *     render() {
@@ -44,6 +44,8 @@ export function Events(names: string[]) {
 }
 
 export function eventInternalSetup(target: any, names: string[]) {
+  names = names.map(name => `${name}_${target.name}`);
+  console.log('event register names', names);
   Object.defineProperty(target, 'customEvents', {
     get: function() {
       return names;

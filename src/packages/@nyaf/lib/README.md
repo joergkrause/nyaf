@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/npm/l/%40nyaf%2Flib.svg?style=flat-square)](https://npmjs.com/package/@nyaf/lib)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/joergisageek)
 
-# NYAF is "Not Yet Another Framework" 
+# NYAF is "Not Yet Another Framework"
 
 And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools.
 
@@ -91,9 +91,9 @@ Once you have more components, it may look like this:
 ~~~
   GlobalProvider.bootstrap({
     components: [
-      ButtonComponent, 
-      TabComponent, 
-      TabsComponent, 
+      ButtonComponent,
+      TabComponent,
+      TabsComponent,
       MainComponent]
   });
 ~~~
@@ -146,12 +146,12 @@ It's in an array like this:
 ~~~
 [
   {
-    text: "hallo", 
-    content: "Hello NYAF" 
-  }, 
-  { 
-    text: "world", 
-    content: "This is really nice" 
+    text: "hallo",
+    content: "Hello NYAF"
+  },
+  {
+    text: "world",
+    content: "This is really nice"
   }
 ]
 ~~~
@@ -171,7 +171,7 @@ You can repeat anything, even plain HTML elements such as `<span>` or `<li>`. Th
 The value will be evaluated and the element does or does not render, then:
 
 ~~~
-<div class="main-header" 
+<div class="main-header"
      n-if={this.props.title !== 't1'}>
   <span>Any content will not render if container doesn't render</span>
 </div>
@@ -180,8 +180,8 @@ The value will be evaluated and the element does or does not render, then:
 If there is an else-branch it can direct to a slot template. `<slot>` elements are native web component parts.
 
 ~~~
-<div class="main-header" 
-     n-if={this.props.title !== 't1'} 
+<div class="main-header"
+     n-if={this.props.title !== 't1'}
      n-else="noShow">
   <span>Any content will not render if container doesn't render</span>
 </div>
@@ -202,7 +202,7 @@ Events are defined by a special instruction. They are attached to `document` obj
 
 Events are easy to add directly using it like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
 
-~~~ 
+~~~
   <button n-on-click={() => this.clickMe()}>OK</button>
 ~~~
 
@@ -258,11 +258,11 @@ export class ButtonComponent extends BaseComponent {
   }
 
   clickMe(e) {
-    const checkEvent = new CustomEvent('showAlert', {
+    const checkEvent: CustomEventInit = {
       bubbles: true,
       cancelable: false,
-    });
-    super.dispatchEvent(checkEvent);
+    };
+    super.dispatch('showAlert', checkEvent);
   }
 
   render() {
@@ -283,7 +283,7 @@ The custom event in this example is called *showAlert*. It's invoked by a click.
 
 The argument *e* contains the `CustomEvent` object. It can carry any number of custom data. The `click`-invoker is just an example, any action can call a custom event, even a web socket callback, a timer, or an HTTP request result.
 
-## Router 
+## Router
 
 Usually we create SPAs (Single Page Apps). Hence we need a router. The included router is very simple.
 
@@ -376,7 +376,7 @@ With `outlet` one can define a named outlet. It my reside everywhere. It may loo
 
 There is no difference on the link side, the decision to address another outlet is made in the configuration only. If the outlet doesn't exists nothing happens and a warning appears on the console (in DEBUG mode).
 
-> In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet. 
+> In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet.
 
 ### Addition Data
 
@@ -427,7 +427,7 @@ export class ContactComponent extends BaseComponent {
 
 There is no explicit difference between State and Property. Compared with React it's much more simpler. A state still exists and it supports smart rendering.
 
-### State 
+### State
 
 To declare a state object use a generic like this:
 
@@ -521,7 +521,7 @@ export class MainComponent extends BaseComponent {
 }
 ~~~
 
-Within the component, this is now present. In the above definition `super.data` contains an actual model. 
+Within the component, this is now present. In the above definition `super.data` contains an actual model.
 
 ## Services
 
@@ -646,7 +646,7 @@ The *tsconfig.json* looks like this:
       "node_modules/@types",
       "src/types"
     ]
-  } 
+  }
 }
 ~~~~~
 

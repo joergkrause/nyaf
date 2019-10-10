@@ -18,11 +18,15 @@ export class ButtonComponent extends BaseComponent<ButtonPropType> {
 
   clickMe(e) {
     console.log('Button Element Click ', e);
-    const checkEvent = new CustomEvent('showAlert', {
+    const checkEvent: CustomEventInit = {
       bubbles: true,
-      cancelable: false
-    });
-    super.dispatchEvent(checkEvent);
+      cancelable: false,
+      detail: {
+        customData: 12345
+      }
+    };
+    console.log('Dispatch Custom Event ', checkEvent);
+    super.dispatch('showAlert', checkEvent);
   }
 
   render() {

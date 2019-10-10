@@ -3,6 +3,7 @@ import { BaseComponent } from '../components/base.component';
 import events from './events';
 import { DomOp } from './dom-operations';
 import eventList from './events';
+import { Readonly } from '@nyaf/forms';
 
 export interface Routes {
   [path: string]: { component: Component; outlet?: string, data?: any };
@@ -38,6 +39,7 @@ export class GlobalProvider {
     customElements.define(type.selector, type);
     GlobalProvider.registeredElements.push(type.selector.toUpperCase());
     if (type.customEvents) {
+      console.log('register event', type.customEvents);
       type.customEvents.forEach(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     }
   }
@@ -161,11 +163,17 @@ export class GlobalProvider {
       return parentWalk(el.parentElement);
     };
     if ((<HTMLElement>e.target).getAttribute) {
-      const target = DomOp.getParent((<HTMLElement>e.target), `[n-on-${e.type}]`);
+      let type = e.type;
+      if (e instanceof CustomEvent) {
+        const className = e.target.constructor.name;
+        type = e.type.replace('_' + className, '');
+      }
+      const target = DomOp.getParent((<HTMLElement>e.target), `[n-on-${type}]`);
       if (target) {
         let call = false;
         let asy = false;
-        let evt = target.getAttribute(`n-on-${e.type}`);
+        let evt = target.getAttribute(`n-on-${type}`);
+        if (!evt) { return; }
         // if there is a method attached call with right binding
         const parent = parentWalk(target);
         if (parent[evt]) {
@@ -179,8 +187,28 @@ export class GlobalProvider {
           }
         }
         if (call) {
-          const ee: any = Object.assign({}, e);
+          const ee: any = {};
+          ee.bubbles = e.bubbles;
+          ee.cancelBubble = e.cancelBubble;
+          ee.cancelable = e.cancelable;
+          ee.composed = e.composed;
+          ee.currentTarget = e.currentTarget;
+          ee.defaultPrevented = e.defaultPrevented;
+          ee.eventPhase = e.eventPhase;
+          ee.isTrusted = e.isTrusted;
+          ee.returnValue = e.returnValue;
+          ee.srcElement = target;
           ee.target = target;
+          ee.timeStamp = e.timeStamp;
+          ee.type = type;
+          ee.preventDefault = e.preventDefault;
+          ee.stopImmediatePropagation = e.stopImmediatePropagation;
+          ee.stopPropagation = e.stopPropagation;
+          ee.AT_TARGET = e.AT_TARGET;
+          ee.BUBBLING_PHASE = e.BUBBLING_PHASE;
+          ee.CAPTURING_PHASE = e.CAPTURING_PHASE;
+          ee.NONE = e.NONE;
+          ee.detail = (e as CustomEvent).detail;
           e.preventDefault();
           if (asy) {
             setTimeout(parent[evt].call(parent, ee), 0);

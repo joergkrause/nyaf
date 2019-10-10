@@ -8,11 +8,12 @@ export class DemoComponent extends BaseComponent {
     super();
   }
 
-  clickBtn(e) {
-    alert('Button clicked');
+  clickBtn(e: CustomEvent) {
+    alert('Button clicked ' + e.detail.customData);
   }
 
   render() {
+    console.log("Render demo");
     const tabs = [];
     tabs.push({ content: 'test one', title: 't1' });
     tabs.push({ content: 'test two', title: 't2' });
