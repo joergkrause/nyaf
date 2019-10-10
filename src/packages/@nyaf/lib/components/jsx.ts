@@ -48,15 +48,17 @@ const JSX = {
               ifStore = !!value;
               break;
             case 'n-repeat':
-              // we cannot transfer data other than as string with web components
-              const repeat = JSON.parse(value);
-              // expecting let x of y, with y is an array
-              console.log('repeat', repeat);
-              if (isArray(repeat)) {
-                // expect an object, that's props can be bound to others
-                repeatStore = repeat;
-              } else {
-                throw new Error('repeat expects an array');
+              if (value) {
+                // we cannot transfer data other than as string with web components
+                const repeat = JSON.parse(value);
+                // expecting let x of y, with y is an array
+                console.log('repeat', repeat);
+                if (isArray(repeat)) {
+                  // expect an object, that's props can be bound to others
+                  repeatStore = repeat;
+                } else {
+                  throw new Error('repeat expects an array');
+                }
               }
               break;
             // no handling, fall through to default

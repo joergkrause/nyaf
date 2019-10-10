@@ -25,7 +25,12 @@ export class DemoComponent extends BaseComponent {
         <h2>Demo</h2>
         <h3>Tabs</h3>
         <div class='row'>
-          <div class='alert alert-info col-6'>Control tabs with data provides as attribute (data binding).</div>
+          <div class='alert alert-info col-6'>Control tabs with data provides as attribute (data binding).
+          The first entry is not shown because of an 'n-if' statement in the tab component itself. The
+            behavior is made by catching the click event and forwarding the title to the client on re-render.
+            The event takes care of catching the next parent that has the right method. That means, a method
+            calles 'select' must exists. The event object is a Event like object build artifically.
+          </div>
           <div class='col-6'>
             Data prepared in the component:
             <pre>
@@ -39,9 +44,9 @@ tabs.push({ content: 'test five', title: 'Title 5' });
             </pre>
             Markup in component:
             <pre>
-              {`&lt;app-tabs class='col-6' 
-           title='Tabs Demo Title' 
-           tabs={tabs} /&gt; `}
+              {`&lt;app-tabs class='col-6'
+           title='Tabs Demo Title'
+           tabs={tabs} /&gt; n-on-click={{ e => this.select(e) }} `}
             </pre>
           </div>
         </div>

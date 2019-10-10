@@ -1,6 +1,8 @@
 import { Component, ComponentType } from '../types/common';
 import { BaseComponent } from '../components/base.component';
 import events from './events';
+import { DomOp } from './dom-operations';
+import eventList from './events';
 
 export interface Routes {
   [path: string]: { component: Component; outlet?: string, data?: any };
@@ -72,18 +74,23 @@ export class GlobalProvider {
       // listen for any click event and check n-link attribute
       document.addEventListener('click', e => {
         let target = <HTMLElement>e.target;
-        let parent = target.parentElement;
         let nLink = target.getAttribute('n-link');
         if (!nLink) {
-          target = parent;
-          parent = parent.parentElement;
-          nLink = target.getAttribute('n-link');
+          // walk up the tree to find next n-link
+          const parents = DomOp.getParents(target, 'a[n-link]');
+          if (parents && parents.length === 1) {
+            target = parents[0];
+            nLink = target.getAttribute('n-link');
+          }
         }
         if (nLink) {
-          // handle classes
-          (parent || target).querySelectorAll('[n-link]').forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute('n-link')));
-          (<HTMLElement>target).classList.add(nLink);
-          // handle click
+          // handle classes globally
+          document.querySelectorAll('[n-link]').forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute('n-link')));
+          if (nLink !== 'true') {
+            // empty n-link has true as value, that's not a class and we don't set this
+            (<HTMLElement>target).classList.add(nLink);
+          }
+          // expect that n-link is on an anchor tag
           const pf = (<HTMLAnchorElement>target).href.split('#');
           let requestedRoute = '';
           let needFallback = false;
@@ -153,14 +160,14 @@ export class GlobalProvider {
       }
       return parentWalk(el.parentElement);
     };
-
     if ((<HTMLElement>e.target).getAttribute) {
-      let evt = (<HTMLElement>e.target).getAttribute(`n-on-${e.type}`);
-      if (evt) {
+      const target = DomOp.getParent((<HTMLElement>e.target), `[n-on-${e.type}]`);
+      if (target) {
         let call = false;
         let asy = false;
-        const parent = parentWalk(e.target);
+        let evt = target.getAttribute(`n-on-${e.type}`);
         // if there is a method attached call with right binding
+        const parent = parentWalk(target);
         if (parent[evt]) {
           call = true;
         } else {
@@ -172,14 +179,17 @@ export class GlobalProvider {
           }
         }
         if (call) {
+          const ee: any = Object.assign({}, e);
+          ee.target = target;
+          e.preventDefault();
           if (asy) {
-            setTimeout(parent[evt].call(parent, e), 0);
+            setTimeout(parent[evt].call(parent, ee), 0);
           } else {
-            parent[evt].call(parent, e);
+            parent[evt].call(parent, ee);
           }
         } else {
           throw new Error(`[NYAF] There is an event handler '${evt}' attached
-          that could not be found in the component <${parent.tagName}>.`);
+          that could not be found in the component <${target.tagName}>.`);
         }
       }
     }
