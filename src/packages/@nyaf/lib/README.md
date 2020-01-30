@@ -162,7 +162,13 @@ Than you show the data on the page like this:
 <app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
 ~~~
 
-The array shall contain objects. If one property is needed, it's accessible within any attribute by writing `attribute="@propName"`. Note the usage of the quotes and the "@" character.
+Also, text will be parsed as JSON (alternatively):
+
+~~~
+<app-tab n-repeat='[{ "id":1 }, { "id":2 }]' title="@title" content="@content"></app-tab>
+~~~
+
+The array shall contain objects. If one property is needed, it's accessible within any attribute by writing `attribute="@@propName"`. Note the usage of the quotes and the "@" character.
 
 You can repeat anything, even plain HTML elements such as `<span>` or `<li>`. The behavior is comparable to Angular's `*ngFor` directive.
 

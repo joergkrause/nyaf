@@ -156,22 +156,22 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   /**
    * Change the state of the internal data object. If necessary, the component re-renders.
    *
-   * @param key Name of the value.
+   * @param name Name of the value.
    * @param newValue The actual new value.
    */
-  public setData(key: string, newValue: any): void {
+  public setData(name: string, newValue: any): void {
     this.lifeCycleState = LifeCycle.SetData;
-    const rerender = this.data[key] !== newValue;
-    this.data[key] = newValue;
+    const rerender = this.data[name] !== newValue;
+    (this.data as ComponentData) [name] = newValue;
     // something is new so we rerender
     if (rerender) {
       this.setup();
     }
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name: string, oldValue: any, newValue: any) {
     if (oldValue !== newValue) {
-      this.data[name] = newValue;
+      (this.data as ComponentData) [name] = newValue;
       this.setup();
     }
   }
