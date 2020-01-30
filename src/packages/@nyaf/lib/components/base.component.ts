@@ -134,7 +134,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    */
   protected setup() {
     this.lifeCycleState = LifeCycle.PreRender;
-    console.log((<any>this.constructor).selector + ' WS ', (<any>this.constructor).withShadow);
     if ((<any>this.constructor).withShadow) {
       const template = document.createElement('template');
       template.innerHTML = this.render();

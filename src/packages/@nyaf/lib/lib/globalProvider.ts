@@ -35,11 +35,9 @@ export class GlobalProvider {
    * provide the tag name in a property calles *selector*. The component must inherit @see Component.
    */
   static register(type: Component) {
-    console.log('register', type.selector);
     customElements.define(type.selector, type);
     GlobalProvider.registeredElements.push(type.selector.toUpperCase());
     if (type.customEvents) {
-      console.log('register event', type.customEvents);
       type.customEvents.forEach(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     }
   }

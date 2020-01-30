@@ -35,17 +35,17 @@
 <p>In an array like this:</p>
 <pre><code>[
   {
-    text: "hallo", 
-    content: "Hello NYAF" 
-  }, 
-  { 
-    text: "world", 
-    content: "This is really nice" 
+    text: "hallo",
+    content: "Hello NYAF"
+  },
+  {
+    text: "world",
+    content: "This is really nice"
   }
 ]
 </code></pre>
 <p>Than you show the data on screen like this:</p>
-<pre><code>&lt;app-tab n-repeat={tabs} title="@title" content="@content"&gt;&lt;/app-tab&gt;
+<pre><code>&lt;app-tab n-repeat={tabs} title="@title" content="@@content"&gt;&lt;/app-tab&gt;
 </code></pre>
 <p>The array shall contain objects. If the property is needed, it's accessible within any attribute by writing <code>attribute="@propName"</code>. Note the usage of the quotes.</p>
 <p>You can repeat anything, even plain HTML elements such as <code>&lt;span&gt;</code> or <code>&lt;li&gt;</code>.</p>

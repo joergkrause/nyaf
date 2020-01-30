@@ -32,7 +32,7 @@ export class TabsComponent extends BaseComponent<MainProps> {
       <>
         <h5>{title}</h5>
         <ul class='nav nav-tabs' id='header-tabs'>
-          <app-tab n-repeat={tabs} title='@title' content='@tab' active={super.data.current} n-on-click={e => this.select(e)} />
+          <app-tab n-repeat={tabs} title='@@title' content='@@tab' active={super.data.current} n-on-click={e => this.select(e)} />
         </ul>
         <p>
           Selected Tab: {super.data.current}

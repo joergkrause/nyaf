@@ -162,7 +162,13 @@ Than you show the data on the page like this:
 <app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
 ~~~
 
-The array shall contain objects. If one property is needed, it's accessible within any attribute by writing `attribute="@propName"`. Note the usage of the quotes and the "@" character.
+Also, text will be parsed as JSON (alternatively):
+
+~~~
+<app-tab n-repeat='[{ "id":1 }, { "id":2 }]' title="@title" content="@content"></app-tab>
+~~~
+
+The array shall contain objects. If one property is needed, it's accessible within any attribute by writing `attribute="@@propName"`. Note the usage of the quotes and the "@" character.
 
 You can repeat anything, even plain HTML elements such as `<span>` or `<li>`. The behavior is comparable to Angular's `*ngFor` directive.
 
@@ -392,9 +398,6 @@ One option to activate the Shadow DOM:
 @ShadowDOM()
 ~~~
 
-* Use Shadow DOM
-* all global styles are still working (auto copy)
-
 The property can be set explicitly. The default is `false`, hence if the decorator is being omitted, the component is ____not____ shadowed.
 
 ~~~
@@ -407,8 +410,8 @@ Another interesting option controls the style behavior:
 @UseParentStyles()
 ~~~
 
-* Use *ShadowDOM* must be set, otherwise the decorator does nothing
-* copies all global styles into component so they work as expected even in Shadow DOM
+* The decorator *ShadowDOM* must be set, otherwise the decorator *@UseParentStyle* does nothing
+* If active, it copies all global styles into component so they work as expected even in Shadow DOM
 
 > It's a trade-off. Shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.
 
@@ -530,7 +533,7 @@ Want to access an injectable service?
 ~~~
 @CustomElement('app-main')
 @InjectService('localNameA', ServiceClass1)
-@InjectService('localNameB', ServiceClass2)
+@InjectService('localNameB', ServiceClass2, true)
 export class MainComponent extends BaseComponent<{}> {
 
   // ... omitted for brevity
@@ -545,6 +548,8 @@ export class MainComponent extends BaseComponent<{}> {
 > Async is an option, can by sync, too.
 
 *this.services* is a function, that returns an instance of the service. Services are singleton on the level of the local name. The same name used in different components will return the same instance. Using a different name will create a new instance.
+
+The third option of `@InjectService` allows to define a singleton. Instead of providing a type for the decorator, here you must provide an instance. The same name will be shared across components.
 
 # How to use
 
