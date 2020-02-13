@@ -1,7 +1,7 @@
 [![Version](https://img.shields.io/npm/v/%40nyaf%2Fforms.svg?style=flat-square)](https://npmjs.com/package/@nyaf/forms)
 [![License](https://img.shields.io/npm/l/%40nyaf%2Fforms.svg?style=flat-square)](https://npmjs.com/package/@nyaf/forms)
 
-# NYAF is "Not Yet Another Framework" 
+# NYAF is "Not Yet Another Framework"
 
 And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools.
 
@@ -129,7 +129,7 @@ The error message is just regular output (class example from Bootstrap,not neede
 </form>
 ~~~
 
-Again, note the *@* signs preceding the property names. 
+Again, note the *@* signs preceding the property names.
 
 Validators can provide the error text, too:
 
@@ -184,7 +184,7 @@ export class MainComponent extends FormsComponent {
 }
 ~~~
 
-Within the component, this is now present. 
+Within the component, this is now present.
 
 ~~~
 this.modelState = {
@@ -217,6 +217,6 @@ Install the package:
 npm i @nyaf/forms -S
 ~~~
 
-## Depencencies
+## Dependencies
 
 Depends on *@nyaf/lib*.

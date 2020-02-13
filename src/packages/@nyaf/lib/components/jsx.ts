@@ -6,7 +6,11 @@ import { catchClause } from '@babel/types';
  *
  * It's a default export, so this import will work:
  *
- * `import JSX from 'nyaf`;
+ * `import JSX from '@nyaf/lib';`
+ *
+ * Usually it'S combined with the import of the base class:
+ *
+ * `import JSX, { BaseComppnent } from '@nyaf/lib';`
  *
  * Also, don't forget to setup *tsconfig.json* properly to support *jsx* and use the namespace JSX (in uppercase letters).
  *

@@ -1,6 +1,6 @@
 {
   "name": "@nyaf/forms",
-  "version": "0.2.9",
+  "version": "0.2.11",
   "description": "An extension to \"Not Yet Another Framework\". A simple forms validation library.",
   "main": "forms.umd.js",
   "private": false,
@@ -13,7 +13,14 @@
     "type": "git",
     "url": "git+https://github.com/joergkrause/nyaf.git"
   },
-  "keywords": ["vanilla JS", "framework", "web components", "es2015", "jsx", "tsx"],
+  "keywords": [
+    "vanilla JS",
+    "framework",
+    "web components",
+    "es2015",
+    "jsx",
+    "tsx"
+  ],
   "author": "Joerg <isageek> Krause",
   "license": "ISC",
   "bugs": {
@@ -21,9 +28,7 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "dependencies": {
-    "@nyaf/lib": "0.2.9"
+    "@nyaf/lib": "0.2.11",
+    "metro4": "^4.3.5"
   }
 }
-
-
-

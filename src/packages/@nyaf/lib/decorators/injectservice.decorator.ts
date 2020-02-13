@@ -22,10 +22,12 @@ export function InjectService<T>(name: string, type: ServiceType<T>, singleton: 
       (<Map<string, any>>target.prototype['_services']).set(name, t);
     }
     // we define the access on "this" level, but let the definition run on "super" level
-    Object.defineProperty(target, 'services', {
-      get: function () {
-        return target.prototype['_services'];
-      }
-    });
+    if (!target.services) {
+      Object.defineProperty(target, 'services', {
+        get: function () {
+          return target.prototype['_services'];
+        }
+      });
+    }
   };
 }

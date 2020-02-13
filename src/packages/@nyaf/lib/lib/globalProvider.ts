@@ -149,7 +149,7 @@ export class GlobalProvider {
   /**
    * All events are handled by this helper function. This function shall not be called from user code.
    */
-  private static eventHub(e: Event) {
+  private static async eventHub(e: Event) {
     const parentWalk = el => {
       if (!el.parentElement) {
         return el;
