@@ -1,6 +1,6 @@
 {
   "name": "@nyaf/forms",
-  "version": "0.2.11",
+  "version": "0.2.14",
   "description": "An extension to \"Not Yet Another Framework\". A simple forms validation library.",
   "main": "forms.umd.js",
   "private": false,
@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "dependencies": {
-    "@nyaf/lib": "0.2.11",
+    "@nyaf/lib": "0.2.14",
     "metro4": "^4.3.5"
   }
 }

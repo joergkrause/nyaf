@@ -366,15 +366,15 @@ After this, by clicking the hyperlink, the class "active" will be added to the a
 
 ### Named Routes
 
-The underlying Route definition type `Routes`, allows two additional fields:
+The underlying Route definition, the type `Routes`, allows two additional fields (`outlet` and `data`):
 
 ~~~
 const routes: Routes = {
-  '/': { component: HomeComponent },
-  '/docu': { component: DocuComponent, data: { notlocal: true} },
-  '/about': { component: AboutComponent },
-  '/demo': { component: DemoComponent,
-  '/router': { component: RouterComponent },
+  '/': { component: HomeComponent, outlet: 'main' },
+  '/docu': { component: DocuComponent, outlet: 'main', data: { notlocal: true} },
+  '/about': { component: AboutComponent, outlet: 'main' },
+  '/demo': { component: DemoComponent, outlet: 'main',
+  '/router': { component: RouterComponent, outlet: 'main' },
   '/router/page1': { component: Page1Component, outlet: 'router' },
   '/router/page2': { component: Page2Component, outlet: 'router' },
   '/router/page2/other': { component: Page2Component, outlet: 'other' },
@@ -383,11 +383,18 @@ const routes: Routes = {
 };
 ~~~
 
-With `outlet` one can define a named outlet. It my reside everywhere. It may look like this:
+With `outlet` one can define a named outlet. If you use this, you must name all routes as there is no fallback currently. The route outlet might reside everywhere. It may look like this:
 
 ~~~
 <div n-router-outlet="other"></div>
 ~~~
+
+If the route's components deliver `<li>` elements, you can also use something like this to build well formatted HTML:
+
+~~~
+<ul n-router-outlet="other"></div>
+~~~
+
 
 There is no difference on the link side, the decision to address another outlet is made in the configuration only. If the outlet doesn't exists nothing happens and a warning appears on the console (in DEBUG mode).
 

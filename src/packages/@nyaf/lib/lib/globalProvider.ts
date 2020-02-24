@@ -27,7 +27,8 @@ export class BootstrapProp {
  * Main support class that provides all global functions.
  */
 export class GlobalProvider {
-  static registeredElements: Array<string> = [];
+  private static registeredElements: Array<string> = [];
+  private static bootstrapProps: BootstrapProp;
 
   /**
    *
@@ -46,9 +47,10 @@ export class GlobalProvider {
    * The global configuration. This call is required.
    * @param props Provide module properties with registration and settings.
    */
-  static bootstrap(props: BootstrapProp) {
+  public static bootstrap(props: BootstrapProp) {
+    GlobalProvider.bootstrapProps = props;
     // register components
-    props.components.forEach(c => {
+    GlobalProvider.bootstrapProps.components.forEach(c => {
       // add to browsers web component registry
       GlobalProvider.register(c);
     });
@@ -57,12 +59,12 @@ export class GlobalProvider {
     // register routes
     document.onreadystatechange = () => {
       if (document.readyState === 'complete') {
-        this.registerRouter(props);
+        GlobalProvider.registerRouter();
       }
     };
   }
 
-  private static registerRouter(props: BootstrapProp) {
+  private static registerRouter() {
     // find the outlets after ready
     const outlets = document.querySelectorAll('[n-router-outlet]');
     // is completely voluntery
@@ -106,16 +108,16 @@ export class GlobalProvider {
               needFallback = true;
               break;
             }
-            if (!props.routes[requestedRoute]) {
+            if (!GlobalProvider.bootstrapProps.routes[requestedRoute]) {
               needFallback = true;
               break;
             }
-            outletName = props.routes[requestedRoute].outlet;
+            outletName = GlobalProvider.bootstrapProps.routes[requestedRoute].outlet;
             break;
           } while (true);
           // only execute if useful, here we have a valid route
-          if (!needFallback || (needFallback && props.routes['**'])) {
-            const activatedComponent = props.routes[requestedRoute].component;
+          if (!needFallback || (needFallback && GlobalProvider.bootstrapProps.routes['**'])) {
+            const activatedComponent = GlobalProvider.bootstrapProps.routes[requestedRoute].component;
             if (!requestedRoute.startsWith('#')) {
               requestedRoute = `#${requestedRoute}`;
             }
@@ -125,21 +127,51 @@ export class GlobalProvider {
           } else {
             console.warn(
               '[NYAF] A router link call has been executed,' +
-              'but requestes link is not properly configured: ' +
+              'but requested link is not properly configured: ' +
               (<HTMLAnchorElement>e.target).href
             );
           }
         }
       });
       // set default '/': { component: DemoComponent },
-      const defaultRoute = props.routes['/'];
+      const defaultRoute = GlobalProvider.bootstrapProps.routes['/'];
       if (defaultRoute) {
         const activatedComponent = defaultRoute.component;
         // default route goes always to default outlet
+        onNavItemClick(defaultRoute);
         const outlet = document.querySelector(`[n-router-outlet]`);
         GlobalProvider.setRouterOutlet(activatedComponent, outlet);
       }
     }
+  }
+
+  /**
+   * Invoke a programmatic navigation to the given route. Falls back to default if route not found. Throws an error if no default route.
+   * @param requestedRoute String value of the route's name. Same as in the `href` attribute when defining links.
+   * @param outletName The target. Can be omitted, if the default (main) router outlet is being adressed.
+   */
+  public static navigateRoute(requestedRoute: string, outletName?: string) {
+    let outlet: HTMLElement;
+    let activatedComponent: Component = GlobalProvider.bootstrapProps.routes[requestedRoute]?.component;
+    if (!activatedComponent) {
+      activatedComponent = GlobalProvider.bootstrapProps.routes['/']?.component;
+    }
+    if (!activatedComponent) {
+      throw new Error('Route not found and no default route defined');
+    }
+    if (outletName) {
+      outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
+    } else {
+      outlet = document.querySelector(`[n-router-outlet]`);
+    }
+    GlobalProvider.setRouterOutlet(activatedComponent, outlet);
+  }
+
+  /**
+   * Returns the current router configuration. Allows dynamic manipulation.
+   */
+  public static get routerConfig(): Routes {
+    return GlobalProvider.bootstrapProps.routes;
   }
 
   private static setRouterOutlet(activatedComponent: Component, outlet: Element) {
@@ -209,7 +241,7 @@ export class GlobalProvider {
           ee.detail = (e as CustomEvent).detail;
           e.preventDefault();
           if (asy) {
-            setTimeout(parent[evt].call(parent, ee), 0);
+            await parent[evt].call(parent, ee);
           } else {
             parent[evt].call(parent, ee);
           }

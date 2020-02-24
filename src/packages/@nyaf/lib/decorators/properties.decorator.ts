@@ -15,15 +15,12 @@ export function Properties<T extends {}>(defaults: T) {
 }
 
 export function propInternalSetup<T>(target: any, defaults: T) {
-  Object.defineProperty(target, 'observedAttributes', {
+  // setting in ctor makes it static
+  Object.defineProperty(target.constructor, 'observedAttributes', {
     get: function() {
       return Object.keys(defaults);
     },
     enumerable: false,
     configurable: false
   });
-  // this.props = {
-  // 	title: this.readAttribute('title', 'Anzeigen'),
-  // 	tabs: this.readAttribute('tabs', [])
-  // };
 }

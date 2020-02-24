@@ -159,16 +159,16 @@ It's in an array like this:
 Than you show the data on the page like this:
 
 ~~~
-<app-tab n-repeat={tabs} title="@title" content="@content"></app-tab>
+<app-tab n-repeat={tabs} title="@title" content="@@content"></app-tab>
 ~~~
 
 Also, text will be parsed as JSON (alternatively):
 
 ~~~
-<app-tab n-repeat='[{ "id":1 }, { "id":2 }]' title="@title" content="@content"></app-tab>
+<app-tab n-repeat='[{ "id":1 }, { "id":2 }]' title="@@title" content="@@content"></app-tab>
 ~~~
 
-The array shall contain objects. If one property is needed, it's accessible within any attribute by writing `attribute="@@propName"`. Note the usage of the quotes and the "@" character.
+The array shall contain objects. If one property is needed, it's accessible within any attribute by writing `attribute="@@propName"`. Note the usage of the quotes and the "@@" character sequence.
 
 You can repeat anything, even plain HTML elements such as `<span>` or `<li>`. The behavior is comparable to Angular's `*ngFor` directive.
 
@@ -249,8 +249,8 @@ You can combine any event with the attribute `n-async` to make the call to the e
 
 Sometimes the JavaScript events are not flexible enough. So you can define your own ones. That's done by three simple steps:
 
-* Add a decorator `@Events` to declare the events (it's an array to declare multiple in one step)
-* Create `CustomEvent` object and dispatch (that's [native Web Component behavior](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent))
+* Add a decorator `@Events` to declare the events (it's an array to declare multiple in one step). Mandatory.
+* Create `CustomEventInit` object and dispatch (that's [native Web Component behavior](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent))
 * use the `n-on-<myCustomEventName>` attribute to attach the event.
 
 Imagine a button component like this:
@@ -287,7 +287,16 @@ The custom event in this example is called *showAlert*. It's invoked by a click.
 <app-button n-on-showAlert={(e) => this.someHandler(e)} />
 ~~~
 
-The argument *e* contains the `CustomEvent` object. It can carry any number of custom data. The `click`-invoker is just an example, any action can call a custom event, even a web socket callback, a timer, or an HTTP request result.
+The argument *e* contains an `CustomEvent` object. It can carry any number of custom data. The `click`-invoker is just an example, any action can call a custom event, even a web socket callback, a timer, or an HTTP request result. Both `CustomEvent` and `CustomEventInit` have a field `detail` that can carry any object or scalar and is the proposed way to transport custom data with the event. The event handler could look like this:
+
+~~~
+private showAlert(e: CustomEvent) {
+  const data = e.detail;
+  // Your code that handles the event
+}
+~~~
+
+> Custom events can be async, too. Just add `n-async` to the element that fires the event and add the `async` modifier to the handler.
 
 ## Router
 
