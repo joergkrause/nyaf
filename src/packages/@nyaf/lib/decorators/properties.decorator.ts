@@ -16,11 +16,15 @@ export function Properties<T extends {}>(defaults: T) {
 
 export function propInternalSetup<T>(target: any, defaults: T) {
   // setting in ctor makes it static
-  Object.defineProperty(target.constructor, 'observedAttributes', {
-    get: function() {
-      return Object.keys(defaults);
-    },
-    enumerable: false,
-    configurable: false
-  });
+  if (!target.constructor.observedAttributes) {
+    Object.defineProperty(target.constructor, 'observedAttributes', {
+      get: function () {
+        return Object.keys(defaults);
+      },
+      enumerable: false,
+      configurable: false
+    });
+  } else {
+    Object.assign(target.constructor.observedAttributes, defaults);
+  }
 }
