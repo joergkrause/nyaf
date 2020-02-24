@@ -148,7 +148,7 @@ export class GlobalProvider {
   /**
    * Invoke a programmatic navigation to the given route. Falls back to default if route not found. Throws an error if no default route.
    * @param requestedRoute String value of the route's name. Same as in the `href` attribute when defining links.
-   * @param outletName The target. Can be omitted, if the default (main) router outlet is being adressed.
+   * @param outletName The target. Can be omitted, if the default (main) router outlet is being adressed or the router configuration provides static outlets.
    */
   public static navigateRoute(requestedRoute: string, outletName?: string) {
     let outlet: HTMLElement;
@@ -159,12 +159,15 @@ export class GlobalProvider {
     if (!activatedComponent) {
       throw new Error('Route not found and no default route defined');
     }
-    if (outletName) {
-      outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
-    } else {
-      outlet = document.querySelector(`[n-router-outlet]`);
+    if (!outletName) {
+      outletName = GlobalProvider.bootstrapProps.routes[requestedRoute].outlet;
     }
-    GlobalProvider.setRouterOutlet(activatedComponent, outlet);
+    outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
+    if (outlet) {
+      GlobalProvider.setRouterOutlet(activatedComponent, outlet);
+    } else {
+      throw new Error('Outlet not found or route improper configured.');
+    }
   }
 
   /**

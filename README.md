@@ -400,6 +400,18 @@ There is no difference on the link side, the decision to address another outlet 
 
 > In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet.
 
+### Navigate to Route
+
+You can navigate by code:
+
+~~~
+GlobalProvider.navigateRoute('/my-route');
+~~~
+
+The outlet is pulled from configuration, but if provided as second parameter it can be overwritten.
+
+> **Hint:** In the link elements you use the '#' prefix. In the `navigateRoute` method this is not necessary and hence not allowed.
+
 ### Addition Data
 
 The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.

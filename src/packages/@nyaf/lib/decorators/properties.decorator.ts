@@ -27,4 +27,12 @@ export function propInternalSetup<T>(target: any, defaults: T) {
   } else {
     Object.assign(target.constructor.observedAttributes, defaults);
   }
+  // control of properties used as state
+  Object.defineProperty(target, 'observedAttributes', {
+    get: function () {
+      return Object.keys(defaults);
+    },
+    enumerable: false,
+    configurable: false
+  });
 }
