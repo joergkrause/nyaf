@@ -56,6 +56,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   private _lifeCycleState: LifeCycle;
   private _data: P;
   private _services: Map<string, any>;
+  private isInitalized = false;
 
   /**
    *
@@ -124,9 +125,9 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param name Dispatch a custom event bound to the current component.
    * @param data Some custom data and settings.
    */
-  protected dispatch(name: string, data: CustomEventInit) {
+  protected dispatch(name: string, data: CustomEventInit): boolean {
     const thisEvent = new CustomEvent(name + '_' + this.constructor.name, data);
-    super.dispatchEvent(thisEvent);
+    return super.dispatchEvent(thisEvent);
   }
 
   /**
@@ -168,8 +169,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       this.setup();
     }
   }
-
-  private isInitalized: boolean = false;
 
   attributeChangedCallback(name: string, oldValue: any, newValue: any) {
     if (oldValue !== newValue) {
