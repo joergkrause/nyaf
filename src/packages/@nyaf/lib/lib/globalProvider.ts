@@ -1,9 +1,7 @@
 import { Component, ComponentType } from '../types/common';
-import { BaseComponent } from '../components/base.component';
 import events from './events';
+import { RouteEventTarget } from './navigate.event';
 import { DomOp } from './dom-operations';
-import eventList from './events';
-import { Readonly } from '@nyaf/forms';
 
 export interface Routes {
   [path: string]: { component: Component; outlet?: string, data?: any };
@@ -29,6 +27,8 @@ export class BootstrapProp {
 export class GlobalProvider {
   private static registeredElements: Array<string> = [];
   private static bootstrapProps: BootstrapProp;
+
+  private static onRouterAction: RouteEventTarget;
 
   /**
    *
@@ -62,6 +62,8 @@ export class GlobalProvider {
         GlobalProvider.registerRouter();
       }
     };
+    // prepare router events
+    GlobalProvider.onRouterAction = new RouteEventTarget(props.routes);
   }
 
   private static registerRouter() {
@@ -123,7 +125,7 @@ export class GlobalProvider {
             }
             onNavItemClick(requestedRoute);
             const outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
-            GlobalProvider.setRouterOutlet(activatedComponent, outlet);
+            GlobalProvider.setRouterOutlet(activatedComponent, requestedRoute, outlet);
           } else {
             console.warn(
               '[NYAF] A router link call has been executed,' +
@@ -140,7 +142,7 @@ export class GlobalProvider {
         // default route goes always to default outlet
         onNavItemClick(defaultRoute);
         const outlet = document.querySelector(`[n-router-outlet]`);
-        GlobalProvider.setRouterOutlet(activatedComponent, outlet);
+        GlobalProvider.setRouterOutlet(activatedComponent, '/', outlet);
       }
     }
   }
@@ -164,10 +166,14 @@ export class GlobalProvider {
     }
     outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
     if (outlet) {
-      GlobalProvider.setRouterOutlet(activatedComponent, outlet);
+      GlobalProvider.setRouterOutlet(activatedComponent, requestedRoute, outlet);
     } else {
       throw new Error('Outlet not found or route improper configured.');
     }
+  }
+
+  public static get routerAction() {
+    return GlobalProvider.onRouterAction;
   }
 
   /**
@@ -177,8 +183,22 @@ export class GlobalProvider {
     return GlobalProvider.bootstrapProps.routes;
   }
 
-  private static setRouterOutlet(activatedComponent: Component, outlet: Element) {
+  private static setRouterOutlet(activatedComponent: Component, requestedRoute: string, outlet: Element) {
+    let event = new CustomEvent('navigate', {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      detail: requestedRoute
+    });
+    GlobalProvider.onRouterAction.dispatchEvent(event);
     outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
+    event = new CustomEvent('navigated', {
+      bubbles: true,
+      cancelable: false,
+      composed: true,
+      detail: requestedRoute
+    });
+    GlobalProvider.onRouterAction.dispatchEvent(event);
   }
 
   /**

@@ -603,7 +603,7 @@ GlobalProvider.bootstrap({
 });
 ~~~
 
-Create file *main.component.ts* in the same folder. Fill this content in:
+Create file *main.component.tsx* in the same folder (It must be _*.tsx_!). Fill this content in:
 
 ~~~
 import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
@@ -627,7 +627,7 @@ export class MainComponent extends BaseComponent {
 }
 ~~~
 
-> Watch the default import for *JSX* - this IS required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files.
+> Watch the default import for *JSX* - this IS required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files. It's always `JSX`, even if we use _*.tsx_-files.
 
 Create a file named *index.html* in the very same folder and fill it like this:
 
@@ -647,9 +647,11 @@ Create a file named *index.html* in the very same folder and fill it like this:
 </html>
 ~~~
 
+Your app starts in line 11.
+
 ## Setup
 
-Now, because it's based on TypeScript, it's very recommended to use WebPack and TypeScript.
+Now, because it's based on TypeScript, it's very recommended to use WebPack and TypeScript's configuration file *tsconfig.json*.
 
 The *tsconfig.json* looks like this:
 
