@@ -169,16 +169,21 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     }
   }
 
+  private isInitalized: boolean = false;
+
   attributeChangedCallback(name: string, oldValue: any, newValue: any) {
     if (oldValue !== newValue) {
-      (this.data as ComponentData) [name] = newValue;
-      this.setup();
+      (this.data as ComponentData)[name] = newValue;
+      if (this.isInitalized) {
+        this.setup();
+      }
     }
   }
 
   connectedCallback() {
     this.lifeCycleState = LifeCycle.Connect;
     this.setup();
+    this.isInitalized = true;
   }
 
   protected readAttribute(name: string, defaultValue?: any) {

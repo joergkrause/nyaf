@@ -140,7 +140,7 @@ export class GlobalProvider {
       if (defaultRoute) {
         const activatedComponent = defaultRoute.component;
         // default route goes always to default outlet
-        onNavItemClick(defaultRoute);
+        onNavItemClick('/');
         const outlet = document.querySelector(`[n-router-outlet]`);
         GlobalProvider.setRouterOutlet(activatedComponent, '/', outlet);
       }

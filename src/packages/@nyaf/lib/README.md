@@ -404,6 +404,28 @@ There is no difference on the link side, the decision to address another outlet 
 
 The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.
 
+### Navigate to Route
+
+You can navigate by code:
+
+~~~
+GlobalProvider.navigateRoute('/my-route');
+~~~
+
+The outlet is pulled from configuration, but if provided as second parameter it can be overwritten.
+
+> **Hint:** In the link elements you use the '#' prefix. In the `navigateRoute` method this is not necessary and hence not allowed.
+
+### Route Events
+
+The router fires two events, available through the static `GlobalProvider` class like this:
+
+~~~
+GlobalProvider.routerAction.addEventListener('navigate', (evt) => {
+  const route = evt.detail.roiute
+}
+~~~
+
 ## Shadow DOM
 
 By default the shadow DOM is ____not____ used. If it would, it would mean, that styles are isolated. No global styles are available, then.
@@ -591,7 +613,7 @@ GlobalProvider.bootstrap({
 });
 ~~~
 
-Create file *main.component.ts* in the same folder. Fill this content in:
+Create file *main.component.tsx* in the same folder (It must be _*.tsx_!). Fill this content in:
 
 ~~~
 import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
@@ -615,7 +637,7 @@ export class MainComponent extends BaseComponent {
 }
 ~~~
 
-> Watch the default import for *JSX* - this IS required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files.
+> Watch the default import for *JSX* - this IS required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files. It's always `JSX`, even if we use _*.tsx_-files.
 
 Create a file named *index.html* in the very same folder and fill it like this:
 
@@ -635,9 +657,11 @@ Create a file named *index.html* in the very same folder and fill it like this:
 </html>
 ~~~
 
+Your app starts in line 11.
+
 ## Setup
 
-Now, because it's based on TypeScript, it's very recommended to use WebPack and TypeScript.
+Now, because it's based on TypeScript, it's very recommended to use WebPack and TypeScript's configuration file *tsconfig.json*.
 
 The *tsconfig.json* looks like this:
 

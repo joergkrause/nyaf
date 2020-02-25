@@ -400,6 +400,10 @@ There is no difference on the link side, the decision to address another outlet 
 
 > In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet.
 
+### Addition Data
+
+The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.
+
 ### Navigate to Route
 
 You can navigate by code:
@@ -412,9 +416,24 @@ The outlet is pulled from configuration, but if provided as second parameter it 
 
 > **Hint:** In the link elements you use the '#' prefix. In the `navigateRoute` method this is not necessary and hence not allowed.
 
-### Addition Data
+### Route Events
 
-The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.
+The router fires two events, available through the static `GlobalProvider` class like this:
+
+~~~
+GlobalProvider.routerAction.addEventListener('navigate', (evt) => {
+  const route = evt.detail;
+  // optionally cancel before execution
+  evt.cancel = true;
+}
+~~~
+
+~~~
+GlobalProvider.routerAction.addEventListener('navigated', (evt) => {
+  const route = evt.detail;
+  // this event can't be cancelled
+}
+~~~
 
 ## Shadow DOM
 

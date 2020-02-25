@@ -8,7 +8,7 @@
     "lint": "tslint './src/packages/@nyaf/lib/src/**/*.ts' && tslint './src/packages/@nyaf/forms/src/**/*.ts' && tslint './src/packages/@nyaf/store/src/**/*.ts'",
     "nyaf-lib": "webpack --config webpack.config.lib.js --mode \"production\"",
     "build": "rimraf dist && rimraf out-tsc && tsc && cp README.md ./src/packages/@nyaf/lib && npm run nyaf-lib && gulp",
-    "start": "webpack-dev-server --open",
+    "start": "export PATH=$PATH:/mnt/c/Windows/System32 && webpack-dev-server --open",
     "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public",
     "demo": "npm run build && showdown makehtml -i README.md -o dist/docu.html && webpack --config webpack.config.js --mode \"production\" && npm run codedoc",
     "codedoc": "npm run codedoc-nyaf-lib && npm run codedoc-nyaf-forms && npm run codedoc-nyaf-store",
