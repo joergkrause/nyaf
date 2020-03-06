@@ -422,7 +422,16 @@ The router fires two events, available through the static `GlobalProvider` class
 
 ~~~
 GlobalProvider.routerAction.addEventListener('navigate', (evt) => {
-  const route = evt.detail.roiute
+  const route = evt.detail;
+  // optionally cancel before execution
+  evt.cancel = true;
+}
+~~~
+
+~~~
+GlobalProvider.routerAction.addEventListener('navigated', (evt) => {
+  const route = evt.detail;
+  // this event can't be cancelled
 }
 ~~~
 
@@ -543,6 +552,16 @@ return (<app-btn title={someTitle} />);
 ~~~
 
 The `@Properties` decorator defines all properties, that are now monitored (observed) and hence the value is evaluated and rendered. If the value changes the component renders itself automatically.
+
+### Accessing Properties
+
+The access with `data` is internally and externally available. That means, you can retrieve a component and set values like this:
+
+~~~
+(this.querySelector('[data-demo-button]') as any).data.text = 'Some demo data';
+~~~
+
+As like with `setData` internally this will trigger the renderer to re-render the content with the new attribute, but in this case from another component.
 
 ### Properties and View Models
 

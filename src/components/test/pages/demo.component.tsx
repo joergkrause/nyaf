@@ -1,5 +1,6 @@
 import { BaseComponent, ComponentData } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
+import { ButtonComponent } from '../button.component';
 
 // Step 1: Create the Components active parts
 @CustomElement('app-demo')
@@ -99,6 +100,12 @@ tabs.push({ content: 'test five', title: 'Title 5' });
           <app-button class='col-6' text={btnText} n-on-showAlert={e => this.clickBtn(e)} />
         </div>
         <hr />
+        <h3>Smart Render</h3>
+        <div class='row'>
+        <app-button class='col-6' text='Click to change text of next button' n-on-showAlert={e => this.changeOtherButton(e)} />
+        <app-button class='col-6' text='Default Text' data-demo-button />
+        </div>
+        <hr />
         <h3>Form</h3>
         <div class='row'>
           <div class='alert alert-info col-6'>
@@ -112,4 +119,9 @@ tabs.push({ content: 'test five', title: 'Title 5' });
       </div>
     );
   }
+
+  changeOtherButton(e: CustomEvent) {
+    (this.querySelector('[data-demo-button]') as any).data.text = Math.round(Math.random() * 100);
+  }
+
 }

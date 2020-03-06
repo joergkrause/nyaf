@@ -32,8 +32,17 @@ export class ButtonComponent extends BaseComponent<ButtonPropType> {
   render() {
     return (
       <button type='button' n-on-click={e => this.clickMe(e)}>
-        {super.data.text}
+        {this.data.text}
       </button>
     );
   }
+
+  // public set text(value) {
+  //   this.setAttribute('text', value);
+  // }
+
+  // public get text() {
+  //   return this.getAttribute('text');
+  // }
+
 }

@@ -15,24 +15,30 @@ export function Properties<T extends {}>(defaults: T) {
 }
 
 export function propInternalSetup<T>(target: any, defaults: T) {
-  // setting in ctor makes it static
-  if (!target.constructor.observedAttributes) {
-    Object.defineProperty(target.constructor, 'observedAttributes', {
-      get: function () {
-        return Object.keys(defaults);
-      },
-      enumerable: false,
-      configurable: false
-    });
-  } else {
-    Object.assign(target.constructor.observedAttributes, defaults);
-  }
-  // control of properties used as state
-  Object.defineProperty(target, 'observedAttributes', {
+  Object.defineProperty(target, '__observedAttributes__', {
     get: function () {
       return Object.keys(defaults);
     },
     enumerable: false,
     configurable: false
   });
+  Object.defineProperty(target, '__proxyInitializer__', {
+    get: function () {
+      return defaults;
+    },
+    enumerable: false,
+    configurable: false
+  });
+  // Object.keys(defaults).forEach((prop) => {
+  //   Object.defineProperty(target, prop, {
+  //     get: function () {
+  //       return (target as HTMLElement).getAttribute(prop);
+  //     },
+  //     set: function (value) {
+  //       (target as HTMLElement).setAttribute(prop, value);
+  //     },
+  //     enumerable: true,
+  //     configurable: false
+  //   });
+  // });
 }
