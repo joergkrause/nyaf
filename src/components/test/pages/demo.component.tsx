@@ -71,7 +71,7 @@ tabs.push({ content: 'test five', title: 'Title 5' });
         <div class='row'>
           <div class='alert alert-info col-6'>Simple counter using a service.</div>
           <div class='col-6'>
-          A counter using a service class being injected as singleton. Use this to define:<br></br>
+            A counter using a service class being injected as singleton. Use this to define:<br></br>
             <pre>{'@InjectService(CounterService)'}</pre>
             <br></br>
           </div>
@@ -102,8 +102,58 @@ tabs.push({ content: 'test five', title: 'Title 5' });
         <hr />
         <h3>Smart Render</h3>
         <div class='row'>
-        <app-button class='col-6' text='Click to change text of next button' n-on-showAlert={e => this.changeOtherButton(e)} />
-        <app-button class='col-6' text='Default Text' data-demo-button />
+          <div class='alert alert-info col-6'>
+            The component re-renders automatically if an attribute is being changed externally.
+          </div>
+          <div class='col-6'>
+            This button triggers an event handler:
+            <pre>
+              &amp;lt;app-button class='col-6'
+                          text='Click to change text of next button'
+            n-on-showAlert={`e => this.changeOtherButton(e)`} /&amp;gt;
+            </pre>
+            The handler sets the attibute of another component. Use the <code>data</code> field and the attributes name:
+            <pre>
+              {`
+changeOtherButton(e: CustomEvent) {
+  (this.querySelector('[data-demo-button]') as any).data.text = Math.round(Math.random() * 100);
+}`}
+            </pre>
+            There is no other action required, the component-renders immediately.
+          </div>
+        </div>
+        <div class='row'>
+          <app-button class='col-6' text='Click to change text of next button' n-on-showAlert={e => this.changeOtherButton(e)} />
+          <app-button class='col-6' text='Default Text' data-demo-button />
+        </div>
+        <hr />
+        <h3>Extends Components</h3>
+        <div class='row'>
+          <div class='alert alert-info col-6'>
+            The component re-renders automatically if an attribute is being changed externally.
+          </div>
+          <div class='col-6'>...</div>
+        </div>
+        <div class='row'>
+          <p is='app-para' text='A custom para element'></p>
+        </div>
+        <hr />
+        <h3>Slotted Components</h3>
+        <div class='row'>
+          <div class='alert alert-info col-6'>
+            Define content by adding slots instead of attributes. Is useful if content is complex and
+            doesn't fit into an attribute. Be aware, that this is only working in shadowed components.
+            Hence, you must add the @ShadowDOM() decorator to the component containing slots.
+          </div>
+          <div class='col-6'>...</div>
+        </div>
+        <div class='row'>
+          <app-slot>
+            <span slot='header'>This is a header</span>
+            <div class='alert alert-primary' slot='content'>
+              Some content projected into the <b>slottable</b> component.
+  </div>
+          </app-slot>
         </div>
         <hr />
         <h3>Form</h3>

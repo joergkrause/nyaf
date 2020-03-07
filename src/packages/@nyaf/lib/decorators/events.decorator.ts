@@ -43,7 +43,7 @@ export function Events(names: string[]) {
   return eventInternal;
 }
 
-export function eventInternalSetup(target: any, names: string[]) {
+function eventInternalSetup(target: any, names: string[]) {
   names = names.map(name => `${name}_${target.name}`);
   console.log('event register names', names);
   Object.defineProperty(target, 'customEvents', {

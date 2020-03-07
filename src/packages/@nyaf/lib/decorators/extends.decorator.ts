@@ -20,7 +20,7 @@ export function Extends(elementName: string) {
   return extendsInternal;
 }
 
-export function extendsInternalSetup(target: any, elementName: string) {
+function extendsInternalSetup(target: any, elementName: string) {
 
   Object.defineProperty(target, '__extends_element__', {
     value: elementName,

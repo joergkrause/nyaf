@@ -1,36 +1,19 @@
 import { LifeCycle } from './lifecycle.enum';
-import { BasePComponent } from './base.p.component';
-
-// TODO: Implement https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445
-
-/**
- * The structure that defines the state object.
- */
-export interface ComponentData {
-  [key: string]: any;
-}
-
-export interface IBaseComponent extends HTMLElement {
-}
+import { Type } from '../types/common';
+import { ComponentData } from './base.component';
 
 /**
- * Base class for components. Use in derived classes with a path to a template file, and additional setup steps callback.
- * Override 'render' method (mandatory) for event wiring and data/dom manipulation or creation (dynamic part).
+ * Base class for paragraphs. @see {BaseComponent} for details.
  *
- * If the component shall show nothing or has temporarily nothing to render just return `null`.
+ * This class allows siumplified construction of <p> elements usign this syntax:
  *
- * Components must be decorated with at least the @see {CustomElement} decorator. That defines the name is required to render properly.
- * Additional class decorators are available:
+ * @example
+ * <p is="element-name">
  *
- * * @see InjectService:  Injects a service class und a singleton instance becomes avaiable through the property `services`.
+ * You can either return content or change the behavior. Returned content is added as child element.
  *
- * After the render method has been called the first time the property `initialized` becomes `true`.
- * All properties can be bound, so any change will re-render the content. See @see {Properties} decorator.
- * If you use *jsx* in the render method you must import JSX function. This is same behavior as in React. It isn't React, though.
- *
- * https://www.mikedoesweb.com/2017/dynamic-super-classes-extends-in-es6/
  */
-export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLElement implements IBaseComponent {
+export abstract class BasePComponent<P extends ComponentData = {}> extends HTMLParagraphElement {
   /**
    * Set by decorator @see {UseParentStyles}. If set, it copies styles to a shadowed component.
    * If not shadowed, it's being ignored. See @see {UseShadowDOM} decorator, too.
@@ -83,7 +66,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
     if (this.constructor['useParentStyles'] && this.constructor['withShadow'] && !this.constructor['globalStyle']) {
-      // TODO make static
       for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
         const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
         if (css.rules[0].cssText.startsWith(':ignore')) {
@@ -107,10 +89,10 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
 
   // ability to send data to elements from main window
   private receiveMessage(event) {
-    if (event.data.type === 'setData' && (event.data.target === this.readAttribute('id', '') || this.localName === event.data.target)) {
-      this.setData.apply(this, event.data.args);
+      if (event.data.type === 'setData' && (event.data.target === this.readAttribute('id', '') || this.localName === event.data.target)) {
+        this.setData.apply(this, event.data.args);
+      }
     }
-  }
 
   /**
    * Inform caller about reaching a state in life cycle.
@@ -141,16 +123,16 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param key Optionally pull just one key from the dictionary.
    */
   protected get data(): P {
-    return this._data;
-  }
+      return this._data;
+    }
 
   /**
    * Returns the service's instance. Defined using the @see InjectService decorator. The decorator uses a local name for the custom service.
    * @param service The name of a registered service
    */
   protected services(service: string): any {
-    return this._services.get(service);
-  }
+      return this._services.get(service);
+    }
 
   /**
    * Call this method to dispatch a custom event. Returns the result of the event handler conform to default ECMAScript events.
@@ -158,33 +140,33 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param data Some custom data and settings.
    */
   protected dispatch(name: string, data: CustomEventInit): boolean {
-    const thisEvent = new CustomEvent(name + '_' + this.constructor.name, data);
-    return super.dispatchEvent(thisEvent);
-  }
+      const thisEvent = new CustomEvent(name + '_' + this.constructor.name, data);
+      return super.dispatchEvent(thisEvent);
+    }
 
   /**
    * Refresh the content after changes. Called automatically after changes of attrbibutes.
    */
   protected setup() {
-    this.lifeCycleState = LifeCycle.PreRender;
-    if ((<any>this.constructor).withShadow) {
-      const template = document.createElement('template');
-      template.innerHTML = this.render();
-      if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {
-        this.attachShadow({ mode: 'open' });
-        // copy styles to shadow if shadowed and there is something to add
-        if ((<any>this.constructor).useParentStyles && (<any>this.constructor).globalStyle) {
-          const style = document.createElement('style');
-          style.textContent = (<any>this.constructor).globalStyle;
-          this.shadowRoot.appendChild(style);
+      this.lifeCycleState = LifeCycle.PreRender;
+      if ((<any>this.constructor).withShadow) {
+        const template = document.createElement('template');
+        template.innerHTML = this.render();
+        if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {
+          this.attachShadow({ mode: 'open' });
+          // copy styles to shadow if shadowed and there is something to add
+          if ((<any>this.constructor).useParentStyles && (<any>this.constructor).globalStyle) {
+            const style = document.createElement('style');
+            style.textContent = (<any>this.constructor).globalStyle;
+            this.shadowRoot.appendChild(style);
+          }
+          this.shadowRoot.appendChild(template.content.cloneNode(true));
         }
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
+      } else {
+        this.innerHTML = this.render();
       }
-    } else {
-      this.innerHTML = this.render();
+      this.lifeCycleState = LifeCycle.Load;
     }
-    this.lifeCycleState = LifeCycle.Load;
-  }
 
   /**
    * Change the state of the internal data object. If necessary, the component re-renders.
@@ -193,42 +175,42 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param newValue The actual new value.
    */
   public setData(name: string, newValue: any): void {
-    this.lifeCycleState = LifeCycle.SetData;
-    const rerender = this.data[name] !== newValue;
-    (this.data as ComponentData)[name] = newValue;
-    // something is new so we rerender
-    if (rerender) {
-      this.setup();
-    }
-  }
-
-  private attributeChangedCallback(name: string, oldValue: any, newValue: any) {
-    if (oldValue !== newValue) {
+      this.lifeCycleState = LifeCycle.SetData;
+      const rerender = this.data[name] !== newValue;
       (this.data as ComponentData)[name] = newValue;
-      if (this.isInitalized) {
+      // something is new so we rerender
+      if (rerender) {
         this.setup();
       }
     }
-  }
+
+  private attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+      if (oldValue !== newValue) {
+        (this.data as ComponentData)[name] = newValue;
+        if (this.isInitalized) {
+          this.setup();
+        }
+      }
+    }
 
   private connectedCallback() {
-    this.lifeCycleState = LifeCycle.Connect;
-    this.setup();
-    this.isInitalized = true;
-  }
+      this.lifeCycleState = LifeCycle.Connect;
+      this.setup();
+      this.isInitalized = true;
+    }
 
   protected readAttribute(name: string, defaultValue?: any) {
-    return this.attributes[name] === undefined ? defaultValue : this.attributes[name].value;
-  }
+      return this.attributes[name] === undefined ? defaultValue : this.attributes[name].value;
+    }
 
   private disconnectedCallback() {
-    this.lifeCycleState = LifeCycle.Disconnect;
-    this.dispose();
-    this.lifeCycleState = LifeCycle.Disposed;
-  }
+      this.lifeCycleState = LifeCycle.Disconnect;
+      this.dispose();
+      this.lifeCycleState = LifeCycle.Disposed;
+    }
 
   private adoptedCallback() {
-    this.lifeCycleState = LifeCycle.Adopted;
-  }
+      this.lifeCycleState = LifeCycle.Adopted;
+    }
 
-}
+  }

@@ -4,6 +4,7 @@ import { MainComponent } from './components/test/main.component';
 import { TabsComponent } from './components/test/tabs.component';
 import { TabComponent } from './components/test/tab.component';
 import { ButtonComponent } from './components/test/button.component';
+import { SlottedComponent } from './components/test/slotted.component';
 import { AboutComponent } from './components/test/pages/about.component';
 import { DemoComponent } from './components/test/pages/demo.component';
 import { ContactComponent } from './components/test/pages/contact.component';
@@ -13,6 +14,7 @@ import { ServiceCounterComponent } from './components/test/servicecounter.compon
 import { HomeComponent } from 'components/test/pages/home.component';
 import { DocuComponent } from 'components/test/pages/docu.component';
 import { ButtonsComponent } from 'components/test/buttons.component';
+import { ParaExComponent } from 'components/test/paraex.component';
 import { FormComponent } from 'components/test/form.component';
 import { RouterComponent } from 'components/test/router/router.component';
 import { Page1Component } from 'components/test/router/page1.component';
@@ -40,6 +42,8 @@ GlobalProvider.bootstrap({
     MainComponent,
     ButtonComponent,
     ButtonsComponent,
+    ParaExComponent,
+    SlottedComponent,
     TabComponent,
     TabsComponent,
     ContactComponent,

@@ -42,10 +42,10 @@ Components are the core ingredients. You write components as classes, decorated 
 
 ### Registration
 
-Web Components must be registered. To support this, you must use decorators:
+Web Components must be registered. To support this, we use decorators. This makes it quite easy to define a component without knowing the details of the browser's API. The name is determined by `@CustomElement('my-name')`. This is mandatory. Note the base class, which gets a generic that later controls the attributes. The name shall follow the common rules of Web Components, that means, it must have at least one dash '-' so there is no risk of a collision with common HTML element names.
 
 ~~~
-import { CustomElement } from '@nyaf/lib;
+import JSX, { CustomElement } from '@nyaf/lib;
 
 @CustomElement('app-main')
 export class MainComponent extends BaseComponent<{}> {
@@ -65,9 +65,13 @@ export class MainComponent extends BaseComponent<{}> {
 }
 ~~~
 
-The name is determined by `@CustomElement('app-main')`. This is mandatory. Also note the base class, which gets a generic that later controls the properties.
+Let's go step by step through this simple component.
 
-In *main.ts* (or wherever your app is bootstrapped) call this:
+First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from NYAF and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLInt know about this and will not complain.
+
+Second, the component has a base class. All NYAF components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
+
+Now, that the component is defined, it must be registered. In a file called *main.ts* (or wherever your app is bootstrapped) call this:
 
 ~~~
 import { GlobalProvider } from '@nyaf/lib;

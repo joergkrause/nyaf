@@ -15,7 +15,7 @@ export function UseParentStyles(useParentStyles: boolean = true) {
     return useParentStylesInternal;
 }
 
-export function useParentStylesInternalSetup(target: any, useParentStyles: boolean) {
+function useParentStylesInternalSetup(target: any, useParentStyles: boolean) {
 
     Object.defineProperty(target, 'useParentStyles', {
         value: useParentStyles,

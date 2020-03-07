@@ -1,7 +1,7 @@
 import { BaseComponent, Properties, Events } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 
-interface ButtonPropType {
+interface ButtonPropType  {
   text: string;
 }
 
@@ -12,9 +12,6 @@ interface ButtonPropType {
 @Properties<ButtonPropType>({ text: '' })
 @Events(['showAlert'])
 export class ButtonComponent extends BaseComponent<ButtonPropType> {
-  constructor() {
-    super();
-  }
 
   clickMe(e) {
     console.log('Button Element Click ', e);
@@ -36,13 +33,5 @@ export class ButtonComponent extends BaseComponent<ButtonPropType> {
       </button>
     );
   }
-
-  // public set text(value) {
-  //   this.setAttribute('text', value);
-  // }
-
-  // public get text() {
-  //   return this.getAttribute('text');
-  // }
 
 }

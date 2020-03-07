@@ -14,7 +14,7 @@ export function Properties<T extends {}>(defaults: T) {
   return propInternal;
 }
 
-export function propInternalSetup<T>(target: any, defaults: T) {
+function propInternalSetup<T>(target: any, defaults: T) {
   Object.defineProperty(target, '__observedAttributes__', {
     get: function () {
       return Object.keys(defaults);
@@ -29,16 +29,4 @@ export function propInternalSetup<T>(target: any, defaults: T) {
     enumerable: false,
     configurable: false
   });
-  // Object.keys(defaults).forEach((prop) => {
-  //   Object.defineProperty(target, prop, {
-  //     get: function () {
-  //       return (target as HTMLElement).getAttribute(prop);
-  //     },
-  //     set: function (value) {
-  //       (target as HTMLElement).setAttribute(prop, value);
-  //     },
-  //     enumerable: true,
-  //     configurable: false
-  //   });
-  // });
 }
