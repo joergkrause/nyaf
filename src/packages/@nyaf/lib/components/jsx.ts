@@ -1,5 +1,4 @@
 import { isArray, isObject } from 'util';
-import { catchClause } from '@babel/types';
 
 /**
  * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.

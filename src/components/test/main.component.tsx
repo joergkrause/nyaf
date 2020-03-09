@@ -10,39 +10,39 @@ export class MainComponent extends BaseComponent<{}> {
   render() {
     return (
       <section>
-        <ul class="nav nav-pills">
-          <li class="nav-item">
-            <a class="nav-link" href="#/" n-link="active">
+        <ul class='nav nav-pills'>
+          <li class='nav-item'>
+            <a class='nav-link' href='#/' n-link='active'>
               Home
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#/docu" n-link="active">
+          <li class='nav-item'>
+            <a class='nav-link' href='#/docu' n-link='active'>
               Quickstart
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="documentation/index.html" target="tech-docu">
+          <li class='nav-item'>
+            <a class='nav-link' href='documentation/index.html' target='tech-docu'>
               Technical Documentation (new tab)
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#/about" n-link="active">
+          <li class='nav-item'>
+            <a class='nav-link' href='#/about' n-link='active'>
               About
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#/demo" n-link="active">
+          <li class='nav-item'>
+            <a class='nav-link' href='#/demo' n-link='active'>
               Demo
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#/router" n-link="active">
+          <li class='nav-item'>
+            <a class='nav-link' href='#/router' n-link='active'>
               Router (Advanced Demo)
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#/contact" n-link="active">
+          <li class='nav-item'>
+            <a class='nav-link' href='#/contact' n-link='active'>
               Contact
             </a>
           </li>

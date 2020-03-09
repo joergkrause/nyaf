@@ -838,6 +838,10 @@ Inspired by:
 * Vue (thanks for showing short custom attributes)
 * TypeScript (thanks for making JS cool again)
 
+## Readings
+
+There is a book in the making covering all aspects of NYAF: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how NYAF handles them.
+
 ## Next
 
 Look out for 'nyaf-forms' (forms validation) and 'nyaf-store' (flux store). Simple but powerful!

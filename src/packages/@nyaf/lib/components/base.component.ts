@@ -148,8 +148,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * Returns the service's instance. Defined using the @see InjectService decorator. The decorator uses a local name for the custom service.
    * @param service The name of a registered service
    */
-  protected services(service: string): any {
-    return this._services.get(service);
+  protected services<S = any>(serviceId: string): S {
+    return this._services.get(serviceId) as S;
   }
 
   /**
