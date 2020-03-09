@@ -1,5 +1,4 @@
 import { LifeCycle } from './lifecycle.enum';
-import { BasePComponent } from './base.p.component';
 
 // TODO: Implement https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445
 

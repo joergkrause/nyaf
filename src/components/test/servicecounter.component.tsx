@@ -1,4 +1,4 @@
-import { BaseComponent, ComponentData, InjectService } from '@nyaf/lib';
+import { BaseComponent, ServiceType, InjectService } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 
 import { CounterService } from '../services/counter.service';
