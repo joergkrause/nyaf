@@ -152,9 +152,18 @@ changeOtherButton(e: CustomEvent) {
             <span slot='header'>This is a header</span>
             <div class='alert alert-primary' slot='content'>
               Some content projected into the <b>slottable</b> component.
-  </div>
+            </div>
           </app-slot>
         </div>
+        <hr />
+        <app-slot-tabs>
+          <app-slot-tab title='Slot Tab 1'>
+            <div>Content 1</div>
+        </app-slot-tab>
+          <app-slot-tab title='Slot Tab 2'>
+            <div>Content 2</div>
+        </app-slot-tab>
+        </app-slot-tabs>
         <hr />
         <h3>Form</h3>
         <div class='row'>

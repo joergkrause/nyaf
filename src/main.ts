@@ -3,10 +3,13 @@ import { GlobalProvider, Routes } from '@nyaf/lib';
 import { MainComponent } from './components/test/main.component';
 import { TabsComponent } from './components/test/tabs.component';
 import { TabComponent } from './components/test/tab.component';
+import { SlotTabsComponent } from './components/test/slottedtabs/tabs.component';
+import { SlotTabComponent } from './components/test/slottedtabs/tab.component';
 import { ButtonComponent } from './components/test/button.component';
 import { SlottedComponent } from './components/test/slotted.component';
 import { AboutComponent } from './components/test/pages/about.component';
 import { DemoComponent } from './components/test/pages/demo.component';
+import { MetroDemoComponent } from './components/test/pages/metrodemo.component';
 import { ContactComponent } from './components/test/pages/contact.component';
 import { CounterComponent } from 'components/test/counter.component';
 import { StoreCounterComponent } from './components/test/storecounter.component';
@@ -22,12 +25,14 @@ import { Page2Component } from 'components/test/router/page2.component';
 import { Page3Component } from 'components/test/router/page3.component';
 
 import './main.scss';
+require('metro4/build/js/metro');
 
 const routes: Routes = {
   '/': { component: HomeComponent },
   '/docu': { component: DocuComponent, data: { notlocal: true } },
   '/about': { component: AboutComponent },
   '/demo': { component: DemoComponent },
+  '/metro': { component: MetroDemoComponent },
   '/router': { component: RouterComponent },
   '/router/page1': { component: Page1Component, outlet: 'router' },
   '/router/page2': { component: Page2Component, outlet: 'router' },
@@ -46,9 +51,12 @@ GlobalProvider.bootstrap({
     SlottedComponent,
     TabComponent,
     TabsComponent,
+    SlotTabComponent,
+    SlotTabsComponent,
     ContactComponent,
     AboutComponent,
     DemoComponent,
+    MetroDemoComponent,
     CounterComponent,
     StoreCounterComponent,
     ServiceCounterComponent,

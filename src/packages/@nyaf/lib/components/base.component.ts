@@ -82,10 +82,9 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
     if (this.constructor['useParentStyles'] && this.constructor['withShadow'] && !this.constructor['globalStyle']) {
-      // TODO make static
       for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
         const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
-        if (css.rules[0].cssText.startsWith(':ignore')) {
+        if (!css.rules || css.rules.length === 0 || css.rules[0].cssText.startsWith(':ignore')) {
           continue;
         }
         this.constructor['globalStyle'] = Object.keys(css.cssRules)

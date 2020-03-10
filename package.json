@@ -1,6 +1,6 @@
 {
   "name": "nyaf",
-  "version": "0.2.23",
+  "version": "0.2.24",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",
   "scripts": {
@@ -36,6 +36,7 @@
     "@compodoc/compodoc": "^1.1.11",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.26",
+    "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",
     "gulp": "^4.0.2",

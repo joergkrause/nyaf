@@ -1,7 +1,7 @@
 const dev = process.env.NODE_ENV === 'dev';
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const tsconfig = require('./tsconfig.json');
 
@@ -82,7 +82,19 @@ const webpackConfig = {
   },
   // Customize the webpack build process with additionals plugins
   plugins: [
-    new HtmlWebpackPlugin(indexConfig)
+    new HtmlWebpackPlugin(indexConfig),
+		new CopyWebpackPlugin([
+			{
+				from: './node_modules/metro4/build/css/metro-all.min.css',
+				flatten: true,
+				to: './assets/css/'
+			},
+			{
+				from: './node_modules/metro4/build/mif/metro.*',
+				flatten: true,
+				to: './assets/mif/'
+			}
+		])
   ]
 };
 
