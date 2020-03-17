@@ -1,6 +1,7 @@
 import { BaseComponent, ComponentData } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ButtonComponent } from '../button.component';
+import { ComplexComponent } from '../complex.component';
 
 // Step 1: Create the Components active parts
 @CustomElement('app-demo')
@@ -159,10 +160,10 @@ changeOtherButton(e: CustomEvent) {
         <app-slot-tabs>
           <app-slot-tab title='Slot Tab 1'>
             <div>Content 1</div>
-        </app-slot-tab>
+          </app-slot-tab>
           <app-slot-tab title='Slot Tab 2'>
             <div>Content 2</div>
-        </app-slot-tab>
+          </app-slot-tab>
         </app-slot-tabs>
         <hr />
         <h3>Form</h3>
@@ -175,8 +176,24 @@ changeOtherButton(e: CustomEvent) {
         <div class='row'>
           <app-form class='col-6' />
         </div>
+        <hr />
+        <h3>Complex Params</h3>
+        <div class='row'>
+          <div class='alert alert-info col-6'>
+            Use complex objects as params.
+          </div>
+          <div class='col-6'>...</div>
+          <div>
+          <app-complex demo={tabs} id="complexDemo"></app-complex>
+          </div>
+          <button n-on-click={(e) => this.setOther(e)}>Set other complex value</button>
+        </div>
       </div>
     );
+  }
+
+  setOther(e: Event) {
+    (this.querySelector('#complexDemo') as ComplexComponent).setData('demo', []);
   }
 
   changeOtherButton(e: CustomEvent) {

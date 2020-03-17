@@ -1,6 +1,5 @@
 import { LifeCycle } from './lifecycle.enum';
-
-// TODO: Implement https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445
+import { isObject } from 'util';
 
 /**
  * The structure that defines the state object.
@@ -96,9 +95,25 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
 
   // track changes to properties accessed from code directly
   proxyAttributeHandler = {
-    get: (obj: P, prop: string) => this.getAttribute(prop),
-    set: (obj: P, prop: string, value: any, reeiver: any): boolean => {
-      this.setAttribute(prop, value);
+    get: (obj: P, prop: string) => {
+      try {
+        if (this.attributes.getNamedItem(`__${prop}__`)) {
+          return JSON.parse(this.getAttribute(prop));
+        }
+      } catch (err) {
+        console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);
+      }
+      return this.getAttribute(prop);
+    },
+    set: (obj: P, prop: string, value: any, receiver: any): boolean => {
+      try {
+        if (this.attributes.getNamedItem(`__${prop}__`) && isObject(value)) {
+          value = JSON.stringify(value);
+        }
+        this.setAttribute(prop, value);
+      } catch (err) {
+        console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);
+      }
       return true;
     }
   };
@@ -185,17 +200,18 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   }
 
   /**
-   * Change the state of the internal data object. If necessary, the component re-renders.
+   * Change the state of the internal data object. If necessary, the component re-renders. Render can be suppressed.
    *
    * @param name Name of the value.
    * @param newValue The actual new value.
+   * @param noRender Prevent the re-rendering. Used if multiple attributes are being written and a render process for each is not required.
    */
-  public setData(name: string, newValue: any): void {
+  public setData(name: string, newValue: any, noRender = false): void {
     this.lifeCycleState = LifeCycle.SetData;
     const rerender = this.data[name] !== newValue;
     (this.data as ComponentData)[name] = newValue;
     // something is new so we rerender
-    if (rerender) {
+    if (rerender && !noRender) {
       this.setup();
     }
   }
@@ -215,6 +231,9 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     this.isInitalized = true;
   }
 
+  /**
+   * Returns the attributes value. If it doesn't exists it can return the given default. The attribute does not change, though.
+   */
   protected readAttribute(name: string, defaultValue?: any) {
     return this.attributes[name] === undefined ? defaultValue : this.attributes[name].value;
   }

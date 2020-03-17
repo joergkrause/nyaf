@@ -70,10 +70,11 @@ const JSX = {
                 const val = `${value}`.replace(/\(.\)\s+=>\s+this\./, '').replace(/\(.\)/, '');
                 return `${key}='${val}'`;
               }
-              // check for implicit bindings
+              // check for implicit bindings of complex objects
               if (isArray(value) || isObject(value)) {
                 delete props[key];
-                return `${key}='${JSON.stringify(value)}'`;
+                // Stringify and mark as complex to handle the read/write procedure in the Proxy handler
+                return `${key}='${JSON.stringify(value)}' __${key}__`;
               } else {
                 // single quotes to process JSON.stringify (needed, because web components support only string)
                 // In case argument has already single quotes, we replace with double quotes

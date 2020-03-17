@@ -266,7 +266,7 @@ export class GlobalProvider {
           ee.CAPTURING_PHASE = e.CAPTURING_PHASE;
           ee.NONE = e.NONE;
           ee.detail = (e as CustomEvent).detail;
-          e.preventDefault();
+          // e.preventDefault();
           if (asy) {
             await parent[evt].call(parent, ee);
           } else {

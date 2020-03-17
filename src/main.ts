@@ -19,6 +19,7 @@ import { DocuComponent } from 'components/test/pages/docu.component';
 import { ButtonsComponent } from 'components/test/buttons.component';
 import { ParaExComponent } from 'components/test/paraex.component';
 import { FormComponent } from 'components/test/form.component';
+import { ComplexComponent } from 'components/test/complex.component';
 import { RouterComponent } from 'components/test/router/router.component';
 import { Page1Component } from 'components/test/router/page1.component';
 import { Page2Component } from 'components/test/router/page2.component';
@@ -63,6 +64,7 @@ GlobalProvider.bootstrap({
     HomeComponent,
     DocuComponent,
     FormComponent,
+    ComplexComponent,
     RouterComponent,
     Page1Component,
     Page2Component,
