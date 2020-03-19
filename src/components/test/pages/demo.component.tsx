@@ -2,6 +2,7 @@ import { BaseComponent, ComponentData } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ButtonComponent } from '../button.component';
 import { ComplexComponent } from '../complex.component';
+import { ComplexBoolComponent } from '../complexbool.component';
 
 // Step 1: Create the Components active parts
 @CustomElement('app-demo')
@@ -184,9 +185,15 @@ changeOtherButton(e: CustomEvent) {
           </div>
           <div class='col-6'>...</div>
           <div>
-          <app-complex demo={tabs} id="complexDemo"></app-complex>
+            <app-complex demo={tabs} id='complexDemo'></app-complex>
           </div>
-          <button n-on-click={(e) => this.setOther(e)}>Set other complex value</button>
+          <button class='btn btn-primary btn-sm' style='display: block' n-on-click={(e) => this.setOther(e)}>Set other complex value</button>
+          <hr></hr>
+          <div>
+            <app-complex-bool demo={false} id='complexDemoBool'></app-complex-bool>
+          </div>
+          <button class='btn btn-success btn-sm' style='display: block' n-on-click={(e) => this.setYesNo(e)} data-value='yes'>Set Yes</button>
+          <button class='btn btn-danger btn-sm' style='display: block' n-on-click={(e) => this.setYesNo(e)} data-value='no'>Set No</button>
         </div>
       </div>
     );
@@ -194,6 +201,11 @@ changeOtherButton(e: CustomEvent) {
 
   setOther(e: Event) {
     (this.querySelector('#complexDemo') as ComplexComponent).setData('demo', []);
+  }
+
+  setYesNo(e: Event) {
+    const yesno = (e.target as HTMLButtonElement).getAttribute('data-value') === 'yes';
+    (this.querySelector('#complexDemoBool') as ComplexBoolComponent).setData('demo', yesno);
   }
 
   changeOtherButton(e: CustomEvent) {

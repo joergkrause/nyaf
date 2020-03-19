@@ -569,25 +569,25 @@ As like with `setData` internally this will trigger the renderer to re-render th
 
 ### Data Type
 
-Web Components have the restriction that an attribute can transport string values only.
+Web Components have the restriction that an attribute can transport string values only. This would lead to "[Object object]" for other types.
 
-> NYAF overcomes this restriction with a smart attribut handling.
+> NYAF overcomes this restriction with a smart attribute handling.
 
-This would lead to "[Object object]" for other types. In NYAF, however, the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\__name__" is written. Assume your values is written like shown below:
+That means the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\_\_name__" is written. Assume your values is written like shown below:
 
 ~~~
 <app-comp test={[{"obj": 1}, {"obj": 2}]}></app-comp>
 ~~~
 
-The the rendered component would look like this:
+The rendered component would look like this:
 
 ~~~
 <app-comp test="[{"obj": 1}, {"obj": 2}]" __test__></app-comp>
 ~~~
 
-Apparently the double double quotes work just fine. However, the content is now a string. If you do operations on this it will not resolve as the array it was before. Here the second attribute will trigger a different behavior. The hook for the data Proxy used internally is now applying a `JSON.parse` and returns the former object. Also, once set again, the incoming value is checked for being an object and stringified, then.
+Apparently the double double quotes work just fine. However, the content is now a string. If you do operations on this it will not resolve as the array it was before. Here the second attribute will trigger a different behavior. The hook for the data Proxy used internally is now applying a `JSON.parse` and returns the former object. Also, once set again, the incoming value is checked for being an object and stringified, then. The technique currently works for `string` (default Web Component behavior), `number`, `boolean`, `array`, and `object`.
 
-> For extremely huge complex objects this technique might produce a performance penalty due to repeatedly used `JSON.parse`/`JSON.stringify` calls.
+> For extremely huge complex objects this technique might produce a performance penalty due to repeatedly used `JSON.parse`/`JSON.stringify` calls. Be also aware that this cannot work if the object has recursive structures, because the JSON class cannot deal with this. There is no additional error handling to keep the code small, it's just a `try/catch` block that reports the native error.
 
 ### Properties and View Models
 
@@ -696,7 +696,7 @@ Create a file named *index.html* in the very same folder and fill it like this:
   <title>Hello NYAF</title>
 </head>
 <body>
-  <h1>Hell NYAF</h1>
+  <h1>Hello NYAF</h1>
   <app-main></app-main>
 </body>
 </html>

@@ -15,6 +15,9 @@ export class ComplexComponent extends BaseComponent<{ demo: any }> {
   render() {
     return (
       <>
+        <div>
+          A complex value (object) will be send as attribute and rendered properly.
+        </div>
         <pre style='border: 1px solid gray;'>{super.data.demo.length}</pre>
       </>
     );

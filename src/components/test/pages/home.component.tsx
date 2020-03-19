@@ -24,6 +24,9 @@ export class HomeComponent extends BaseComponent {
           <li>Using decorators for following the "separation of concerns" principle</li>
         </ol>
         <p>The result is outstanding. Very easy to write components, very small code, very fast execution.</p>
+        <blockquote>
+          The core library is actually <b>24 KB</b>, zipped roughly <b>9 KB (8.205 bytes)</b>.
+        </blockquote>
         <h3>Template techniques</h3>
         <p>Template are powerful und can handle special instruction, it's a bit looking like a Vue.</p>
         <p>
@@ -52,7 +55,7 @@ export class HomeComponent extends BaseComponent {
           <li>HTML 5 DOM API</li>
         </ul>
         <p>
-          There is no dependency to anything, too. 
+          There is no dependency to anything, too.
         </p>
       </>
     );

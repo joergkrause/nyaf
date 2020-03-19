@@ -567,6 +567,28 @@ The access with `data` is internally and externally available. That means, you c
 
 As like with `setData` internally this will trigger the renderer to re-render the content with the new attribute, but in this case from another component.
 
+### Data Type
+
+Web Components have the restriction that an attribute can transport string values only.
+
+> NYAF overcomes this restriction with a smart attribut handling.
+
+This would lead to "[Object object]" for other types. In NYAF, however, the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\__name__" is written. Assume your values is written like shown below:
+
+~~~
+<app-comp test={[{"obj": 1}, {"obj": 2}]}></app-comp>
+~~~
+
+The the rendered component would look like this:
+
+~~~
+<app-comp test="[{"obj": 1}, {"obj": 2}]" __test__></app-comp>
+~~~
+
+Apparently the double double quotes work just fine. However, the content is now a string. If you do operations on this it will not resolve as the array it was before. Here the second attribute will trigger a different behavior. The hook for the data Proxy used internally is now applying a `JSON.parse` and returns the former object. Also, once set again, the incoming value is checked for being an object and stringified, then.
+
+> For extremely huge complex objects this technique might produce a performance penalty due to repeatedly used `JSON.parse`/`JSON.stringify` calls.
+
 ### Properties and View Models
 
 For a nice view decorators applied to class properties control the appearance.

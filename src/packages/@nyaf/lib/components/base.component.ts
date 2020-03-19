@@ -98,7 +98,15 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     get: (obj: P, prop: string) => {
       try {
         if (this.attributes.getNamedItem(`__${prop}__`)) {
-          return JSON.parse(this.getAttribute(prop));
+          if (this.attributes.getNamedItem(`__${prop}__obj__`)) {
+            return JSON.parse(this.getAttribute(prop));
+          }
+          if (this.attributes.getNamedItem(`__${prop}__bool__`)) {
+            return this.getAttribute(prop) === 'true';
+          }
+          if (this.attributes.getNamedItem(`__${prop}__num__`)) {
+            return Number.parseFloat(this.getAttribute(prop));
+          }
         }
       } catch (err) {
         console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);

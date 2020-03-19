@@ -1,4 +1,4 @@
-import { isArray, isObject } from 'util';
+import { isArray, isObject, isBoolean, isNumber } from 'util';
 
 /**
  * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.
@@ -74,7 +74,11 @@ const JSX = {
               if (isArray(value) || isObject(value)) {
                 delete props[key];
                 // Stringify and mark as complex to handle the read/write procedure in the Proxy handler
-                return `${key}='${JSON.stringify(value)}' __${key}__`;
+                return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__obj__`;
+              } else if (isBoolean(value)) {
+                return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__bool__`;
+              } else if (isNumber(value)) {
+                return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__num__`;
               } else {
                 // single quotes to process JSON.stringify (needed, because web components support only string)
                 // In case argument has already single quotes, we replace with double quotes
