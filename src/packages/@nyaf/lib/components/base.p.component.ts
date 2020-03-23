@@ -1,5 +1,5 @@
 import { LifeCycle } from './lifecycle.enum';
-import { Type } from '../types/common';
+import { Type } from "../types/type";
 import { ComponentData } from './base.component';
 
 /**

@@ -1,5 +1,5 @@
 import { LifeCycle } from './lifecycle.enum';
-import { isObject } from 'util';
+import { isObject, isNumber, isBoolean } from 'util';
 
 /**
  * The structure that defines the state object.
@@ -77,7 +77,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    */
   constructor() {
     super();
-    this._data = new Proxy((this as any).__proxyInitializer__ || {} as P, this.proxyAttributeHandler);
+    this._data = new Proxy((<any>this.constructor).__proxyInitializer__ || {} as P, this.proxyAttributeHandler);
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
     if (this.constructor['useParentStyles'] && this.constructor['withShadow'] && !this.constructor['globalStyle']) {
@@ -97,16 +97,15 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   proxyAttributeHandler = {
     get: (obj: P, prop: string) => {
       try {
-        if (this.attributes.getNamedItem(`__${prop}__`)) {
-          if (this.attributes.getNamedItem(`__${prop}__obj__`)) {
-            return JSON.parse(this.getAttribute(prop));
-          }
-          if (this.attributes.getNamedItem(`__${prop}__bool__`)) {
-            return this.getAttribute(prop) === 'true';
-          }
-          if (this.attributes.getNamedItem(`__${prop}__num__`)) {
-            return Number.parseFloat(this.getAttribute(prop));
-          }
+        const initObj = (<any>this.constructor).__proxyInitializer__ || {} as P;
+        if (this.attributes.getNamedItem(`__${prop}__obj__`) || (initObj[prop] !== undefined && isObject(initObj[prop]))) {
+          return JSON.parse(this.getAttribute(prop));
+        }
+        if (this.attributes.getNamedItem(`__${prop}__bool__`) || (initObj[prop] !== undefined && isBoolean(initObj[prop]))) {
+          return this.getAttribute(prop) === 'true';
+        }
+        if (this.attributes.getNamedItem(`__${prop}__num__`) || (initObj[prop] !== undefined && isNumber(initObj[prop]))) {
+          return Number.parseFloat(this.getAttribute(prop));
         }
       } catch (err) {
         console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);

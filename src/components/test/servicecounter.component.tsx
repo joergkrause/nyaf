@@ -1,15 +1,14 @@
-import { BaseComponent, ServiceType, InjectService } from '@nyaf/lib';
+import { BaseComponent, ServiceType, InjectService, Properties } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 
 import { CounterService } from '../services/counter.service';
-
-const COUNTER_SERVICE = 'myCounter';
 
 /**
  * Shows how to create a simple interactive component using events and state.
  */
 @CustomElement('app-service-counter')
-@InjectService(COUNTER_SERVICE, CounterService)
+@InjectService(CounterService.Id, CounterService)
+@Properties<{ cnt: number }>({ cnt: 0 })
 export class ServiceCounterComponent extends BaseComponent<{ cnt: number }> {
   constructor() {
     super();
@@ -18,16 +17,16 @@ export class ServiceCounterComponent extends BaseComponent<{ cnt: number }> {
 
   clickMeAdd(v: number) {
     console.log('Counter Service Element Click');
-    this.services(COUNTER_SERVICE).increment();
-    const count = this.services(COUNTER_SERVICE).value;
-    super.setData('cnt', count);
+    this.services<CounterService>(CounterService.Id).increment();
+    const count = this.services(CounterService.Id).value;
+    this.data.cnt = count;
   }
 
   clickMeSub(v: number) {
     console.log('Counter Element Click');
-    this.services(COUNTER_SERVICE).decrement();
-    const count = this.services(COUNTER_SERVICE).value;
-    super.setData('cnt', count);
+    this.services<CounterService>(CounterService.Id).decrement();
+    const count = this.services(CounterService.Id).value;
+    this.data.cnt = count;
   }
 
   render() {

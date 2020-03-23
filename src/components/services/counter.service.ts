@@ -1,5 +1,7 @@
 export class CounterService {
 
+  public static Id = 'CounterService';
+
   private count;
 
   constructor() {

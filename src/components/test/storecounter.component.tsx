@@ -1,5 +1,4 @@
-import { BaseComponent, ComponentData } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
+import JSX, { CustomElement, Properties } from '@nyaf/lib';
 import { ProvideStore, Store, StoreComponent } from '@nyaf/store';
 import counterReducer from '../reducer/counter.reducer';
 import setReducer from '../reducer/set.reducer';
@@ -17,13 +16,14 @@ const store = new Store<storeStateType>({
  */
 @CustomElement('app-store-counter')
 @ProvideStore<storeStateType>(store)
+@Properties<{ cnt: number }>({ cnt: 0 })
 export class StoreCounterComponent extends StoreComponent<storeStateType, { cnt: number }> {
   constructor() {
     super();
     super.setData('cnt', 0);
     // fire if a value changes in the store, takes name of the store value
     this.store.subscribe('counter', str => {
-      super.setData('cnt', str.counter);
+      this.data.cnt = str.counter;
     });
   }
 
@@ -46,13 +46,13 @@ export class StoreCounterComponent extends StoreComponent<storeStateType, { cnt:
     return (
       <>
         <div>
-          <button type='button' n-on-Click={e => this.clickMeAdd(e)}>
+          <button type='button' n-on-click={e => this.clickMeAdd(e)}>
             Add 1
           </button>
-          <button type='button' n-on-Click={e => this.clickMeSub(e)} n-async>
+          <button type='button' n-on-click={e => this.clickMeSub(e)} n-async>
             Sub 1
           </button>
-          <button type='button' n-on-Click={e => this.clickMeSet(e)} n-async>
+          <button type='button' n-on-click={e => this.clickMeSet(e)} n-async>
             Set 100
           </button>
         </div>

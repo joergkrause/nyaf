@@ -60,13 +60,69 @@ tabs.push({ content: 'test five', title: 'Title 5' });
         <hr />
         <h3>Counter</h3>
         <div class='row'>
-          <div class='alert alert-info col-6'>Simple counter using events.</div>
-          <div class='col-6'>
-            A simple counter with direct events and logic within the component.
-          </div>
-        </div>
-        <div class='row'>
+          <div class='alert alert-info col-12'>Simple counter using events.</div>
           <app-counter class='col-6' />
+          <div class='col-6'>
+            A simple counter with direct events and logic within the component. The event handler can use static,
+            primitive values like this:
+            <pre>(e) => this.functionCall(e, 5)</pre>
+            However, the values are not being evaluated until final call is being made, and then parsed for
+            string, boolean, and number. That means, "5-2" would be a string and any number evaluation 5-2 would
+            result in NaN.<br />
+            Even a predefined variable cannot resolve properly in that particular context. This is not allowed:
+            <pre>(e) => this.functionCall(e, val)</pre>
+            Here is the complete code of the component:
+            <pre>{`import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
+
+interface CounterProps { cnt: number; }
+
+@CustomElement('app-counter')
+@Properties<CounterProps>({ cnt: 0})
+export class CounterComponent extends BaseComponent<CounterProps> {
+  eventData: any;
+
+  constructor() {
+    super();
+    super.setData('cnt',  10);
+  }
+
+  clickMeAdd(v: number, param: number = 1) {
+    console.log('Counter Element Click');
+    super.data.cnt += param;
+  }
+
+  clickMeSub(v: number, param: number = 1) {
+    console.log('Counter Element Click');
+    super.data.cnt -= param;
+  }
+
+  render() {
+    return (
+      <>
+        &lt;div>
+        &lt;button type='button' n-on-click={e => this.clickMeAdd(e)}>
+            Add 1
+        &lt;/button>
+        &lt;button type='button' n-on-click={e => this.clickMeSub(e)}>
+            Sub 1
+        &lt;/button>
+        &lt;/div>
+        &lt;div>
+        &lt;button type='button' n-on-click={e => this.clickMeAdd(e, 5)}>
+            Add 5
+        &lt;/button>
+        &lt;button type='button' n-on-click={e => this.clickMeSub(e, 5)}>
+            Sub 5
+        &lt;/button>
+        &lt;/div>
+        &lt;pre style='border: 1px solid gray;'>{ super.data.cnt }&lt;/pre>
+      </>
+    );
+  }
+}
+`}
+            </pre>
+          </div>
         </div>
         <hr />
         <h3>Service Counter</h3>

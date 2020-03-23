@@ -1,11 +1,13 @@
-import { BaseComponent, ComponentData } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
+import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
+
+interface CounterProps { cnt: number; }
 
 /**
  * Shows how to create a simple interactive component using events and state.
  */
 @CustomElement('app-counter')
-export class CounterComponent extends BaseComponent<{ cnt: number }> {
+@Properties<CounterProps>({ cnt: 0})
+export class CounterComponent extends BaseComponent<CounterProps> {
   eventData: any;
 
   constructor() {
@@ -13,26 +15,33 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
     super.setData('cnt',  10);
   }
 
-  clickMeAdd(v: number) {
+  clickMeAdd(v: number, param: number = 1) {
     console.log('Counter Element Click');
-    super.setData('cnt', super.data.cnt + 1);
+    super.data.cnt += param;
   }
 
-  clickMeSub(v: number) {
+  clickMeSub(v: number, param: number = 1) {
     console.log('Counter Element Click');
-    super.setData('cnt', super.data.cnt - 1);
+    super.data.cnt -= param;
   }
-
 
   render() {
     return (
       <>
         <div>
-          <button type='button' n-on-Click={e => this.clickMeAdd(e)}>
+          <button type='button' n-on-click={e => this.clickMeAdd(e)}>
             Add 1
           </button>
-          <button type='button' n-on-Click={e => this.clickMeSub(e)} n-async>
+          <button type='button' n-on-click={e => this.clickMeSub(e)}>
             Sub 1
+          </button>
+        </div>
+        <div>
+          <button type='button' n-on-click={e => this.clickMeAdd(e, 5)}>
+            Add 5
+          </button>
+          <button type='button' n-on-click={e => this.clickMeSub(e, 5)}>
+            Sub 5
           </button>
         </div>
         <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>

@@ -1,11 +1,8 @@
-import { Component, ComponentType } from '../types/common';
+import { Component } from '../types/common';
 import events from './events';
-import { RouteEventTarget } from './navigate.event';
+import { Router } from './router/router';
+import { Routes } from './router/routes';
 import { DomOp } from './dom-operations';
-
-export interface Routes {
-  [path: string]: { component: Component; outlet?: string, data?: any };
-}
 
 /**
  * For registration we handle just the types, not actual instances. And types are actually functions.
@@ -25,10 +22,10 @@ export class BootstrapProp {
  * Main support class that provides all global functions.
  */
 export class GlobalProvider {
+
   private static registeredElements: Array<string> = [];
   private static bootstrapProps: BootstrapProp;
-
-  private static onRouterAction: RouteEventTarget;
+  private static router: Router = Router.instance;
 
   /**
    *
@@ -63,121 +60,14 @@ export class GlobalProvider {
     // register routes
     document.onreadystatechange = () => {
       if (document.readyState === 'complete') {
-        GlobalProvider.registerRouter();
+        // prepare route
+        GlobalProvider.router.registerRouter(props.routes);
       }
     };
-    // prepare router events
-    GlobalProvider.onRouterAction = new RouteEventTarget(props.routes);
-  }
-
-  private static registerRouter() {
-    // find the outlets after ready
-    const outlets = document.querySelectorAll('[n-router-outlet]');
-    // is completely voluntery
-    if (outlets) {
-      // handle history
-      const onNavItemClick = pathName => {
-        window.history.pushState({}, pathName, window.location.origin + pathName);
-      };
-      // listen for any click event and check n-link attribute
-      document.addEventListener('click', e => {
-        let target = <HTMLElement>e.target;
-        let nLink = target.getAttribute('n-link');
-        if (!nLink) {
-          // walk up the tree to find next n-link
-          const parents = DomOp.getParents(target, 'a[n-link]');
-          if (parents && parents.length === 1) {
-            target = parents[0];
-            nLink = target.getAttribute('n-link');
-          }
-        }
-        if (nLink) {
-          // handle classes globally
-          document.querySelectorAll('[n-link]').forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute('n-link')));
-          if (nLink !== 'true') {
-            // empty n-link has true as value, that's not a class and we don't set this
-            (<HTMLElement>target).classList.add(nLink);
-          }
-          // expect that n-link is on an anchor tag
-          const pf = (<HTMLAnchorElement>target).href.split('#');
-          let requestedRoute = '';
-          let needFallback = false;
-          let outletName = '';
-          // fallback strategy
-          do {
-            if (pf.length !== 2) {
-              needFallback = true;
-              break;
-            }
-            requestedRoute = pf[1];
-            if (!requestedRoute) {
-              needFallback = true;
-              break;
-            }
-            if (!GlobalProvider.bootstrapProps.routes[requestedRoute]) {
-              needFallback = true;
-              break;
-            }
-            outletName = GlobalProvider.bootstrapProps.routes[requestedRoute].outlet;
-            break;
-          } while (true);
-          // only execute if useful, here we have a valid route
-          if (!needFallback || (needFallback && GlobalProvider.bootstrapProps.routes['**'])) {
-            const activatedComponent = GlobalProvider.bootstrapProps.routes[requestedRoute].component;
-            if (!requestedRoute.startsWith('#')) {
-              requestedRoute = `#${requestedRoute}`;
-            }
-            onNavItemClick(requestedRoute);
-            const outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
-            GlobalProvider.setRouterOutlet(activatedComponent, requestedRoute, outlet);
-          } else {
-            console.warn(
-              '[NYAF] A router link call has been executed,' +
-              'but requested link is not properly configured: ' +
-              (<HTMLAnchorElement>e.target).href
-            );
-          }
-        }
-      });
-      // set default '/': { component: DemoComponent },
-      const defaultRoute = GlobalProvider.bootstrapProps.routes['/'];
-      if (defaultRoute) {
-        const activatedComponent = defaultRoute.component;
-        // default route goes always to default outlet
-        onNavItemClick('/');
-        const outlet = document.querySelector(`[n-router-outlet]`);
-        GlobalProvider.setRouterOutlet(activatedComponent, '/', outlet);
-      }
-    }
-  }
-
-  /**
-   * Invoke a programmatic navigation to the given route. Falls back to default if route not found. Throws an error if no default route.
-   * @param requestedRoute String value of the route's name. Same as in the `href` attribute when defining links.
-   * @param outletName The target. Can be omitted, if the default (main) router outlet is being adressed or the router configuration provides static outlets.
-   */
-  public static navigateRoute(requestedRoute: string, outletName?: string) {
-    let outlet: HTMLElement;
-    let activatedComponent: Component = GlobalProvider.bootstrapProps.routes[requestedRoute]?.component;
-    if (!activatedComponent) {
-      activatedComponent = GlobalProvider.bootstrapProps.routes['/']?.component;
-    }
-    if (!activatedComponent) {
-      throw new Error('Route not found and no default route defined');
-    }
-    if (!outletName) {
-      outletName = GlobalProvider.bootstrapProps.routes[requestedRoute].outlet;
-    }
-    outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
-    if (outlet) {
-      GlobalProvider.setRouterOutlet(activatedComponent, requestedRoute, outlet);
-    } else {
-      throw new Error('Outlet not found or route improper configured.');
-    }
   }
 
   public static get routerAction() {
-    return GlobalProvider.onRouterAction;
+    return GlobalProvider.router.onRouterAction;
   }
 
   /**
@@ -185,24 +75,6 @@ export class GlobalProvider {
    */
   public static get routerConfig(): Routes {
     return GlobalProvider.bootstrapProps.routes;
-  }
-
-  private static setRouterOutlet(activatedComponent: Component, requestedRoute: string, outlet: Element) {
-    let event = new CustomEvent('navigate', {
-      bubbles: true,
-      cancelable: true,
-      composed: true,
-      detail: requestedRoute
-    });
-    GlobalProvider.onRouterAction.dispatchEvent(event);
-    outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
-    event = new CustomEvent('navigated', {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-      detail: requestedRoute
-    });
-    GlobalProvider.onRouterAction.dispatchEvent(event);
   }
 
   /**
@@ -233,14 +105,27 @@ export class GlobalProvider {
         if (!evt) { return; }
         // if there is a method attached call with right binding
         const parent = parentWalk(target);
+        const params = [];
         if (parent[evt]) {
           call = true;
         } else {
           // could be an expression
-          evt = evt.replace(/^(\(?.\)?|.?)\s?=>\s?this\.(.*)(\(.?\))?/, `$2`);
-          if (parent[evt]) {
-            call = true;
-            asy = !!(<HTMLElement>e.target).getAttribute(`n-async`);
+          const match = evt.match(/^(\(?.\)?|.?)\s?=>\s?this\.([^(]*)\(([^)]*)?/);
+          if (match.length > 2) {
+            evt = match[2];
+            if (parent[evt]) {
+              call = true;
+              asy = !!(<HTMLElement>e.target).getAttribute(`n-async`);
+              if (match[3] && match[3].indexOf(',') > 0) {
+                params.push(...match[3].split(',').map(s => {
+                  const param = s.trim();
+                  if (param === 'true') { return true; }
+                  if (param === 'false') { return false; }
+                  if (!isNaN(param)) { return param - 0; }
+                  return param;
+                }).slice(1));
+              }
+            }
           }
         }
         if (call) {
@@ -268,9 +153,9 @@ export class GlobalProvider {
           ee.detail = (e as CustomEvent).detail;
           // e.preventDefault();
           if (asy) {
-            await parent[evt].call(parent, ee);
+            await parent[evt].call(parent, ee, ...params);
           } else {
-            parent[evt].call(parent, ee);
+            parent[evt].call(parent, ee, ...params);
           }
         } else {
           throw new Error(`[NYAF] There is an event handler '${evt}' attached
