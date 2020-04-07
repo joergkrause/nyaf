@@ -81,15 +81,18 @@ export class GlobalProvider {
    * All events are handled by this helper function. This function shall not be called from user code.
    */
   private static async eventHub(e: Event) {
-    const parentWalk = el => {
+    const parentWalk = (el: HTMLElement, evt: string) => {
       if (!el.parentElement) {
-        return el;
+        return null;
       }
-      // not really good, will hit parent components with content
+      // only events attached to custom components matter here
       if (GlobalProvider.registeredElements.some(te => (<HTMLElement>el.parentElement).tagName === te)) {
-        return el.parentElement;
+        const target = el.parentElement[evt];
+        if (target) {
+          return el.parentElement;
+        }
       }
-      return parentWalk(el.parentElement);
+      return parentWalk(el.parentElement, evt);
     };
     if ((<HTMLElement>e.target).getAttribute) {
       let type = e.type;
@@ -100,22 +103,26 @@ export class GlobalProvider {
       const target = DomOp.getParent((<HTMLElement>e.target), `[n-on-${type}]`);
       if (target) {
         let call = false;
-        let asy = false;
+        const asy = !!(<HTMLElement>e.target).getAttribute(`n-async`);
         let evt = target.getAttribute(`n-on-${type}`);
-        if (!evt) { return; }
-        // if there is a method attached call with right binding
-        const parent = parentWalk(target);
+        if (!evt) {
+          // no event target, just ignore
+          return;
+        }
         const params = [];
+        // we're looking for the handler up in the tree
+        let parent = target;
         if (parent[evt]) {
+          // direkt call on same component
           call = true;
         } else {
           // could be an expression
           const match = evt.match(/^(\(?.\)?|.?)\s?=>\s?this\.([^(]*)\(([^)]*)?/);
           if (match.length > 2) {
             evt = match[2];
-            if (parent[evt]) {
+            parent = parentWalk(target, evt);
+            if (parent) {
               call = true;
-              asy = !!(<HTMLElement>e.target).getAttribute(`n-async`);
               if (match[3] && match[3].indexOf(',') > 0) {
                 params.push(...match[3].split(',').map(s => {
                   const param = s.trim();
