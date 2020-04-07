@@ -66,8 +66,18 @@ export class GlobalProvider {
     };
   }
 
+  /**
+   * Fires actions if the router navigates. (`navigate` before the event and `navigated` after).
+   */
   public static get routerAction() {
     return GlobalProvider.router.onRouterAction;
+  }
+
+  /**
+   * Programmatically access the router.
+   */
+  public static navigateRoute(targetRoute: string, outletName?: string): void {
+    GlobalProvider.router.navigateRoute(targetRoute, outletName);
   }
 
   /**

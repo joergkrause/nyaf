@@ -10,6 +10,7 @@ const N_LINK_SEL = `[${N_LINK}]`;
 export class Router {
 
   private static _routerInstance: Router;
+  private static _routes: Routes;
   public onRouterAction: RouteEventTarget;
 
   public static get instance(): Router {
@@ -20,6 +21,7 @@ export class Router {
   }
 
   public registerRouter(routes: Routes) {
+    Router._routes = routes;
     // find the outlets after ready
     const outlets = document.querySelectorAll(N_ROUTER_OUTLET_SEL);
     // is completely voluntery
@@ -124,7 +126,8 @@ export class Router {
    * @param requestedRoute String value of the route's name. Same as in the `href` attribute when defining links.
    * @param outletName The target. Can be omitted, if the default (main) router outlet is being adressed or the router configuration provides static outlets.
    */
-  public navigateRoute(routes: Routes, requestedRoute: string, outletName?: string) {
+  public navigateRoute(requestedRoute: string, outletName?: string) {
+    const routes: Routes = Router._routes;
     let outlet: HTMLElement;
     let activatedComponent: Component = routes[requestedRoute]?.component;
     if (!activatedComponent) {
