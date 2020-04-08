@@ -12,6 +12,6 @@ export abstract class FormsComponent<T> extends BaseComponent<T> {
     super();
   }
 
-  abstract render(): string;
+  abstract async render(): Promise<string>;
 
 }

@@ -149,7 +149,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   /**
    * Implement and return a string with HTML. Ideally use JSX to create elements.
    */
-  public abstract render(): string;
+  public abstract async render(): Promise<string>;
 
   /**
    * Clean up any resources here.
@@ -185,11 +185,11 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   /**
    * Refresh the content after changes. Called automatically after changes of attrbibutes.
    */
-  protected setup() {
+  protected async setup(): Promise<void> {
     this.lifeCycleState = LifeCycle.PreRender;
     if ((<any>this.constructor).withShadow) {
       const template = document.createElement('template');
-      template.innerHTML = this.render();
+      template.innerHTML = await this.render();
       if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {
         this.attachShadow({ mode: 'open' });
         // copy styles to shadow if shadowed and there is something to add
@@ -201,7 +201,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         this.shadowRoot.appendChild(template.content.cloneNode(true));
       }
     } else {
-      this.innerHTML = this.render();
+      this.innerHTML = await this.render();
     }
     this.lifeCycleState = LifeCycle.Load;
   }
