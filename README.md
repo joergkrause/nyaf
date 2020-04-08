@@ -408,6 +408,8 @@ There is no difference on the link side, the decision to address another outlet 
 
 The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.
 
+If you use `data: { title: 'Some Title' } ` the value in the field *title* is being copied to the websites `title` field. That way it appears on the tab (or header bar in Electron). If it's omitted, it's not being set at all.
+
 ### Navigate to Route
 
 You can navigate by code:

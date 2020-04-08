@@ -29,21 +29,23 @@ export class Router {
       // prepare router events
       this.onRouterAction = new RouteEventTarget(routes);
       // handle history
-      const onNavItemClick = pathName => {
-        document.title = pathName;
+      const onNavItemClick = (pathName: string, title?: string) => {
+        if (title) {
+          document.title = title;
+        }
         window.history.pushState({ pathName }, pathName, window.location.origin + pathName);
       };
       window.addEventListener('popstate', (event: any) => {
         // Currently we suport hash location strategy only
-        console.log('pop action', event.path[0].location.hash);
-        const externalhashPath = event.path[0].location.hash || event.path[0].location.pathName;
-        onNavItemClick(externalhashPath);
-        const requestedRoute = externalhashPath.replace(/^#\//, '/');
+        const externalhashPath = event.path[0].location.hash || event.path[0].location.pathname;
+        const requestedRoute = externalhashPath ? externalhashPath.replace(/^#\//, '/') : '/';
         const activatedComponent = routes[requestedRoute].component;
+        const title = routes[requestedRoute].data?.title;
         const outletName = routes[requestedRoute].outlet;
         const outlet = outletName
           ? document.querySelector(`[n-router-outlet="${outletName}"]`)
           : document.querySelector(N_ROUTER_OUTLET_SEL);
+        onNavItemClick(externalhashPath, title);
         this.setRouterOutlet(activatedComponent, requestedRoute, outlet);
       });
       // listen for any click event and check n-link attribute
