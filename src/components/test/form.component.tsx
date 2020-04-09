@@ -28,8 +28,8 @@ export class FormComponent extends BaseComponent<{ model: FormModel}> {
     // TODO: use service
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <>
         <form n-model={super.data.model}>
           <label n-for='@userName' for='un'/>

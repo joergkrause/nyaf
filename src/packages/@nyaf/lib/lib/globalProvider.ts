@@ -160,15 +160,14 @@ export class GlobalProvider {
           ee.target = target;
           ee.timeStamp = e.timeStamp;
           ee.type = type;
-          ee.preventDefault = e.preventDefault;
-          ee.stopImmediatePropagation = e.stopImmediatePropagation;
-          ee.stopPropagation = e.stopPropagation;
+          ee.preventDefault = () => e.preventDefault();
+          ee.stopImmediatePropagation = () => e.stopImmediatePropagation();
+          ee.stopPropagation = () => e.stopPropagation();
           ee.AT_TARGET = e.AT_TARGET;
           ee.BUBBLING_PHASE = e.BUBBLING_PHASE;
           ee.CAPTURING_PHASE = e.CAPTURING_PHASE;
           ee.NONE = e.NONE;
           ee.detail = (e as CustomEvent).detail;
-          // e.preventDefault();
           if (asy) {
             await parent[evt].call(parent, ee, ...params);
           } else {

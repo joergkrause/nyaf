@@ -118,6 +118,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           value = JSON.stringify(value);
         }
         this.setAttribute(prop, value);
+        Promise.resolve(this.setup());
       } catch (err) {
         console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);
       }

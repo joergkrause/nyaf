@@ -15,9 +15,9 @@ export class TabComponent extends BaseComponent<TabProps> {
     super();
   }
 
-  render() {
+  async render() {
     const tabClass = 'nav-link ' + (super.data.active === super.data.title ? 'active' : '');
-    return (
+    return await (
       <li class='nav-item' n-if={super.data.title !== 't1'}>
         <a class={tabClass} href='#'>
           {' '}

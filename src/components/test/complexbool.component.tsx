@@ -12,8 +12,8 @@ export class ComplexBoolComponent extends BaseComponent<{ demo: boolean }> {
   }
 
 
-  render() {
-    return (
+  async render() {
+    return await (
       <>
         <div>
           A boolean value will be send as attribute and rendered properly.

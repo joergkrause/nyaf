@@ -9,8 +9,8 @@ export class SlottedComponent extends BaseComponent<{}> {
     super();
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <p>
         <h5><slot name='header'></slot></h5>
         <slot name='content'></slot>

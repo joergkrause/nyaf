@@ -7,8 +7,8 @@ export class MainComponent extends BaseComponent<{}> {
     super();
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <section>
         <ul class='nav nav-pills'>
           <li class='nav-item'>

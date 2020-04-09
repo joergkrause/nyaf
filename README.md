@@ -54,8 +54,8 @@ export class MainComponent extends BaseComponent<{}> {
     super();
   }
 
-  protected render() {
-    return (
+  async render() {
+    return await (
       <>
         <h1>Demo</h1>
       </>
@@ -275,8 +275,8 @@ export class ButtonComponent extends BaseComponent {
     super.dispatch('showAlert', checkEvent);
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <button type="button" n-on-click={e => this.clickMe(e)}>
         Demo
       </button>
@@ -518,8 +518,8 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
     super.setData('cnt', super.data.cnt - 1);
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <>
         <div>
           <button type='button' n-on-click={e => this.clickMeAdd(e)}>
@@ -623,14 +623,14 @@ export class MainComponent extends BaseComponent<{}> {
 
   // ... omitted for brevity
 
-  protected async render() {
+  async render() {
     let data = await this.services('localNameA').callAnyServiceFunctionHereAsync();
   }
 
 }
 ~~~
 
-> Async is an option, can by sync, too.
+> Async is an option, can by sync, too. However, the render process is always asynchronous internally.
 
 *this.services* is a function, that returns an instance of the service. Services are singleton on the level of the local name. The same name used in different components will return the same instance. Using a different name will create a new instance.
 
@@ -672,8 +672,8 @@ export class MainComponent extends BaseComponent {
 		super();
 	}
 
-	render() {
-		return (
+	async render() {
+		return await (
 			<section>
         <h2>Demo</h2>
         <p>Hello NYAF</p>

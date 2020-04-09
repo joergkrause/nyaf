@@ -26,8 +26,8 @@ export class ButtonComponent extends BaseComponent<ButtonPropType> {
     super.dispatch('showAlert', checkEvent);
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <button type='button' n-on-click={e => this.clickMe(e)}>
         {this.data.text}
       </button>

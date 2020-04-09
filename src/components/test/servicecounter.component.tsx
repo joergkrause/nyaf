@@ -29,8 +29,8 @@ export class ServiceCounterComponent extends BaseComponent<{ cnt: number }> {
     this.data.cnt = count;
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <>
         <div>
           <button type='button' n-on-Click={e => this.clickMeAdd(e)}>

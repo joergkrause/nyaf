@@ -20,7 +20,7 @@ export class ParaExComponent extends BasePComponent<ParaExPropType> {
   }
 
   render() {
-    return (
+    return  (
       <strong>
         {this.data.text}
       </strong>

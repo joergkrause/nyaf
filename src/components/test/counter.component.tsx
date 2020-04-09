@@ -25,8 +25,8 @@ export class CounterComponent extends BaseComponent<CounterProps> {
     super.data.cnt -= param;
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <>
         <div>
           <button type='button' n-on-click={e => this.clickMeAdd(e)}>

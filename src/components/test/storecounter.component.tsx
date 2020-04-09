@@ -42,8 +42,8 @@ export class StoreCounterComponent extends StoreComponent<storeStateType, { cnt:
     this.store.dispatch(SET, 100);
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <>
         <div>
           <button type='button' n-on-click={e => this.clickMeAdd(e)}>

@@ -12,8 +12,8 @@ export class ComplexComponent extends BaseComponent<{ demo: any }> {
   }
 
 
-  render() {
-    return (
+  async render() {
+    return await (
       <>
         <div>
           A complex value (object) will be send as attribute and rendered properly.

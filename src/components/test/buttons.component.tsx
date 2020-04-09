@@ -18,8 +18,8 @@ export class ButtonsComponent extends BaseComponent<{}> {
     super.setup();
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <>
         <div>
           <button type='button' n-on-Click={e => this.clickMe(e)}>
