@@ -213,28 +213,28 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param newValue The actual new value.
    * @param noRender Prevent the re-rendering. Used if multiple attributes are being written and a render process for each is not required.
    */
-  public setData(name: string, newValue: any, noRender = false): void {
+  public async setData(name: string, newValue: any, noRender = false): Promise<void> {
     this.lifeCycleState = LifeCycle.SetData;
     const rerender = this.data[name] !== newValue;
     (this.data as ComponentData)[name] = newValue;
     // something is new so we rerender
     if (rerender && !noRender) {
-      this.setup();
+      await this.setup();
     }
   }
 
-  private attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+  private async attributeChangedCallback(name: string, oldValue: any, newValue: any) {
     if (oldValue !== newValue) {
       (this.data as ComponentData)[name] = newValue;
       if (this.isInitalized) {
-        this.setup();
+        await this.setup();
       }
     }
   }
 
-  private connectedCallback() {
+  private async connectedCallback() {
     this.lifeCycleState = LifeCycle.Connect;
-    this.setup();
+    await this.setup();
     this.isInitalized = true;
   }
 
