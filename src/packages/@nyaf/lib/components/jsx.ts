@@ -81,9 +81,9 @@ const JSX = {
                 return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__num__`;
               } else {
                 // single quotes to process JSON.stringify (needed, because web components support only string)
-                // In case argument has already single quotes, we replace with double quotes
+                // In case argument has already single quotes, we replace with escaped double quotes
                 if (value !== null && value !== undefined) {
-                  const sanitizedValue = value.toString().replace('\'', '"');
+                  const sanitizedValue = value.toString().replace(/'/g, '&quot;');
                   return `${key}='${sanitizedValue}'`;
                 } else {
                   return `${key}='${key}'`;
