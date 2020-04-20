@@ -1,4 +1,4 @@
-import { BaseComponent, ComponentData } from '@nyaf/lib';
+import { BaseComponent, ComponentData, LifeCycle } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ButtonComponent } from '../button.component';
 import { ComplexComponent } from '../complex.component';
@@ -146,7 +146,7 @@ export class CounterComponent extends BaseComponent<CounterProps> {
           <div class='col-6'>...</div>
         </div>
         <div class='row'>
-          <app-store-counter class='col-6' />
+          <app-store-counter class='col-6' onLifecycle={(e) => this.onLifeCycle(e)} />
         </div>
         <hr />
         <h3>Button</h3>
@@ -253,6 +253,16 @@ changeOtherButton(e: CustomEvent) {
         </div>
       </div>
     );
+  }
+
+  onLifeCycle(e: CustomEvent) {
+    console.log('LifeCycle Event', e.detail);
+  }
+
+  lifeCycle(lc: LifeCycle) {
+    if (lc === LifeCycle.Load) {
+      this.querySelector('app-store-counter').addEventListener('lifecycle', (e) => console.log('Lifecycle added ', (e as CustomEvent).detail));
+    }
   }
 
   setOther(e: Event) {

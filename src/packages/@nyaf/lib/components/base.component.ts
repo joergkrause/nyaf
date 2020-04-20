@@ -1,5 +1,6 @@
 import { LifeCycle } from './lifecycle.enum';
-import { isObject, isNumber, isBoolean } from 'util';
+import { isObject, isNumber, isBoolean, isArray } from 'util';
+import { GlobalProvider } from '../lib/globalProvider';
 
 /**
  * The structure that defines the state object.
@@ -53,22 +54,74 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   /**
    * Observe all registered attributes. The source field is set by the @see {Properties} decorator.
    */
-  protected static get observedAttributes() {
-    console.log('Register attributes to observe:', (this as any).__observedAttributes__);
-    return (this as any).__observedAttributes__;
+  protected static get observedAttributes(): string[] {
+    if (isArray((this as any).__observedAttributes__)) {
+      return ['onlifecycle', ...((this as any).__observedAttributes__ as Array<string>)];
+    } else {
+      return ['onlifecycle'];
+    }
   }
 
   /**
-   * Declares that the render method has been called at least one times.
+   * Promote the lifecycle changes:
+   * * first by an sync call of the @see LifeCycle method
+   * * second by dispatching the 'onlifecycle' event. Use addEventListener('lifecycle', ...) to catch the event.
+   * * third a property 'onLifecycle' is being called if a handler function is attached.
    */
   protected set lifeCycleState(lc: LifeCycle) {
+    const parentWalk = (el: HTMLElement, evt: string) => {
+      if (!el.parentElement) {
+        return null;
+      }
+      // only events attached to custom components matter here
+      if (GlobalProvider.registeredElements.some(te => (<HTMLElement>el.parentElement).tagName === te)) {
+        const target = el.parentElement[evt];
+        if (target) {
+          return el.parentElement;
+        }
+      }
+      return parentWalk(el.parentElement, evt);
+    };
     this._lifeCycleState = lc;
+    // sync lifecycle callback
     this.lifeCycle(lc);
+    // for async apps also an event
+    const lifeCycleEvent = new CustomEvent('lifecycle', {
+      bubbles: true,
+      cancelable: false,
+      composed: false,
+      detail: lc
+    });
+    this.dispatchEvent(lifeCycleEvent);
+    // TODO: Duplicate of GlobalProvider event handler, simplify code
+    if (this.getAttribute('onlifecycle')) {
+      let evt = this.getAttribute('onlifecycle');
+      const params = [];
+      const match = evt.match(/^(\(?.\)?|.?)\s?=>\s?this\.([^(]*)\(([^)]*)?/);
+      if (match.length > 2) {
+        evt = match[2];
+        parent = parentWalk(this, evt);
+        if (parent) {
+          if (match[3] && match[3].indexOf(',') > 0) {
+            params.push(...match[3].split(',').map(s => {
+              const param = s.trim();
+              if (param === 'true') { return true; }
+              if (param === 'false') { return false; }
+              if (!isNaN(+param)) { return +param; }
+              return param;
+            }).slice(1));
+          }
+          parent[evt].call(parent, lifeCycleEvent, ...params);
+        }
+      }
+    }
   }
+
   private _lifeCycleState: LifeCycle;
   private _data: P;
   private _services: Map<string, any>;
   private isInitalized = false;
+  public onlifecycle: Function;
 
   /**
    *
@@ -114,11 +167,18 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     },
     set: (obj: P, prop: string, value: any, receiver: any): boolean => {
       try {
-        if (this.attributes.getNamedItem(`__${prop}__`) && isObject(value)) {
+        if (isObject(value)) {
+          this.setAttribute(`__${prop}__obj__`, '');
           value = JSON.stringify(value);
         }
+        if (isBoolean(value)) {
+          this.setAttribute(`__${prop}__bool__`, '');
+        }
+        if (isNumber(value)) {
+          this.setAttribute(`__${prop}__num__`, '');
+        }
         this.setAttribute(prop, value);
-        Promise.resolve(this.setup());
+        Promise.resolve();
       } catch (err) {
         console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);
       }

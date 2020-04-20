@@ -23,7 +23,7 @@ export class BootstrapProp {
  */
 export class GlobalProvider {
 
-  private static registeredElements: Array<string> = [];
+  public static registeredElements: Array<string> = [];
   private static bootstrapProps: BootstrapProp;
   private static router: Router = Router.instance;
 
