@@ -3,6 +3,8 @@ import events from './events';
 import { Router } from './router/router';
 import { Routes } from './router/routes';
 import { DomOp } from './dom-operations';
+import { BaseComponent } from '../components/base.component';
+import { LifeCycle } from '../components/lifecycle.enum';
 
 /**
  * For registration we handle just the types, not actual instances. And types are actually functions.
@@ -59,9 +61,35 @@ export class GlobalProvider {
     events.map(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     // register routes
     document.onreadystatechange = () => {
+      // wait for document
       if (document.readyState === 'complete') {
-        // prepare route
-        GlobalProvider.router.registerRouter(props.routes);
+        // that's not enough, we need to wait for all components' async render process
+        const customComponents: Promise<void>[] = [];
+        // loop through all alread statically set components
+        GlobalProvider.bootstrapProps.components.forEach(c => {
+          // get all appearances
+          [].slice.call(document.getElementsByTagName(c.selector)).forEach((e: BaseComponent) => {
+            // make a promise to wait for the async renderer
+            const p = new Promise<void>((resolve) => {
+              // if already done it's okay for us (mostly, that's just the main component)
+              if (e.isInitalized) {
+                resolve();
+              } else {
+                // all others are being registered and we wait
+                e.addEventListener('lifecycle', (lc: CustomEvent) => {
+                  if (lc.detail === LifeCycle.Load) {
+                    resolve();
+                  }
+                });
+              }
+            });
+            customComponents.push(p);
+          });
+        });
+        Promise.all(customComponents).then(() => {
+          // prepare route
+          GlobalProvider.router.registerRouter(props.routes);
+        });
       }
     };
   }

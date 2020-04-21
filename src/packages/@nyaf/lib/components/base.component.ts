@@ -120,7 +120,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   private _lifeCycleState: LifeCycle;
   private _data: P;
   private _services: Map<string, any>;
-  private isInitalized = false;
+  public isInitalized = false;
   public onlifecycle: Function;
 
   /**
@@ -244,7 +244,9 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   }
 
   /**
-   * Refresh the content after changes. Called automatically after changes of attrbibutes.
+   * Refresh the content after changes. Called automatically after changes of observed attributes.
+   * Fires the @see LifeCycle.PreRender before and the @see LifeCycle.Load event after the content is being written.
+   * The @see lifeCycle hook is called accordingly.
    */
   protected async setup(): Promise<void> {
     this.lifeCycleState = LifeCycle.PreRender;

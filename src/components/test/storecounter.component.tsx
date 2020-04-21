@@ -20,6 +20,7 @@ const store = new Store<storeStateType>({
 export class StoreCounterComponent extends StoreComponent<storeStateType, { cnt: number }> {
   constructor() {
     super();
+    console.log('Store Count Ctor called');
     super.setData('cnt', 0);
     // fire if a value changes in the store, takes name of the store value
     this.store.subscribe('counter', str => {

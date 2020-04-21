@@ -35,9 +35,14 @@ export class Router {
         }
         window.history.pushState({ pathName }, pathName, window.location.origin + pathName);
       };
-      window.addEventListener('popstate', (event: any) => {
+      window.addEventListener('hashchange', (event: HashChangeEvent) => {
         // Currently we suport hash location strategy only
-        const externalhashPath = event.path[0].location.hash || event.path[0].location.pathname;
+        if (window.location.hash === event.oldURL.substring(event.oldURL.indexOf('#'))) {
+          // we're already on that path and there is no additional action required
+          event.preventDefault();
+          return false;
+        }
+        const externalhashPath = event.newURL.substring(event.newURL.indexOf('#')); // (event. as any).path[0].location.hash || event.path[0].location.pathname;
         const requestedRoute = externalhashPath ? externalhashPath.replace(/^#\//, '/') : '/';
         const activatedComponent = routes[requestedRoute].component;
         const title = routes[requestedRoute].data?.title;

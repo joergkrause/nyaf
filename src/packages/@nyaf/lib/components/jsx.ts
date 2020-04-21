@@ -108,7 +108,7 @@ const JSX = {
         return this.createElement(name, props, content);
       });
     }
-    return `<${name} ${propsstr}> ${flat(content).join('')}</${name}>`;
+    return (`<${name} ${propsstr}> ${flat(content).join('')}</${name}>`);
   }
 };
 export default JSX;
