@@ -1,9 +1,8 @@
 ﻿/**
  * The Hidden decorator.
  *
- * The @see `DataGrid` does not show columns for properties tagged with `@Hidden()`.
- * Fields in forms that render automatically
- * using the @see `AcEditor` component will render as <input type="hidden">.
+ * Fields in forms that render automatically using the an auto component will render as <input type="hidden">.
+ * In table views this decorator shall prevent the column at all.
  *
  * @param hide          Optional, default is true.
  */

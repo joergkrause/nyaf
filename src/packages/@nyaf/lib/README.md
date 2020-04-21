@@ -126,6 +126,8 @@ Note, that the method has lower case "l". The `LifeCycle`-enum (upper case "L") 
 * `Disconnect`: Component is going to be unloaded.
 * `Disposed`: After calling the `dispose` method.
 
+The life cycle is available through an event `lifecycle`. It's exposed via a property called `onlifecycle` on the element level, too. The events are fired after the internal hook has been called.
+
 ## Template Features
 
 Template Features avoid using creepy JavaScript for loops and branches. You can use:

@@ -13,6 +13,8 @@ export * from './decorators/forms/val-range.decorator';
 export * from './decorators/ui/hint-display.decorator';
 export * from './decorators/ui/hint-displaygroup.decorator';
 export * from './decorators/ui/hint-hidden.decorator';
+export * from './decorators/ui/hint-sortable.decorator';
+export * from './decorators/ui/hint-filterable.decorator';
 export * from './decorators/ui/hint-templatehint.decorator';
 export * from './decorators/ui/hint-placeholder.decorator';
 export * from './decorators/ui/hint-readonly.decorator';

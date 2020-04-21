@@ -57,7 +57,7 @@ The last (optional) parameter of the validation decorators is a custom error mes
 |**@Range**| A range (from-to) for either numerical values or dates. |
 |**@Required**| Makes the field mandatory. |
 |**@EMail**| Checks input against a (very good) regular expression to test for valid e-mail pattern.|
-|**@Compare**| Compares with another field, usually for password comparision.|
+|**@Compare**| Compares with another field, usually for password comparison.|
 
 ### UI Decorators (property level)
 
@@ -66,6 +66,8 @@ The last (optional) parameter of the validation decorators is a custom error mes
 |**@Display**| Determine the label's name and a tooltip ( optionally). |
 |**@DisplayGroup**| Groups components in `<fieldset>` elements. Can be ordered inside the form. |
 |**@Hidden**| Makes an hidden field. |
+|**@Sortable**| Makes a column sortable in table views. |
+|**@Filterable**| Adds a filter in table views. |
 |**@Placeholder**| A watermark that appears in empty form fields|
 |**@ReadOnly**| Forces a particular render type. Usually you get fields a shown in the table below. With a hint you can force other types.|
 |**@TemplateHint**| What kind of field (text, number, date, ...) and additional styles or classes. |

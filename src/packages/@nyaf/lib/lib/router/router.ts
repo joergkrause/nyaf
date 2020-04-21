@@ -42,16 +42,21 @@ export class Router {
           event.preventDefault();
           return false;
         }
-        const externalhashPath = event.newURL.substring(event.newURL.indexOf('#')); // (event. as any).path[0].location.hash || event.path[0].location.pathname;
+        let externalhashPath = event.newURL.substring(event.newURL.indexOf('#')); // (event. as any).path[0].location.hash || event.path[0].location.pathname;
+        if (externalhashPath.endsWith('/')) {
+          externalhashPath = externalhashPath.slice(0, -1);
+        }
         const requestedRoute = externalhashPath ? externalhashPath.replace(/^#\//, '/') : '/';
-        const activatedComponent = routes[requestedRoute].component;
-        const title = routes[requestedRoute].data?.title;
-        const outletName = routes[requestedRoute].outlet;
-        const outlet = outletName
-          ? document.querySelector(`[n-router-outlet="${outletName}"]`)
-          : document.querySelector(N_ROUTER_OUTLET_SEL);
-        onNavItemClick(externalhashPath, title);
-        this.setRouterOutlet(activatedComponent, requestedRoute, outlet);
+        const activatedComponent = routes[requestedRoute] ? routes[requestedRoute].component : null;
+        if (activatedComponent) {
+          const title = routes[requestedRoute].data?.title;
+          const outletName = routes[requestedRoute].outlet;
+          const outlet = outletName
+            ? document.querySelector(`[n-router-outlet="${outletName}"]`)
+            : document.querySelector(N_ROUTER_OUTLET_SEL);
+          onNavItemClick(externalhashPath, title);
+          this.setRouterOutlet(activatedComponent, requestedRoute, outlet);
+        }
       });
       // listen for any click event and check n-link attribute
       document.addEventListener('click', e => {
@@ -59,7 +64,7 @@ export class Router {
         let nLink = target.getAttribute(N_LINK);
         if (!nLink) {
           // walk up the tree to find next n-link
-          const parents = DomOp.getParents(target, `a${N_LINK}`);
+          const parents = DomOp.getParents(target, `a${N_LINK_SEL}`);
           if (parents && parents.length === 1) {
             target = parents[0];
             nLink = target.getAttribute(N_LINK);
@@ -163,14 +168,20 @@ export class Router {
       detail: requestedRoute
     });
     this.onRouterAction.dispatchEvent(event);
-    outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
-    event = new CustomEvent('navigated', {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
-      detail: requestedRoute
-    });
-    this.onRouterAction.dispatchEvent(event);
+    if (!(outlet as any)['__activatedComponent__']) {
+      Object.defineProperty(outlet, '__activatedComponent__', { enumerable: false, writable: true, configurable: false, value: '' });
+    }
+    if ((outlet as any)['__activatedComponent__'] !== activatedComponent.selector) {
+      (outlet as any)['__activatedComponent__'] = activatedComponent.selector;
+      outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
+      event = new CustomEvent('navigated', {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: requestedRoute
+      });
+      this.onRouterAction.dispatchEvent(event);
+    }
   }
 
 }
