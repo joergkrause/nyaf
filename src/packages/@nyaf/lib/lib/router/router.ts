@@ -55,7 +55,7 @@ export class Router {
             ? document.querySelector(`[n-router-outlet="${outletName}"]`)
             : document.querySelector(N_ROUTER_OUTLET_SEL);
           onNavItemClick(externalhashPath, title);
-          this.setRouterOutlet(activatedComponent, requestedRoute, outlet);
+          this.setRouterOutlet(activatedComponent, requestedRoute, outlet, routes[requestedRoute].forced);
         }
       });
       // listen for any click event and check n-link attribute
@@ -110,7 +110,7 @@ export class Router {
             const outlet = outletName
               ? document.querySelector(`[n-router-outlet="${outletName}"]`)
               : document.querySelector(N_ROUTER_OUTLET_SEL);
-            this.setRouterOutlet(activatedComponent, requestedRoute, outlet);
+            this.setRouterOutlet(activatedComponent, requestedRoute, outlet, routes[requestedRoute].forced);
           } else {
             console.warn(
               '[NYAF] A router link call has been executed,' +
@@ -127,7 +127,7 @@ export class Router {
         // default route goes always to default outlet
         onNavItemClick('/');
         const outlet = document.querySelector(N_ROUTER_OUTLET_SEL);
-        this.setRouterOutlet(activatedComponent, '/', outlet);
+        this.setRouterOutlet(activatedComponent, '/', outlet, defaultRoute.forced);
       }
     }
   }
@@ -142,6 +142,7 @@ export class Router {
     const routes: Routes = Router._routes;
     let outlet: HTMLElement;
     let activatedComponent: Component = routes[requestedRoute]?.component;
+    const forced = routes[requestedRoute]?.forced || false;
     if (!activatedComponent) {
       activatedComponent = routes['/']?.component;
     }
@@ -153,14 +154,14 @@ export class Router {
     }
     outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
     if (outlet) {
-      this.setRouterOutlet(activatedComponent, requestedRoute, outlet);
+      this.setRouterOutlet(activatedComponent, requestedRoute, outlet, forced);
     } else {
       throw new Error('Outlet not found or route improper configured.');
     }
   }
 
 
-  private setRouterOutlet(activatedComponent: Component, requestedRoute: string, outlet: Element) {
+  private setRouterOutlet(activatedComponent: Component, requestedRoute: string, outlet: Element, forced: boolean) {
     let event = new CustomEvent('navigate', {
       bubbles: true,
       cancelable: true,
@@ -171,7 +172,7 @@ export class Router {
     if (!(outlet as any)['__activatedComponent__']) {
       Object.defineProperty(outlet, '__activatedComponent__', { enumerable: false, writable: true, configurable: false, value: '' });
     }
-    if ((outlet as any)['__activatedComponent__'] !== activatedComponent.selector) {
+    if (forced || (outlet as any)['__activatedComponent__'] !== activatedComponent.selector) {
       (outlet as any)['__activatedComponent__'] = activatedComponent.selector;
       outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
       event = new CustomEvent('navigated', {

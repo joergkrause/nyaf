@@ -19,5 +19,13 @@ export interface Routes {
      * private data. The field is not being used internally.
      */
     data?: { [name: string]: any };
+
+    /**
+     * Rewrites a component even if already set. This is useful if the rendering of the component
+     * is dynamic and changes with the actual path. In that case one can set several paths' with
+     * the very same component. The default ist `false` and the selector is being cached.
+     * @default false
+     */
+    forced?: boolean;
   };
 }
