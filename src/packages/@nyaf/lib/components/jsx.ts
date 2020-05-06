@@ -85,9 +85,11 @@ const JSX = {
                 if (value !== null && value !== undefined) {
                   const sanitizedValue = value.toString().replace(/'/g, '&quot;');
                   return `${key}='${sanitizedValue}'`;
-                } else {
+                }
+                if (value !== null) {
                   return `${key}='${key}'`;
                 }
+                // we rule null out as "please don't write this attribute at all"
               }
           }
         })
@@ -108,7 +110,7 @@ const JSX = {
         return this.createElement(name, props, content);
       });
     }
-    return (`<${name} ${propsstr}> ${flat(content).join('')}</${name}>`);
+    return (`<${name} ${propsstr}>${flat(content).join('')}</${name}>`);
   }
 };
 export default JSX;

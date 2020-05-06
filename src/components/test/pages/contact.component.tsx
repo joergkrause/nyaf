@@ -7,7 +7,7 @@ import { ViewModel } from '@nyaf/forms/';
 @CustomElement('app-contact')
 @ShadowDOM(true)
 @UseParentStyles()
-@ViewModel<ContactModel>()
+@ViewModel<ContactModel>(ContactModel)
 export class ContactComponent extends BaseComponent {
   contactModel: ContactModel;
 
