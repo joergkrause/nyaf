@@ -93,6 +93,11 @@ const webpackConfig = {
 				from: './node_modules/metro4/build/mif/metro.*',
 				flatten: true,
 				to: './assets/mif/'
+			},
+			{
+				from: './src/link.css',
+				flatten: true,
+				to: './assets/css/'
 			}
 		])
   ]

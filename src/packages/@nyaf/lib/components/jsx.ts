@@ -67,8 +67,7 @@ const JSX = {
             // no handling, fall through to default
             default:
               if (key.startsWith('n-on-')) {
-                // const val = `${value}`.replace(/\(.\)\s+=>\s+this\./, '').replace(/\(.\)/, '');
-                return `${key}='${value}'`;
+                return `${key}='${value.toString().replace(/'/g, '&#39;')}'`;
               }
               // check for implicit bindings of complex objects
               if (isArray(value) || isObject(value)) {

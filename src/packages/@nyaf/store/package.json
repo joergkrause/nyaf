@@ -1,6 +1,6 @@
 {
   "name": "@nyaf/store",
-  "version": "0.4.5",
+  "version": "0.5.0",
   "description": "An extension to \"Not Yet Another Framework\". A simple store based on a flux like architecture.",
   "main": "store.umd.js",
   "private": false,
@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "dependencies": {
-    "@nyaf/lib": "0.4.5"
+    "@nyaf/lib": "0.5.0"
   }
 }

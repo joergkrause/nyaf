@@ -40,7 +40,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * A copy of the global styles statically set for all components. First access fills it in, than it's cached.
    */
   private static globalStyle: string;
-
+  private static linkedStyles: HTMLLinkElement[] = [];
   /**
    * Set by decorator @see {UseShadowDOM}. A shadowed component is technically isolated.
    */
@@ -92,6 +92,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       composed: false,
       detail: lc
     });
+    console.error('Lifecycle Event', this, lifeCycleEvent);
     this.dispatchEvent(lifeCycleEvent);
     // TODO: Duplicate of GlobalProvider event handler, simplify code
     if (this.getAttribute('onlifecycle')) {
@@ -130,6 +131,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    */
   constructor() {
     super();
+    console.error('CTOR', this);
     this._data = new Proxy((<any>this.constructor).__proxyInitializer__ || {} as P, this.proxyAttributeHandler);
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
@@ -139,7 +141,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         if (!css.rules || css.rules.length === 0 || css.rules[0].cssText.startsWith(':ignore')) {
           continue;
         }
-        this.constructor['globalStyle'] = Object.keys(css.cssRules)
+        this.constructor['globalStyle'] += Object.keys(css.cssRules)
           .map(k => css.cssRules[k].cssText)
           .join('');
       }
@@ -255,8 +257,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       template.innerHTML = await this.render();
       if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {
         this.attachShadow({ mode: 'open' });
-        // copy styles to shadow if shadowed and there is something to add
         if ((<any>this.constructor).useParentStyles && (<any>this.constructor).globalStyle) {
+          // copy styles to shadow if shadowed and there is something to add
           const style = document.createElement('style');
           style.textContent = (<any>this.constructor).globalStyle;
           this.shadowRoot.appendChild(style);

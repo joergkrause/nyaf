@@ -868,8 +868,8 @@ Inspired by:
 
 There is a book in the making covering all aspects of NYAF: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how NYAF handles them.
 
-## Next
+## Further steps
 
-Look out for 'nyaf-forms' (forms validation) and 'nyaf-store' (flux store). Simple but powerful!
+Look out for 'nyaf-forms' (forms validation, data binding, UI control) and 'nyaf-store' (a simple flux store). Simple but powerful!
 
-Add https://github.com/ArthurClemens/Polythene support.
+

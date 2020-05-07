@@ -167,7 +167,7 @@ export class GlobalProvider {
                   if (param === 'true') { return true; }
                   if (param === 'false') { return false; }
                   if (!isNaN(param)) { return param - 0; }
-                  return param;
+                  return param.replace(/^'|'$/g, '');
                 }).slice(1));
               }
             }

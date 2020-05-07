@@ -55,7 +55,7 @@ export class Router {
             ? document.querySelector(`[n-router-outlet="${outletName}"]`)
             : document.querySelector(N_ROUTER_OUTLET_SEL);
           onNavItemClick(externalhashPath, title);
-          this.setRouterOutlet(activatedComponent, requestedRoute, outlet, routes[requestedRoute].forced);
+          this.setRouterOutlet(activatedComponent, externalhashPath, outlet, routes[requestedRoute].forced);
         }
       });
       // listen for any click event and check n-link attribute
@@ -103,6 +103,7 @@ export class Router {
           // only execute if useful, here we have a valid route
           if (!needFallback || (needFallback && routes['**'])) {
             const activatedComponent = routes[requestedRoute].component;
+            const forced = routes[requestedRoute].forced;
             if (!requestedRoute.startsWith('#')) {
               requestedRoute = `#${requestedRoute}`;
             }
@@ -110,7 +111,7 @@ export class Router {
             const outlet = outletName
               ? document.querySelector(`[n-router-outlet="${outletName}"]`)
               : document.querySelector(N_ROUTER_OUTLET_SEL);
-            this.setRouterOutlet(activatedComponent, requestedRoute, outlet, routes[requestedRoute].forced);
+            this.setRouterOutlet(activatedComponent, requestedRoute, outlet, forced);
           } else {
             console.warn(
               '[NYAF] A router link call has been executed,' +
@@ -174,7 +175,9 @@ export class Router {
     }
     if (forced || (outlet as any)['__activatedComponent__'] !== activatedComponent.selector) {
       (outlet as any)['__activatedComponent__'] = activatedComponent.selector;
+      console.error('Before setRouter', activatedComponent);
       outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
+      console.error('After setRouter', activatedComponent);
       event = new CustomEvent('navigated', {
         bubbles: true,
         cancelable: false,

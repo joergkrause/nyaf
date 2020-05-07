@@ -11,7 +11,17 @@ This is an extension to the famous micro framework NYAF. You need to build your 
 
 # NYAF-FORMS
 
-Form validation is a key part of any project. Have a simple to use, HTML 5 based validation without the burden of a huge framework is the key purpose.
+Forms provides these basic features:
+
+* UI control decorators (example: `@Hidden()` to suppress a property in a dynamic table).
+* Validation decorators (example: `@StringLength(50)` or `@Required()` to manage form validation).
+* Data Binding using a model declaration decorator called `@ViewModel` and a bind property named `n-bind`.
+
+Form validation is a key part of any project. However, CSS frameworks require different strategies to handle errors and so on. Hence, the @nyaf/forms library provides a simple way (just like a skeleton) to give you the direction, but the actual validation implementation logic is up to you to build.
+
+Same for the UI decorators. It's a convenient way to add hidden properties to viewmodels. There is no logic to read these values, this is up to you to implement this. However, the decorators makes your life a lot easier.
+
+The binding logic is almost complete and once you have a decorated model it's syncing the UI automagically.
 
 ## How it works
 
@@ -77,13 +87,18 @@ The last (optional) parameter of the validation decorators is a custom error mes
 NYAF has a simple template language. For forms it's just one for any input element:
 
 ~~~
-render() {
+async render() {
   const model: UserViewModel = new UserViewModel(); // or where ever the model comes from
-  return (<input n-for={model} name="@userName">);
+  return await (
+    <>
+      <form n-model={model}>
+        <input n-bind="value: Name" />
+      </form>
+    </>);
 }
 ~~~
 
-Now the field knows everything about how to render and how to validate. The *@* sign signales that it's bound to a model's property. Note, that you don't need to write the `type` property, it's being added using the decorators and TypeScript types.
+Now the field knows everything about how to render and how to validate. The first item ("value")  is the HTML element's property you bind to. The second is the model's property name ("Name").
 
 Once you retrieve the DOM object, you get access to validation:
 
@@ -147,8 +162,8 @@ Distinguish between different validators like this:
 
 ~~~
 <form n-model={model}>
-  <label n-for="@userName" for="un"/>
-  <input n-for="@userName" id="un">
+  <label n-bind="innerText: userName" for="un"/>
+  <input n-bind="value: userName" id="un">
   <div class="text text-danger" n-if="!@userName.required.valid && @userName.touched" innerHTML="@userName.required.message" ></div>
 </form>
 ~~~
@@ -177,10 +192,9 @@ export class Model {
   name: string = '';
 }
 
-
 @CustomElement('app-main')
 @Properties<{ data: Model }>()
-@ViewModel<Model>({ id: 0, name: ''})
+@ViewModel<Model>(Model)
 export class MainComponent extends FormsComponent {
   // ... omitted for brevity
 }

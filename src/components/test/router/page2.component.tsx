@@ -11,8 +11,8 @@ export class Page2Component extends BaseComponent<any> {
     super();
   }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <h4>Page 2</h4>
     );
   }

@@ -214,9 +214,10 @@ changeOtherButton(e: CustomEvent) {
           </app-slot>
         </div>
         <hr />
+        <div class="test">This is red if an outer style is loaded (link element)</div>
         <app-slot-tabs>
           <app-slot-tab title='Slot Tab 1'>
-            <div>Content 1</div>
+            <div class="test">Content 1</div>
           </app-slot-tab>
           <app-slot-tab title='Slot Tab 2'>
             <div>Content 2</div>

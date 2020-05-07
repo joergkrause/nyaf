@@ -1,4 +1,4 @@
-import { BaseComponent, ComponentData } from '@nyaf/lib';
+import { BaseComponent, ComponentData, GlobalProvider } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 
 /**
@@ -23,41 +23,51 @@ export class RouterComponent extends BaseComponent<{ cnt: number }> {
     super.setData('cnt', super.data.cnt - 1);
   }
 
+  navigate(e: Event, route: string, other: string) {
+    GlobalProvider.navigateRoute(route, "router");
+    GlobalProvider.navigateRoute(other, "other");
+  }
 
-  render() {
-    return (
+  async render() {
+    return await (
       <>
-        <ul class="nav nav-pills">
-          <li class="nav-item">
-            <a class="nav-link" n-link="active" href="#/router/page1">Page 1 on router</a>
+        <ul class='nav nav-pills'>
+          <li class='nav-item'>
+            <a class='nav-link' n-link='active' href='#/router/page1'>Page 1 on router</a>
           </li>
           <li>
-            <a class="nav-link" n-link="active" href="#/router/page2">Page 2 on router</a>
+            <a class='nav-link' n-link='active' href='#/router/page2'>Page 2 on router</a>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href='#' n-on-click={(e) => this.navigate(e, '/router/page1', '/router/page2/other')}>Page 1 using Code</a>
           </li>
           <li>
-            <a class="nav-link" n-link="active" href="#/router/page2/other">Page 2 on other</a>
+            <a class='nav-link' href='#' n-on-click={(e) => this.navigate(e, '/router/page2', '/router/page3/other')}>Page 2 using Code</a>
           </li>
           <li>
-            <a class="nav-link" n-link="active" href="#/router/page3/other">Page 3 on other</a>
+            <a class='nav-link' n-link='active' href='#/router/page2/other'>Page 2 on other</a>
+          </li>
+          <li>
+            <a class='nav-link' n-link='active' href='#/router/page3/other'>Page 3 on other</a>
           </li>
         </ul>
-        <div class="alert alert-info">
+        <div class='alert alert-info'>
           Advanced router with named outlets to move components around. Use this kind of configuration:<br></br>
         </div>
         <h3>Router Outlet</h3>
-        <div class="alert alert-light">
+        <div class='alert alert-light'>
           This is a named outlet "router" that is set using the <b>outlet</b> property in router configuration:<br></br>
           <pre>{'&lt;div n&ndash;router&ndash;outlet="router"&gt;&lt;/div&gt;'}
           </pre>
         </div>
-        <div n-router-outlet="router"></div>
+        <div n-router-outlet='router'></div>
         <h3>Named Outlet</h3>
-        <div class="alert alert-light">
+        <div class='alert alert-light'>
           This is a named outlet "other" that is set using the <b>outlet</b> property in router configuration.<br></br>
           <pre>{'&lt;div n&ndash;router&ndash;outlet="other"&gt;&lt;/div&gt;'}
           </pre>
         </div>
-        <div n-router-outlet="other"></div>
+        <div n-router-outlet='other'></div>
       </>
     );
   }

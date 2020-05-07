@@ -1,26 +1,41 @@
-import JSX, { BaseComponent, Properties } from '@nyaf/lib';
+import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
 
 export interface ContainerProps {
-  isFluid?: boolean;
+  classList: string;
 }
 
 /**
- * Use this as base class for model driven forms.
+ * Create a chain of container-divs from classes:
+ *
+ * <app-container classList="container row cell">Some Content</app-container>
+ *
+ * This renders in:
+ * <div class=="container">
+ *  <div class=="row">
+ *    <div class=="cell">
+ *      Some Content
+ *    </div>
+ *  </div>
+ * </div>
  */
-@Properties<ContainerProps>({ isFluid: false})
+@Properties<ContainerProps>({ classList: ''})
+@CustomElement('app-container')
 export abstract class ContainerComponent extends BaseComponent<ContainerProps> {
 
   constructor() {
     super();
   }
 
-  render() {
-    const containerClass = !this.data.isFluid ? 'container' : 'container-fluid';
-    return (
-      <div class={containerClass}>
-        {this.parentElement.innerHTML}
-      </div>
-    );
+  async render() {
+    const clss = this.data.classList.split(' ');
+    const div = (cls: string, inner: any) => {
+      if (cls) {
+        return inner;
+      }
+      return (<div class={cls}>{inner}</div>);
+    };
+    const c = clss.shift();
+    return await div(c, this.parentElement.innerHTML);
   }
 
 }
