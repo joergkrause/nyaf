@@ -92,7 +92,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       composed: false,
       detail: lc
     });
-    console.error('Lifecycle Event', this, lifeCycleEvent);
     this.dispatchEvent(lifeCycleEvent);
     // TODO: Duplicate of GlobalProvider event handler, simplify code
     if (this.getAttribute('onlifecycle')) {
@@ -131,7 +130,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    */
   constructor() {
     super();
-    console.error('CTOR', this);
     this._data = new Proxy((<any>this.constructor).__proxyInitializer__ || {} as P, this.proxyAttributeHandler);
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
@@ -142,8 +140,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           continue;
         }
         this.constructor['globalStyle'] += Object.keys(css.cssRules)
-          .map(k => css.cssRules[k].cssText)
-          .join('');
+          .map(k => css.cssRules[k].cssText ?? ' ')
+          .join(' ');
       }
     }
   }

@@ -1,5 +1,8 @@
 import { ModelBinder } from './modelbinder.class';
 
+/**
+ * This is an internal helper class and should not be used in user code.
+ */
 export class Binding {
   constructor(private prop: string, private handler: string, public el: HTMLElement) {
   }
