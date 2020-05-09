@@ -72,18 +72,26 @@ export class ModelBinder {
   }[] = [];
   static handlers: {
     [property: string]: IBindingHandler;
-  };
+  } = {};
+
+  /**
+   * Add custom binders to bind non-trivial properties.
+   *
+   * @param prop Handler identifier, used in forms in `n-bind="prop: Value"`.
+   * @param item The instance of the actual binding handler.
+   */
+  public static addHandler(prop: string, item: IBindingHandler) {
+    ModelBinder.handlers[prop] = item;
+  }
   /**
    * Initialize a binder for the current form. This is global and you can bind only one form at a time.
    *
    * @param component The web component this binder is currently attached to.
    */
   public static initialize(component: HTMLElement) {
-    ModelBinder.handlers = {
-      value: new ValueBindingHandler(),
-      innerText: new TextBindingHandler(),
-      checked: new CheckedBindingHandler()
-    };
+    ModelBinder.handlers['value'] = new ValueBindingHandler();
+    ModelBinder.handlers['innerText'] = new TextBindingHandler();
+    ModelBinder.handlers['checked'] = new CheckedBindingHandler();
     // Look for @Viewmodel decorator
     const modelInstance = new component.constructor['__model__']();
     ModelBinder.setScope(modelInstance);

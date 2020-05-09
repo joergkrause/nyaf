@@ -175,9 +175,7 @@ export class Router {
     }
     if (forced || (outlet as any)['__activatedComponent__'] !== activatedComponent.selector) {
       (outlet as any)['__activatedComponent__'] = activatedComponent.selector;
-      console.error('Before setRouter', activatedComponent);
       outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
-      console.error('After setRouter', activatedComponent);
       event = new CustomEvent('navigated', {
         bubbles: true,
         cancelable: false,
