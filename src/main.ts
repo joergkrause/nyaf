@@ -40,6 +40,8 @@ const routes: Routes = {
   '/router/page2': { component: Page2Component, outlet: 'router' },
   '/router/page2/other': { component: Page2Component, outlet: 'other' },
   '/router/page3/other': { component: Page3Component, outlet: 'other' },
+  '/sc1': { component: StoreCounterComponent, outlet: 'other', forced: true },
+  '/sc2': { component: StoreCounterComponent, outlet: 'other', forced: true },
   '/contact': { component: ContactComponent }
 };
 

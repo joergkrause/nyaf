@@ -40,17 +40,31 @@ type allStoreTypes = storeStateType & counterStoreType & setStoreType;
 @ProvideStore<allStoreTypes>(store)
 @Properties<{ cnt: number }>({ cnt: 0 })
 export class StoreCounterComponent extends StoreComponent<allStoreTypes, { cnt: number }> {
+
+  private sub;
+  private sub2;
+
   constructor() {
     super();
     console.log('Store Count Ctor called');
     super.setData('cnt', 0);
     // fire if a value changes in the store, takes name of the store value
-    this.store.subscribe('counter', str => {
+    this.sub = this.store.subscribe('counter', str => {
       this.data.cnt = str.counter;
+      console.log('Counter subscriber');
     });
-    this.store.subscribe('version', v => {
+    this.sub2 = this.store.subscribe('version', v => {
       alert(v.version);
     });
+  }
+
+  dispose() {
+    if (this.sub) {
+      this.sub.remove();
+    }
+    if (this.sub2) {
+      this.sub2.remove();
+    }
   }
 
   clickMeAdd(e) {
@@ -94,3 +108,4 @@ export class StoreCounterComponent extends StoreComponent<allStoreTypes, { cnt: 
     );
   }
 }
+

@@ -34,12 +34,11 @@ export class Observer {
     }
     // Add the listener to queue
     const index = this.topics[topic].push(listener) - 1;
-    const self = this;
     // Provide handle back for removal of topic
     return {
-      remove() {
-        delete self.topics[topic][index];     // kill handler
-        self.topics[topic].splice(index, 1);  // shrink array
+      remove: () => {
+        delete this.topics[topic][index];     // kill handler
+        this.topics[topic].splice(index, 1);  // shrink array
       }
     };
   }

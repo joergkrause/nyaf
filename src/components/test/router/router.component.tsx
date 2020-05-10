@@ -50,6 +50,12 @@ export class RouterComponent extends BaseComponent<{ cnt: number }> {
           <li>
             <a class='nav-link' n-link='active' href='#/router/page3/other'>Page 3 on other</a>
           </li>
+          <li>
+            <a class='nav-link' n-link='active' href='#/sc1'>Store Counter 1</a>
+          </li>
+          <li>
+            <a class='nav-link' n-link='active' href='#/sc2'>Store Counter 2</a>
+          </li>
         </ul>
         <div class='alert alert-info'>
           Advanced router with named outlets to move components around. Use this kind of configuration:<br></br>

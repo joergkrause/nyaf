@@ -12,7 +12,7 @@ export const DEC = 'DEC';
 export const SET = 'SET';
 
 /**
- * The defaults that we use as long as the code hasn't sent anything.
+ * The defaults that we use in case a reducer doesn'Ä't exists. This usually set's a default. It's mandatory.
  */
 export const actions = {
   [INC]: () => 1, // initial value of payload
