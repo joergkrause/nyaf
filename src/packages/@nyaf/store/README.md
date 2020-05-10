@@ -18,7 +18,20 @@ This is the store implementation, a mini flux variant without the burden of Redu
 
 ## How it works
 
-It's very much like Redux, but makes use of decorators to write less code.
+It's very much like Redux, but makes use of decorators to write less code. It's a good strategy to create one global store in your app. Leave it empty if there are no global actions, but make it global.
+
+Then, define three parts for each component:
+
+* Actions that the component offers (such as SEARCH, LOAD, SET, REMOVE, you name it)
+* Reducers that are pure function calls that do what your business logic requires (change data, call services)
+* A State Object that holds all the data. The reducer can change the state, but nobody else can
+
+In the component you have two tasks:
+
+1. Dispatch actions and add payload if required.
+2. Listen for changes in the store to know when an reducer finished it's task
+
+An async load must not be splitted up. The calls are async, hence the state change may appear later, but nonetheless it lands in the component eventually.
 
 ### Actions
 
@@ -30,9 +43,9 @@ export const DEC = 'DEC';
 export const SET = 'SET';
 
 export default {
-  [INC]: () => 1, // initial value of payload
+  [INC]: () => 1, // initial value of payload, this can be omitted if you doesn't care
   [DEC]: () => -1,
-  [SET]: () => 0
+  SET
 };
 ~~~
 
