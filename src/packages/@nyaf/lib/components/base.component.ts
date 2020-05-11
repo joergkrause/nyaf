@@ -160,12 +160,14 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         if (this.attributes.getNamedItem(`__${prop}__num__`) || (initObj[prop] !== undefined && isNumber(initObj[prop]))) {
           return Number.parseFloat(this.getAttribute(prop));
         }
+        return obj[prop];
       } catch (err) {
         console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);
       }
       return this.getAttribute(prop);
     },
     set: (obj: P, prop: string, value: any, receiver: any): boolean => {
+      (<any>obj)[prop] = value;
       try {
         if (isObject(value)) {
           this.setAttribute(`__${prop}__obj__`, '');
@@ -178,7 +180,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           this.setAttribute(`__${prop}__num__`, '');
         }
         this.setAttribute(prop, value);
-        Promise.resolve();
       } catch (err) {
         console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);
       }

@@ -8,6 +8,7 @@ export class Observer {
 
   constructor(s: any) {
     if (s !== void 0) {
+      console.error('Observer is Singleton, don\'t call the ctor');
       throw new Error('Observer is Singleton, don\'t call the ctor');
     }
     this.hOP = this.topics.hasOwnProperty;

@@ -50,8 +50,9 @@ export class StoreCounterComponent extends StoreComponent<allStoreTypes, { cnt: 
     super.setData('cnt', 0);
     // fire if a value changes in the store, takes name of the store value
     this.sub = this.store.subscribe('counter', str => {
+      console.log('Counter subscriber recveived a value', str);
       this.data.cnt = str.counter;
-      console.log('Counter subscriber');
+      console.log('***** After assigned to Proxy *****', this.data.cnt);
     });
     this.sub2 = this.store.subscribe('version', v => {
       alert(v.version);
@@ -87,6 +88,8 @@ export class StoreCounterComponent extends StoreComponent<allStoreTypes, { cnt: 
   }
 
   async render() {
+    console.log('***** Counter RENDER *****', this.data.cnt);
+    const c = this.data.cnt;
     return await (
       <>
         <div>
@@ -103,7 +106,7 @@ export class StoreCounterComponent extends StoreComponent<allStoreTypes, { cnt: 
             Show Version
           </button>
         </div>
-        <pre style='border: 1px solid gray;'>{this.data.cnt}</pre>
+        <pre style='border: 1px solid gray;'>{c}</pre>
       </>
     );
   }

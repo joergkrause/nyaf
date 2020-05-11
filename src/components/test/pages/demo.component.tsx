@@ -267,7 +267,7 @@ changeOtherButton(e: CustomEvent) {
   }
 
   setOther(e: Event) {
-    (this.querySelector('#complexDemo') as ComplexComponent).setData('demo', []);
+    (this.querySelector('#complexDemo') as ComplexComponent).setData('demo', [{a:1, b:2, c:3},{a:1, b:2, c:3}]);
   }
 
   setYesNo(e: Event) {

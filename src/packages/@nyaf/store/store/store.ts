@@ -103,9 +103,14 @@ export class Store<ST> {
       this._subscribers.set(actionKey, []);
     }
     const a = this._subscribers.get(actionKey);
-    a.push(s);
+    const idx = a.push(s);
     this._subscribers.set(actionKey, a);
-    return s;
+    return {
+      remove: () => {
+        s.remove();
+        a.splice(idx - 1, 1);
+      }
+    };
   }
 
   dispose(specific?: string) {

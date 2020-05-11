@@ -33,28 +33,28 @@ export class RouterComponent extends BaseComponent<{ cnt: number }> {
       <>
         <ul class='nav nav-pills'>
           <li class='nav-item'>
-            <a class='nav-link' n-link='active' href='#/router/page1'>Page 1 on router</a>
+            <a class='nav-link' n-link='active' href='#/router/page1'>Page 1 (main)</a>
           </li>
           <li>
-            <a class='nav-link' n-link='active' href='#/router/page2'>Page 2 on router</a>
+            <a class='nav-link' n-link='active' href='#/router/page2'>Page 2 (main))</a>
           </li>
           <li class='nav-item'>
-            <a class='nav-link' href='#' n-on-click={(e) => this.navigate(e, '/router/page1', '/router/page2/other')}>Page 1 using Code</a>
+            <a class='nav-link' href='#' n-on-click={(e) => this.navigate(e, '/router/page1', '/router/page2/other')}>Page 1 (coded)</a>
           </li>
           <li>
-            <a class='nav-link' href='#' n-on-click={(e) => this.navigate(e, '/router/page2', '/router/page3/other')}>Page 2 using Code</a>
+            <a class='nav-link' href='#' n-on-click={(e) => this.navigate(e, '/router/page2', '/router/page3/other')}>Page 2 (coded)</a>
           </li>
           <li>
-            <a class='nav-link' n-link='active' href='#/router/page2/other'>Page 2 on other</a>
+            <a class='nav-link' n-link='active' href='#/router/page2/other'>Page 2 (other)</a>
           </li>
           <li>
-            <a class='nav-link' n-link='active' href='#/router/page3/other'>Page 3 on other</a>
+            <a class='nav-link' n-link='active' href='#/router/page3/other'>Page 3 (other)</a>
           </li>
           <li>
-            <a class='nav-link' n-link='active' href='#/sc1'>Store Counter 1</a>
+            <a class='nav-link' n-link='active' href='#/sc1'>Store Instance 1</a>
           </li>
           <li>
-            <a class='nav-link' n-link='active' href='#/sc2'>Store Counter 2</a>
+            <a class='nav-link' n-link='active' href='#/sc2'>Store Instance 2</a>
           </li>
         </ul>
         <div class='alert alert-info'>

@@ -33,17 +33,12 @@ export class MainComponent extends BaseComponent<{}> {
           </li>
           <li class='nav-item'>
             <a class='nav-link' href='#/demo' n-link='active'>
-              Demo
-            </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/metro' n-link='active'>
-              Metro Design Demo
+              Component Demo
             </a>
           </li>
           <li class='nav-item'>
             <a class='nav-link' href='#/router' n-link='active'>
-              Router (Advanced Demo)
+              Router (SPA Demo)
             </a>
           </li>
           <li class='nav-item'>
