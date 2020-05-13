@@ -243,7 +243,7 @@ Any yes, these are equal signs in the class. The named 'xxx' names are only requ
 ~~~
 Globalprovider.bootstrap({
   components: [...components], // as usual
-  expanders = [SearchExpander]
+  expanders: [SearchExpander]
 })
 ~~~
 
