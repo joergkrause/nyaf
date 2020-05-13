@@ -252,6 +252,25 @@ changeOtherButton(e: CustomEvent) {
           <button class='btn btn-success btn-sm' style='display: block' n-on-click={(e) => this.setYesNo(e)} data-value='yes'>Set Yes</button>
           <button class='btn btn-danger btn-sm' style='display: block' n-on-click={(e) => this.setYesNo(e)} data-value='no'>Set No</button>
         </div>
+        <hr />
+        <h3>Attribute Expander</h3>
+        <div class='row'>
+          <div class='alert alert-info col-6'>
+            Create classes that expand attributes. Tired of thing like this again and again?
+            <pre>
+              &lt; button type="button" class="btn btn-sm btn-info" &gt;
+            </pre>
+            Write this instead:
+            <pre>
+              &lt; button n-expand="info-button" &gt;
+            </pre>
+            Applies to any component, even custom ones. Can deliver static values only. Renders before render engine gets acvcess, so completely transparent.
+          </div>
+          <div class='col-6'>...</div>
+          <div>
+            <button n-expand='danger-button'>Expanded attributes</button>
+          </div>
+        </div>
       </div>
     );
   }

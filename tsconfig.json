@@ -20,5 +20,13 @@
       "@nyaf/*": ["packages/@nyaf/*", "src/packages/@nyaf/*"]
     }
   },
-  "files": ["./src/main.ts", "./src/packages/@nyaf/lib/index.ts", "./src/packages/@nyaf/forms/index.ts", "./src/packages/@nyaf/store/index.ts", "src/packages/@nyaf/store/store/store.params.ts"]
+  "files": [
+    "./src/main.ts",
+    "./src/packages/@nyaf/lib/index.ts",
+    "./src/packages/@nyaf/forms/index.ts",
+    "./src/packages/@nyaf/store/index.ts",
+    "src/packages/@nyaf/store/store/store.params.ts",
+    "./src/packages/@nyaf/lib/lib/expander/expander.ts",
+    "./src/packages/@nyaf/lib/lib/expander/iexpander.ts",
+    "src/packages/@nyaf/lib/lib/bootstrapprop.ts"]
 }

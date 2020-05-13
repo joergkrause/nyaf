@@ -5,20 +5,8 @@ import { Routes } from './router/routes';
 import { DomOp } from './dom-operations';
 import { BaseComponent } from '../components/base.component';
 import { LifeCycle } from '../components/lifecycle.enum';
-
-/**
- * For registration we handle just the types, not actual instances. And types are actually functions.
- */
-export class BootstrapProp {
-  /**
-   * Add all components here as types.
-   */
-  components: Array<Component>;
-  /**
-   * Optional. Add the router definition here. Path's shall not contain hash signs, even if used in link tags.
-   */
-  routes?: Routes;
-}
+import { IExpander } from './expander/iexpander';
+import { BootstrapProp } from './bootstrapprop';
 
 /**
  * Main support class that provides all global functions.
@@ -26,6 +14,7 @@ export class BootstrapProp {
 export class GlobalProvider {
 
   public static registeredElements: Array<string> = [];
+  private static tagExpander: Map<string, IExpander> = new Map();
   private static bootstrapProps: BootstrapProp;
   private static router: Router = Router.instance;
 
@@ -57,6 +46,18 @@ export class GlobalProvider {
       // add to browsers web component registry
       GlobalProvider.register(c);
     });
+    // expanders
+    if (props.expanders) {
+      // expand and execute decorator
+      const expanders = props.expanders.map(e => new e());
+      expanders.forEach(ex => {
+        if (!ex['__expand__']) {
+          console.error('Illegal expander, you must set the @Expand decorator to name the expander');
+        } else {
+          GlobalProvider.tagExpander.set(ex['__expand__'], ex);
+        }
+      });
+    }
     // register events
     events.map(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     // register routes
@@ -208,4 +209,9 @@ export class GlobalProvider {
       }
     }
   }
+
+  public static get TagExpander(): Map<string, IExpander> {
+    return GlobalProvider.tagExpander;
+  }
+
 }

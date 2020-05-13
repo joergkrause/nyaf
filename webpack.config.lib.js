@@ -11,6 +11,9 @@ const webpackConfig = {
     forms: './src/packages/@nyaf/forms/index.ts',
     store: './src/packages/@nyaf/store/index.ts'
   },
+  optimization: {
+    minimize: false
+  },
   // How the different types of modules within a project will be treated
   module: {
     rules: [

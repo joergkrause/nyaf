@@ -65,36 +65,34 @@ import { TextBindingHandler } from './textbindinghandler.class';
  *
  */
 export class ModelBinder {
-  static scope: ProxyConstructor;
-  static subscriptions: {
+  static _instanceStore = new Map<HTMLElement, ModelBinder>();
+  scope: ProxyConstructor;
+  subscriptions: {
     key: string;
     cb: () => void;
   }[] = [];
-  static handlers: {
+  handlers: {
     [property: string]: IBindingHandler;
   } = {};
 
   /**
-   * Add custom binders to bind non-trivial properties.
-   *
-   * @param prop Handler identifier, used in forms in `n-bind="prop: Value"`.
-   * @param item The instance of the actual binding handler.
-   */
-  public static addHandler(prop: string, item: IBindingHandler) {
-    ModelBinder.handlers[prop] = item;
-  }
-  /**
-   * Initialize a binder for the current form. This is global and you can bind only one form at a time.
+   * Initialize a binder for the current form. This is global and you can bind only one form at a time. Add custom binders to bind non-trivial properties.
    *
    * @param component The web component this binder is currently attached to.
+   * @param handler Handler identifier, used in forms in `n-bind="prop: Value"`.
    */
-  public static initialize(component: HTMLElement) {
-    ModelBinder.handlers['value'] = new ValueBindingHandler();
-    ModelBinder.handlers['innerText'] = new TextBindingHandler();
-    ModelBinder.handlers['checked'] = new CheckedBindingHandler();
+  public static initialize(component: HTMLElement, handler?: {[key: string]: IBindingHandler}) {
+    const mbInstance = new ModelBinder();
+    mbInstance.handlers['value'] = new ValueBindingHandler();
+    mbInstance.handlers['innerText'] = new TextBindingHandler();
+    mbInstance.handlers['checked'] = new CheckedBindingHandler();
+    if (handler) {
+      Object.assign(mbInstance.handlers, handler);
+    }
+    ModelBinder._instanceStore.set(component, mbInstance);
     // Look for @Viewmodel decorator
     const modelInstance = new component.constructor['__model__']();
-    ModelBinder.setScope(modelInstance);
+    mbInstance.setScope(modelInstance);
     const elements = component.querySelectorAll('[n-bind]');
     elements.forEach((el: HTMLElement) => {
       const expressionParts = el.getAttribute('n-bind').split(':');
@@ -114,12 +112,22 @@ export class ModelBinder {
         // 		el.textContent = `__${validator}__msg__${scopeKey}__`;
         // 	}
         // }
-        const binding = new Binding(scopeKey, bindingHandler, el);
+        const binding = new Binding(scopeKey, bindingHandler, mbInstance, el);
         binding.bind();
       }
     });
+    return mbInstance;
   }
-  public static setScope(scope: {}): void {
+
+  /**
+   * Returns the Binder for a component. Each component has it's very own binder instance.
+   * @param component The component this instance is assigned to
+   */
+  public static getInstance(component: HTMLElement) {
+    return ModelBinder._instanceStore.get(component);
+  }
+
+  public setScope(scope: {}): void {
     const p = new Proxy(scope, {
       get: (target: any, key: string, receiver: ProxyConstructor) => {
         return target[key];
@@ -129,23 +137,23 @@ export class ModelBinder {
         const shouldNotify = value !== newValue;
         target[key] = newValue;
         if (shouldNotify) {
-          ModelBinder.notify(key);
+          this.notify(key);
         }
         ;
         return shouldNotify;
       }
     });
-    ModelBinder.scope = p;
-    Object.keys(scope).forEach(prop => ModelBinder.notify(prop));
+    this.scope = p;
+    Object.keys(scope).forEach(prop => this.notify(prop));
   }
-  static subscribe(key: string, cb: () => void): void {
-    ModelBinder.subscriptions.push({
+  subscribe(key: string, cb: () => void): void {
+    this.subscriptions.push({
       key,
       cb
     });
   }
-  private static notify(key: string): void {
-    const subscriptions = ModelBinder.subscriptions.filter(subscription => subscription.key === key);
+  private notify(key: string): void {
+    const subscriptions = this.subscriptions.filter(subscription => subscription.key === key);
     subscriptions.forEach(subscription => {
       subscription.cb();
     });

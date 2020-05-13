@@ -25,8 +25,9 @@ import { Page1Component } from 'components/test/router/page1.component';
 import { Page2Component } from 'components/test/router/page2.component';
 import { Page3Component } from 'components/test/router/page3.component';
 
+import { ButtonExpander } from 'components/expander/button.expander';
+
 import './main.scss';
-require('metro4/build/js/metro');
 
 const routes: Routes = {
   '/': { component: HomeComponent },
@@ -71,6 +72,9 @@ GlobalProvider.bootstrap({
     Page1Component,
     Page2Component,
     Page3Component
+  ],
+  expanders: [
+    ButtonExpander
   ],
   // register for router
   routes: routes

@@ -1,6 +1,6 @@
 import { LifeCycle } from './lifecycle.enum';
 import { isObject, isNumber, isBoolean, isArray } from 'util';
-import { GlobalProvider } from '../lib/globalProvider';
+import { GlobalProvider } from '../lib/globalprovider';
 
 /**
  * The structure that defines the state object.
@@ -180,6 +180,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           this.setAttribute(`__${prop}__num__`, '');
         }
         this.setAttribute(prop, value);
+        Promise.resolve();
       } catch (err) {
         console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);
       }

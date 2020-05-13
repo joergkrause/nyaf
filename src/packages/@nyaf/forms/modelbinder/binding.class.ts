@@ -5,13 +5,18 @@ import { ModelBinder } from './modelbinder.class';
  * It's required if you implement your own binders.
  */
 export class Binding {
-  constructor(private prop: string, private handler: string, public el: HTMLElement) {
+  constructor(
+    private prop: string,
+    private handler: string,
+    private binderInstance: ModelBinder,
+    public el: HTMLElement
+  ) {
   }
   public bind() {
-    const bindingHandler = ModelBinder.handlers[this.handler];
+    const bindingHandler = this.binderInstance.handlers[this.handler];
     if (bindingHandler) {
       bindingHandler.bind(this);
-      ModelBinder.subscribe(this.prop, () => {
+      this.binderInstance.subscribe(this.prop, () => {
         bindingHandler.react(this);
       });
     } else {
@@ -19,9 +24,9 @@ export class Binding {
     }
   }
   public set value(value) {
-    ModelBinder.scope[this.prop] = value;
+    this.binderInstance.scope[this.prop] = value;
   }
   public get value() {
-    return ModelBinder.scope[this.prop];
+    return this.binderInstance.scope[this.prop];
   }
 }

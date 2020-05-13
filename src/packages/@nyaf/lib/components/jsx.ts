@@ -1,4 +1,5 @@
 import { isArray, isObject, isBoolean, isNumber } from 'util';
+import { GlobalProvider } from '../lib/globalprovider';
 
 /**
  * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.
@@ -17,7 +18,7 @@ import { isArray, isObject, isBoolean, isNumber } from 'util';
 const JSX = {
   createElement(name: string, props: { [id: string]: string }, ...content: string[]) {
     content = [].concat.apply([], content);
-    const flat = function(arr1: string[]) {
+    const flat = function (arr1: string[]) {
       return arr1.reduce((acc, val) => (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);
     };
 
@@ -47,9 +48,15 @@ const JSX = {
               }
               break;
             case 'n-else':
+              ifStore = !value;
               break;
             case 'n-if':
               ifStore = !!value;
+              break;
+            case 'n-expand':
+              if (GlobalProvider.TagExpander.get(value)) {
+                return GlobalProvider.TagExpander.get(value).expand();
+              }
               break;
             case 'n-repeat':
               if (value) {
