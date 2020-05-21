@@ -1,7 +1,7 @@
 import { BaseComponent, ComponentData } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 
-// Step 1: Create the Components active parts
+
 @CustomElement('app-docu')
 export class DocuComponent extends BaseComponent<{ content: string }> {
   constructor() {

@@ -4,7 +4,7 @@ import { ButtonComponent } from '../button.component';
 import { ComplexComponent } from '../complex.component';
 import { ComplexBoolComponent } from '../complexbool.component';
 
-// Step 1: Create the Components active parts
+
 @CustomElement('app-demo')
 export class DemoComponent extends BaseComponent {
   constructor() {

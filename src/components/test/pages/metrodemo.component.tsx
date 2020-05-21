@@ -1,6 +1,6 @@
 import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
 
-// Step 1: Create the Components active parts
+
 @CustomElement('app-metro-demo')
 export class MetroDemoComponent extends BaseComponent {
   constructor() {

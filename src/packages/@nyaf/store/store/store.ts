@@ -1,23 +1,30 @@
 import { Observer } from '@nyaf/lib';
 import { StoreParams } from './store.params';
 
+enum StoreState {
+  Action,
+  Resting,
+  Mutation
+}
+
 export class Store<ST> {
   private _actions: Map<string, any>;
-  private _reducer: Map<string, (state: any, payload: any) => void>;
+  private _reducer: Map<string, (state: any, payload: any, actionKey?: string) => Promise<any> | any>;
   private _subscribers: Map<string, { remove: () => void; }[]> = new Map();
-  private _status: string;
+  private _status: Map<string, StoreState> = new Map();
   private state: ProxyConstructor;
   private observer: Observer;
 
   constructor(params: StoreParams<ST>) {
     this.observer = Observer.getInstance();
-    // A status enum to set during actions and reducer
-    this._status = 'resting';
 
     // Look in the passed params object for actions and reducer
     // that might have been passed in
     if (params.hasOwnProperty('actions')) {
-      this._actions = new Map(Object.entries(params.actions));
+      const keys = Object.entries(params.actions);
+      this._actions = new Map(keys);
+      // A status enum to set during actions and reducer
+      keys.forEach(key => this._status.set(key[0], StoreState.Resting));
     } else {
       this._actions = new Map<string, any>();
     }
@@ -36,20 +43,13 @@ export class Store<ST> {
     // checking the params and defaulting to an empty object if no default
     // state is passed in
     this.state = new Proxy(params.state || {}, {
-      set: (state: any, key: string, value: any) => {
+      set: (state: any, storeProperty: string, value: any) => {
         // Set the value as we would normally
-        state[key] = value;
+        state[storeProperty] = value;
         // Trace out to the console. This will be grouped by the related action
-        console.log(`stateChange: ${key.toString()}: ${value}`);
+        console.log(`stateChange: ${storeProperty.toString()}:`, value);
         // Publish the change event for the components that are listening
-        this.observer.publish(key, this.state);
-        // Give the user a little telling off if they set a value directly
-        if (this._status !== 'mutation') {
-          console.warn(`You should use a mutation to set ${key.toString()}`);
-        }
-        // Reset the status ready for the next operation
-        this._status = 'resting';
-
+        this.observer.publish(storeProperty, this.state);
         return true;
       }
     });
@@ -64,7 +64,7 @@ export class Store<ST> {
    * @returns {boolean}
    * @memberof Store
    */
-  dispatch(actionKey: string, payload: any): boolean {
+  async dispatch(actionKey: string, payload: any): Promise<boolean> {
     // Run a quick check to see if the action actually exists
     // before we try to run it
     if (this.actions.has(actionKey) === false) {
@@ -74,7 +74,7 @@ export class Store<ST> {
     // Create a console group which will contain the logs from our Proxy etc
     console.groupCollapsed(`ACTION: ${String(actionKey)}`);
     // Let anything that's watching the status know that we're dispatching an action
-    this._status = 'action';
+    this._status.set(actionKey, StoreState.Action);
     // Actually call the action and pass it the Store context and whatever payload was passed
     const value = payload || this.actions.get(actionKey)(payload);
     // Close our console group to keep things nice and neat
@@ -87,24 +87,30 @@ export class Store<ST> {
       return false;
     }
     // Let anything that's watching the status know that we're mutating state
-    this._status = 'mutation';
+    this._status.set(actionKey, StoreState.Mutation);
     // Get a new version of the state by running the mutation
-    this.reducer.get(actionKey)(this.state, value);
-    // Merge the old and new together to create a new state and set it
+    const state = await this.reducer.get(actionKey)(this.state, value, actionKey);
+    // merge states
+    Object.assign(this.state, state);
+    this._status.set(actionKey, StoreState.Resting);
     return true;
   }
 
   /**
-   * Subscribe here for store changes. Don't forget to call `remove` on dispose.
+   * Subscribe here for store changes. Don't forget to call `remove` on dispose. The subscriber must be destroyed if the defining component is disposed or removed from DOM.
+   * To do so, capture the returned object. It contains a function `remove()` you can call, then.
+   *
+   * @param storeProperty Subscribe to any property of the store defined by store type and only in string form.
+   * @param cb The callback that will be called when a change happened. Parameter is the current state object. The callback may not return anything.
    * */
-  subscribe(actionKey: string, cb: (value: any) => void): { remove: () => void; } {
-    const s = this.observer.subscribe(actionKey, cb);
-    if (!this._subscribers.get(actionKey)) {
-      this._subscribers.set(actionKey, []);
+  subscribe(storeProperty: keyof ST & string, cb: (value: ST) => void): { remove: () => void; } {
+    const s = this.observer.subscribe(storeProperty, cb);
+    if (!this._subscribers.get(storeProperty)) {
+      this._subscribers.set(storeProperty, []);
     }
-    const a = this._subscribers.get(actionKey);
+    const a = this._subscribers.get(storeProperty);
     const idx = a.push(s);
-    this._subscribers.set(actionKey, a);
+    this._subscribers.set(storeProperty, a);
     return {
       remove: () => {
         s.remove();
@@ -113,9 +119,15 @@ export class Store<ST> {
     };
   }
 
-  dispose(specific?: string) {
+  /**
+   * Remove (dispose) all the subscribers for all store states.
+   * @param specific A state property, for which you wish to dispose all the subscribers. Can be ommited.
+   */
+  dispose(specific?: keyof ST & string) {
     if (specific) {
-      // TODO
+      [...this._subscribers.keys()]
+        .filter(s => s === specific)
+        .forEach(s => this._subscribers[s].forEach(a => a.remove()));
     } else {
       this._subscribers.forEach(s => s.forEach(a => a.remove()));
       this._subscribers = new Map();
@@ -128,7 +140,7 @@ export class Store<ST> {
    *
    * @param store Another stores definitions.
    */
-  mergeStore<T>(store: StoreParams<T>): void {
+  mergeStore<T>(store: StoreParams<T>): Store<ST & T> {
     for (const action of Object.entries(store.actions)) {
       const [key, payload] = action;
       if (this._actions.get(key)) {
@@ -144,17 +156,18 @@ export class Store<ST> {
       this._reducer.set(key, func);
     }
     this.createStoreState<T>(store);
+    return this as Store<any>;
   }
 
-  get status() {
+  get status(): Map<string, StoreState> {
     return this._status;
   }
 
-  get actions() {
+  get actions(): Map<string, any> {
     return this._actions;
   }
 
-  get reducer() {
+  get reducer(): Map<string, (state: any, payload: any, actionKey?: string) => Promise<any> | any> {
     return this._reducer;
   }
 

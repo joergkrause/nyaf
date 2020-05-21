@@ -7,7 +7,7 @@ interface MainProps {
   current?: string;
 }
 
-// Step 1: Create the Components active parts
+
 @CustomElement('app-tabs')
 @Properties({ title: '', tabs: [] })
 export class TabsComponent extends BaseComponent<MainProps> {

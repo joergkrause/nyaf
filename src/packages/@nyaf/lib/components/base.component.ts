@@ -52,6 +52,23 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   public static readonly selector: string;
 
   /**
+   * A shortcut to access elements after rendering that have `n-sel` attribute.
+   * Example: `<button n-sel='bbb' />`
+   * Access this element within the component easily like this `this.$['bbb']`.
+   * If there are multiple definitions with same key an array is being delivered.
+   */
+  public get ['$'](): { [selectable: string]: HTMLElement | HTMLElement[] } {
+    if ((<any>this.constructor).withShadow) {
+      return this.shadowRoot['__$'];
+    } else {
+      return this['__$'];
+    }
+  }
+
+  public get ['$$']() { return this.querySelector; }
+  public get ['$$$']() { return this.querySelectorAll; }
+
+  /**
    * Observe all registered attributes. The source field is set by the @see {Properties} decorator.
    */
   protected static get observedAttributes(): string[] {
@@ -130,7 +147,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    */
   constructor() {
     super();
-    this._data = new Proxy((<any>this.constructor).__proxyInitializer__ || {} as P, this.proxyAttributeHandler);
+    const defaultProperties = Object.assign({}, (<any>this.constructor).__proxyInitializer__);
+    this._data = new Proxy(defaultProperties as P, this.proxyAttributeHandler);
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
     if (this.constructor['useParentStyles'] && this.constructor['withShadow'] && !this.constructor['globalStyle']) {
@@ -150,19 +168,18 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   proxyAttributeHandler = {
     get: (obj: P, prop: string) => {
       try {
-        const initObj = (<any>this.constructor).__proxyInitializer__ || {} as P;
-        if (this.attributes.getNamedItem(`__${prop}__obj__`) || (initObj[prop] !== undefined && isObject(initObj[prop]))) {
+        if (this.attributes.getNamedItem(`__${prop}__obj__`) || (this[prop] !== undefined && isObject(this[prop]))) {
           return JSON.parse(this.getAttribute(prop));
         }
-        if (this.attributes.getNamedItem(`__${prop}__bool__`) || (initObj[prop] !== undefined && isBoolean(initObj[prop]))) {
+        if (this.attributes.getNamedItem(`__${prop}__bool__`) || (this[prop] !== undefined && isBoolean(this[prop]))) {
           return this.getAttribute(prop) === 'true';
         }
-        if (this.attributes.getNamedItem(`__${prop}__num__`) || (initObj[prop] !== undefined && isNumber(initObj[prop]))) {
+        if (this.attributes.getNamedItem(`__${prop}__num__`) || (this[prop] !== undefined && isNumber(this[prop]))) {
           return Number.parseFloat(this.getAttribute(prop));
         }
         return obj[prop];
       } catch (err) {
-        console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);
+        console.error(`A complex property was not set properly: '${prop}'. Error: '${err}`);
       }
       return this.getAttribute(prop);
     },
@@ -264,11 +281,29 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           this.shadowRoot.appendChild(style);
         }
         this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.setShortSelectables(this.shadowRoot);
       }
     } else {
       this.innerHTML = await this.render();
+      this.setShortSelectables(this);
     }
     this.lifeCycleState = LifeCycle.Load;
+  }
+
+  private setShortSelectables(root: HTMLElement | ShadowRoot) {
+    const selectables = root.querySelectorAll('[n-sel]');
+    root['__$'] = {};
+    if (selectables) {
+      for (let i = 0; i < selectables.length; i++) {
+        const name = selectables[i].getAttribute('n-sel');
+        const value = selectables[i];
+        if (root['__$'][name]) {
+          root['__$'][name] = [];
+          root['__$'][name].push(value);
+        }
+        root['__$'][name] = value;
+      }
+    }
   }
 
   /**

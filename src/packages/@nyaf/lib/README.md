@@ -136,6 +136,7 @@ Template Features avoid using creepy JavaScript for loops and branches. You can 
 * `n-if`, `n-else`
 * `n-hide`, `n-show`
 * `n-on-<event>` (see further down)
+* `n-expand`
 
 ### n-repeat
 
@@ -205,6 +206,48 @@ If there is an else-branch it can direct to a slot template. `<slot>` elements a
 ### n-hide, n-show
 
 Works same as `n-if`, but just adds an inline style `display: none` (or remove one) if `true` (`n-hide`) or `false` (`n-show`).
+
+### n-expand
+
+Expand a group of attributes. Imagine this:
+
+~~~
+<input type="text" placeholder="Name" role="search" class="materialinput" id="a1 />
+~~~
+
+You need this several times, each with different id.
+
+~~~
+<input n-expand="search" id="a1" />
+<input n-expand="search" id="a2" />
+<input n-expand="search" id="a3" />
+~~~
+
+To define it, just create a class like this:
+
+~~~
+@Expand("search")
+export class SearchExpander extends Expander {
+  constructor(){
+    super();
+  }
+  'type'="text";
+  'placeholder'="Name";
+  'role'="search";
+  'class'="materialinput";
+}
+~~~
+
+Any yes, these are equal signs in the class. The named 'xxx' names are only required if the attribute name contains dashes. Finally, add the definition to the global provider:
+
+~~~
+Globalprovider.bootstrap({
+  components: [...components], // as usual
+  expanders: [SearchExpander]
+})
+~~~
+
+That's it, a lot less to write without the effort to create components. It's just text-replacement before the render grabs the content, so NO performance impact at runtime.
 
 ## Events
 

@@ -20,10 +20,6 @@ export const actions = {
   [SET]: () => 0
 };
 
-interface SetStore {
-  counter: number;
-}
-
 /**
  * A store contains a data structure that helds up to the entire app's state.
  * It can have any complexity, from a single value up to deep nested objects.
@@ -36,7 +32,6 @@ interface CounterStore {
  * We export a single store type that contains all single stores as one default.
  */
 export type counterStoreType = CounterStore;
-export type setStoreType = SetStore;
 
 /**
  * The reducer functions are the executing logic. They "do" what the action is asking for.
@@ -45,23 +40,23 @@ export const counterReducer = {
   /**
    * The increment action takes the current state, operates as requested and returns the state for storage.
    */
-  [INC]: (state: counterStoreType, payload: number) => {
-    state.counter = state.counter + payload;
-    return state;
+  [INC]: (state: counterStoreType, payload: number): Partial<counterStoreType> => {
+    const counter = state.counter + payload;
+    return  { counter };
   },
   /**
    * The decrement action takes the current state, operates as requested and returns the state for storage.
    */
-  [DEC]: (state: counterStoreType, payload: number) => {
-    state.counter = state.counter - payload;
-    return state;
+  [DEC]: (state: counterStoreType, payload: number): Partial<counterStoreType> => {
+    const counter = state.counter - payload;
+    return { counter };
   }
 };
 
 export const setReducer = {
-  [SET]: (state: setStoreType, payload: number) => {
-    state.counter = payload;
-    return state;
+  [SET]: (state: counterStoreType, payload: number): Partial<counterStoreType> => {
+    const counter = payload;
+    return { counter };
   }
 };
 

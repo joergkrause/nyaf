@@ -1,10 +1,9 @@
 import JSX, { CustomElement, Properties } from '@nyaf/lib';
 import { ProvideStore, Store, StoreComponent } from '@nyaf/store';
-import { INC, DEC, SET, actions, counterReducer, setReducer, counterStoreType, setStoreType } from '../flux/flux.demo';
+import { INC, DEC, SET, actions, counterReducer, setReducer, counterStoreType } from '../flux/flux.demo';
 import { StoreParams } from '@nyaf/store/store/store.params';
 
 // global store (assume this in the main component)
-
 type storeStateType = { version: string };
 
 const store = new Store<storeStateType>({
@@ -29,9 +28,9 @@ const counterSetStore: StoreParams<counterStoreType> = {
 };
 
 // another local store
-store.mergeStore<setStoreType>(counterSetStore);
+store.mergeStore<counterStoreType>(counterSetStore);
 
-type allStoreTypes = storeStateType & counterStoreType & setStoreType;
+type allStoreTypes = storeStateType & counterStoreType;
 
 /**
  * Shows a component that's using the store to handle the business logic outside the component.

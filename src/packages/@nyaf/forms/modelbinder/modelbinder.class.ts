@@ -92,8 +92,9 @@ export class ModelBinder {
     ModelBinder._instanceStore.set(component, mbInstance);
     // Look for @Viewmodel decorator
     const modelInstance = new component.constructor['__model__']();
+    const isShadowed = !!component.constructor['withShadow'];
     mbInstance.setScope(modelInstance);
-    const elements = component.querySelectorAll('[n-bind]');
+    const elements = isShadowed ? component.shadowRoot.querySelectorAll('[n-bind]') : component.querySelectorAll('[n-bind]');
     elements.forEach((el: HTMLElement) => {
       const expressionParts = el.getAttribute('n-bind').split(':');
       if (expressionParts.length < 2) {

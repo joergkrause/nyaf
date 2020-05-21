@@ -4,7 +4,7 @@ import { Store } from '../store/store';
 //   new (...args: any[]): T
 // }
 
-export function ProvideStore<T>(storeType: Store<T>) {
+export function ProvideStore<T>(storeType: Store<Partial<T>>) {
   return function(target: any) {
     if (!target.prototype) {
       throw new Error('Decorator must be run on an instanciable component.');

@@ -7,7 +7,7 @@ export interface TabProps {
   active: string;
 }
 
-// Step 1: Create the Components active parts
+
 @CustomElement('app-tab')
 @Properties({ title: '', content: '', active: false })
 export class TabComponent extends BaseComponent<TabProps> {
