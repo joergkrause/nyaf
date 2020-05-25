@@ -66,7 +66,7 @@ import { TextBindingHandler } from './textbindinghandler.class';
  */
 export class ModelBinder {
   static _instanceStore = new Map<HTMLElement, ModelBinder>();
-  scope: ProxyConstructor;
+  public scope: ProxyConstructor;
   subscriptions: {
     key: string;
     cb: () => void;
@@ -140,19 +140,27 @@ export class ModelBinder {
         if (shouldNotify) {
           this.notify(key);
         }
-        ;
-        return shouldNotify;
+        return true;
       }
     });
     this.scope = p;
     Object.keys(scope).forEach(prop => this.notify(prop));
   }
+
+  /**
+   * Returns the scope, which is a Proxy, so changes to properties are pushed to binders.
+   */
+  public getScope<T extends object>(): T {
+    return this.scope as unknown as T;
+  }
+
   subscribe(key: string, cb: () => void): void {
     this.subscriptions.push({
       key,
       cb
     });
   }
+
   private notify(key: string): void {
     const subscriptions = this.subscriptions.filter(subscription => subscription.key === key);
     subscriptions.forEach(subscription => {
