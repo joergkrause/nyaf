@@ -48,14 +48,21 @@ import { TextBindingHandler } from './textbindinghandler.class';
  *
  * If you need specific binders for custom elements, just create one by implementing the @see IBindingHandler interface.
  *
- *
  * ```
  * class MyHandler implements IBindingHandler {
  *   // your code here
  * }
- *
- * ModelBinder.handlers['custom', new MyHandler()];
  * ```
+ * This definition must be added to the local modelbinder instance. The decorator @see @ViewModel creates a property `model`,
+ * that provides an instance of @see ModelBinder, initialized and bound to the current component. In the component, it's recommended
+ * to do this in the Lifecycle.Load step, you can add your custom handler:
+ *
+ * ```
+ * this.model.handlers['custom', new MyHandler()];
+ * ```
+ *
+ * The `model` property is enforced by the @see IModel<VM> interface. That's for typing, the actual value is created at
+ * runtime from the decorator code.
  *
  * In the form you can now bind to your custom property of your custom web component.
  *
@@ -64,8 +71,8 @@ import { TextBindingHandler } from './textbindinghandler.class';
  * ```
  *
  */
-export class ModelBinder {
-  static _instanceStore = new Map<HTMLElement, ModelBinder>();
+export class ModelBinder<VM extends object> {
+  static _instanceStore = new Map<HTMLElement, ModelBinder<{}>>();
   public scope: ProxyConstructor;
   subscriptions: {
     key: string;
@@ -81,7 +88,7 @@ export class ModelBinder {
    * @param component The web component this binder is currently attached to.
    * @param handler Handler identifier, used in forms in `n-bind="prop: Value"`.
    */
-  public static initialize(component: HTMLElement, handler?: {[key: string]: IBindingHandler}) {
+  public static initialize(component: HTMLElement, handler?: { [key: string]: IBindingHandler }) {
     const mbInstance = new ModelBinder();
     mbInstance.handlers['value'] = new ValueBindingHandler();
     mbInstance.handlers['innerText'] = new TextBindingHandler();
@@ -102,19 +109,22 @@ export class ModelBinder {
       }
       const bindingHandler = expressionParts[0].trim();
       const scopeKey = expressionParts[1].trim();
-      if (modelInstance.hasOwnProperty(scopeKey)) {
-        // TODO: Implement extensible validation
-        // if (expressionParts.length === 3) {
-        // 	const validator = expressionParts[2].trim();
-        // 	if (bindingHandler === 'value') {
-        // 		el.setAttribute(validator.toLowerCase(), validator.toLowerCase());
-        // 	}
-        // 	if (bindingHandler === 'innerText') {
-        // 		el.textContent = `__${validator}__msg__${scopeKey}__`;
-        // 	}
-        // }
-        const binding = new Binding(scopeKey, bindingHandler, mbInstance, el);
-        binding.bind();
+      // decorator bindings
+      if (expressionParts.length === 3) {
+        const decoratorKey = expressionParts[2].trim();
+        // key is: display.name or display.desc
+        const decoratorProp = `__${decoratorKey}__${scopeKey}`;
+        if (modelInstance.constructor.prototype[decoratorProp]) {
+          const binding = new Binding(decoratorProp, bindingHandler, mbInstance, el);
+          binding.bind();
+        }
+      } else {
+        // property bindings
+        if (modelInstance.hasOwnProperty(scopeKey)) {
+          const binding = new Binding(scopeKey, bindingHandler, mbInstance, el);
+          binding.bind();
+        }
+
       }
     });
     return mbInstance;
@@ -128,7 +138,7 @@ export class ModelBinder {
     return ModelBinder._instanceStore.get(component);
   }
 
-  public setScope(scope: {}): void {
+  public setScope(scope: VM): void {
     const p = new Proxy(scope, {
       get: (target: any, key: string, receiver: ProxyConstructor) => {
         return target[key];
@@ -150,11 +160,11 @@ export class ModelBinder {
   /**
    * Returns the scope, which is a Proxy, so changes to properties are pushed to binders.
    */
-  public getScope<T extends object>(): T {
-    return this.scope as unknown as T;
+  public getScope(): VM {
+    return this.scope as unknown as VM;
   }
 
-  subscribe(key: string, cb: () => void): void {
+  public subscribe(key: string, cb: () => void): void {
     this.subscriptions.push({
       key,
       cb

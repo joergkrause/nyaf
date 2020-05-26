@@ -1,14 +1,14 @@
 import { BaseComponent, ComponentData, LifeCycle } from '@nyaf/lib';
 import JSX, { CustomElement, ShadowDOM, UseParentStyles } from '@nyaf/lib';
 import { ContactModel } from './models/contact.model';
-import { ViewModel, ModelBinder } from '@nyaf/forms/';
+import { ViewModel, ModelBinder, IModel } from '@nyaf/forms/';
 
 
 @CustomElement('app-contact')
-@ViewModel<ContactModel>(ContactModel)
-export class ContactComponent extends BaseComponent {
+@ViewModel(ContactModel)
+export class ContactComponent extends BaseComponent implements IModel<ContactModel> {
 
-  modelbinder: ModelBinder;
+  model: ModelBinder<ContactModel>;
   contactModel: ContactModel;
 
   constructor() {
@@ -23,23 +23,31 @@ export class ContactComponent extends BaseComponent {
       <>
         <h2>Contact</h2>
         <form >
-          <label n-bind='innerText: name'  />
-          <input n-bind='value: email' />
-          <button n-sel='btn'></button>
+          <div>
+            <label n-bind='innerText: email: displayName'>E-Mail</label>
+            <input n-bind='value: email' />
+            <button type='button' n-sel='btn' n-on-click={(e) => this.reset(e)}></button>
+          </div>
+          <div>
+            <label n-bind='innerText: email' />
+          </div>
         </form>
       </>
     );
   }
 
+  reset(e: Event) {
+    this.model.getScope().email = '';
+  }
+
   lifeCycle(state: LifeCycle) {
     if (state === LifeCycle.Load) {
-      this.modelbinder = ModelBinder.initialize(this);
-      this.modelbinder.setScope(this.contactModel);
+      this.model.setScope(this.contactModel);
       (this.$['btn'] as HTMLElement).classList.add('btn');
       (this.$['btn'] as HTMLElement).classList.add('btn-primary');
       (this.$['btn'] as HTMLElement).classList.add('btn-sm');
-      this.$$('button').innerText = 'Test';
-     }
-   }
+      this.$$('button').innerText = 'Click to empty form';
+    }
+  }
 
 }

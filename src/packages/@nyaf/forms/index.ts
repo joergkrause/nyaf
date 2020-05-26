@@ -21,5 +21,6 @@ export * from './decorators/ui/hint-readonly.decorator';
 export * from './decorators/viewmodel.decorator';
 export * from './components/containers/container.component';
 export * from './modelbinder/modelbinder.class';
+export * from './modelbinder/imodel.interface';
 export * from './modelbinder/binding.class';
 export * from './modelbinder/ibindinghandler.interface';

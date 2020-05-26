@@ -1,4 +1,6 @@
-﻿type Type<T> = new (...args: any[]) => T;
+﻿import { ModelBinder } from '../modelbinder/modelbinder.class';
+
+type Type<T> = new (...args: any[]) => T;
 
 /**
  * The ViewModel decorator.
@@ -24,5 +26,21 @@ export function viewModelInternalSetup<T extends {}>(target: any, modelType: Typ
     value: modelType,
     enumerable: false,
     configurable: false
+  });
+  Object.defineProperty(target, `__modelbinder__`, {
+    writable: true,
+    enumerable: false,
+    configurable: false
+  });
+  if (!target.prototype) {
+    throw new Error('Decorator must be run on an instanciable component.');
+  }
+  Object.defineProperty(target.prototype, 'model', {
+    get: function () {
+      if (!target.__modelbinder__) {
+        target.__modelbinder__ = ModelBinder.initialize(this); // the actual component
+      }
+      return target.__modelbinder__;
+    }
   });
 }

@@ -87,11 +87,14 @@ The last (optional) parameter of the validation decorators is a custom error mes
 NYAF has a simple template language. For forms it's just one for any input element:
 
 ~~~
+
+model: ModelBinder<UserViewModel>; // instance created by decorator
+
 async render() {
   const model: UserViewModel = new UserViewModel(); // or where ever the model comes from
   return await (
     <>
-      <form n-model={model}>
+      <form>
         <input n-bind="value: Name" />
       </form>
     </>);
@@ -120,28 +123,37 @@ For a good UI you need a label usually:
 
 ### Forms
 
-Writing `n-model` again and again is boring. Use the `form` tag instead (creation of model omitted for brevity):
+The model is provided by a decorator
 
 ~~~
-<form n-model={model}>
-  <label n-for="@userName" for="un"/>
-  <input n-for={model} name="@userName" id="un" />
-  <br />
-  <label n-for="@city" for="city"/>
-  <input n-for={model} name="@city" id ="city" />
-</form>
+@ViewModel(ModelType)
+export class component extends BaseComponent<any> implements IModel<ModelType> {
+
+  async render() {
+    return await (
+      <form>
+        <label n-bind="innerText: userName" for="un"/>
+        <input n-bind="value; userName" id="un" />
+        <br />
+        <label n-bind="innerText: city" for="city"/>
+        <input n-bind="value: @city" id ="city" />
+     </form>
+    )
+  }
+
+}
 ~~~
 
-Forms bind data. It's always bi-directional.
+Forms bind data. It's bi-directional or uni-directional depending on the chosen handler.
 
 ### Validation
 
 The error message is just regular output (class example from Bootstrap,not needed by NYAF forms):
 
 ~~~
-<form n-model={model}>
-  <label n-for="@userName" for="un"/>
-  <input n-for="@userName" id="un">
+<form>
+  <label n-bind="innerText: userName" for="un"/>
+  <input n-bind="value: userName" id="un">
   <div class="text text-danger" n-if="!@userName.valid && @userName.touched">Oops, something got wrong</div>
 </form>
 ~~~
@@ -151,20 +163,24 @@ Again, note the *@* signs preceding the property names.
 Validators can provide the error text, too:
 
 ~~~
-<form n-model={model}>
-  <label n-for="@userName" for="un"/>
-  <input n-for="@userName" id="un">
-  <div class="text text-danger" n-if="!@userName.valid && @userName.touched" innerHTML="@userName.errors" ></div>
+<form>
+  <label n-bind="innerText: userName" for="un"/>
+  <input n-bind="value: userName" id="un">
+  <div class="text text-danger"
+       n-if={this.model.getScope().userName.valid && this.model.getScope().userName.touched"
+       innerHTML={this.model.getScope().userName.errors} ></div>s
 </form>
 ~~~
 
 Distinguish between different validators like this:
 
 ~~~
-<form n-model={model}>
+<form>
   <label n-bind="innerText: userName" for="un"/>
   <input n-bind="value: userName" id="un">
-  <div class="text text-danger" n-if="!@userName.required.valid && @userName.touched" innerHTML="@userName.required.message" ></div>
+  <div class="text text-danger"
+       n-if={this.model.getScope().userName.valid && this.model.getScope().userName.touched"
+       innerHTML={this.model.getScope().userName.errors.required.error} ></div>s
 </form>
 ~~~
 

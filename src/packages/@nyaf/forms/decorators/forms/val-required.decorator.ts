@@ -17,7 +17,7 @@ export function Required(msg?: string) {
 
 export function requiredInternalSetup(target: any, key: string, msg?: string) {
     Object.defineProperty(target, `__isRequired__${key}`, {
-        get: function () { return true; },
+        value: true,
         enumerable: false,
         configurable: false
     });

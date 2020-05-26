@@ -1,5 +1,5 @@
-import JSX, { CustomElement, Properties } from '@nyaf/lib';
-import { ProvideStore, Store, StoreComponent } from '@nyaf/store';
+import JSX, { CustomElement, Properties, BaseComponent } from '@nyaf/lib';
+import { ProvideStore, Store, IStore } from '@nyaf/store';
 import { INC, DEC, SET, actions, counterReducer, setReducer, counterStoreType } from '../flux/flux.demo';
 import { StoreParams } from '@nyaf/store/store/store.params';
 
@@ -38,8 +38,9 @@ type allStoreTypes = storeStateType & counterStoreType;
 @CustomElement('app-store-counter')
 @ProvideStore<allStoreTypes>(store)
 @Properties<{ cnt: number }>({ cnt: 0 })
-export class StoreCounterComponent extends StoreComponent<allStoreTypes, { cnt: number }> {
+export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implements IStore<allStoreTypes> {
 
+  store: Store<allStoreTypes>;
   private sub;
   private sub2;
 

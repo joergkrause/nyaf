@@ -8,7 +8,7 @@ export class Binding {
   constructor(
     private prop: string,
     private handler: string,
-    private binderInstance: ModelBinder,
+    private binderInstance: ModelBinder<any>,
     public el: HTMLElement
   ) {
   }
