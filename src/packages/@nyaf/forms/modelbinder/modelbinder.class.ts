@@ -3,6 +3,7 @@ import { IBindingHandler } from './ibindinghandler.interface';
 import { CheckedBindingHandler } from './checkedbindinghandler.class';
 import { ValueBindingHandler } from './valuebindinghandler.class';
 import { TextBindingHandler } from './textbindinghandler.class';
+import { ModelState } from './modelstate.class';
 
 /**
  * The modelbinder servers two purposes:
@@ -74,6 +75,7 @@ import { TextBindingHandler } from './textbindinghandler.class';
 export class ModelBinder<VM extends object> {
   static _instanceStore = new Map<HTMLElement, ModelBinder<{}>>();
   public scope: ProxyConstructor;
+  public state: ModelState<VM>;
   subscriptions: {
     key: string;
     cb: () => void;

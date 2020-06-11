@@ -1,5 +1,4 @@
-import { BaseComponent, ComponentData, GlobalProvider } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
+import JSX, { BaseComponent, GlobalProvider, CustomElement } from '@nyaf/lib';
 
 /**
  * Shows how to create a simple interactive component using events and state.

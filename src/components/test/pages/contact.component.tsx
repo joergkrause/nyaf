@@ -26,6 +26,8 @@ export class ContactComponent extends BaseComponent implements IModel<ContactMod
           <div>
             <label n-bind='innerText: email: displayName'>E-Mail</label>
             <input n-bind='value: email' />
+            <div class='alert alert-danger' n-bind='innerText: email: errPattern' n-if={this.model.state['email']}></div>
+            <br />
             <button type='button' n-sel='btn' n-on-click={(e) => this.reset(e)}></button>
           </div>
           <div>
