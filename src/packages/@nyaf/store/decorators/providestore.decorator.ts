@@ -1,9 +1,9 @@
 import { Store } from '../store/store';
 
-// interface Type<T> extends Function {
-//   new (...args: any[]): T
-// }
-
+/**
+ * Create the actual store in the component. Use together with @see IStore interface to have typed access.
+ * @param storeType The type of the store
+ */
 export function ProvideStore<T>(storeType: Store<Partial<T>>) {
   return function(target: any) {
     if (!target.prototype) {

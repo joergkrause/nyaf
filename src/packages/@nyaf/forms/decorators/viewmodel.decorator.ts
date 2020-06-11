@@ -1,5 +1,6 @@
 ﻿import { ModelBinder } from '../modelbinder/modelbinder.class';
 import { IBindingHandler } from '../modelbinder/ibindinghandler.interface';
+import { BaseComponent } from '@nyaf/lib';
 
 type Type<T> = new (...args: any[]) => T;
 
@@ -29,20 +30,24 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, h
     enumerable: false,
     configurable: false
   });
-  Object.defineProperty(target, `__modelbinder__`, {
+  if (!target.prototype) {
+    throw new Error('Decorator must be run on an instanciable component.');
+  }
+  Object.defineProperty(target.prototype, `__modelbinder__`, {
     writable: true,
     enumerable: false,
     configurable: false
   });
-  if (!target.prototype) {
-    throw new Error('Decorator must be run on an instanciable component.');
-  }
   Object.defineProperty(target.prototype, 'model', {
     get: function () {
       if (!target.__modelbinder__) {
-        target.__modelbinder__ = ModelBinder.initialize(this, handler); // the actual component
+        target.__modelbinder__ = {};
       }
-      return target.__modelbinder__;
+      const $this: BaseComponent = this as BaseComponent;
+      if (!target.__modelbinder__[$this.__uniqueId__]) {
+        target.__modelbinder__[$this.__uniqueId__] = ModelBinder.initialize(this, handler); // the actual component
+      }
+      return target.__modelbinder__[$this.__uniqueId__];
     }
   });
 }

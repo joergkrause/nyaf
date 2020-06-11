@@ -24,7 +24,7 @@ export class ContactComponent extends BaseComponent implements IModel<ContactMod
         <h2>Contact</h2>
         <form >
           <div>
-            <label n-bind='innerText: email: displayName'>E-Mail</label>
+            <label n-bind='innerText: email: displayName'>Dynamic</label>
             <input n-bind='value: email' />
             <div class='alert alert-danger' n-bind='innerText: email: errPattern' n-if={this.model.state['email']}></div>
             <br />

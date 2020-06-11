@@ -1,6 +1,7 @@
 import { LifeCycle } from './lifecycle.enum';
 import { isObject, isNumber, isBoolean, isArray } from 'util';
 import { GlobalProvider } from '../lib/globalprovider';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * The structure that defines the state object.
@@ -30,6 +31,7 @@ export interface IBaseComponent extends HTMLElement {
  * https://www.mikedoesweb.com/2017/dynamic-super-classes-extends-in-es6/
  */
 export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLElement implements IBaseComponent {
+
   /**
    * Set by decorator @see {UseParentStyles}. If set, it copies styles to a shadowed component.
    * If not shadowed, it's being ignored. See @see {UseShadowDOM} decorator, too.
@@ -37,7 +39,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   public static readonly useParentStyles: boolean;
 
   /**
-   * A copy of the global styles statically set for all components. First access fills it in, than it's cached.
+   * A copy of the global styles statically set for all components. First access fills it in, then it's cached.
    */
   private static globalStyle: string;
   private static linkedStyles: HTMLLinkElement[] = [];
@@ -147,6 +149,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    */
   constructor() {
     super();
+    this.__uniqueId__ = uuidv4();
     const defaultProperties = Object.assign({}, (<any>this.constructor).__proxyInitializer__);
     this._data = new Proxy(defaultProperties as P, this.proxyAttributeHandler);
     this.lifeCycleState = LifeCycle.Init;
@@ -163,6 +166,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       }
     }
   }
+
+  __uniqueId__: any;
 
   // track changes to properties accessed from code directly
   proxyAttributeHandler = {

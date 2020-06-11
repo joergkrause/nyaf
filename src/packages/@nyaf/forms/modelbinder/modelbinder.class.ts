@@ -4,6 +4,7 @@ import { CheckedBindingHandler } from './checkedbindinghandler.class';
 import { ValueBindingHandler } from './valuebindinghandler.class';
 import { TextBindingHandler } from './textbindinghandler.class';
 import { ModelState } from './modelstate.class';
+import { LifeCycle } from '@nyaf/lib';
 
 /**
  * The modelbinder servers two purposes:
@@ -75,7 +76,7 @@ import { ModelState } from './modelstate.class';
 export class ModelBinder<VM extends object> {
   static _instanceStore = new Map<HTMLElement, ModelBinder<{}>>();
   public scope: ProxyConstructor;
-  public state: ModelState<VM>;
+  public state: ModelState<VM> = new ModelState();
   subscriptions: {
     key: string;
     cb: () => void;
@@ -103,30 +104,34 @@ export class ModelBinder<VM extends object> {
     const modelInstance = new component.constructor['__model__']();
     const isShadowed = !!component.constructor['withShadow'];
     mbInstance.setScope(modelInstance);
-    const elements = isShadowed ? component.shadowRoot.querySelectorAll('[n-bind]') : component.querySelectorAll('[n-bind]');
-    elements.forEach((el: HTMLElement) => {
-      const expressionParts = el.getAttribute('n-bind').split(':');
-      if (expressionParts.length < 2) {
-        throw new Error('[n-bind] not properly formatted. Requires at least two parts: n-bind="targetProperty: sourceProperty".');
-      }
-      const bindingHandler = expressionParts[0].trim();
-      const scopeKey = expressionParts[1].trim();
-      // decorator bindings
-      if (expressionParts.length === 3) {
-        const decoratorKey = expressionParts[2].trim();
-        // key is: display.name or display.desc
-        const decoratorProp = `__${decoratorKey}__${scopeKey}`;
-        if (modelInstance.constructor.prototype[decoratorProp]) {
-          const binding = new Binding(decoratorProp, bindingHandler, mbInstance, el);
-          binding.bind();
-        }
-      } else {
-        // property bindings
-        if (modelInstance.hasOwnProperty(scopeKey)) {
-          const binding = new Binding(scopeKey, bindingHandler, mbInstance, el);
-          binding.bind();
-        }
+    component.addEventListener('lifecycle', (e: CustomEvent) => {
+      if (e.detail === LifeCycle.Load) {
+        const elements = isShadowed ? component.shadowRoot.querySelectorAll('[n-bind]') : component.querySelectorAll('[n-bind]');
+        elements.forEach((el: HTMLElement) => {
+          const expressionParts = el.getAttribute('n-bind').split(':');
+          if (expressionParts.length < 2) {
+            throw new Error('[n-bind] not properly formatted. Requires at least two parts: n-bind="targetProperty: sourceProperty".');
+          }
+          const bindingHandler = expressionParts[0].trim();
+          const scopeKey = expressionParts[1].trim();
+          // decorator bindings
+          if (expressionParts.length === 3) {
+            const decoratorKey = expressionParts[2].trim();
+            // key is: display.name or display.desc
+            const decoratorProp = `__${decoratorKey}__${scopeKey}`;
+            if (modelInstance.constructor.prototype[decoratorProp]) {
+              const binding = new Binding(decoratorProp, bindingHandler, mbInstance, el);
+              binding.bind();
+            }
+          } else {
+            // property bindings
+            if (modelInstance.hasOwnProperty(scopeKey)) {
+              const binding = new Binding(scopeKey, bindingHandler, mbInstance, el);
+              binding.bind();
+            }
 
+          }
+        });
       }
     });
     return mbInstance;
