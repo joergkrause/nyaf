@@ -1,6 +1,6 @@
 {
   "name": "nyaf",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,8 @@
     "start": "export PATH=$PATH:/mnt/c/Windows/System32 && webpack-dev-server --open",
     "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public",
     "demo": "npm run build && showdown makehtml -i README.md -o dist/docu.html && webpack --config webpack.config.js --mode \"production\" && npm run codedoc",
-    "codedoc": "npm run codedoc-nyaf-lib && npm run codedoc-nyaf-forms && npm run codedoc-nyaf-store",
-    "codedoc-nyaf-lib": "compodoc -p ./src/packages/@nyaf/lib/tsconfig.json --output ./dist/documentation",
+    "codedoc": "rimraf dist/documentation && npm run codedoc-nyaf-lib && npm run codedoc-nyaf-forms && npm run codedoc-nyaf-store",
+    "codedoc-nyaf-lib": "compodoc -p ./src/packages/@nyaf/lib/tsconfig.json --output ./dist/documentation/lib",
     "codedoc-nyaf-forms": "compodoc -p ./src/packages/@nyaf/forms/tsconfig.json --output ./dist/documentation/forms",
     "codedoc-nyaf-store": "compodoc -p ./src/packages/@nyaf/store/tsconfig.json --output ./dist/documentation/store"
   },

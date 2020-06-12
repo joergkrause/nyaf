@@ -5,17 +5,14 @@ import { ViewModel, ModelBinder, IModel } from '@nyaf/forms/';
 
 
 @CustomElement('app-contact')
-@ViewModel(ContactModel)
+@ViewModel(ContactModel, { factory: m => m.email = 'bla@fasel.com' })
 export class ContactComponent extends BaseComponent implements IModel<ContactModel> {
 
   model: ModelBinder<ContactModel>;
-  contactModel: ContactModel;
 
   constructor() {
     super();
-    this.contactModel = new ContactModel();
-    this.contactModel.name = 'Carla';
-    this.contactModel.email = 'carla@demo.com';
+    this.model.setScope(new ContactModel());
   }
 
   async render() {
@@ -39,12 +36,13 @@ export class ContactComponent extends BaseComponent implements IModel<ContactMod
   }
 
   reset(e: Event) {
-    this.model.getScope().email = '';
+    alert(this.model.getScope().email);
+    //this.model.getScope().email = '';
   }
 
   lifeCycle(state: LifeCycle) {
     if (state === LifeCycle.Load) {
-      this.model.setScope(this.contactModel);
+
       (this.$['btn'] as HTMLElement).classList.add('btn');
       (this.$['btn'] as HTMLElement).classList.add('btn-primary');
       (this.$['btn'] as HTMLElement).classList.add('btn-sm');
