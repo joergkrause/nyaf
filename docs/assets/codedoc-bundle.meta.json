@@ -1,0 +1,116 @@
+{
+  "init": [
+    {
+      "name": "initJssCs",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/transport/setup-jss.js",
+      "hash": "KK02YUjmfvErJ9dec7aJ0Q=="
+    },
+    {
+      "name": "installTheme",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/content/theme.ts",
+      "hash": "xGOMBUrJun+Ype6Tur2LiQ=="
+    },
+    {
+      "name": "codeSelection",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/code/selection.js",
+      "hash": "BcmHE5i4M9DV5ptN7Ivygg=="
+    },
+    {
+      "name": "sameLineLengthInCodes",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/code/same-line-length.js",
+      "hash": "w0b3KtRIVfVByX0FJXbOyg=="
+    },
+    {
+      "name": "initHintBox",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/code/line-hint/index.js",
+      "hash": "BdVAhQLj0GxY7xYeV9LAdw=="
+    },
+    {
+      "name": "initCodeLineRef",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/code/line-ref/index.js",
+      "hash": "cyDFuI93jCIkWVZJt6iUOw=="
+    },
+    {
+      "name": "initSmartCopy",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/code/smart-copy.js",
+      "hash": "gOGfwid3LpvDOi9SIpLyRw=="
+    },
+    {
+      "name": "copyHeadings",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/heading/copy-headings.js",
+      "hash": "jPn/L2+Ys6ib0jhiQXe6wg=="
+    },
+    {
+      "name": "contentNavHighlight",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/contentnav/highlight.js",
+      "hash": "iwju65jHB6rj4gXttZQHmQ=="
+    },
+    {
+      "name": "loadDeferredIFrames",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/transport/deferred-iframe.js",
+      "hash": "R0T3qOErUzbCOUFvgaOwjA=="
+    },
+    {
+      "name": "smoothLoading",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/transport/smooth-loading.js",
+      "hash": "7CJjsGS841Vi24qtlEZevg=="
+    },
+    {
+      "name": "tocHighlight",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/toc-highlight.js",
+      "hash": "V+w1l6HFw5SpTr5azSVHuA=="
+    },
+    {
+      "name": "postNavSearch",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/search/post-nav/index.js",
+      "hash": "IOvLbRJQlENFFENsmW/wiw=="
+    },
+    {
+      "name": "reloadOnChange",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/serve/reload.js",
+      "hash": "M70ONomYAYQlxQYBi1gbAw=="
+    }
+  ],
+  "components": [
+    {
+      "name": "ToCPrevNext",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/prevnext/index.js",
+      "hash": "/Rv4lKxSQDV+A9gB+NmB2w=="
+    },
+    {
+      "name": "GithubSearch",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/misc/github/search.js",
+      "hash": "g2PwBA0oaCK6ojEnMbZz+A=="
+    },
+    {
+      "name": "ToCToggle",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/toggle/index.js",
+      "hash": "4g9OU6ixxeUOlm1PR/9uow=="
+    },
+    {
+      "name": "DarkModeSwitch",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/darkmode/index.js",
+      "hash": "ZGqgdsnKB3t7OwwJ4W9fPQ=="
+    },
+    {
+      "name": "ConfigTransport",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/transport/config.js",
+      "hash": "wAzqqM6AQLzQM6LQebkSEQ=="
+    },
+    {
+      "name": "TabSelector",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/tabs/selector.js",
+      "hash": "SE0qCFLGwbJ2jOzDB6USzQ=="
+    },
+    {
+      "name": "CollapseControl",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js",
+      "hash": "v1NchYEuNnYjR/2bwPXhDA=="
+    }
+  ],
+  "renderer": {
+    "name": "getRenderer",
+    "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/transport/renderer.js",
+    "hash": "OvgAVOA0NZNLk37DkNnXbw=="
+  }
+}

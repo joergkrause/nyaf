@@ -23,8 +23,8 @@ export class RouterComponent extends BaseComponent<{ cnt: number }> {
   }
 
   navigate(e: Event, route: string, other: string) {
-    GlobalProvider.navigateRoute(route, "router");
-    GlobalProvider.navigateRoute(other, "other");
+    GlobalProvider.navigateRoute(route, 'router');
+    GlobalProvider.navigateRoute(other, 'other');
   }
 
   async render() {

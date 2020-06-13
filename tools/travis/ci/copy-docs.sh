@@ -12,7 +12,7 @@ if [ $# -ne 1 ]; then
   exit
 fi
 
-originFolder=./dist/docs/documentation
+originFolder=./dist/documentation
 destFolder=$1
 
 if [ ! -w $destFolder ]; then
