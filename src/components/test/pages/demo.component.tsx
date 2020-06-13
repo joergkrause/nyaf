@@ -1,9 +1,6 @@
-import { BaseComponent, ComponentData, LifeCycle } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
-import { ButtonComponent } from '../button.component';
+import JSX, { BaseComponent, CustomElement, LifeCycle } from '@nyaf/lib';
 import { ComplexComponent } from '../complex.component';
 import { ComplexBoolComponent } from '../complexbool.component';
-
 
 @CustomElement('app-demo')
 export class DemoComponent extends BaseComponent {
@@ -16,7 +13,7 @@ export class DemoComponent extends BaseComponent {
   }
 
   render() {
-    console.log("Render demo");
+    console.log('Render demo');
     const tabs = [];
     tabs.push({ content: 'test one', title: 't1' });
     tabs.push({ content: 'test two', title: 't2' });
@@ -65,14 +62,15 @@ tabs.push({ content: 'test five', title: 'Title 5' });
           <div class='col-6'>
             A simple counter with direct events and logic within the component. The event handler can use static,
             primitive values like this:
-            <pre>(e) => this.functionCall(e, 5)</pre>
+            <pre>(e) =&gt; this.functionCall(e, 5)</pre>
             However, the values are not being evaluated until final call is being made, and then parsed for
             string, boolean, and number. That means, "5-2" would be a string and any number evaluation 5-2 would
             result in NaN.<br />
             Even a predefined variable cannot resolve properly in that particular context. This is not allowed:
-            <pre>(e) => this.functionCall(e, val)</pre>
+            <pre>(e) =&gt; this.functionCall(e, val)</pre>
             Here is the complete code of the component:
-            <pre>{`import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
+            <pre>
+              {`import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
 
 interface CounterProps { cnt: number; }
 
@@ -214,10 +212,10 @@ changeOtherButton(e: CustomEvent) {
           </app-slot>
         </div>
         <hr />
-        <div class="test">This is red if an outer style is loaded (link element)</div>
+        <div class='test'>This is red if an outer style is loaded (link element)</div>
         <app-slot-tabs>
           <app-slot-tab title='Slot Tab 1'>
-            <div class="test">Content 1</div>
+            <div class='test'>Content 1</div>
           </app-slot-tab>
           <app-slot-tab title='Slot Tab 2'>
             <div>Content 2</div>

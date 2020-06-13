@@ -9,7 +9,7 @@ import { ButtonComponent } from './components/test/button.component';
 import { SlottedComponent } from './components/test/slotted.component';
 import { AboutComponent } from './components/test/pages/about.component';
 import { DemoComponent } from './components/test/pages/demo.component';
-import { MetroDemoComponent } from './components/test/pages/metrodemo.component';
+import { DesignDemoComponent } from './components/test/pages/designdemo.component';
 import { ContactComponent } from './components/test/pages/contact.component';
 import { CounterComponent } from 'components/test/counter.component';
 import { StoreCounterComponent } from './components/test/storecounter.component';
@@ -34,7 +34,7 @@ const routes: Routes = {
   '/docu': { component: DocuComponent, data: { notlocal: true } },
   '/about': { component: AboutComponent },
   '/demo': { component: DemoComponent },
-  '/metro': { component: MetroDemoComponent },
+  '/designdemo': { component: DesignDemoComponent },
   '/router': { component: RouterComponent },
   '/router/page1': { component: Page1Component, outlet: 'router' },
   '/router/page2': { component: Page2Component, outlet: 'router' },
@@ -59,7 +59,7 @@ GlobalProvider.bootstrap({
     ContactComponent,
     AboutComponent,
     DemoComponent,
-    MetroDemoComponent,
+    DesignDemoComponent,
     CounterComponent,
     StoreCounterComponent,
     ServiceCounterComponent,

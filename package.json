@@ -6,15 +6,12 @@
   "scripts": {
     "test": "jest",
     "lint": "tslint './src/packages/@nyaf/lib/src/**/*.ts' && tslint './src/packages/@nyaf/forms/src/**/*.ts' && tslint './src/packages/@nyaf/store/src/**/*.ts'",
-    "nyaf-lib": "webpack --config webpack.config.lib.js --mode \"production\"",
-    "build": "rimraf dist && rimraf out-tsc && tsc && cp README.md ./src/packages/@nyaf/lib && npm run nyaf-lib && gulp",
+    "nyaf": "webpack --config webpack.config.lib.js --env.NODE_ENV=prod --env.production",
+    "build": "cp README.md ./src/packages/@nyaf/lib && npm run nyaf",
     "start": "export PATH=$PATH:/mnt/c/Windows/System32 && webpack-dev-server --open",
     "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public",
     "demo": "npm run build && showdown makehtml -i README.md -o dist/docu.html && webpack --config webpack.config.js --mode \"production\" && npm run codedoc",
-    "codedoc": "rimraf dist/documentation && npm run codedoc-nyaf-lib && npm run codedoc-nyaf-forms && npm run codedoc-nyaf-store",
-    "codedoc-nyaf-lib": "compodoc -p ./src/packages/@nyaf/lib/tsconfig.json --output ./dist/documentation/lib",
-    "codedoc-nyaf-forms": "compodoc -p ./src/packages/@nyaf/forms/tsconfig.json --output ./dist/documentation/forms",
-    "codedoc-nyaf-store": "compodoc -p ./src/packages/@nyaf/store/tsconfig.json --output ./dist/documentation/store"
+    "codedoc": "typedoc --out dist/documentation src/packages/@nyaf"
   },
   "repository": {
     "type": "git",
@@ -36,28 +33,30 @@
     "@compodoc/compodoc": "^1.1.11",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.26",
-    "copy-webpack-plugin": "^5.1.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.0.2",
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",
-    "gulp": "^4.0.2",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.9.0",
     "mini-css-extract-plugin": "^0.6.0",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",
+    "rimraf": "^3.0.2",
     "sass-loader": "^7.3.1",
     "showdown": "^1.9.1",
     "style-loader": "^0.23.1",
     "ts-loader": "^5.4.5",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^5.20.1",
-    "typescript": "^3.7.5",
+    "typedoc": "^0.17.7",
+    "typedoc-webpack-plugin": "^1.1.4",
+    "typescript": "^3.9.5",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
-    "bootstrap": "^4.4.1",
-    "metro4": "^4.3.5"
+    "bootstrap": "^4.4.1"
   }
 }

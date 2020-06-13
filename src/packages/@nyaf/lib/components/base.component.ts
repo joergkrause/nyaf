@@ -11,6 +11,10 @@ export interface ComponentData {
 }
 
 export interface IBaseComponent extends HTMLElement {
+  isInitalized: boolean;
+  onlifecycle: Function;
+  render(): Promise<string>;
+  setData(name: string, newValue: any, noRender?: boolean): Promise<void>;
 }
 
 /**
@@ -139,6 +143,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   private _lifeCycleState: LifeCycle;
   private _data: P;
   private _services: Map<string, any>;
+
   public isInitalized = false;
   public onlifecycle: Function;
 

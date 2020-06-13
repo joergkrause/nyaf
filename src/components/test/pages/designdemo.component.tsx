@@ -1,8 +1,8 @@
 import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
 
 
-@CustomElement('app-metro-demo')
-export class MetroDemoComponent extends BaseComponent {
+@CustomElement('app-demo')
+export class DesignDemoComponent extends BaseComponent {
   constructor() {
     super();
   }
@@ -14,9 +14,8 @@ export class MetroDemoComponent extends BaseComponent {
   render() {
     return (
       <>
-        <link href='assets/css/metro-all.min.css' rel='stylesheet'></link>
         <p class='display3'>
-          Metro Design Demo
+          Design Demo
         </p>
         <hr />
         <div class='row'>

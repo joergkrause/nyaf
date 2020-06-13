@@ -3,7 +3,7 @@ import events from './events';
 import { Router } from './router/router';
 import { Routes } from './router/routes';
 import { DomOp } from './dom-operations';
-import { BaseComponent } from '../components/base.component';
+import { BaseComponent, IBaseComponent } from '../components/base.component';
 import { LifeCycle } from '../components/lifecycle.enum';
 import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
@@ -69,7 +69,7 @@ export class GlobalProvider {
         // loop through all alread statically set components
         GlobalProvider.bootstrapProps.components.forEach(c => {
           // get all appearances
-          [].slice.call(document.getElementsByTagName(c.selector)).forEach((e: BaseComponent) => {
+          [].slice.call(document.getElementsByTagName(c.selector)).forEach((e: IBaseComponent) => {
             // make a promise to wait for the async renderer
             const p = new Promise<void>((resolve) => {
               // if already done it's okay for us (mostly, that's just the main component)

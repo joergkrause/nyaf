@@ -85,16 +85,6 @@ const webpackConfig = {
     new HtmlWebpackPlugin(indexConfig),
 		new CopyWebpackPlugin([
 			{
-				from: './node_modules/metro4/build/css/metro-all.min.css',
-				flatten: true,
-				to: './assets/css/'
-			},
-			{
-				from: './node_modules/metro4/build/mif/metro.*',
-				flatten: true,
-				to: './assets/mif/'
-			},
-			{
 				from: './src/link.css',
 				flatten: true,
 				to: './assets/css/'

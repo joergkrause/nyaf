@@ -25,7 +25,7 @@ export class HomeComponent extends BaseComponent {
         </ol>
         <p>The result is outstanding. Very easy to write components, very small code, very fast execution.</p>
         <blockquote>
-          The core library is actually <b>24 KB</b>, zipped roughly <b>9 KB (8.205 bytes)</b>.
+          The core library is actually <b>34 KB</b>, zipped roughly <b>11 KB</b>.
         </blockquote>
         <h3>Template techniques</h3>
         <p>Template are powerful und can handle special instruction, it's a bit looking like a Vue.</p>
@@ -34,7 +34,7 @@ export class HomeComponent extends BaseComponent {
           easier to handle than in React.
         </p>
         <p>
-          Components <i>can</i>> us a shadow DOM. This is an option, not enforced. It's just a decorator and it's a "per component" decision.
+          Components <i>can</i> us a shadow DOM. This is an option, not enforced. It's just a decorator and it's a "per component" decision.
         </p>
         <p>Decorators handle all definitions, and this is looking a lot like Angular.</p>
         <h3>Best Bread</h3>
