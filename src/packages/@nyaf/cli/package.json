@@ -7,18 +7,30 @@
   "typings": "index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "webpack",
-    "postinstall": "npm i @nyaf/cli -g && npm i @nyaf/cli -D"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/joergkrause/nyaf.git"
   },
-  "keywords": ["vanilla JS", "framework", "web components", "es2015", "jsx", "tsx"],
+  "keywords": [
+    "vanilla JS",
+    "framework",
+    "web components",
+    "es2015",
+    "jsx",
+    "tsx"
+  ],
   "author": "Joerg <isageek> Krause",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/joergkrause/nyaf/issues"
   },
-  "homepage": "https://github.com/joergkrause/nyaf#readme"
+  "homepage": "https://github.com/joergkrause/nyaf#readme",
+  "bin": {
+    "nyaf": "cli.js"
+  },
+  "dependencies": {
+    "inquirer": "^7.2.0"
+  }
 }
