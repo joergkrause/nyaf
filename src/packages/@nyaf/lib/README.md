@@ -5,7 +5,7 @@
 
 # NYAF is "Not Yet Another Framework"
 
-And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools.
+And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools. And it's 34KB zipped only, for all three parts together, of course.
 
 > No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!
 
@@ -879,15 +879,21 @@ To start WebPack's dev server type:
 npm start
 ~~~
 
-An now enjoy writing a component based SPA with only very few KB of lib code.
+An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
-# Recap
+# Summary
 
-Is it worth coding with NYAF and vanilla JS? For smaller projects and for apps that must load quickly, yes.
+Is it worth coding with NYAF and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-The zipped package of the lib is 7 KBytes. Expanded just 20 KBytes. Demo code is 115 KB but already includes a good bunch of Bootstrap's CSS.
+Actual sizes (0.5.11):
 
-However, compared with React or Angular it's a lot simpler. Compared to Vue or Polymer it's simpler and even smaller, but the delta is not that thrilling.
+* Lib:    31 KB --> 10 KB zipped (always needed)
+* Forms:  43 KB --> 13 KB zipped (Forms binding, validation, decorators)
+* Store:  34 KB --> 11 KB zipped (Flux like store for state management)
+
+* Total: 108 KB --> 34 KB zipped all files together for your project
+
+However, compared with React or Angular it's a lot simpler. Compared to Vue, Svelte or Polymer it's simpler and even smaller, but the delta is not that thrilling.
 
 ## Tool Support
 

@@ -1,5 +1,5 @@
-import { isArray, isObject, isBoolean, isNumber } from 'util';
 import { GlobalProvider } from '../lib/globalprovider';
+import { isNumber, isBoolean, isArray, isObject } from '../lib/utils';
 
 /**
  * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.
@@ -32,7 +32,7 @@ const JSX = {
           const value = props[key];
           switch (key) {
             case 'className':
-              if (isArray(value)) {
+              if (Array.isArray(value)) {
                 return `class="${(<any>value).join(' ')}"`;
               } else {
                 return `class="${value}"`;

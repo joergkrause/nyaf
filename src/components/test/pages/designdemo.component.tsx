@@ -1,7 +1,7 @@
 import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
 
 
-@CustomElement('app-demo')
+@CustomElement('app-design')
 export class DesignDemoComponent extends BaseComponent {
   constructor() {
     super();

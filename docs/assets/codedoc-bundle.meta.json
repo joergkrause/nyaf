@@ -78,6 +78,11 @@
       "hash": "/Rv4lKxSQDV+A9gB+NmB2w=="
     },
     {
+      "name": "CollapseControl",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js",
+      "hash": "v1NchYEuNnYjR/2bwPXhDA=="
+    },
+    {
       "name": "GithubSearch",
       "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/misc/github/search.js",
       "hash": "g2PwBA0oaCK6ojEnMbZz+A=="
@@ -101,11 +106,6 @@
       "name": "TabSelector",
       "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/tabs/selector.js",
       "hash": "SE0qCFLGwbJ2jOzDB6USzQ=="
-    },
-    {
-      "name": "CollapseControl",
-      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js",
-      "hash": "v1NchYEuNnYjR/2bwPXhDA=="
     }
   ],
   "renderer": {

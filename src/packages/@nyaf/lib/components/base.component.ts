@@ -1,7 +1,6 @@
 import { LifeCycle } from './lifecycle.enum';
-import { isObject, isNumber, isBoolean, isArray } from 'util';
 import { GlobalProvider } from '../lib/globalprovider';
-import { v4 as uuidv4 } from 'uuid';
+import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../lib/utils';
 
 /**
  * The structure that defines the state object.
@@ -320,14 +319,14 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * Change the state of the internal data object. If necessary, the component re-renders. Render can be suppressed.
    * Omit the @param noRender at it renders on change. Set to `true` to suppress entirely. Set to `false` to enforce explicitly.
    *
-   * @param name Name of the value.
+   * @param name Name of the property. Must be defined in the generic P to assure being observed.
    * @param newValue The actual new value.
    * @param noRender Prevent or enforce the re-rendering. Used if multiple attributes are being written and a render process for each is not required.
    */
-  public async setData(name: string, newValue: any, noRender?: boolean): Promise<void> {
+  public async setData(name: keyof(P), newValue: any, noRender?: boolean): Promise<void> {
     this.lifeCycleState = LifeCycle.SetData;
     const rerender = this.data[name] !== newValue;
-    (this.data as ComponentData)[name] = newValue;
+    (this.data)[name] = newValue;
     // something is new so we rerender
     if (rerender && noRender === void 0) {
       await this.setup();

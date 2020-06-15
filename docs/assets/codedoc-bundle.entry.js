@@ -14,21 +14,21 @@ import { tocHighlight } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_
 import { postNavSearch } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/search/post-nav/index.js';postNavSearch();
 import { reloadOnChange } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/serve/reload.js';reloadOnChange();
 import { ToCPrevNext } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/prevnext/index.js';
+import { CollapseControl } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js';
 import { GithubSearch } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/misc/github/search.js';
 import { ToCToggle } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/toggle/index.js';
 import { DarkModeSwitch } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/darkmode/index.js';
 import { ConfigTransport } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/transport/config.js';
 import { TabSelector } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/tabs/selector.js';
-import { CollapseControl } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js';
 
 const components = {
   '/Rv4lKxSQDV+A9gB+NmB2w==': ToCPrevNext,
+  'v1NchYEuNnYjR/2bwPXhDA==': CollapseControl,
   'g2PwBA0oaCK6ojEnMbZz+A==': GithubSearch,
   '4g9OU6ixxeUOlm1PR/9uow==': ToCToggle,
   'ZGqgdsnKB3t7OwwJ4W9fPQ==': DarkModeSwitch,
   'wAzqqM6AQLzQM6LQebkSEQ==': ConfigTransport,
-  'SE0qCFLGwbJ2jOzDB6USzQ==': TabSelector,
-  'v1NchYEuNnYjR/2bwPXhDA==': CollapseControl
+  'SE0qCFLGwbJ2jOzDB6USzQ==': TabSelector
 };
 
 const renderer = getRenderer();

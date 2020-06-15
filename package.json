@@ -11,7 +11,9 @@
     "start": "export PATH=$PATH:/mnt/c/Windows/System32 && webpack-dev-server --open",
     "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public",
     "demo": "npm run build && showdown makehtml -i README.md -o dist/docu.html && webpack --config webpack.config.js --mode \"production\" && npm run codedoc",
-    "codedoc": "typedoc --out dist/documentation src/packages/@nyaf"
+    "codedoc": "typedoc --out dist/documentation src/packages/@nyaf",
+    "doc": "codedoc serve",
+    "install": "codedoc init"
   },
   "repository": {
     "type": "git",
@@ -30,33 +32,39 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "devDependencies": {
-    "@compodoc/compodoc": "^1.1.11",
+    "@codedoc/cli": "^0.2.1",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.26",
+    "@types/yargs": "^15.0.5",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.2",
-    "css-loader": "^2.1.1",
-    "file-loader": "^3.0.1",
-    "html-webpack-plugin": "^3.2.0",
+    "css-loader": "^3.6.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
     "jest": "^24.9.0",
     "mini-css-extract-plugin": "^0.6.0",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",
     "rimraf": "^3.0.2",
-    "sass-loader": "^7.3.1",
+    "sass-loader": "^8.0.2",
     "showdown": "^1.9.1",
-    "style-loader": "^0.23.1",
-    "ts-loader": "^5.4.5",
+    "style-loader": "^1.2.1",
+    "ts-loader": "^7.0.5",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "tslint": "^5.20.1",
+    "tslint": "^6.1.2",
     "typedoc": "^0.17.7",
     "typedoc-webpack-plugin": "^1.1.4",
     "typescript": "^3.9.5",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-dev-server": "^3.10.1",
+    "yeoman-generator": "^4.10.1"
   },
   "dependencies": {
-    "bootstrap": "^4.4.1"
+    "bootstrap": "^4.4.1",
+    "chalk": "^4.1.0",
+    "meow": "^7.0.1",
+    "uuid": "^8.1.0",
+    "yargs": "^15.3.1"
   }
 }

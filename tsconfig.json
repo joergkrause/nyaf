@@ -18,15 +18,13 @@
     "typeRoots": ["node_modules/@types", "src/types"],
     "paths": {
       "@nyaf/*": ["packages/@nyaf/*", "src/packages/@nyaf/*"]
-    }
+    },
+    "skipLibCheck": true
   },
   "files": [
     "./src/main.ts",
     "./src/packages/@nyaf/lib/index.ts",
     "./src/packages/@nyaf/forms/index.ts",
-    "./src/packages/@nyaf/store/index.ts",
-    "src/packages/@nyaf/store/store/store.params.ts",
-    "./src/packages/@nyaf/lib/lib/expander/expander.ts",
-    "./src/packages/@nyaf/lib/lib/expander/iexpander.ts",
-    "src/packages/@nyaf/lib/lib/bootstrapprop.ts"]
+    "./src/packages/@nyaf/store/index.ts"
+  ]
 }

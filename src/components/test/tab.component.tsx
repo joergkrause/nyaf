@@ -26,4 +26,5 @@ export class TabComponent extends BaseComponent<TabProps> {
       </li>
     );
   }
+
 }

@@ -1,6 +1,7 @@
 import JSX, { BaseComponent, CustomElement, LifeCycle } from '@nyaf/lib';
 import { ComplexComponent } from '../complex.component';
 import { ComplexBoolComponent } from '../complexbool.component';
+import { ButtonComponent } from '../button.component';
 
 @CustomElement('app-demo')
 export class DemoComponent extends BaseComponent {
@@ -28,9 +29,9 @@ export class DemoComponent extends BaseComponent {
         <div class='row'>
           <div class='alert alert-info col-6'>Control tabs with data provides as attribute (data binding).
           The first entry is not shown because of an 'n-if' statement in the tab component itself. The
-            behavior is made by catching the click event and forwarding the title to the client on re-render.
-            The event takes care of catching the next parent that has the right method. That means, a method
-            calles 'select' must exists. The event object is a Event like object build artifically.
+          behavior is made by catching the click event and forwarding the title to the client on re-render.
+          The event takes care of catching the next parent that has the right method. That means, a method
+          calles 'select' must exists. The event object is a Event like object build artifically.
           </div>
           <div class='col-6'>
             Data prepared in the component:
@@ -165,7 +166,7 @@ export class CounterComponent extends BaseComponent<CounterProps> {
             This button triggers an event handler:
             <pre>
               &amp;lt;app-button class='col-6'
-                          text='Click to change text of next button'
+              text='Click to change text of next button'
             n-on-showAlert={`e => this.changeOtherButton(e)`} /&amp;gt;
             </pre>
             The handler sets the attibute of another component. Use the <code>data</code> field and the attributes name:
@@ -179,8 +180,9 @@ changeOtherButton(e: CustomEvent) {
           </div>
         </div>
         <div class='row'>
-          <app-button class='col-6' text='Click to change text of next button' n-on-showAlert={e => this.changeOtherButton(e)} />
-          <app-button class='col-6' text='Default Text' data-demo-button />
+          <app-button class='col-3' text='Change text of next button' n-on-showAlert={e => this.changeOtherButton(e)} />
+          <app-button class='col-3' text='Default Text' data-demo-button />
+          <app-button class='col-3' text='Set next button to "000"' n-on-showAlert={e => this.changeOtherButtonZToZeros(e)} />
         </div>
         <hr />
         <h3>Extends Components</h3>
@@ -284,7 +286,7 @@ changeOtherButton(e: CustomEvent) {
   }
 
   setOther(e: Event) {
-    (this.querySelector('#complexDemo') as ComplexComponent).setData('demo', [{a:1, b:2, c:3},{a:1, b:2, c:3}]);
+    (this.querySelector('#complexDemo') as ComplexComponent).setData('demo', [{ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 }]);
   }
 
   setYesNo(e: Event) {
@@ -293,7 +295,11 @@ changeOtherButton(e: CustomEvent) {
   }
 
   changeOtherButton(e: CustomEvent) {
-    (this.querySelector('[data-demo-button]') as any).data.text = Math.round(Math.random() * 100);
+    this.querySelector<ButtonComponent>('app-button[data-demo-button]').setData('text', Math.round(Math.random() * 100));
+  }
+
+  changeOtherButtonZToZeros(e: CustomEvent) {
+    this.querySelector<ButtonComponent>('app-button[data-demo-button]').setZero();
   }
 
 }

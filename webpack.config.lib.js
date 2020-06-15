@@ -3,6 +3,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin').TsconfigPathsPlugin;
 
 const webpackConfig = {
   mode: dev ? 'development' : 'production',
@@ -20,20 +21,27 @@ const webpackConfig = {
   // How the different types of modules within a project will be treated
   module: {
     rules: [
-      { test: /\.ts|\.tsx$/, loader: 'ts-loader' },
+      {
+        test: /\.ts|\.tsx$/,
+        loader: 'ts-loader?configFile=tsconfig.webpack.json'
+      },
     ]
   },
   // Configure how modules are resolved
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
-    modules: [path.resolve('./src'), path.resolve('./node_modules')],
+    modules: [
+      path.resolve('./src'),
+      path.resolve('./src/packages'),
+      path.resolve('./node_modules')
+    ],
     alias: {
-      // bind to modules;
-      modules: path.join(__dirname, 'node_modules'),
-      '@nyaf/lib': path.join(__dirname, 'src/packages/@nyaf/lib')
+//      modules: path.join(__dirname, 'node_modules'),
+      '@nyaf/lib': path.join(__dirname, 'src/packages/@nyaf/lib'),
+//      '@nyaf/forms': path.join(__dirname, 'src/packages/@nyaf/forms'),
+//      '@nyaf/store': path.join(__dirname, 'src/packages/@nyaf/store')
     },
-    // plugins: [new TsconfigPathsPlugin( {  configFile: './tsconfig.json' })]
-
+    // plugins: [new TsconfigPathsPlugin({ configFile: "./tsconfig.webpack.json" })]
   },
   // How and where webpack should output bundles, assets and anything else
   output: {
@@ -57,21 +65,21 @@ const webpackConfig = {
       patterns: [
         { from: '**/README.md', to: '', context: 'src/packages', toType: 'dir' },
         { from: '**/package.json', to: '', context: 'src/packages', toType: 'dir' },
-        { from: '**/*.d.ts', to: './@nyaf', context: 'out-tsc', toType: 'dir' },
-        { from: 'store/*.d.ts', to: '@nyaf/store', context: 'out-tsc', toType: 'dir' },
-        { from: 'forms/*.d.ts', to: '@nyaf/forms', context: 'out-tsc', toType: 'dir' }
+        { from: '**/*.d.ts', to: './@nyaf', context: 'out-tsc/packages/@nyaf', toType: 'dir' },
+        { from: 'store/*.d.ts', to: '@nyaf/store', context: 'out-tsc/packages/@nyaf', toType: 'dir' },
+        { from: 'forms/*.d.ts', to: '@nyaf/forms', context: 'out-tsc/packages/@nyaf', toType: 'dir' }
       ],
       options: {
-        concurrency: 10,
+        concurrency: 100,
       }
     }),
-    new TypedocWebpackPlugin({
-      name: 'Contoso',
-      mode: 'file',
-      theme: './typedoc-theme/',
-      includeDeclarations: false,
-      ignoreCompilerErrors: true,
-  })
+  //   new TypedocWebpackPlugin({
+  //     name: '@NYAF',
+  //     mode: 'file',
+  //     theme: './typedoc-theme/',
+  //     includeDeclarations: false,
+  //     ignoreCompilerErrors: true,
+  // })
   ]
 };
 

@@ -83,13 +83,15 @@ const webpackConfig = {
   // Customize the webpack build process with additionals plugins
   plugins: [
     new HtmlWebpackPlugin(indexConfig),
-		new CopyWebpackPlugin([
-			{
-				from: './src/link.css',
-				flatten: true,
-				to: './assets/css/'
-			}
-		])
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './src/link.css',
+          flatten: true,
+          to: './assets/css/'
+        }
+      ]
+    })
   ]
 };
 

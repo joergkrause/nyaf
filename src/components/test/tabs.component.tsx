@@ -1,5 +1,6 @@
 import { BaseComponent, Properties } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
+import { TabComponent } from './tab.component';
 
 interface MainProps {
   title: string;
@@ -9,13 +10,11 @@ interface MainProps {
 
 
 @CustomElement('app-tabs')
-@Properties({ title: '', tabs: [] })
+@Properties({ title: '', tabs: [], current: '' })
 export class TabsComponent extends BaseComponent<MainProps> {
 
   constructor() {
     super();
-    // set by @Properties<T>(t)
-    super.data.current = '';
   }
 
 
@@ -23,7 +22,7 @@ export class TabsComponent extends BaseComponent<MainProps> {
     // source is a regular click and inside the tab is anchor tag, which would excecute withoput prevention
     e.preventDefault();
     // changing a base property triggers the render process
-    super.data.current = (e.target as HTMLElement).getAttribute('title');
+    this.data.current = (e.target as HTMLElement).getAttribute('title');
   }
 
   async render() {

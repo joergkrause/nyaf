@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/joergkrause/nyaf/issues"
   },
-  "homepage": "https://github.com/joergkrause/nyaf#readme"
+  "homepage": "https://github.com/joergkrause/nyaf#readme",
+  "bin": {
+    "nyaf": "../cli/cli.js"
+  }
 }
