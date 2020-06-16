@@ -67,7 +67,14 @@ const webpackConfig = {
         { from: '**/package.json', to: '', context: 'src/packages', toType: 'dir' },
         { from: '**/*.d.ts', to: './@nyaf', context: 'out-tsc/packages/@nyaf', toType: 'dir' },
         { from: 'store/*.d.ts', to: '@nyaf/store', context: 'out-tsc/packages/@nyaf', toType: 'dir' },
-        { from: 'forms/*.d.ts', to: '@nyaf/forms', context: 'out-tsc/packages/@nyaf', toType: 'dir' }
+        { from: 'forms/*.d.ts', to: '@nyaf/forms', context: 'out-tsc/packages/@nyaf', toType: 'dir' },
+        {
+          from: '@nyaf/cli/**/*',
+          flatten: false,
+          context: './src/packages',
+          to: '',
+          toType: 'dir'
+        }
       ],
       options: {
         concurrency: 100,

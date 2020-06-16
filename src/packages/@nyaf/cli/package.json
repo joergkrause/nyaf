@@ -1,6 +1,6 @@
 {
-  "name": "@nyaf/lib",
-  "version": "0.5.14",
+  "name": "@nyaf/cli",
+  "version": "0.5.15",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "lib.umd.js",
   "private": false,
@@ -31,6 +31,7 @@
     "nyaf": "cli.js"
   },
   "dependencies": {
+    "colors": "^1.4.0",
     "inquirer": "^7.2.0"
   }
 }

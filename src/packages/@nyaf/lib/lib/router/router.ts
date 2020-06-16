@@ -122,13 +122,15 @@ export class Router {
         }
       });
       // set default '/': { component: DemoComponent },
-      const defaultRoute = routes['/'];
-      if (defaultRoute) {
-        const activatedComponent = defaultRoute.component;
-        // default route goes always to default outlet
-        onNavItemClick('/');
-        const outlet = document.querySelector(N_ROUTER_OUTLET_SEL);
-        this.setRouterOutlet(activatedComponent, '/', outlet, defaultRoute.forced);
+      if (routes) {
+        const defaultRoute = routes['/'];
+        if (defaultRoute) {
+          const activatedComponent = defaultRoute.component;
+          // default route goes always to default outlet
+          onNavItemClick('/');
+          const outlet = document.querySelector(N_ROUTER_OUTLET_SEL);
+          this.setRouterOutlet(activatedComponent, '/', outlet, defaultRoute.forced);
+        }
       }
     }
   }
