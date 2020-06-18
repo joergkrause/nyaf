@@ -24,6 +24,7 @@ import { RouterComponent } from 'components/test/router/router.component';
 import { Page1Component } from 'components/test/router/page1.component';
 import { Page2Component } from 'components/test/router/page2.component';
 import { Page3Component } from 'components/test/router/page3.component';
+import { RepeaterTestComponent } from 'components/test/repeater.component';
 
 import { ButtonExpander } from 'components/expander/button.expander';
 
@@ -71,7 +72,8 @@ GlobalProvider.bootstrap({
     RouterComponent,
     Page1Component,
     Page2Component,
-    Page3Component
+    Page3Component,
+    RepeaterTestComponent
   ],
   expanders: [
     ButtonExpander

@@ -4,7 +4,7 @@ import { TabComponent } from './tab.component';
 
 interface MainProps {
   title: string;
-  tabs: [];
+  tabs: { title: string, tab: string }[];
   current?: string;
 }
 
@@ -27,16 +27,15 @@ export class TabsComponent extends BaseComponent<MainProps> {
 
   async render() {
     const { tabs, title } = this.data;
-    console.log('tabs.component:tabs', tabs);
-    console.log('tabs.component:title', title);
+    const tabElements = tabs.map(t => <app-tab title={t.title} content={t.tab} active={this.data.current} n-on-click={e => this.select(e)} n-async />);
     return await (
       <>
         <h5>{title}</h5>
         <ul class='nav nav-tabs' id='header-tabs'>
-          <app-tab n-repeat={tabs} title='@@title' content='@@tab' active={super.data.current} n-on-click={e => this.select(e)} n-async/>
+          {tabElements}
         </ul>
         <p>
-          Selected Tab: {super.data.current}
+          Selected Tab: {this.data.current}
         </p>
       </>
     );

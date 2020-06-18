@@ -24,3 +24,4 @@ export * from './modelbinder/modelbinder.class';
 export * from './modelbinder/imodel.interface';
 export * from './modelbinder/binding.class';
 export * from './modelbinder/ibindinghandler.interface';
+export * from './smart/to.function';

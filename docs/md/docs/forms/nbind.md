@@ -111,5 +111,56 @@ Objects are always set (not undefined), so you don't must test first. The proper
 * `@EMail`: `email`
 * `@Compare`: `compare`
 
+## Smart Binder
+
+There is an alternative syntax that provides full type support:
+
+~~~tsx
+<label n-bind={to<ContactModel>(c => c.email, 'innerText', Display)}></label>
+~~~
+
+Use the function `to<Type>` from *@nyaf/forms*. The parameters are as follows:
+
+1. An expression to select a property type safe
+2. The property of the element. Any property available in `HTMLElement` is allowed (and it's restricted to these).
+3. The (optional) type of decorator that's used to pull data from. If it's omitted, the actual data appear.
+
+Obviously you could think about writing this:
+
+~~~tsx
+<input n-bind={to<ContactModel>(c => c.email, 'value')} />
+~~~
+
+This is rejected by the compiler, because the property *value* doesn't exists in `HTMLElement`. To provide another type, just use a second generic type parameter:
+
+~~~tsx
+<input n-bind={to<ContactModel, HTMLInputElement>(c => c.email, 'value')} />
+~~~
+
+Here you tell the compiler, that it's safe to use `HTMLInputElement` and so the editor allows *value* as the second parameter. An even smarter way is to use the lambda here, too:
+
+~~~tsx
+<input n-bind={to<ContactModel, HTMLInputElement>(c => c.email, c => c.value)} />
+~~~
+
+But, both ways are type safe, even the string is following a constrain. The string is usually shorter, the lambda might use an earlier suggestion from Intellisense.
+
+### Even More Smartness
+
+You may also define your component as a generic:
+
+~~~ts
+// ContactModel defined elsewhere
+export class ContactComponent<T extends ContactModel> extends BaseComponent implements IModel<ContactModel> {
+~~~
+
+And in that case use a shorter from to express the binding:
+
+~~~tsx
+<label n-bind={to<T>(c => c.email, c => c.innerText)} />
+~~~
+
+That's cool, isn't it? Now we have a fully type save binding definition in the middle of the JSX part without any additions to regular HTML.
+
 > :ToCPrevNext
 

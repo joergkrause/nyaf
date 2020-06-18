@@ -271,6 +271,18 @@ changeOtherButton(e: CustomEvent) {
             <button n-expand='danger-button'>Expanded attributes</button>
           </div>
         </div>
+        <h3>Repeater Component</h3>
+        <div class='row'>
+          <div class='alert alert-info col-6'>
+            First of the "smart components", simple extensions based on existing technology. This is something you can add if you like, but skip easily.
+            <pre>
+              &lt; n-repeat source={'{'}data{'}'}&gt;
+                 &lt; li&gt;&lt;/li&gt;
+              &lt; /n-repeat&gt;
+            </pre>
+            <app-repeater-test></app-repeater-test>
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,53 +1,11 @@
 ## Template Features
 
-Template Features avoid using creepy JavaScript for loops and branches. You can use:
+Template Features avoid using creepy JavaScript for interactions and branches. You can use:
 
-* `n-repeat`
 * `n-if`, `n-else`
 * `n-hide`, `n-show`
 * `n-on-<event>` (see further down)
 * `n-expand`
-
-### n-repeat
-
-Repeats the element. The argument must be an array.
-
-Assume we have this object:
-
-~~~
-{ text: string, content: string }
-~~~
-
-It's in an array like this:
-
-~~~
-[
-  {
-    text: "hallo",
-    content: "Hello NYAF"
-  },
-  {
-    text: "world",
-    content: "This is really nice"
-  }
-]
-~~~
-
-Than you show the data on the page like this:
-
-~~~
-<app-tab n-repeat={tabs} title="@title" content="@@content"></app-tab>
-~~~
-
-Also, text will be parsed as JSON (alternatively):
-
-~~~
-<app-tab n-repeat='[{ "id":1 }, { "id":2 }]' title="@@title" content="@@content"></app-tab>
-~~~
-
-The array shall contain objects. If one property is needed, it's accessible within any attribute by writing `attribute="@@propName"`. Note the usage of the quotes and the "@@" character sequence.
-
-You can repeat anything, even plain HTML elements such as `<span>` or `<li>`. The behavior is comparable to Angular's `*ngFor` directive.
 
 ### n-if, n-else
 

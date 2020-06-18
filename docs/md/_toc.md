@@ -7,6 +7,7 @@
 > [Overview](/docs/lib/overview)
 > [Project Configuration](/docs/lib/configuration)
 > [Template Language](/docs/lib/template)
+> [Smart Components](/docs/lib/smart)
 > [Life Cycle](/docs/lib/lifecycle)
 > [Events](/docs/lib/events)
 > [Router](/docs/lib/router)

@@ -7,6 +7,8 @@ import { BaseComponent, IBaseComponent } from '../components/base.component';
 import { LifeCycle } from '../components/lifecycle.enum';
 import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
+import { NRepeaterComponent } from '../components/smart/nrepeater.component';
+import { NOutletComponent } from '../components/smart/noutlet.component';
 
 /**
  * Main support class that provides all global functions.
@@ -41,7 +43,10 @@ export class GlobalProvider {
    */
   public static bootstrap(props: BootstrapProp) {
     GlobalProvider.bootstrapProps = props;
-    // register components
+    // register smart components
+    customElements.define('n-repeat', NRepeaterComponent);
+    customElements.define('n-outlet', NOutletComponent);
+    // register custom components
     GlobalProvider.bootstrapProps.components.forEach(c => {
       // add to browsers web component registry
       GlobalProvider.register(c);

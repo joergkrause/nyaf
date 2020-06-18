@@ -23,7 +23,6 @@ const JSX = {
     };
 
     props = props || {};
-    let repeatStore = [];
     let ifStore = true;
     const styleStore: { [rule: string]: string } = {};
     const propsstr =
@@ -58,20 +57,6 @@ const JSX = {
                 return GlobalProvider.TagExpander.get(value).expand();
               }
               break;
-            case 'n-repeat':
-              if (value) {
-                // we cannot transfer data other than as string with web components
-                const repeat = isArray(value) ? value : JSON.parse(value.toString());
-                // expecting let x of y, with y is an array
-                if (isArray(repeat)) {
-                  // expect an object, that's props can be bound to others
-                  repeatStore = repeat;
-                } else {
-                  throw new Error('repeat expects an array');
-                }
-              }
-              break;
-            // no handling, fall through to default
             default:
               if (key.startsWith('n-on-')) {
                 return `${key}='${value.toString().replace(/'/g, '&#39;')}'`;
@@ -105,16 +90,6 @@ const JSX = {
     }
     if (!ifStore) {
       return ''; // if excluded by condition return nothing at all before any further processing
-    }
-    if (repeatStore.length) {
-      // we just repeat the element itself by calling it recursively
-      delete props['n-repeat']; // prevent overflow
-      // all props that have a attr="@@item" entry
-      const targetProps = Object.keys(props).filter(p => props[p] && typeof props[p] === 'string' && props[p].startsWith('@@'));
-      return repeatStore.map(r => {
-        targetProps.forEach(t => (props[t] = r[t]));
-        return this.createElement(name, props, content);
-      });
     }
     return (`<${name} ${propsstr}>${flat(content).join('')}</${name}>`);
   }
