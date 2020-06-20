@@ -1,3 +1,6 @@
+import { LifeCycle } from "../components/lifecycle.enum";
+import { BaseComponent } from "../components/base.component";
+
 export function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     // tslint:disable-next-line:no-bitwise
@@ -166,3 +169,4 @@ function nameofInner<T extends Object>(nameFunction: ((obj: T) => any) | { new(.
   // Invalid function.
   throw new Error('nameof: Invalid function.');
 }
+

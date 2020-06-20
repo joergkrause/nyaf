@@ -157,7 +157,7 @@ export class ModelBinder<VM extends object> {
    * Set the object (model) the component is bound to. This is a proxy that monitors changes and renders the bound elements using binders.
    * @param scope An object instance that is monitored for binding
    */
-  public setScope(scope: VM): VM {
+  public setScope<T = VM>(scope: VM): VM {
     this.scope = new Proxy(scope, {
       get: (target: any, key: string, receiver: ProxyConstructor) => {
         return target[key];

@@ -44,8 +44,7 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
   }
 
   lifeCycle(state: LifeCycle) {
-    if (state === LifeCycle.Load) {
-
+    if(LifeCycle.Load === state) {
       (this.$['btn'] as HTMLElement).classList.add('btn');
       (this.$['btn'] as HTMLElement).classList.add('btn-primary');
       (this.$['btn'] as HTMLElement).classList.add('btn-sm');
