@@ -16,7 +16,7 @@ import { isNumber, isBoolean, isArray, isObject } from '../lib/utils';
  *
  * */
 const JSX = {
-  createElement(name: string, props: { [id: string]: string }, ...content: string[]) {
+  createElement(name: string, props: { [id: string]: any }, ...content: string[]) {
     content = [].concat.apply([], content);
     const flat = function (arr1: string[]) {
       return arr1.reduce((acc, val) => (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);
@@ -25,7 +25,7 @@ const JSX = {
     props = props || {};
     let ifStore = true;
     const styleStore: { [rule: string]: string } = {};
-    const propsstr =
+    let propsstr =
       Object.keys(props)
         .map(key => {
           const value = props[key];
@@ -90,6 +90,10 @@ const JSX = {
     }
     if (!ifStore) {
       return ''; // if excluded by condition return nothing at all before any further processing
+    }
+    if (styleStore && Object.keys(styleStore).length > 0) {
+      const styles = Object.keys(styleStore).map(o => `${o}:${styleStore[o]};`);
+      propsstr += `style="${styles}"`;
     }
     return (`<${name} ${propsstr}>${flat(content).join('')}</${name}>`);
   }

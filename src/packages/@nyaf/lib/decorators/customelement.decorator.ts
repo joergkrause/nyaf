@@ -1,9 +1,11 @@
 export function CustomElement(name: string) {
-  return function(target: any) {
+  return function (target: any) {
     Object.defineProperty(target, 'selector', {
-      get: function() {
+      get: function () {
         return name;
-      }
+      },
+      enumerable: false,
+      configurable: false
     });
   };
 }

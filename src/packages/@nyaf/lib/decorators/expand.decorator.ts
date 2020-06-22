@@ -8,11 +8,11 @@ export function Expand<T>(prop: string) {
       throw new Error('Decorator must be run on an instanciable class.');
     }
     Object.defineProperty(target.prototype, '__expand__', {
-      configurable: false,
-      enumerable: false,
       get: function() {
         return prop;
-      }
+      },
+      configurable: false,
+      enumerable: false
     });
   };
 }

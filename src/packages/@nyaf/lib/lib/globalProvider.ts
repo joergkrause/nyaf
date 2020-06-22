@@ -3,7 +3,7 @@ import events from './events';
 import { Router } from './router/router';
 import { Routes } from './router/routes';
 import { DomOp } from './dom-operations';
-import { BaseComponent, IBaseComponent } from '../components/base.component';
+import { IBaseComponent } from '../components/base.component';
 import { LifeCycle } from '../components/lifecycle.enum';
 import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
