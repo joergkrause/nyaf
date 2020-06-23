@@ -1,6 +1,6 @@
 import { BaseComponent } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
-import { Display, Hidden, to, IModel, ModelBinder } from '@nyaf/forms';
+import { Display, Hidden, to, IModel, ModelBinder, ViewModel } from '@nyaf/forms';
 
 export class FormModel {
   @Hidden()
@@ -15,6 +15,7 @@ export class FormModel {
  * Simple event handling.
  */
 @CustomElement('app-form')
+@ViewModel(FormModel)
 export class FormComponent<T extends FormModel> extends BaseComponent<{}> implements IModel<T> {
 
   readonly model: ModelBinder<T>;

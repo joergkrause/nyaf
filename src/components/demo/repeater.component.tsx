@@ -1,6 +1,7 @@
-import JSX, { CustomElement, BaseComponent, of } from '@nyaf/lib';
+import JSX, { CustomElement, BaseComponent, of, from, select } from '@nyaf/lib';
+import { ModelBinder } from '@nyaf/forms';
 
-interface T {
+interface TBind {
   id: number;
   name: string;
 }
@@ -23,14 +24,19 @@ export class RepeaterTestComponent extends BaseComponent<{}> {
   }
 
   async render() {
-    const data: Array<T> = [{ id: 1, name: 'One' }, { id: 2, name: 'Two' }, { id: 3, name: 'Three' }]
+    const data: Array<TBind> = [{ id: 1, name: 'One' }, { id: 2, name: 'Two' }, { id: 3, name: 'Three' }];
     return await (
       <>
         <div>
+          <h4>Repeater Component n-repeat</h4>
           <ul>
             <n-repeat source={data}>
-              <li data={of<T>(p => p.id)}>{of<T>(p => p.name)}</li>
+              <li data={of<TBind>(p => p.id)}>{of<TBind>(p => p.name)}</li>
             </n-repeat>
+          </ul>
+          <h4>Repeater Function n-repeat="from"</h4>
+          <ul>
+              <li n-repeat={from<TBind>(data)} data={select<TBind>(p => p.id)} >The name is: {select<TBind>(p => p.name)}</li>
           </ul>
         </div>
       </>

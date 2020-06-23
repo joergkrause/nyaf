@@ -16,7 +16,7 @@ import { isNumber, isBoolean, isArray, isObject } from '../lib/utils';
  *
  * */
 const JSX = {
-  createElement(name: string, props: { [id: string]: any }, ...content: string[]) {
+  createElement(name: string, props: { [id: string]: any }, ...content: string[]): string {
     content = [].concat.apply([], content);
     const flat = function (arr1: string[]) {
       return arr1.reduce((acc, val) => (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);
@@ -24,6 +24,7 @@ const JSX = {
 
     props = props || {};
     let ifStore = true;
+    let isRepeater = false;
     const styleStore: { [rule: string]: string } = {};
     let propsstr =
       Object.keys(props)
@@ -51,6 +52,37 @@ const JSX = {
               break;
             case 'n-if':
               ifStore = !!value;
+              break;
+            case 'n-repeat':
+              console.log('REPEATER', name, props, content);
+              try {
+                const data: [] = JSON.parse(props['n-repeat']);
+                delete props['n-repeat'];
+                const resolvedProps = Object.create(props);
+                const dataElements = data.map(dataItem => {
+                  Object.keys(props).forEach(prop => {
+                    resolvedProps[prop] = dataItem[props[prop].split('.')[1]];
+                  });
+                  const resolvedContent = [];
+                  if (content) {
+                    content.forEach(c => {
+                      const parts = c.match(/(.+)\s+=>\s+(.+)\.(.+)/);
+                      if (parts && parts.length) {
+                        const part = parts[3];
+                        resolvedContent.push(dataItem[part]);
+                      } else {
+                        resolvedContent.push(c);
+                      }
+                    });
+                  }
+                  const element = this.createElement(name, resolvedProps, resolvedContent);
+                  return element;
+                });
+                isRepeater = true;
+                return dataElements.join('');
+              } catch (err) {
+                console.error('Cannot parse n-repeat data. Need an array of objects. ' + err);
+              }
               break;
             case 'n-expand':
               if (GlobalProvider.TagExpander.get(value)) {
@@ -95,7 +127,8 @@ const JSX = {
       const styles = Object.keys(styleStore).map(o => `${o}:${styleStore[o]};`);
       propsstr += `style="${styles}"`;
     }
-    return (`<${name} ${propsstr}>${flat(content).join('')}</${name}>`);
+    // if repeater, we don't return the former repeater template, but just the generated code
+    return isRepeater ? propsstr : (`<${name} ${propsstr}>${flat(content).join('')}</${name}>`);
   }
 };
 export default JSX;

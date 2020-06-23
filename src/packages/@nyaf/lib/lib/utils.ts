@@ -170,3 +170,19 @@ function nameofInner<T extends Object>(nameFunction: ((obj: T) => any) | { new(.
   throw new Error('nameof: Invalid function.');
 }
 
+/**
+ * Define a data source
+ * @param data Select expression as array of objects
+ */
+export function from<T extends Object>(data: T[]): string {
+  console.log('data', data);
+  return JSON.stringify(data);
+}
+
+/**
+ * Select a property from the data defined by @see from
+ * @param nameFunction Select expressionl like c => c.name
+ */
+export function select<T extends Object>(nameFunction: ((obj: T) => any) | { new(...params: any[]): T }): string {
+  return nameFunction.toString();
+}

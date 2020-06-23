@@ -35,7 +35,7 @@ export class SlotTabsComponent extends BaseComponent<{}> {
         <div class='cell-12 border bd-default no-border-top'>
           <slot></slot>
         </div>
-        <div class="test">
+        <div class='test'>
           This is only red, if the styles are being copied, because the element is in isolated shadow DOM.
         </div>
       </>
