@@ -77,5 +77,11 @@ Globalprovider.bootstrap({
 
 That's it, a lot less to write without the effort to create components. It's just text-replacement before the render grabs the content, so NO performance impact at runtime.
 
+## n-repeat
+
+The basic idea of TSX is to write traditional code using `map` or `forEach` on array to create loops. In most cases this is the best solution. It provides editor support and you can add the full range of JavaScript API features to adjust the result. But sometimes a simple loop is required and the creation of a complete expression creates a lot boilerplate code. In that case two variations of loops are provided, both with full editor support, too.
+
+
+
 > :ToCPrevNext
 

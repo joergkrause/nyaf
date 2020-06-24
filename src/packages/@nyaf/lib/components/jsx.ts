@@ -1,5 +1,5 @@
 import { GlobalProvider } from '../lib/globalprovider';
-import { isNumber, isBoolean, isArray, isObject } from '../lib/utils';
+import { isNumber, isBoolean, isArray, isObject, isFunction } from '../lib/utils';
 
 /**
  * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.
@@ -91,12 +91,20 @@ const JSX = {
               break;
             default:
               if (key.startsWith('n-on-')) {
-                return `${key}='${value.toString().replace(/'/g, '&#39;')}'`;
+                if (value.name === key) {
+                  return `${key}='${value.toString().replace(/'/g, '&#39;')}'`;
+                }
+                if (isFunction(value)) {
+                  return `${key}='this.${value.name}'`;
+                }
               }
               // check for implicit bindings of complex objects
-              if (isArray(value) || isObject(value)) {
+              // Stringify and mark as complex to handle the read/write procedure in the Proxy handler
+              if (isArray(value)) {
                 delete props[key];
-                // Stringify and mark as complex to handle the read/write procedure in the Proxy handler
+                return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__arr__`;
+              } else if (isObject(value)) {
+                delete props[key];
                 return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__obj__`;
               } else if (isBoolean(value)) {
                 return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__bool__`;

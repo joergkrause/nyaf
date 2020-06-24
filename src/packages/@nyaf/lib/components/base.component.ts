@@ -119,7 +119,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     if (this.getAttribute('onlifecycle')) {
       let evt = this.getAttribute('onlifecycle');
       const params = [];
-      const match = evt.match(/^(\(?.\)?|.?)\s?=>\s?this\.([^(]*)\(([^)]*)?/);
+      const match = evt.match(/^(?:(\(?.+\)?|.?)\s?=>\s?)?this\.([^(]*)((?:[^)]*)?)?/);
       if (match.length > 2) {
         evt = match[2];
         parent = parentWalk(this, evt);
@@ -186,24 +186,52 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         if (this.attributes.getNamedItem(`__${prop}__num__`) || (this[prop] !== undefined && isNumber(this[prop]))) {
           return Number.parseFloat(this.getAttribute(prop));
         }
+        if (this.attributes.getNamedItem(`__${prop}__arr__`) || (this[prop] !== undefined && isArray(this[prop]))) {
+          return JSON.parse(this.attributes.getNamedItem(`__${prop}__arr__`).value);
+        }
         return obj[prop];
       } catch (err) {
-        console.error(`A complex property was not set properly: '${prop}'. Error: '${err}`);
+        console.error(`A complex property was not get properly: '${prop}'. Error: '${err}`);
       }
       return this.getAttribute(prop);
     },
     set: (obj: P, prop: string, value: any, receiver: any): boolean => {
+      console.log(' P Set Data', prop, value);
       (<any>obj)[prop] = value;
       try {
-        if (isObject(value)) {
-          this.setAttribute(`__${prop}__obj__`, '');
-          value = JSON.stringify(value);
-        }
         if (isBoolean(value)) {
           this.setAttribute(`__${prop}__bool__`, '');
-        }
-        if (isNumber(value)) {
+        } else if (isNumber(value)) {
           this.setAttribute(`__${prop}__num__`, '');
+        } else if (value.match(/^\[.*\]$/) && isArray(JSON.parse(value))) {
+          // an array we observe too
+          this.setAttribute(`__${prop}__arr__`, value);
+          (<any>obj)[prop] = new Proxy(JSON.parse(value), {
+            get(target, innerProp: string) {
+              console.log('access my array', innerProp);
+              const val = target[innerProp];
+              if (typeof val === 'function') {
+                if (['push', 'unshift'].includes(innerProp)) {
+                  return function (el) {
+                    console.log('this is a array modification');
+                    return Array.prototype[innerProp].apply(target, arguments);
+                  }
+                }
+                if (['pop'].includes(innerProp)) {
+                  return function () {
+                    const el = Array.prototype[innerProp].apply(target, arguments);
+                    console.log('this is a array modification');
+                    return el;
+                  }
+                }
+                return val.bind(target);
+              }
+              return val;
+            }
+          });
+        } else if (isObject(value)) {
+          this.setAttribute(`__${prop}__obj__`, '');
+          value = JSON.stringify(value);
         }
         this.setAttribute(prop, value);
         Promise.resolve();

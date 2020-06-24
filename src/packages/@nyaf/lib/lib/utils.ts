@@ -175,7 +175,6 @@ function nameofInner<T extends Object>(nameFunction: ((obj: T) => any) | { new(.
  * @param data Select expression as array of objects
  */
 export function from<T extends Object>(data: T[]): string {
-  console.log('data', data);
   return JSON.stringify(data);
 }
 

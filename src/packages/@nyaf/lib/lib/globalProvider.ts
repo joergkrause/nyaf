@@ -161,8 +161,8 @@ export class GlobalProvider {
           call = true;
         } else {
           // could be an expression
-          const match = evt.match(/^(\(?.\)?|.?)\s?=>\s?this\.([^(]*)\(([^)]*)?/);
-          if (match.length > 2) {
+          const match = evt.match(/^(?:(\(?.+\)?|.?)\s?=>\s?)?this\.([^(]*)((?:[^)]*)?)?/);
+          if (match && match.length > 2) {
             evt = match[2];
             parent = parentWalk(target, evt);
             if (parent) {
