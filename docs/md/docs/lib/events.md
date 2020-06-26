@@ -17,19 +17,19 @@ Events are easy to add directly using it like `n-on-click`. All JavaScript event
 You can get the (original HTML 5 API) event using a parameter, like *e* in the example below:
 
 ~~~
-  <button n-on-click={(e) => this.clickMe(e)}>OK</button>
+<button n-on-click={(e) => this.clickMe(e)}>OK</button>
 ~~~
 
 There is an alternative syntax that takes the method name directly (note that here are single quotes being used instead of curly braces):
 
 ~~~
-  <button n-on-click='clickMe'>OK</button>
+<button n-on-click={this.clickMe}>OK</button>
 ~~~
 
-The method is bound with the event object as a parameter, hence the method can have a parameter like this:
+The method is bound with or without the event object as a parameter, hence the method can have a parameter like this:
 
 ~~~
-clickMe(e: Event) {
+clickMe(e?: Event) {
 
 }
 ~~~
@@ -42,7 +42,7 @@ The `Event` type conforms to HTML 5 DOM. Replace according the attached event (`
 You can combine any event with the attribute `n-async` to make the call to the event's handler function async. This attribute does not take any parameters. The handler method must not be decorated with `async`.
 
 ~~~
-<button n-on-click={(e) => this.clickMe(e)} n-async>OK</button>
+<button n-on-click={this.clickMe} n-async>OK</button>
 ~~~
 
 ### Custom Events
@@ -63,7 +63,7 @@ export class ButtonComponent extends BaseComponent {
     super();
   }
 
-  clickMe(e) {
+  clickMe() {
     const checkEvent: CustomEventInit = {
       bubbles: true,
       cancelable: false,
@@ -73,7 +73,7 @@ export class ButtonComponent extends BaseComponent {
 
   async render() {
     return await (
-      <button type="button" n-on-click={e => this.clickMe(e)}>
+      <button type="button" n-on-click={this.clickMe}>
         Demo
       </button>
     );

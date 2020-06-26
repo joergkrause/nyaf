@@ -81,7 +81,7 @@ const webpackConfig = {
       }
     }),
   //   new TypedocWebpackPlugin({
-  //     name: '@NYAF',
+  //     name: '@nyaf',
   //     mode: 'file',
   //     theme: './typedoc-theme/',
   //     includeDeclarations: false,

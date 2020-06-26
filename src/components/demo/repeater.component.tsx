@@ -21,6 +21,7 @@ export class RepeaterTestComponent extends BaseComponent<TBind[]> {
   clickMe(e?: Event) {
     console.log('Button Element Click ');
     this.eventData.push({ id: 4, name: 'Four' });
+    this.setup();
   }
 
   async render() {
@@ -39,7 +40,6 @@ export class RepeaterTestComponent extends BaseComponent<TBind[]> {
               <li n-repeat={from<TBind>(this.eventData)} data={select<TBind>(p => p.id)} >The name is: {select<TBind>(p => p.name)}</li>
           </ul>
         </div>
-        <button n-on-click={(e) => this.clickMe(e)}>Add Item</button>
         <button n-on-click={this.clickMe}>Add Item Short</button>
       </>
     );

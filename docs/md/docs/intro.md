@@ -29,7 +29,7 @@ A class `JSX` is the core, it handles the element definitions and extract the te
 
 # Summary
 
-Is it worth coding with NYAF and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
+Is it worth coding with **@nyaf** and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
 Actual sizes (0.5.15):
 
@@ -62,7 +62,7 @@ Inspired by:
 
 ## Readings
 
-There is a book in the making covering all aspects of **@nyaf**: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how NYAF handles them.
+There is a book in the making covering all aspects of **@nyaf**: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how **@nyaf** handles them.
 
 ## Further steps
 

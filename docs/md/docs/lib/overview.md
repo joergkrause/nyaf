@@ -109,7 +109,7 @@ export class MainComponent extends BaseComponent {
 		return await (
 			<section>
         <h2>Demo</h2>
-        <p>Hello NYAF</p>
+        <p>Hello nyaf</p>
 			</section>
 		);
 	}
@@ -128,10 +128,10 @@ Create a file named *index.html* in the very same folder and fill it like this:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Hello NYAF</title>
+  <title>Hello nyaf</title>
 </head>
 <body>
-  <h1>Hello NYAF</h1>
+  <h1>Hello nyaf</h1>
   <app-main></app-main>
 </body>
 </html>

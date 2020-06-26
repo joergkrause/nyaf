@@ -5,19 +5,19 @@ By default the shadow DOM is ____not____ used. If it would, it would mean, that 
 
 One option to activate the Shadow DOM:
 
-~~~
+~~~ts
 @ShadowDOM()
 ~~~
 
 The property can be set explicitly. The default is `false`, hence if the decorator is being omitted, the component is ____not____ shadowed.
 
-~~~
+~~~ts
 @ShadowDOM(true | false)
 ~~~
 
 Another interesting option controls the style behavior:
 
-~~~
+~~~ts
 @UseParentStyles()
 ~~~
 
@@ -28,7 +28,7 @@ Another interesting option controls the style behavior:
 
 Example:
 
-~~~
+~~~ts
 @CustomElement('app-contact')
 @ShadowDOM()
 @UseParentStyles()

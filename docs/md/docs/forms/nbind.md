@@ -64,11 +64,11 @@ Forms bind data. It's bi-directional or uni-directional depending on the chosen 
 
 ### Validation
 
-The error message is just regular output (class example from Bootstrap,not needed by NYAF forms):
+The error message is just regular output (class example from Bootstrap,not needed by **@nyaf** forms):
 
 ~~~html
 <form>
-  <label n-bind="innerText: userName" for="un"/>
+  <label n-bind="innerText: userName" for="un" />
   <input n-bind="value: userName" id="un">
   <div class="text text-danger" n-if="!@userName.valid && @userName.touched">Oops, something got wrong</div>
 </form>

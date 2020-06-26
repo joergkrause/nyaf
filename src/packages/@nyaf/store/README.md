@@ -1,18 +1,18 @@
 [![Version](https://img.shields.io/npm/v/%40nyaf%2Fstore.svg?style=flat-square)](https://npmjs.com/package/@nyaf/store)
 [![License](https://img.shields.io/npm/l/%40nyaf%2Fstore.svg?style=flat-square)](https://npmjs.com/package/@nyaf/store)
 
-# NYAF is "Not Yet Another Framework"
+# nyaf is "Not Yet Another Framework"
 
 And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools.
 
 ## Preface
 
-This is an extension to the famous micro framework NYAF. You need to build your project on top of NYAF, then *@nyaf/store* makes your life easier, again.
+This is an extension to the famous micro framework **nyaf**. You need to build your project on top of **nyaf**, then *@nyaf/store* makes your life easier, again.
 
 > Credits go to [Fluxiny](https://github.com/krasimir/fluxiny) for inspiration and examples. It is, however, not a dependency. Some basic ideas comes also from https://css-tricks.com/build-a-state-management-system-with-vanilla-javascript/.
 
 
-# NYAF-STORE
+# nyaf-STORE
 
 This is the store implementation, a mini flux variant without the burden of Redux.
 

@@ -2,7 +2,7 @@
 
 Want to access an injectable service?
 
-~~~
+~~~ts
 @CustomElement('app-main')
 @InjectService('localNameA', ServiceClass1)
 @InjectService('localNameB', ServiceClass2, true)

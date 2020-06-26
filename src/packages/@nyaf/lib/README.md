@@ -67,9 +67,9 @@ export class MainComponent extends BaseComponent<{}> {
 
 Let's go step by step through this simple component.
 
-First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from NYAF and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLInt know about this and will not complain.
+First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from **nyaf** and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLInt know about this and will not complain.
 
-Second, the component has a base class. All NYAF components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
+Second, the component has a base class. All **nyaf** components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
 
 Now, that the component is defined, it must be registered. In a file called *main.ts* (or wherever your app is bootstrapped) call this:
 
@@ -576,7 +576,7 @@ As like with `setData` internally this will trigger the renderer to re-render th
 
 Web Components have the restriction that an attribute can transport string values only. This would lead to "[Object object]" for other types.
 
-> NYAF overcomes this restriction with a smart attribute handling.
+> **@nyaf** overcomes this restriction with a smart attribute handling.
 
 That means the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\_\_name__" is written. Assume your values is written like shown below:
 
@@ -679,7 +679,7 @@ export class MainComponent extends BaseComponent {
 		return await (
 			<section>
         <h2>Demo</h2>
-        <p>Hello NYAF</p>
+        <p>Hello nyaf</p>
 			</section>
 		);
 	}
@@ -698,10 +698,10 @@ Create a file named *index.html* in the very same folder and fill it like this:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Hello NYAF</title>
+  <title>Hello nyaf</title>
 </head>
 <body>
-  <h1>Hello NYAF</h1>
+  <h1>Hello nyaf</h1>
   <app-main></app-main>
 </body>
 </html>
@@ -841,7 +841,7 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 # Summary
 
-Is it worth coding with NYAF and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
+Is it worth coding with **nyaf** and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
 Actual sizes (0.5.15):
 
@@ -873,7 +873,7 @@ Inspired by:
 
 ## Readings
 
-There is a book in the making covering all aspects of NYAF: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how NYAF handles them.
+There is a book in the making covering all aspects of **nyaf**: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how **nyaf** handles them.
 
 ## Further steps
 

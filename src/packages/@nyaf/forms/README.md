@@ -148,7 +148,7 @@ Forms bind data. It's bi-directional or uni-directional depending on the chosen 
 
 ### Validation
 
-The error message is just regular output (class example from Bootstrap,not needed by NYAF forms):
+The error message is just regular output (class example from Bootstrap,not needed by **nyaf** forms):
 
 ~~~
 <form>
@@ -231,9 +231,9 @@ It's supervised. After render *this.modelState* helds the state of the model.
 
 # Recap
 
-Is it worth coding with NYAF forms and vanilla JS? For smaller projects and for apps that must load quickly, yes.
+Is it worth coding with **nyaf** forms and vanilla JS? For smaller projects and for apps that must load quickly, yes.
 
-The zipped package of the lib is 2 KBytes. Expanded just 8 KBytes. NYAF itself is required (adding 23 KBytes, 7 KBytes zipped).
+The zipped package of the lib is 2 KBytes. Expanded just 8 KBytes. **nyaf** itself is required (adding 23 KBytes, 7 KBytes zipped).
 
 However, compared with React or Angular it's a lot simpler. Compared to Vue it's simpler and even smaller, but the delta is not that thrilling.
 

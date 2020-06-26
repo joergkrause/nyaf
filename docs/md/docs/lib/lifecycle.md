@@ -2,7 +2,7 @@
 
 Components have a life cycle. Instead of several events, there is just one method you must override (or ignore if not needed):
 
-~~~
+~~~ts
 lifeCycle(cycle: LifeCycle){
   if (cycle === LifeCycle.Load){
     // it's ready to go
