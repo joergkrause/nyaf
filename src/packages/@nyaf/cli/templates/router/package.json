@@ -25,7 +25,7 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
-    "@nyaf/cli": "^0.5.18",
-    "@nyaf/lib": "^0.5.18"
+    "@nyaf/cli": "^0.5.19",
+    "@nyaf/lib": "^0.5.19"
   }
 }

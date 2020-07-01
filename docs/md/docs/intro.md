@@ -31,7 +31,7 @@ A class `JSX` is the core, it handles the element definitions and extract the te
 
 Is it worth coding with **@nyaf** and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual sizes (0.5.18):
+Actual sizes (0.5.19):
 
 * Core:   31 KB --> 10 KB zipped (always needed)
 * Forms:  43 KB --> 13 KB zipped (Forms binding, validation, decorators)
