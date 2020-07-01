@@ -12,8 +12,7 @@
     "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public && cd ../../../ && cd dist/@nyaf/cli && npm publish --access public",
     "demo": "npm run build && showdown makehtml -i README.md -o dist/docu.html && webpack --config webpack.config.js --mode \"production\" && npm run codedoc",
     "codedoc": "typedoc --out dist/documentation src/packages/@nyaf",
-    "doc": "codedoc serve",
-    "install": "codedoc init"
+    "doc": "codedoc serve"
   },
   "repository": {
     "type": "git",
