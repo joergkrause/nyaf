@@ -17,6 +17,7 @@ export * from './decorators/ui/hint-templatehint.decorator';
 export * from './decorators/ui/hint-placeholder.decorator';
 export * from './decorators/ui/hint-readonly.decorator';
 export * from './decorators/viewmodel.decorator';
+export * from './decorators/translate.decorator';
 export * from './components/containers/container.component';
 export * from './modelbinder/modelbinder.class';
 export * from './modelbinder/imodel.interface';

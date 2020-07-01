@@ -1,5 +1,10 @@
-import { Required, Email, MaxLength, Display } from '@nyaf/forms';
+import { Required, Email, MaxLength, Display, Translate } from '@nyaf/forms';
 
+const json = {
+  'Contact eMail': 'Kontakt-E-Mail'
+};
+
+@Translate(json)
 export class ContactModel {
 
   constructor(init?: ContactModel) {
@@ -13,6 +18,7 @@ export class ContactModel {
   @Required()
   name = '';
 
+  @Translate(json)
   @Display('Contact eMail')
   @Required()
   @Email('The field "Contact eMail" should be formatted properly')

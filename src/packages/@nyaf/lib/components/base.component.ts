@@ -86,7 +86,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
 
   /**
    * Promote the lifecycle changes:
-   * * first by an sync call of the @see LifeCycle method
+   * * first by a sync call of the @see LifeCycle method
    * * second by dispatching the 'onlifecycle' event. Use addEventListener('lifecycle', ...) to catch the event.
    * * third a property 'onLifecycle' is being called if a handler function is attached.
    */
@@ -196,7 +196,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       return this.getAttribute(prop);
     },
     set: (obj: P, prop: string, value: any, receiver: any): boolean => {
-      console.log(' P Set Data', prop, value);
       (<any>obj)[prop] = value;
       try {
         if (isBoolean(value)) {

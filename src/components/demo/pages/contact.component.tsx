@@ -2,8 +2,6 @@ import { BaseComponent, LifeCycle } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ContactModel } from './models/contact.model';
 import { ViewModel, ModelBinder, IModel, to, Display, Email } from '@nyaf/forms/';
-import { ECANCELED } from 'constants';
-
 
 @CustomElement('app-contact')
 @ViewModel(ContactModel, { factory: m => m.email = 'bla@fasel.com' })
@@ -13,7 +11,6 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
 
   constructor() {
     super();
-    this.model.setScope(new ContactModel());
   }
 
   async render() {
@@ -33,7 +30,7 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
             <h4>Field 3 (Smart Binding with "to" and strings)</h4>
             <input n-bind={to<T, HTMLInputElement>(c => c.email, 'value')} />
             <h4>Validiation Logic Test</h4>
-            <div class='alert alert-danger' n-bind='innerText: email: errPattern' n-show={this.model.state.validators.email.type.pattern}></div>
+            <div class='alert alert-danger' n-bind='innerText: email: errPattern' n-show={this.model.state.validators?.email.type.pattern}></div>
             <div class='alert alert-danger' n-bind='innerText: email: errRequired' ></div>
             <br />
             <button type='button' n-sel='btn' n-on-click={(e) => this.reset(e)}></button>
@@ -42,9 +39,14 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
           <div>
             <label n-bind='innerText: email' />
           </div>
+          <app-button class='col-6' text='Show the bound value' n-on-showAlert={this.showEmail} />
         </form>
       </>
     );
+  }
+
+  showEmail() {
+    alert(this.model.getScope().email);
   }
 
   reset(e: Event) {

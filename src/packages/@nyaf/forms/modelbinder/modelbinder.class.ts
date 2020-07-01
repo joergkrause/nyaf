@@ -4,7 +4,7 @@ import { CheckedBindingHandler } from './checkedbindinghandler.class';
 import { ValueBindingHandler } from './valuebindinghandler.class';
 import { TextBindingHandler } from './textbindinghandler.class';
 import { ModelState } from './modelstate.class';
-import { LifeCycle } from '@nyaf/lib';
+import { LifeCycle, BaseComponent } from '@nyaf/lib';
 
 /**
  * The modelbinder servers two purposes:
@@ -78,8 +78,8 @@ export class ModelBinder<VM extends object> {
   public scope: ProxyConstructor;
   public state: ModelState<VM> = new ModelState();
   subscriptions: {
-    key: string;
-    cb: () => void;
+    key: string | number | symbol;
+    cb: (key: string) => void;
   }[] = [];
   handlers: {
     [property: string]: IBindingHandler;
@@ -87,11 +87,13 @@ export class ModelBinder<VM extends object> {
 
   /**
    * Initialize a binder for the current form. This is global and you can bind only one form at a time. Add custom binders to bind non-trivial properties.
+   * Usually, you shoudn't call this directly. It's public because it's being called from the @ViewModel decorator. The decorators adds a hidden property
+   * to store the binder instance directly in the component.
    *
    * @param component The web component this binder is currently attached to.
    * @param handler Handler identifier, used in forms in `n-bind="prop: Value"`.
    */
-  public static initialize(component: HTMLElement, handler?: { [key: string]: IBindingHandler }) {
+  public static initialize(component: BaseComponent, handler?: { [key: string]: IBindingHandler }): ModelBinder<any> {
     const mbInstance = new ModelBinder();
     mbInstance.handlers['value'] = new ValueBindingHandler();
     mbInstance.handlers['innerText'] = new TextBindingHandler();
@@ -108,11 +110,15 @@ export class ModelBinder<VM extends object> {
     if (modelInstanceConstructorFactory) {
       modelInstanceConstructorFactory(modelInstance);
     }
+    console.log('mi', modelInstance);
     const isShadowed = !!component.constructor['withShadow'];
-    mbInstance.setScope(modelInstance);
+
     component.addEventListener('lifecycle', (e: CustomEvent) => {
-      if (e.detail === LifeCycle.Load) {
+      // prevent other components in the render body from bubbling their lifeCycle state to their parent
+      // that happens if the binder binds to both, the parent and the children.
+      if (e.detail === LifeCycle.Load && component.__uniqueId__ === (e.target as BaseComponent).__uniqueId__) {
         const elements = isShadowed ? component.shadowRoot.querySelectorAll('[n-bind]') : component.querySelectorAll('[n-bind]');
+        mbInstance.setScope(modelInstance);
         elements.forEach((el: HTMLElement) => {
           const expressionParts = el.getAttribute('n-bind').split(':');
           if (expressionParts.length < 2) {
@@ -123,7 +129,7 @@ export class ModelBinder<VM extends object> {
           // decorator bindings
           if (expressionParts.length === 3) {
             const decoratorKey = expressionParts[2].trim();
-            // key is: display.name or display.desc
+            // key is: display.text or display.desc
             const decoratorProp = `__${decoratorKey}__${scopeKey}`;
             if (modelInstance.constructor.prototype[decoratorProp]) {
               const binding = new Binding(decoratorProp, bindingHandler, mbInstance, el);
@@ -137,9 +143,10 @@ export class ModelBinder<VM extends object> {
               binding.bind();
               binding.value = modelInstance[scopeKey];
             }
-
           }
+          // TODO: Look for validators and handle validation
         });
+        Object.keys(modelInstance).forEach(prop => mbInstance.notify(prop));
       }
     });
     return mbInstance;
@@ -183,7 +190,14 @@ export class ModelBinder<VM extends object> {
     return this.scope as unknown as VM;
   }
 
-  public subscribe(key: string, cb: () => void): void {
+  /**
+   * Use this to subsribe to model changes. If it's bound to an input element this will fire for all assigned
+   * bindings, which more convenient than listing for events directly. I's safe to assign the subscriber in
+   * the contructor of a component.
+   * @param key The name of the property; must be a member of the view model.
+   * @param cb A callback being executed when the value changes.
+   */
+  public subscribe<T = VM>(key: keyof T, cb: (key: string) => void): void {
     this.subscriptions.push({
       key,
       cb
@@ -193,7 +207,7 @@ export class ModelBinder<VM extends object> {
   private notify(key: string): void {
     const subscriptions = this.subscriptions.filter(subscription => subscription.key === key);
     subscriptions.forEach(subscription => {
-      subscription.cb();
+      subscription.cb(key);
     });
   }
 }

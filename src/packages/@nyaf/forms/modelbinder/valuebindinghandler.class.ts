@@ -6,16 +6,22 @@ import { IBindingHandler } from './ibindinghandler.interface';
  */
 export class ValueBindingHandler implements IBindingHandler {
   bind(binding: Binding): void {
-    binding.el.addEventListener('input', () => {
+    binding.el.addEventListener('input', (e) => {
+      console.log('Received binder event from ', e.target);
       this.listener(binding);
     });
     // this.react(binding);
   }
   react(binding: Binding): void {
-    (binding.el as HTMLInputElement).value = binding.value;
+    if ((binding.el as HTMLInputElement).value !== binding.value) {
+      (binding.el as HTMLInputElement).value = binding.value;
+    }
   }
   listener(binding: Binding): void {
     const value = (binding.el as HTMLInputElement).value;
-    binding.value = value;
+    console.log('Received binder value', value);
+    if (binding.value !== value) {
+      binding.value = value;
+    }
   }
 }
