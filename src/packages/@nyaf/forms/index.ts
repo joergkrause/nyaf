@@ -1,5 +1,3 @@
-import { GlobalProvider } from '@nyaf/lib';
-
 export * from './decorators/forms/val-compare.decorator';
 export * from './decorators/forms/val-email.decorator';
 export * from './decorators/forms/val-maxlength.decorator';

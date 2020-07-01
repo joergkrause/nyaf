@@ -1,5 +1,5 @@
 import JSX from './jsx';
-import { isFunction } from '../lib/utils';
+import { isFunction } from '../code/utils';
 
 test('JSX base test', () => {
   expect(isFunction(JSX.createElement)).toBeTruthy();

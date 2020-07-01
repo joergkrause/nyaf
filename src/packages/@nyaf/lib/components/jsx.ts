@@ -1,5 +1,5 @@
-import { GlobalProvider } from '../lib/globalprovider';
-import { isNumber, isBoolean, isArray, isObject, isFunction } from '../lib/utils';
+import { GlobalProvider } from '../code/globalprovider';
+import { isNumber, isBoolean, isArray, isObject, isFunction } from '../code/utils';
 
 /**
  * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.

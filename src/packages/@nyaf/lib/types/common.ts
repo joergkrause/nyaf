@@ -1,6 +1,6 @@
 import { IBaseComponent } from '../components/base.component';
-import { Expander } from '../lib/expander/expander';
-import { IExpander } from '../lib/expander/iexpander';
+import { Expander } from '../code/expander/expander';
+import { IExpander } from '../code/expander/iexpander';
 
 export type ComponentType<T extends HTMLElement | HTMLParagraphElement> = new (...args: any[]) => T;
 

@@ -1,6 +1,6 @@
 import { LifeCycle } from './lifecycle.enum';
-import { GlobalProvider } from '../lib/globalprovider';
-import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../lib/utils';
+import { GlobalProvider } from '../code/globalprovider';
+import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../code/utils';
 
 /**
  * The structure that defines the state object.
