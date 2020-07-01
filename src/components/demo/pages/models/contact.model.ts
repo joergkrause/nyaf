@@ -11,16 +11,19 @@ export class ContactModel {
 
   @Display('Contact Name')
   @Required()
-  name: string;
+  name = '';
 
-  email: string;
+  @Display('Contact eMail')
+  @Required()
+  @Email('The field "Contact eMail" should be formatted properly')
+  email = '';
 
   @Display('Your Message')
   @MaxLength(150)
-  text: string = '';
+  text = '';
 
   @Display('Is important')
-  important: boolean = false;
+  important = false;
 
   init(data: Partial<ContactModel>) {
     this.email = data.email;

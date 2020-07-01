@@ -28,3 +28,5 @@ export function requiredInternalSetup(target: any, key: string, msg?: string) {
         configurable: false
     });
 }
+
+Required.required = 'errRequired';

@@ -34,3 +34,5 @@ export function emailInternalSetup(target: any, key: string, msg?: string) {
     configurable: false
   });
 }
+
+Email.pattern = 'errPattern';

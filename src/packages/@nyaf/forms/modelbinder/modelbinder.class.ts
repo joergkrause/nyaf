@@ -128,7 +128,7 @@ export class ModelBinder<VM extends object> {
             if (modelInstance.constructor.prototype[decoratorProp]) {
               const binding = new Binding(decoratorProp, bindingHandler, mbInstance, el);
               binding.bind();
-              binding.value = modelInstance[scopeKey];
+              // no value assign as all decorators are readonly
             }
           } else {
             // property bindings

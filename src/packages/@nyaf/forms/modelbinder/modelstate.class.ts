@@ -1,7 +1,13 @@
+import { Email, Required, StringLength, MinLength } from '@nyaf/forms';
+import { Type } from '@nyaf/lib';
+
+// type validators = Type<Email> | Required | StringLength | MinLength;
 
 export interface ErrorState {
-  validator: string;
+  // TODO: siehe SVOGV deco pattern
+  type: Record<'pattern' | 'required', boolean>;
   error: string;
+  // any of the validators failed
   isValid: boolean;
 }
 
@@ -24,7 +30,7 @@ export class ModelState<VM> {
   /**
    * The list of errors, each field with all states.
    */
-  errors: Record<keyof VM, ErrorState[]>;
+  validators: Record<keyof VM, ErrorState>;
 
   state: Record<keyof VM, FieldState>;
 

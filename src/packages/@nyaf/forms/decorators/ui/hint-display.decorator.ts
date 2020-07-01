@@ -21,7 +21,7 @@ export function Display(name: string, order: number = 0, description?: string) {
 export function displayInternalSetup(target: any, key: string, name: string, order: number, description: string) {
   order = parseInt(order.toString(), 10);
   // create a helper property to transport a meta data value
-  Object.defineProperty(target, `__displayName__${key}`, {
+  Object.defineProperty(target, `__displayText__${key}`, {
     value: name,
     enumerable: false,
     configurable: false
@@ -39,3 +39,8 @@ export function displayInternalSetup(target: any, key: string, name: string, ord
     configurable: false
   });
 }
+
+// helper for model binder to have typed access to underlying properties
+Display.text = 'displayText';
+Display.order = 'displayOrder';
+Display.desc = 'displayDesc';
