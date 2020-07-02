@@ -1,7 +1,10 @@
-import { LifeCycle } from "../components/lifecycle.enum";
-import { BaseComponent } from "../components/base.component";
+import { LifeCycle } from '../components/lifecycle.enum';
+import { BaseComponent } from '../components/base.component';
 
-export function uuidv4() {
+/**
+ * A simple uuid function. Here just to avoid linking to another external library.
+ */
+export function uuidv4(): string {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     // tslint:disable-next-line:no-bitwise
     const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -30,56 +33,56 @@ export function uuidv4() {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-export function isArray(ar: any) {
-  return Array.isArray(ar);
+export function isArray(arg: any): arg is [] {
+  return Array.isArray(arg);
 }
 
-export function isBoolean(arg: any) {
+export function isBoolean(arg: any): arg is boolean {
   return typeof arg === 'boolean';
 }
 
-export function isNull(arg: any) {
+export function isNull(arg: any): arg is null {
   return arg === null;
 }
 
-export function isNullOrUndefined(arg: any) {
+export function isNullOrUndefined(arg: any): arg is null | undefined {
   return arg == null;
 }
 
-export function isNumber(arg: any) {
+export function isNumber(arg: any): arg is number {
   return typeof arg === 'number';
 }
 
-export function isString(arg: any) {
+export function isString(arg: any): arg is string {
   return typeof arg === 'string';
 }
 
-export function isSymbol(arg: any) {
+export function isSymbol(arg: any): arg is symbol {
   return typeof arg === 'symbol';
 }
 
-export function isUndefined(arg: any) {
+export function isUndefined(arg: any): arg is undefined {
   return arg === void 0;
 }
 
-export function isRegExp(re: any) {
+export function isRegExp(re: any): re is RegExp {
   return isObject(re) && objectToString(re) === '[object RegExp]';
 }
 
-export function isObject(arg: any) {
+export function isObject(arg: any): arg is object {
   return typeof arg === 'object' && arg !== null;
 }
 
-export function isDate(d: any) {
+export function isDate(d: any): d is Date {
   return isObject(d) && objectToString(d) === '[object Date]';
 }
 
-export function isError(e: any) {
+export function isError(e: any): e is Error {
   return isObject(e) &&
       (objectToString(e) === '[object Error]' || e instanceof Error);
 }
 
-export function isFunction(arg: any) {
+export function isFunction(arg: any): arg is Function {
   return typeof arg === 'function';
 }
 
@@ -92,7 +95,7 @@ export function isPrimitive(arg: any) {
          typeof arg === 'undefined';
 }
 
-function objectToString(o: any) {
+function objectToString(o: any): string {
   return Object.prototype.toString.call(o);
 }
 

@@ -65,9 +65,9 @@ const webpackConfig = {
       patterns: [
         { from: '**/README.md', to: '', context: 'src/packages', toType: 'dir' },
         { from: '**/package.json', to: '', context: 'src/packages', toType: 'dir' },
-        { from: '**/*.d.ts', to: '@nyaf/lib', context: path.resolve(__dirname, 'out-tsc/packages/@nyaf/lib'), toType: 'dir' },
-        { from: '**/*.d.ts', to: '@nyaf/store', context: path.resolve(__dirname, 'out-tsc/packages/@nyaf/store'), toType: 'dir' },
-        { from: '**/*.d.ts', to: '@nyaf/forms', context: path.resolve(__dirname, 'out-tsc/packages/@nyaf/forms'), toType: 'dir' },
+        { from: '**/*.d.ts', to: '@nyaf/lib', context: path.resolve(__dirname, 'out-tsc/packages/@nyaf/lib') },
+        { from: '**/*.d.ts', to: '@nyaf/store', context: path.resolve(__dirname, 'out-tsc/packages/@nyaf/store') },
+        { from: '**/*.d.ts', to: '@nyaf/forms', context: path.resolve(__dirname, 'out-tsc/packages/@nyaf/forms') },
         {
           from: '@nyaf/cli/**/*',
           flatten: false,
