@@ -36,10 +36,10 @@ const webpackConfig = {
       path.resolve('./node_modules')
     ],
     alias: {
-//      modules: path.join(__dirname, 'node_modules'),
+      //      modules: path.join(__dirname, 'node_modules'),
       '@nyaf/lib': path.join(__dirname, 'src/packages/@nyaf/lib'),
-//      '@nyaf/forms': path.join(__dirname, 'src/packages/@nyaf/forms'),
-//      '@nyaf/store': path.join(__dirname, 'src/packages/@nyaf/store')
+      '@nyaf/forms': path.join(__dirname, 'src/packages/@nyaf/forms'),
+      '@nyaf/store': path.join(__dirname, 'src/packages/@nyaf/store')
     },
     // plugins: [new TsconfigPathsPlugin({ configFile: "./tsconfig.webpack.json" })]
   },
@@ -80,13 +80,13 @@ const webpackConfig = {
         concurrency: 100,
       }
     }),
-  //   new TypedocWebpackPlugin({
-  //     name: '@nyaf',
-  //     mode: 'file',
-  //     theme: './typedoc-theme/',
-  //     includeDeclarations: false,
-  //     ignoreCompilerErrors: true,
-  // })
+    //   new TypedocWebpackPlugin({
+    //     name: '@nyaf',
+    //     mode: 'file',
+    //     theme: './typedoc-theme/',
+    //     includeDeclarations: false,
+    //     ignoreCompilerErrors: true,
+    // })
   ]
 };
 
