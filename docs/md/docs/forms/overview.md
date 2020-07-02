@@ -50,13 +50,15 @@ this.model. ...// do some stuff here
 You can assign an actual object to the model binder. That can happen at any time, in the constructor, in load life cycle, or anytime later on user action. Use this code:
 
 ~~~ts
-this.model.setScope(new Model())
+this.model.scope = new Model();
 ~~~
+
+However, the `@ViewModel` decorator is doing exactly this for you, so in case of a new black instance there is no need to call the *scope* property.
 
 It's no necessary to keep a reference to the instance, the model binder is doing this internally for you. The derived class is a `Proxy`. If you now bind the properties using `n-bind` as described before, the model is in sync with the user interface. If you want to programmatically access the current state, just retrieve the model:
 
 ~~~ts
-let userName: string = this.model.getScope().userName;
+let userName: string = this.model.scope.userName;
 ~~~
 
 If you wish to access the `Proxy` at any time in code or not using the binding in templates, this would be sufficient:
@@ -66,11 +68,12 @@ private modelProxy: Model;
 
 constructor() {
   super();
-  this.modelProxy = this.model.setScope(new Model());
+  this.model.scope = new Model();
+  this.modelProxy = this.model.scope;
 }
 ~~~
 
-The function `setScope()` takes an instance, wraps this into a `Proxy`, assigns the binders , and returns the `Proxy`. Changes to the model will now reflect in bound HTML elements immediately.
+The setter `scope` takes an instance, wraps this into a `Proxy`, assigns the binders, and the getter returns the `Proxy`. Changes to the model will now reflect in bound HTML elements immediately.
 
 ## Validation
 

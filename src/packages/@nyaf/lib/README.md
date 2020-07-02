@@ -170,10 +170,12 @@ Works same as `n-if`, but just adds an inline style `display: none` (or remove o
 Expand a group of attributes. Imagine this:
 
 ~~~
-<input type="text" placeholder="Name" role="search" class="materialinput" id="a1 />
+<input type="text" placeholder="Name" role="search" class="materialinput" id="a1" />
+<input type="text" placeholder="Name" role="search" class="materialinput" id="a2" />
+<input type="text" placeholder="Name" role="search" class="materialinput" id="a3" />
 ~~~
 
-You need this several times, each with different id.
+You need this several times, each with different id. It's easier doing it with an expander:
 
 ~~~
 <input n-expand="search" id="a1" />
@@ -196,16 +198,16 @@ export class SearchExpander extends Expander {
 }
 ~~~
 
-Any yes, these are equal signs in the class. The named 'xxx' names are only required if the attribute name contains dashes. Finally, add the definition to the global provider:
+And yes, these are equal signs in the class. The quoted 'xxx' names are only required if the attribute name contains dashes. Finally, add the definition to the global provider:
 
 ~~~
 Globalprovider.bootstrap({
   components: [...components], // as usual
-  expanders: [SearchExpander]
+  expanders: [SearchExpander]  // expanders must ne registered
 })
 ~~~
 
-That's it, a lot less to write without the effort to create components. It's just text-replacement before the render grabs the content, so NO performance impact at runtime.
+That's it, a lot less to write without the effort to create components. It's just text-replacement before the renderer grabs the content, so NO performance penalty at runtime.
 
 ## Events
 

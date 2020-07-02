@@ -17,7 +17,7 @@ import { ServiceCounterComponent } from './components/demo/servicecounter.compon
 import { HomeComponent } from 'components/demo/pages/home.component';
 import { DocuComponent } from 'components/demo/pages/docu.component';
 import { ButtonsComponent } from 'components/demo/buttons.component';
-import { FormComponent } from 'components/demo/form.component';
+import { FormComponent, SubFormComponent } from 'components/demo/form.component';
 import { ComplexComponent } from 'components/demo/complex.component';
 import { ComplexBoolComponent } from 'components/demo/complexbool.component';
 import { RouterComponent } from 'components/demo/router/router.component';
@@ -67,6 +67,7 @@ GlobalProvider.bootstrap({
     HomeComponent,
     DocuComponent,
     FormComponent,
+    SubFormComponent,
     ComplexComponent,
     ComplexBoolComponent,
     RouterComponent,

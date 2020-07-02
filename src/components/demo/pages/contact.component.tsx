@@ -30,10 +30,10 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
             <h4>Field 3 (Smart Binding with "to" and strings)</h4>
             <input n-bind={to<T, HTMLInputElement>(c => c.email, 'value')} />
             <h4>Validiation Logic Test</h4>
-            <div class='alert alert-danger' n-bind='innerText: email: errPattern' n-show={this.model.state.validators?.email.type.pattern}></div>
+            {/* <div class='alert alert-danger' n-bind='innerText: email: errPattern' n-show={this.model.state.validators?.email.type.pattern}></div> */}
             <div class='alert alert-danger' n-bind='innerText: email: errRequired' ></div>
             <br />
-            <button type='button' n-sel='btn' n-on-click={(e) => this.reset(e)}></button>
+            <button type='button' id='mybtn' n-on-click={(e) => this.reset(e)}></button>
           </div>
           <h4>Control output</h4>
           <div>
@@ -46,19 +46,16 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
   }
 
   showEmail() {
-    alert(this.model.getScope().email);
+    alert(this.model.scope.email);
   }
 
   reset(e: Event) {
-    this.model.getScope().email = '';
+    this.model.scope.email = '';
   }
 
   lifeCycle(state: LifeCycle) {
     if(LifeCycle.Load === state) {
-      (this.$['btn'] as HTMLElement).classList.add('btn');
-      (this.$['btn'] as HTMLElement).classList.add('btn-primary');
-      (this.$['btn'] as HTMLElement).classList.add('btn-sm');
-      this.$$('button').innerText = 'Click to empty form';
+      this.$$<HTMLButtonElement>('#mybtn').innerText = 'Click to empty form';
     }
   }
 

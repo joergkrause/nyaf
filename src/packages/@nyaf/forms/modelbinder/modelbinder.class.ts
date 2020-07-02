@@ -29,7 +29,7 @@ import { LifeCycle, BaseComponent } from '@nyaf/lib';
  *
  * ```
  * const modelInstance: UserModel = new UserModel();
- * ModelBinder.setScope(modelInstance);
+ * ModelBinder.scope = modelInstance;
  * ```
  *
  * In the form you define the binding with the property `n-bind` like this:
@@ -75,7 +75,7 @@ import { LifeCycle, BaseComponent } from '@nyaf/lib';
  */
 export class ModelBinder<VM extends object> {
   static _instanceStore = new Map<HTMLElement, ModelBinder<{}>>();
-  public scope: ProxyConstructor;
+  public _scopeProxy: ProxyConstructor;
   public state: ModelState<VM> = new ModelState();
   subscriptions: {
     key: string | number | symbol;
@@ -110,15 +110,13 @@ export class ModelBinder<VM extends object> {
     if (modelInstanceConstructorFactory) {
       modelInstanceConstructorFactory(modelInstance);
     }
-    console.log('mi', modelInstance);
     const isShadowed = !!component.constructor['withShadow'];
-
-    component.addEventListener('lifecycle', (e: CustomEvent) => {
+    component.addEventListener('lifecycle', async (e: CustomEvent) => {
       // prevent other components in the render body from bubbling their lifeCycle state to their parent
       // that happens if the binder binds to both, the parent and the children.
       if (e.detail === LifeCycle.Load && component.__uniqueId__ === (e.target as BaseComponent).__uniqueId__) {
         const elements = isShadowed ? component.shadowRoot.querySelectorAll('[n-bind]') : component.querySelectorAll('[n-bind]');
-        mbInstance.setScope(modelInstance);
+        mbInstance.scope = modelInstance;
         elements.forEach((el: HTMLElement) => {
           const expressionParts = el.getAttribute('n-bind').split(':');
           if (expressionParts.length < 2) {
@@ -148,6 +146,7 @@ export class ModelBinder<VM extends object> {
         });
         Object.keys(modelInstance).forEach(prop => mbInstance.notify(prop));
       }
+
     });
     return mbInstance;
   }
@@ -164,8 +163,8 @@ export class ModelBinder<VM extends object> {
    * Set the object (model) the component is bound to. This is a proxy that monitors changes and renders the bound elements using binders.
    * @param scope An object instance that is monitored for binding
    */
-  public setScope<T = VM>(scope: VM): VM {
-    this.scope = new Proxy(scope, {
+  public set scope(scope: VM) {
+    this._scopeProxy = new Proxy(scope, {
       get: (target: any, key: string, receiver: ProxyConstructor) => {
         return target[key];
       },
@@ -180,14 +179,13 @@ export class ModelBinder<VM extends object> {
       }
     });
     Object.keys(scope).forEach(prop => this.notify(prop));
-    return this.getScope();
   }
 
   /**
-   * Returns the scope, which is a Proxy, so changes to properties are pushed to binders.
+   * Returns the scope's proxy instance, so changes to properties are pushed to binders.
    */
-  public getScope(): VM {
-    return this.scope as unknown as VM;
+  public get scope(): VM {
+    return this._scopeProxy as unknown as VM;
   }
 
   /**

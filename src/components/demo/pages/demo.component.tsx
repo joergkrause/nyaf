@@ -288,7 +288,7 @@ changeOtherButton(e: CustomEvent) {
   }
 
   onLifeCycle(e: CustomEvent) {
-    console.log('LifeCycle Event', e.detail);
+    // console.log('LifeCycle Event', e.detail);
   }
 
   lifeCycle(lc: LifeCycle) {

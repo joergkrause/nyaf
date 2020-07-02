@@ -56,19 +56,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    */
   public static readonly selector: string;
 
-  /**
-   * A shortcut to access elements after rendering that have `n-sel` attribute.
-   * Example: `<button n-sel='bbb' />`
-   * Access this element within the component easily like this `this.$['bbb']`.
-   * If there are multiple definitions with same key an array is being delivered.
-   */
-  public get ['$'](): { [selectable: string]: HTMLElement | HTMLElement[] } {
-    if ((<any>this.constructor).withShadow) {
-      return this.shadowRoot['__$'];
-    } else {
-      return this['__$'];
-    }
-  }
 
   public get ['$$']() { return this.querySelector; }
   public get ['$$$']() { return this.querySelectorAll; }
@@ -91,6 +78,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * * third a property 'onLifecycle' is being called if a handler function is attached.
    */
   protected set lifeCycleState(lc: LifeCycle) {
+    // TODO: make the lifecycle chain correct by collecting children first
+    // <a><b></b></a>: Init A, Init B, Load B, Load A, Dispose B, Dispose A
     const parentWalk = (el: HTMLElement, evt: string) => {
       if (!el.parentElement) {
         return null;
@@ -105,8 +94,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       return parentWalk(el.parentElement, evt);
     };
     this._lifeCycleState = lc;
-    // sync lifecycle callback
-    this.lifeCycle(lc);
     // for async apps also an event
     const lifeCycleEvent = new CustomEvent('lifecycle', {
       bubbles: true,
@@ -114,7 +101,11 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       composed: false,
       detail: lc
     });
-    this.dispatchEvent(lifeCycleEvent);
+    // handlers first, so they could cancel
+    if (this.dispatchEvent(lifeCycleEvent)) {
+      // sync lifecycle callback
+      this.lifeCycle(lc);
+    }
     // TODO: Duplicate of GlobalProvider event handler, simplify code
     if (this.getAttribute('onlifecycle')) {
       let evt = this.getAttribute('onlifecycle');
@@ -169,6 +160,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           .join(' ');
       }
     }
+    // tslint:disable-next-line: no-unused-expression
+    (<any>this).model;
   }
 
   __uniqueId__: any;
@@ -207,19 +200,16 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           this.setAttribute(`__${prop}__arr__`, value);
           (<any>obj)[prop] = new Proxy(JSON.parse(value), {
             get(target, innerProp: string) {
-              console.log('access my array', innerProp);
               const val = target[innerProp];
               if (typeof val === 'function') {
                 if (['push', 'unshift'].includes(innerProp)) {
                   return function (el) {
-                    console.log('this is a array modification');
                     return Array.prototype[innerProp].apply(target, arguments);
                   }
                 }
                 if (['pop'].includes(innerProp)) {
                   return function () {
                     const el = Array.prototype[innerProp].apply(target, arguments);
-                    console.log('this is a array modification');
                     return el;
                   }
                 }
@@ -305,6 +295,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    */
   protected async setup(): Promise<void> {
     this.lifeCycleState = LifeCycle.PreRender;
+    let $this: BaseComponent = null;
     if ((<any>this.constructor).withShadow) {
       const template = document.createElement('template');
       template.innerHTML = await this.render();
@@ -317,30 +308,34 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           this.shadowRoot.appendChild(style);
         }
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this.setShortSelectables(this.shadowRoot);
+        $this = this.shadowRoot as unknown as BaseComponent;
       }
     } else {
       this.innerHTML = await this.render();
-      this.setShortSelectables(this);
+      $this = this;
     }
-    this.lifeCycleState = LifeCycle.Load;
+    // query all children and wait for load cycle, invoke own load, then
+    const childLoaders = [];
+    Array.from($this.querySelectorAll('*')).forEach(wc => {
+      if (wc instanceof BaseComponent) {
+        const p = new Promise<void>(resolve => {
+          wc.addEventListener('lifecycle', (e: CustomEvent) => {
+            if (e.detail === LifeCycle.Load) {
+              resolve();
+            }
+          });
+        });
+        childLoaders.push(p);
+      }
+    });
+    if (childLoaders.length) {
+      await Promise.all(childLoaders);
+      this.lifeCycleState = LifeCycle.Load;
+    } else {
+      this.lifeCycleState = LifeCycle.Load;
+    }
   }
 
-  private setShortSelectables(root: HTMLElement | ShadowRoot) {
-    const selectables = root.querySelectorAll('[n-sel]');
-    root['__$'] = {};
-    if (selectables) {
-      for (let i = 0; i < selectables.length; i++) {
-        const name = selectables[i].getAttribute('n-sel');
-        const value = selectables[i];
-        if (root['__$'][name]) {
-          root['__$'][name] = [];
-          root['__$'][name].push(value);
-        }
-        root['__$'][name] = value;
-      }
-    }
-  }
 
   /**
    * Change the state of the internal data object. If necessary, the component re-renders. Render can be suppressed.
@@ -350,7 +345,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param newValue The actual new value.
    * @param noRender Prevent or enforce the re-rendering. Used if multiple attributes are being written and a render process for each is not required.
    */
-  public async setData(name: keyof(P), newValue: any, noRender?: boolean): Promise<void> {
+  public async setData(name: keyof (P), newValue: any, noRender?: boolean): Promise<void> {
     this.lifeCycleState = LifeCycle.SetData;
     const rerender = this.data[name] !== newValue;
     (this.data)[name] = newValue;
