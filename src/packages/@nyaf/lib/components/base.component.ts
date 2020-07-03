@@ -160,8 +160,11 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           .join(' ');
       }
     }
-    // tslint:disable-next-line: no-unused-expression
-    (<any>this).model;
+    // look for plugins that require ctor initialization, __ctor__ pattern
+    if ('__ctor__' in Object.getPrototypeOf(this)) {
+      // currently only one decorator has the opportunity to set the value and enforce an init
+      const dummy = this[this['__ctor__']];
+    }
   }
 
   __uniqueId__: any;
@@ -231,7 +234,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     }
   };
 
-  // ability to send data to elements from main window
+  // ability to send data to elements from main window (for Electron only)
   private receiveMessage(event) {
     if (event.data.type === 'setData' && (event.data.target === this.readAttribute('id', '') || this.localName === event.data.target)) {
       this.setData.apply(this, event.data.args);

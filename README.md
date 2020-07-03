@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/npm/l/%40nyaf%2Flib.svg?style=flat-square)](https://npmjs.com/package/@nyaf/lib)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/joergisageek)
 
-# NYAF is "Not Yet Another Framework"
+# @nyaf is "Not Yet Another Framework"
 
 And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools. And it's 34KB zipped only, for all three parts together, of course.
 
@@ -22,6 +22,8 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 * I want to use WebPack and other common tools.
 * I want to use standards, no weird CLI, no vendor lock in.
 * I want to use smart decorators for controlling stuff, not code within the component, for separation of concerns style.
+
+> All three base parts (library, form binding, store) together have less than 100 KB; 26 KB zipped in total.
 
 ## Approach
 
@@ -845,13 +847,13 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 Is it worth coding with NYAF and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual sizes (0.5.19):
+Actual sizes (0.5.20):
 
-* Lib:    31 KB --> 10 KB zipped (always needed)
-* Forms:  43 KB --> 13 KB zipped (Forms binding, validation, decorators)
-* Store:  34 KB --> 11 KB zipped (Flux like store for state management)
+* Lib:    26 KB -->  8 KB zipped (always needed)
+* Forms:  41 KB --> 10 KB zipped (Forms binding, validation, decorators)
+* Store:  29 KB -->  8 KB zipped (Flux like store for state management)
 
-* Total: 108 KB --> 34 KB zipped all files together for your project
+* Total:  96 KB --> 26 KB zipped all files together for your project
 
 However, compared with React or Angular it's a lot simpler. Compared to Vue, Svelte or Polymer it's simpler and even smaller, but the delta is not that thrilling.
 

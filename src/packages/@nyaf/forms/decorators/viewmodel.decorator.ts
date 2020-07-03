@@ -76,11 +76,19 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, o
   if (!target.prototype) {
     throw new Error('Decorator must be run on an instanciable component.');
   }
+  // the base component has a setup procedure that calls the property
+  Object.defineProperty(target.prototype, `__ctor__`, {
+    value: 'model',
+    enumerable: false,
+    configurable: false
+  });
+  // store the binder instance itself
   Object.defineProperty(target.prototype, `__modelbinder__`, {
     writable: true,
     enumerable: false,
     configurable: false
   });
+  // make an instance on first request
   Object.defineProperty(target.prototype, 'model', {
     get: function () {
       if (!target.__modelbinder__) {
@@ -88,7 +96,7 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, o
       }
       const $this: BaseComponent = this as BaseComponent;
       if (!target.__modelbinder__[$this.__uniqueId__]) {
-        target.__modelbinder__[$this.__uniqueId__] = ModelBinder.initialize(this, options?.handler); // the actual component
+        target.__modelbinder__[$this.__uniqueId__] = ModelBinder.initialize(this /* the actual component */, options?.handler);
       }
       return target.__modelbinder__[$this.__uniqueId__];
     }
