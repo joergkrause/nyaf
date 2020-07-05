@@ -60,5 +60,6 @@ UI decorators control the appearance of elements. Not all have an immediate effe
 |**@Placeholder**| A watermark that appears in empty form fields|
 |**@ReadOnly**| Forces a particular render type. Usually you get fields a shown in the table below. With a hint you can force other types.|
 |**@TemplateHint**| What kind of field (text, number, date, ...) and additional styles or classes. |
+|**@Translate**| For i18n of components |
 
 > :ToCPrevNext

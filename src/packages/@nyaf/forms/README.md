@@ -1,15 +1,15 @@
 [![Version](https://img.shields.io/npm/v/%40nyaf%2Fforms.svg?style=flat-square)](https://npmjs.com/package/@nyaf/forms)
 [![License](https://img.shields.io/npm/l/%40nyaf%2Fforms.svg?style=flat-square)](https://npmjs.com/package/@nyaf/forms)
 
-# NYAF is "Not Yet Another Framework"
+# @nyaf is "Not Yet Another Framework"
 
 And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools.
 
 ## Preface
 
-This is an extension to the famous micro framework NYAF. You need to build your project on top of NYAF, then *@nyaf/forms* makes your life easier, again.
+This is an extension to the famous micro framework **@nyaf**. You need to build your project on top of **@nyaf**, then *@nyaf/forms* makes your life easier, again.
 
-# NYAF-FORMS
+# @nyaf Forms Module
 
 Forms provides these basic features:
 
@@ -81,17 +81,16 @@ The last (optional) parameter of the validation decorators is a custom error mes
 |**@Placeholder**| A watermark that appears in empty form fields|
 |**@ReadOnly**| Forces a particular render type. Usually you get fields a shown in the table below. With a hint you can force other types.|
 |**@TemplateHint**| What kind of field (text, number, date, ...) and additional styles or classes. |
+|**@Translate**| For i18n of components |
 
 ## Template language
 
-NYAF has a simple template language. For forms it's just one for any input element:
+**@nyaf** has a simple template language. For forms it's just one for any input element:
 
 ~~~
-
 model: ModelBinder<UserViewModel>; // instance created by decorator
 
 async render() {
-  const model: UserViewModel = new UserViewModel(); // or where ever the model comes from
   return await (
     <>
       <form>
@@ -118,14 +117,14 @@ if (username.touched){
 For a good UI you need a label usually:
 
 ~~~
-<label n-model="UserViewModel" name="@userName" />
+<label n-bind="innerText: userName" />
 ~~~
 
 ### Forms
 
 The model is provided by a decorator
 
-~~~
+~~~tsx
 @ViewModel(ModelType)
 export class component extends BaseComponent<any> implements IModel<ModelType> {
 
@@ -133,10 +132,10 @@ export class component extends BaseComponent<any> implements IModel<ModelType> {
     return await (
       <form>
         <label n-bind="innerText: userName" for="un"/>
-        <input n-bind="value; userName" id="un" />
+        <input n-bind="value: userName" id="un" />
         <br />
         <label n-bind="innerText: city" for="city"/>
-        <input n-bind="value: @city" id ="city" />
+        <input n-bind="value: city" id ="city" />
      </form>
     )
   }
@@ -146,15 +145,26 @@ export class component extends BaseComponent<any> implements IModel<ModelType> {
 
 Forms bind data. It's bi-directional or uni-directional depending on the chosen handler.
 
+#### Access the data
+
+From code it's also possible:
+
+~~~ts
+const value = this.model.scope.property;
+this.model.scope.property = 'another value';
+~~~
+
+The proxy object is available through *scope*. Binding is dependent on binding handler (bi- or uni-directional).
+
 ### Validation
 
 The error message is just regular output (class example from Bootstrap,not needed by **nyaf** forms):
 
-~~~
+~~~html
 <form>
   <label n-bind="innerText: userName" for="un"/>
   <input n-bind="value: userName" id="un">
-  <div class="text text-danger" n-if="!@userName.valid && @userName.touched">Oops, something got wrong</div>
+  <div class="text text-danger" n-if={!@userName.valid && @userName.touched}>Oops, something got wrong</div>
 </form>
 ~~~
 
@@ -162,7 +172,7 @@ Again, note the *@* signs preceding the property names.
 
 Validators can provide the error text, too:
 
-~~~
+~~~tsx
 <form>
   <label n-bind="innerText: userName" for="un"/>
   <input n-bind="value: userName" id="un">
@@ -174,7 +184,7 @@ Validators can provide the error text, too:
 
 Distinguish between different validators like this:
 
-~~~
+~~~tsx
 <form>
   <label n-bind="innerText: userName" for="un"/>
   <input n-bind="value: userName" id="un">
@@ -199,7 +209,7 @@ Objects are always set (not undefined), so you don't must test first. The proper
 
 For a nice view decorators applied to class properties control the appearance. Use `FormsComponent` as new base class (instead of `BaseComponent`). Use the decorator `@ViewModel<T>(T)` to define the model. The generic is the type, the constructor parameter defines the default values (it's **mandatory**).
 
-~~~
+~~~ts
 export class Model {
   @Hidden()
   id: number = 0;
@@ -218,7 +228,7 @@ export class MainComponent extends FormsComponent {
 
 Within the component, this is now present.
 
-~~~
+~~~ts
 this.modelState = {
   isValid: boolean,
   isPresent: boolean,
@@ -228,6 +238,58 @@ this.modelState = {
 ~~~
 
 It's supervised. After render *this.modelState* helds the state of the model.
+
+
+## Smart Binders
+
+There is an alternative syntax that provides full type support:
+
+~~~tsx
+<label n-bind={to<ContactModel>(c => c.email, 'innerText', Display)}></label>
+~~~
+
+Use the function `to<Type>` from *@nyaf/forms*. The parameters are as follows:
+
+1. An expression to select a property type safe
+2. The property of the element. Any property available in `HTMLElement` is allowed (and it's restricted to these).
+3. The (optional) type of decorator that's used to pull data from. If it's omitted, the actual data appear.
+
+Obviously you could think about writing this:
+
+~~~tsx
+<input n-bind={to<ContactModel>(c => c.email, 'value')} />
+~~~
+
+This is rejected by the compiler, because the property *value* doesn't exists in `HTMLElement`. To provide another type, just use a second generic type parameter:
+
+~~~tsx
+<input n-bind={to<ContactModel, HTMLInputElement>(c => c.email, 'value')} />
+~~~
+
+Here you tell the compiler, that it's safe to use `HTMLInputElement` and so the editor allows *value* as the second parameter. An even smarter way is to use the lambda here, too:
+
+~~~tsx
+<input n-bind={to<ContactModel, HTMLInputElement>(c => c.email, c => c.value)} />
+~~~
+
+But, both ways are type safe, even the string is following a constrain. The string is usually shorter, the lambda might use an earlier suggestion from Intellisense.
+
+### Even More Smartness
+
+You may also define your component as a generic:
+
+~~~ts
+// ContactModel defined elsewhere
+export class ContactComponent<T extends ContactModel> extends BaseComponent implements IModel<ContactModel> {
+~~~
+
+And in that case use a shorter from to express the binding:
+
+~~~tsx
+<label n-bind={to<T>(c => c.email, c => c.innerText)} />
+~~~
+
+That's cool, isn't it? Now we have a fully type save binding definition in the middle of the TSX part without any additions to regular HTML.
 
 # Recap
 

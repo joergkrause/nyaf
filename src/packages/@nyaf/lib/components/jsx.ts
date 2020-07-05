@@ -29,6 +29,7 @@ const JSX = {
     let propsstr =
       Object.keys(props)
         .map(key => {
+          // TODO: make this an Map and check for duplicate attributes
           const value = props[key];
           switch (key) {
             case 'className':
@@ -54,7 +55,6 @@ const JSX = {
               ifStore = !!value;
               break;
             case 'n-repeat':
-              console.log('REPEATER', name, props, content);
               try {
                 const data: [] = JSON.parse(props['n-repeat']);
                 delete props['n-repeat'];
@@ -136,7 +136,7 @@ const JSX = {
       propsstr += `style="${styles}"`;
     }
     // if repeater, we don't return the former repeater template, but just the generated code
-    return isRepeater ? propsstr : (`<${name} ${propsstr}>${flat(content).join('')}</${name}>`);
+    return isRepeater ? propsstr : (`<${name}${propsstr ? ' ' : ''}${propsstr}>${flat(content).join('')}</${name}>`);
   }
 };
 export default JSX;

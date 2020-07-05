@@ -34,7 +34,7 @@ if (username.touched){
 For a good UI you need a label usually:
 
 ~~~html
-<label n-model="UserViewModel" name="@userName" />
+<label n-bind="innerText: userName" />
 ~~~
 
 ### Forms

@@ -30,7 +30,6 @@ export class RouterComponent extends BaseComponent<{ cnt: number }> {
   async render() {
     return await (
       <>
-        <app-contact></app-contact>
         <ul class='nav nav-pills'>
           <li class='nav-item'>
             <a class='nav-link' n-link='active' href='#/router/page1'>Page 1 (main)</a>

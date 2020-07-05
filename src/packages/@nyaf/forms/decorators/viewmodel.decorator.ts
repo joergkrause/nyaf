@@ -73,23 +73,24 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, o
       configurable: false
     });
   }
-  if (!target.prototype) {
+  const targetPrototype = target.prototype;
+  if (!targetPrototype) {
     throw new Error('Decorator must be run on an instanciable component.');
   }
   // the base component has a setup procedure that calls the property
-  Object.defineProperty(target.prototype, `__ctor__`, {
+  Object.defineProperty(targetPrototype, `__ctor__`, {
     value: 'model',
     enumerable: false,
     configurable: false
   });
   // store the binder instance itself
-  Object.defineProperty(target.prototype, `__modelbinder__`, {
+  Object.defineProperty(targetPrototype, `__modelbinder__`, {
     writable: true,
     enumerable: false,
     configurable: false
   });
-  // make an instance on first request
-  Object.defineProperty(target.prototype, 'model', {
+  // make an instance on first request, this prop will become public through IModel interface
+  Object.defineProperty(targetPrototype, 'model', {
     get: function () {
       if (!target.__modelbinder__) {
         target.__modelbinder__ = {};
