@@ -1,6 +1,7 @@
 import { LifeCycle } from './lifecycle.enum';
 import { GlobalProvider } from '../code/globalprovider';
 import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../code/utils';
+import { isString } from 'util';
 
 /**
  * The structure that defines the state object.
@@ -55,10 +56,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * Set by decorator @see {CustomElement}. It's the element's name in CSS selector style.
    */
   public static readonly selector: string;
-
-
-  public get ['$$']() { return this.querySelector; }
-  public get ['$$$']() { return this.querySelectorAll; }
 
   /**
    * Observe all registered attributes. The source field is set by the @see {Properties} decorator.
@@ -198,8 +195,11 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           this.setAttribute(`__${prop}__bool__`, '');
         } else if (isNumber(value)) {
           this.setAttribute(`__${prop}__num__`, '');
-        } else if (value.match(/^\[.*\]$/) && isArray(JSON.parse(value))) {
+        } else if (isArray(value) || (isString(value) && (value.match(/^\[.*\]$/) && isArray(JSON.parse(value))))) {
           // an array we observe too
+          if (isArray(value)) {
+            value = JSON.stringify(value);
+          }
           this.setAttribute(`__${prop}__arr__`, value);
           (<any>obj)[prop] = new Proxy(JSON.parse(value), {
             get(target, innerProp: string) {
@@ -349,14 +349,15 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param noRender Prevent or enforce the re-rendering. Used if multiple attributes are being written and a render process for each is not required.
    */
   public async setData(name: keyof (P), newValue: any, noRender?: boolean): Promise<void> {
-    this.lifeCycleState = LifeCycle.SetData;
     const rerender = this.data[name] !== newValue;
     (this.data)[name] = newValue;
     // something is new so we rerender
     if (rerender && noRender === void 0) {
+      this.lifeCycleState = LifeCycle.SetData;
       await this.setup();
     } else {
       if (noRender === false) {
+        this.lifeCycleState = LifeCycle.SetData;
         await this.setup();
       }
     }

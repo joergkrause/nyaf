@@ -115,12 +115,20 @@ export class ModelBinder<VM extends object> {
       // prevent other components in the render body from bubbling their lifeCycle state to their parent
       // that happens if the binder binds to both, the parent and the children.
       if (e.detail === LifeCycle.Load && component.__uniqueId__ === (e.target as BaseComponent).__uniqueId__) {
+        // this is the single binder
         const elements = isShadowed ? component.shadowRoot.querySelectorAll('[n-bind]') : component.querySelectorAll('[n-bind]');
         mbInstance.scope = modelInstance;
         elements.forEach((el: HTMLElement) => {
-          const expressionParts = el.getAttribute('n-bind').split(':');
-          if (expressionParts.length < 2) {
-            throw new Error('[n-bind] not properly formatted. Requires at least two parts: n-bind="targetProperty: sourceProperty".');
+          let expressionParts = el.getAttribute('n-bind').split(':');
+          if (expressionParts.length === 0) {
+            // an empty n-bind is an indicator that we use attribute binding for multiple bindings
+            // the bind<>() function creates something like "n-bind:...." while the rest is as usualy
+            const toBind = Array.from(el.attributes).filter(a => a.value.startsWith('n-bind'));
+            // TODO: loop through all attributes with bindings and assign the same as regular n-bind (below code must be a function )
+          } else {
+            if (expressionParts.length < 2) {
+              throw new Error('[n-bind] not properly formatted. Requires at least two parts: n-bind="targetProperty: sourceProperty".');
+            }
           }
           const bindingHandler = expressionParts[0].trim();
           const scopeKey = expressionParts[1].trim();

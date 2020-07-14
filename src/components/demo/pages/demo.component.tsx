@@ -1,4 +1,4 @@
-import JSX, { BaseComponent, CustomElement, LifeCycle } from '@nyaf/lib';
+import JSX, { BaseComponent, CustomElement, LifeCycle, Select } from '@nyaf/lib';
 import { ComplexComponent } from '../complex.component';
 import { ComplexBoolComponent } from '../complexbool.component';
 import { ButtonComponent } from '../button.component';
@@ -297,8 +297,14 @@ changeOtherButton(e: CustomEvent) {
     }
   }
 
+  // tslint:disable-next-line: member-ordering
+  @Select('#complexDemo') complexDemo: ComplexComponent;
+
   setOther(e: Event) {
-    (this.querySelector('#complexDemo') as ComplexComponent).setData('demo', [{ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 }]);
+    const cd = this.complexDemo;
+    if (cd) {
+      cd.setData('demo', [{ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 }]);
+    }
   }
 
   setYesNo(e: Event) {

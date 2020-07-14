@@ -17,7 +17,7 @@ export class AboutComponent extends BaseComponent {
           framework, so using Web Components was a good choice. It turns out, that some pieces require repeating steps. That leads to some functions.
           NYAF is a collection of these helpful functions encapsulated as a package.
         </p>
-        <h3>Imprint</h3>
+        <h3 class='n-bind:class:value'>Imprint</h3>
         <p>
           <addr>Jörg Krause</addr>
           <addr>Hafersteig 113</addr>

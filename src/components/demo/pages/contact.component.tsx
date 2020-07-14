@@ -1,4 +1,4 @@
-import { BaseComponent, LifeCycle } from '@nyaf/lib';
+import { BaseComponent, LifeCycle, Select } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ContactModel } from './models/contact.model';
 import { ViewModel, ModelBinder, IModel, to, Display, Email } from '@nyaf/forms/';
@@ -8,12 +8,17 @@ import { ViewModel, ModelBinder, IModel, to, Display, Email } from '@nyaf/forms/
 export class ContactComponent<T extends ContactModel> extends BaseComponent implements IModel<ContactModel> {
 
   model: ModelBinder<ContactModel>;
+  @Select('#mybtn') btn: HTMLButtonElement;
 
   constructor() {
     super();
   }
 
   async render() {
+    const d = {
+      'renderer': true,
+      'data': 123
+    };
     return await (
       <>
         <h2>Contact</h2>
@@ -39,7 +44,7 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
           <div>
             <label n-bind='innerText: email' />
           </div>
-          <app-button class='col-6' text='Show the bound value' n-on-showAlert={this.showEmail} />
+          <app-button class='col-6' text='Show the bound value' n-on-showAlert={this.showEmail} {...d} />
         </form>
       </>
     );
@@ -55,7 +60,7 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
 
   lifeCycle(state: LifeCycle) {
     if(LifeCycle.Load === state) {
-      this.$$<HTMLButtonElement>('#mybtn').innerText = 'Click to empty form';
+      this.btn.innerText = 'Click to empty form';
     }
   }
 
