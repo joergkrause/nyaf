@@ -1,4 +1,4 @@
-import { Required, Email, MaxLength, Display, Translate } from '@nyaf/forms';
+import { Required, Email, MaxLength, Display, Translate, Hidden } from '@nyaf/forms';
 
 const json = {
   'Contact eMail': 'Kontakt-E-Mail'
@@ -30,6 +30,9 @@ export class ContactModel {
 
   @Display('Is important')
   important = false;
+
+  @Hidden()
+  toggleType: 'text' | 'password' = 'text';
 
   init(data: Partial<ContactModel>) {
     this.email = data.email;

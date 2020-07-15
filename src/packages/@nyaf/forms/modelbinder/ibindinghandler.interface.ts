@@ -5,6 +5,6 @@ import { Binding } from './binding.class';
  */
 export interface IBindingHandler {
   bind(binding: Binding): void;
-  react(binding: Binding): void;
+  react(binding: Binding, property?: string): void;
   listener?(binding: Binding): void;
 }

@@ -875,7 +875,7 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 Is it worth coding with NYAF and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual sizes (0.5.20):
+Actual sizes (0.5.21):
 
 * Lib:    26 KB -->  8 KB zipped (always needed)
 * Forms:  41 KB --> 10 KB zipped (Forms binding, validation, decorators)

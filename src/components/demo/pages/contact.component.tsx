@@ -1,7 +1,8 @@
 import { BaseComponent, LifeCycle, Select } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ContactModel } from './models/contact.model';
-import { ViewModel, ModelBinder, IModel, to, Display, Email } from '@nyaf/forms/';
+import { ViewModel, ModelBinder, IModel, to, Display, bind } from '@nyaf/forms/';
+import { ValueBindingHandler } from '@nyaf/forms/modelbinder/handlers/valuebindinghandler.class';
 
 @CustomElement('app-contact')
 @ViewModel(ContactModel, { factory: m => m.email = 'bla@fasel.com' })
@@ -34,6 +35,14 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
             <input n-bind={to<ContactModel, HTMLInputElement>(c => c.email, c => c.value)} />
             <h4>Field 3 (Smart Binding with "to" and strings)</h4>
             <input n-bind={to<T, HTMLInputElement>(c => c.email, 'value')} />
+            <h4>Field 4 (Smart Binding with "bind" and multi attribute binding)</h4>
+            <input value={bind<T>(c => c.email)} type={bind<T>(c => c.toggleType)} n-bind /> <button type='button' n-on-click={this.changeType}>Toggle type with binding</button>
+            <p>
+              The binder falls back to the default binder, which is unidirectional, hence the values typed here do not change to object.
+              But if the object changes, it's reflected in the value.
+            </p>
+            <h4>Field 5 (Smart Binding with "bind" and assigned handler)</h4>
+            <input value={bind<T>(c => c.email, ValueBindingHandler)} n-bind />
             <h4>Validiation Logic Test</h4>
             {/* <div class='alert alert-danger' n-bind='innerText: email: errPattern' n-show={this.model.state.validators?.email.type.pattern}></div> */}
             <div class='alert alert-danger' n-bind='innerText: email: errRequired' ></div>
@@ -48,6 +57,10 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
         </form>
       </>
     );
+  }
+
+  changeType(e: Event) {
+    this.model.scope.toggleType = this.model.scope.toggleType === 'text' ? 'password' : 'text';
   }
 
   showEmail() {

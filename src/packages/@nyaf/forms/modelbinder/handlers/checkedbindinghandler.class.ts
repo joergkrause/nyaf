@@ -1,5 +1,5 @@
-import { Binding } from './binding.class';
-import { IBindingHandler } from './ibindinghandler.interface';
+import { Binding } from '../binding.class';
+import { IBindingHandler } from '../ibindinghandler.interface';
 
 /**
  * This handler binds the property 'checked' and listens to the 'input' event.

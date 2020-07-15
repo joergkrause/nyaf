@@ -1,10 +1,12 @@
 import { Binding } from './binding.class';
 import { IBindingHandler } from './ibindinghandler.interface';
-import { CheckedBindingHandler } from './checkedbindinghandler.class';
-import { ValueBindingHandler } from './valuebindinghandler.class';
-import { TextBindingHandler } from './textbindinghandler.class';
+import { CheckedBindingHandler } from './handlers/checkedbindinghandler.class';
+import { ValueBindingHandler } from './handlers/valuebindinghandler.class';
+import { TextBindingHandler } from './handlers/textbindinghandler.class';
+import { DefaultBindingHandler } from './handlers/defaultbindinghandler.class';
 import { ModelState } from './modelstate.class';
 import { LifeCycle, BaseComponent } from '@nyaf/lib';
+import { isBoolean } from 'util';
 
 /**
  * The modelbinder servers two purposes:
@@ -98,6 +100,7 @@ export class ModelBinder<VM extends object> {
     mbInstance.handlers['value'] = new ValueBindingHandler();
     mbInstance.handlers['innerText'] = new TextBindingHandler();
     mbInstance.handlers['checked'] = new CheckedBindingHandler();
+    mbInstance.handlers['default'] = new DefaultBindingHandler();
     if (handler) {
       Object.assign(mbInstance.handlers, handler);
     }
@@ -119,35 +122,26 @@ export class ModelBinder<VM extends object> {
         const elements = isShadowed ? component.shadowRoot.querySelectorAll('[n-bind]') : component.querySelectorAll('[n-bind]');
         mbInstance.scope = modelInstance;
         elements.forEach((el: HTMLElement) => {
-          let expressionParts = el.getAttribute('n-bind').split(':');
-          if (expressionParts.length === 0) {
+          let expressionParts: string[];
+          if ('true' === el.getAttribute('n-bind')) {
             // an empty n-bind is an indicator that we use attribute binding for multiple bindings
             // the bind<>() function creates something like "n-bind:...." while the rest is as usualy
             const toBind = Array.from(el.attributes).filter(a => a.value.startsWith('n-bind'));
-            // TODO: loop through all attributes with bindings and assign the same as regular n-bind (below code must be a function )
+            toBind.forEach(attrBind => {
+              // `n-bind:${sourceProperty}:${realTarget}:`
+              expressionParts = attrBind.value.split(':');
+              const [, scopeKey, handlerClass, decoratorKey] = expressionParts;
+              const bindingHandler = Object.keys(mbInstance.handlers).filter(k => mbInstance.handlers[k].constructor.name === handlerClass).shift()
+              ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), bindingHandler, decoratorKey?.trim(), attrBind.name);
+            });
           } else {
-            if (expressionParts.length < 2) {
-              throw new Error('[n-bind] not properly formatted. Requires at least two parts: n-bind="targetProperty: sourceProperty".');
+            expressionParts = el.getAttribute('n-bind').split(':');
+            if (expressionParts.length >= 2) {
+              const [bindingHandler, scopeKey, decoratorKey] = expressionParts;
+              ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), bindingHandler?.trim(), decoratorKey?.trim());
             }
-          }
-          const bindingHandler = expressionParts[0].trim();
-          const scopeKey = expressionParts[1].trim();
-          // decorator bindings
-          if (expressionParts.length === 3) {
-            const decoratorKey = expressionParts[2].trim();
-            // key is: display.text or display.desc
-            const decoratorProp = `__${decoratorKey}__${scopeKey}`;
-            if (modelInstance.constructor.prototype[decoratorProp]) {
-              const binding = new Binding(decoratorProp, bindingHandler, mbInstance, el);
-              binding.bind();
-              // no value assign as all decorators are readonly
-            }
-          } else {
-            // property bindings
-            if (modelInstance.hasOwnProperty(scopeKey)) {
-              const binding = new Binding(scopeKey, bindingHandler, mbInstance, el);
-              binding.bind();
-              binding.value = modelInstance[scopeKey];
+            if (expressionParts.length === 1) {
+              throw new Error('[n-bind] not properly formatted. Requires at least two parts: n-bind="targetProperty: sourceProperty". Alternatively leave empty and and attribute binders using {bind<T>()} instructions.');
             }
           }
           // TODO: Look for validators and handle validation
@@ -157,6 +151,26 @@ export class ModelBinder<VM extends object> {
 
     });
     return mbInstance;
+  }
+
+  private static setBinding(modelInstance: any, mbInstance: ModelBinder<any>, el: HTMLElement, scopeKey: string, bindingHandler: string, decoratorKey?: string, prop?: string) {
+    // decorator bindings
+    if (decoratorKey) {
+      // key is: display.text or display.desc
+      const decoratorProp = `__${decoratorKey}__${scopeKey}`;
+      if (modelInstance.constructor.prototype[decoratorProp]) {
+        const binding = new Binding(decoratorProp, bindingHandler, mbInstance, el);
+        binding.bind(prop);
+        // no value assign as all decorators are readonly
+      }
+    } else {
+      // property bindings
+      if (modelInstance.hasOwnProperty(scopeKey)) {
+        const binding = new Binding(scopeKey, bindingHandler, mbInstance, el);
+        binding.bind(prop);
+        binding.value = modelInstance[scopeKey];
+      }
+    }
   }
 
   /**
