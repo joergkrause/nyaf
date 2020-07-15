@@ -9,8 +9,8 @@ import { LifeCycle, BaseComponent } from '@nyaf/lib';
 import { isBoolean } from 'util';
 
 /**
- * The modelbinder servers two purposes:
- * First, the bi-directional data binding, Second, the converting of validation decorators into validation instrcutions.
+ * The modelbinder serves two purposes:
+ * First, the bi-directional data binding. Second, the converting of validation decorators into validation instructions.
  *
  * The bi-directional binding is uni-directional if the element doesn't support user input. That means, you can bind
  * any element. The binding is based on a @see Proxy class and requires ES2015 natively.
@@ -19,19 +19,13 @@ import { isBoolean } from 'util';
  *
  * ```
  * @ViewModel(UserModel)
+ * export class Component extends BaseComponent<{}> implements IModel<UserModel>
  * ```
  *
- * In the @see LifeCycle callback you wait for @see LifeCycle.Load. Here you place the initializer that connects the form to the binder:
+ * At any part of your component you can now access a real object that is being synhcronized:
  *
  * ```
- * ModelBinder.initialize(this)
- * ```
- *
- * At any part of your component you can now assign a real object that is being synhcronized:
- *
- * ```
- * const modelInstance: UserModel = new UserModel();
- * ModelBinder.scope = modelInstance;
+ * model: ModelBinder<UserModel>;
  * ```
  *
  * In the form you define the binding with the property `n-bind` like this:
@@ -62,7 +56,7 @@ import { isBoolean } from 'util';
  * to do this in the Lifecycle.Load step, you can add your custom handler:
  *
  * ```
- * this.model.handlers['custom', new MyHandler()];
+ * @ViewModel(UserModel, { handlers: { 'custom': CustomHandler } })
  * ```
  *
  * The `model` property is enforced by the @see IModel<VM> interface. That's for typing, the actual value is created at

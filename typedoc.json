@@ -1,4 +1,5 @@
 {
+  "ignoreCompilerErrors": true,
   "mode": "file",
-  "out": "dist/documentation"
+  "out": "dist/apidoc"
 }

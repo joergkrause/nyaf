@@ -64,19 +64,9 @@
       "name": "postNavSearch",
       "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/search/post-nav/index.js",
       "hash": "IOvLbRJQlENFFENsmW/wiw=="
-    },
-    {
-      "name": "reloadOnChange",
-      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/serve/reload.js",
-      "hash": "M70ONomYAYQlxQYBi1gbAw=="
     }
   ],
   "components": [
-    {
-      "name": "ToCPrevNext",
-      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/prevnext/index.js",
-      "hash": "/Rv4lKxSQDV+A9gB+NmB2w=="
-    },
     {
       "name": "CollapseControl",
       "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js",
@@ -103,9 +93,9 @@
       "hash": "wAzqqM6AQLzQM6LQebkSEQ=="
     },
     {
-      "name": "TabSelector",
-      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/tabs/selector.js",
-      "hash": "SE0qCFLGwbJ2jOzDB6USzQ=="
+      "name": "ToCPrevNext",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/prevnext/index.js",
+      "hash": "/Rv4lKxSQDV+A9gB+NmB2w=="
     }
   ],
   "renderer": {

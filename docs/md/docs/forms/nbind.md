@@ -138,6 +138,31 @@ Here you tell the compiler, that it's safe to use `HTMLInputElement` and so the 
 
 But, both ways are type safe, even the string is following a constrain. The string is usually shorter, the lambda might use an earlier suggestion from Intellisense.
 
+### Multi Attribute Binding
+
+the `n-bind` attribute is exclusive, so you can bind only one attribute. That's fine for most cases, but sometimes you'll need multiple bindings. In Angular
+this is easy through the binding syntax around any element (`<input [type]="source" [value]="model">`). However, this would require a template compiler and
+additional editor support. To overcome a limitation here, a `bind` function available:
+
+In this example to properties are bound:
+
+~~~tsx
+<input value={bind<T>(c => c.email)} type={bind<T>(c => c.toggleType)} n-bind />
+~~~
+
+The binding handler is not provided, so it falls back to a `DefaultBindingHandler`, that binds uni-directional to the assigned attribute. That has two
+limitations. First, it's always uni-directional. Second, it can bind only to attributes of `HTMLElement`. Object properties, such as `textContent`or `innerText`
+cannot be reached that way. That's indeed the same with Angular, where you need to encapsulate elements in custom components to reach hidden properties,
+but in **@nyaf** there is a much smarter way.
+
+Imagine you'll bind to whatever, just assign another binding handler.
+
+~~~tsx
+<input value={bind<T>(c => c.email, ValueBindingHandler)} n-bind />
+~~~
+
+The binding handler may write into whatever property you like, even those not available as attributes. See (Custom Binders)[custombinders.md] for more details.
+
 ### Even More Smartness
 
 You may also define your component as a generic:
