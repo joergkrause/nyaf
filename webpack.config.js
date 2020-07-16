@@ -67,7 +67,7 @@ const webpackConfig = {
   },
   // How and where webpack should output bundles, assets and anything else
   output: {
-    path: path.resolve('./dist'),
+    path: path.resolve('./dist/demo'),
     filename: '[name].js'
   },
   // What bundle information gets displayed
@@ -88,7 +88,7 @@ const webpackConfig = {
         {
           from: './src/link.css',
           flatten: true,
-          to: './assets/css/'
+          to: './demo/assets/css/'
         }
       ]
     })

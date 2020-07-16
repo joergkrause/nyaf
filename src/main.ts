@@ -1,6 +1,6 @@
 import { GlobalProvider, Routes } from '@nyaf/lib';
 
-import { MainComponent } from './components/demo/main.component';
+import { MainComponent } from './components/demo/pages/main.component';
 import { TabsComponent } from './components/demo/tabs.component';
 import { TabComponent } from './components/demo/tab.component';
 import { SlotTabsComponent } from './components/demo/slottedtabs/tabs.component';

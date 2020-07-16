@@ -18,32 +18,37 @@ export class MainComponent extends BaseComponent<{}> {
           </li>
           <li class='nav-item'>
             <a class='nav-link' href='#/docu' n-link='active'>
-              Quickstart
+              Quick
             </a>
           </li>
           <li class='nav-item'>
-            <a class='nav-link' href='documentation/index.html' target='tech-docu'>
-              Technical Documentation (new tab)
+            <a class='nav-link' href='apidoc/index.html' target='apidoc'>
+              API &#x1f517;
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href='manual/index.html' target='manual'>
+              Manual 	&#x1f517;
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href='#/demo' n-link='active'>
+              @nyaf/lib
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href='#/router' n-link='active'>
+              @nyaf/store
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href='#/contact' n-link='active'>
+              @nyaf/forms
             </a>
           </li>
           <li class='nav-item'>
             <a class='nav-link' href='#/about' n-link='active'>
               About
-            </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/demo' n-link='active'>
-              Component Demo
-            </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/router' n-link='active'>
-              Router (SPA Demo)
-            </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/contact' n-link='active'>
-              Contact
             </a>
           </li>
         </ul>

@@ -11,6 +11,8 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 
 **Write frontend apps without the hassle of a complex framework, use the full power of HTML 5, keep a component based style.**
 
+**[Read the Docs](https://joergkrause.github.io/nyaf/)**
+
 ## Idea
 
 * I want to use JSX/TSX syntax for quick component dev.
@@ -875,7 +877,7 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 Is it worth coding with NYAF and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual sizes (0.5.21):
+Actual sizes (0.5.22):
 
 * Lib:    26 KB -->  8 KB zipped (always needed)
 * Forms:  41 KB --> 10 KB zipped (Forms binding, validation, decorators)
@@ -906,6 +908,8 @@ Inspired by:
 ## Readings
 
 There is a book in the making covering all aspects of NYAF: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how NYAF handles them.
+
+Currently in the transition to the ReadTheDocs environment. Install pip first!
 
 ## Further steps
 

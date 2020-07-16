@@ -1,21 +1,22 @@
 {
   "name": "nyaf",
-  "version": "0.5.21",
+  "version": "0.5.22",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "lint": "tslint './src/packages/@nyaf/lib/src/**/*.ts' && tslint './src/packages/@nyaf/forms/src/**/*.ts' && tslint './src/packages/@nyaf/store/src/**/*.ts'",
-    "nyaf": "webpack --config webpack.config.lib.js --env.NODE_ENV=prod --env.production",
+    "nyaf": "webpack --config webpack.config.lib.js --env.NODE_ENV=prod --env.production && webpack && npm run doc",
     "build": "rimraf dist/@nyaf && cp README.md ./src/packages/@nyaf/lib && rimraf out-tsc && tsc && npm run nyaf",
     "start": "export PATH=$PATH:/mnt/c/Windows/System32 && webpack-dev-server --open",
-    "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public && cd ../../../ && cd dist/@nyaf/cli && npm publish --access public",
-    "doc": "rimraf dist && mkdir dist && showdown makehtml -i README.md -o dist/readme.html && typedoc --out dist/apidoc src/packages/@nyaf && mkdocs build",
+    "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public && cd ../../../ && cd dist/@nyaf/cli && npm publish --access public && npm run publish-doc",
+    "doc": "rimraf dist/manual && rimraf dist/apidoc && typedoc --out dist/apidoc src/packages/@nyaf && mkdocs build && showdown makehtml -i README.md -o dist/readme.html ",
     "publish-doc": "mkdocs gh-deploy"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joergkrause/nyaf.git"
+    "url": "git+https://github.com/joergkrause/nyaf.git",
+    "directory": "dist/@nyaf/lib"
   },
   "keywords": [
     "vanilla JS",
@@ -30,7 +31,6 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "devDependencies": {
-    "@codedoc/cli": "^0.2.1",
     "@types/jest": "^26.0.0",
     "@types/node": "^12.12.26",
     "@types/yargs": "^15.0.5",
