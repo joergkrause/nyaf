@@ -180,5 +180,5 @@ And in that case use a shorter from to express the binding:
 
 That's cool, isn't it? Now we have a fully type save binding definition in the middle of the TSX part without any additions to regular HTML.
 
-> :ToCPrevNext
+
 

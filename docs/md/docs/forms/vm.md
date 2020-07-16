@@ -62,4 +62,4 @@ UI decorators control the appearance of elements. Not all have an immediate effe
 |**@TemplateHint**| What kind of field (text, number, date, ...) and additional styles or classes. |
 |**@Translate**| For i18n of components |
 
-> :ToCPrevNext
+

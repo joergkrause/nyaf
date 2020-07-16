@@ -91,4 +91,4 @@ this.model.state = {
 It's supervised. After render *this.model.state* helds the state of the model.
 
 
-> :ToCPrevNext
+

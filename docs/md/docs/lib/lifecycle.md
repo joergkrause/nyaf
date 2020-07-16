@@ -22,4 +22,3 @@ Note, that the method has lower case "l". The `LifeCycle`-enum (upper case "L") 
 
 The life cycle is available through an event `lifecycle`. It's exposed via a property called `onlifecycle` on the element level, too. The events are fired after the internal hook has been called.
 
-> :ToCPrevNext

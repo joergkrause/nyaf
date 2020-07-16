@@ -8,5 +8,5 @@ Technically there is just one store. But logically you will usually split the ac
 
 Within a component the stores are being merged and appears as one unit afterwards.
 
-> :ToCPrevNext
+
 

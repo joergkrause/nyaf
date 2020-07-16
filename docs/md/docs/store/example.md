@@ -213,5 +213,5 @@ archiveStoreType.gridResult
 
 The underlying object is `Proxy`, not your actual type.
 
-> :ToCPrevNext
+
 

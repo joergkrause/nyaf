@@ -10,7 +10,8 @@
     "build": "rimraf dist/@nyaf && cp README.md ./src/packages/@nyaf/lib && rimraf out-tsc && tsc && npm run nyaf",
     "start": "export PATH=$PATH:/mnt/c/Windows/System32 && webpack-dev-server --open",
     "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public && cd ../../../ && cd dist/@nyaf/cli && npm publish --access public",
-    "doc": "rimraf dist && mkdir dist && showdown makehtml -i README.md -o dist/readme.html && typedoc --out dist/apidoc src/packages/@nyaf && codedoc build"
+    "doc": "rimraf dist && mkdir dist && showdown makehtml -i README.md -o dist/readme.html && typedoc --out dist/apidoc src/packages/@nyaf && mkdocs build",
+    "publish-doc": "mkdocs gh-deploy"
   },
   "repository": {
     "type": "git",

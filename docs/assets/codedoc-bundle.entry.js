@@ -12,20 +12,18 @@ import { loadDeferredIFrames } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedo
 import { smoothLoading } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/transport/smooth-loading.js';smoothLoading();
 import { tocHighlight } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/toc-highlight.js';tocHighlight();
 import { postNavSearch } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/search/post-nav/index.js';postNavSearch();
-import { CollapseControl } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js';
+import { ToCPrevNext } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/prevnext/index.js';
 import { GithubSearch } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/misc/github/search.js';
 import { ToCToggle } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/toggle/index.js';
 import { DarkModeSwitch } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/darkmode/index.js';
 import { ConfigTransport } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/transport/config.js';
-import { ToCPrevNext } from '/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/prevnext/index.js';
 
 const components = {
-  'v1NchYEuNnYjR/2bwPXhDA==': CollapseControl,
+  '/Rv4lKxSQDV+A9gB+NmB2w==': ToCPrevNext,
   'g2PwBA0oaCK6ojEnMbZz+A==': GithubSearch,
   '4g9OU6ixxeUOlm1PR/9uow==': ToCToggle,
   'ZGqgdsnKB3t7OwwJ4W9fPQ==': DarkModeSwitch,
-  'wAzqqM6AQLzQM6LQebkSEQ==': ConfigTransport,
-  '/Rv4lKxSQDV+A9gB+NmB2w==': ToCPrevNext
+  'wAzqqM6AQLzQM6LQebkSEQ==': ConfigTransport
 };
 
 const renderer = getRenderer();

@@ -25,7 +25,7 @@ A class `JSX` is the core, it handles the element definitions and extract the te
 
 ## Quick Start
 
-![](assets/minimum_app.png)
+![](/assets/minimum_app.png)
 
 # Summary
 
@@ -68,5 +68,5 @@ There is a book in the making covering all aspects of **@nyaf**: https://leanpub
 
 Look out for '@nyaf/forms' (forms validation, data binding, UI control) and '@nyaf/store' (a simple flux store). Simple but powerful!
 
-> :ToCPrevNext
+
 

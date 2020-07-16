@@ -11,6 +11,8 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 
 **Write frontend apps without the hassle of a complex framework, use the full power of HTML 5, keep a component based style.**
 
+**[Read the Docs](https://joergkrause.github.io/nyaf/)**
+
 ## Idea
 
 * I want to use JSX/TSX syntax for quick component dev.
@@ -906,6 +908,8 @@ Inspired by:
 ## Readings
 
 There is a book in the making covering all aspects of NYAF: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how NYAF handles them.
+
+Currently in the transition to the ReadTheDocs environment. Install pip first!
 
 ## Further steps
 

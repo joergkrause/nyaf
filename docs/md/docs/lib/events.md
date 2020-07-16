@@ -2,7 +2,7 @@
 
 Events are defined by a special instruction. They are attached to `document` object, regardless the usage.
 
-![](assets/eventlister.png)
+![](/assets/eventlistener.png)
 
 ### n-on-[event]
 
@@ -98,5 +98,5 @@ private showAlert(e: CustomEvent) {
 
 > Custom events can be async, too. Just add `n-async` to the element that fires the event and add the `async` modifier to the handler.
 
-> :ToCPrevNext
+
 

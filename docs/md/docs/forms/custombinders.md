@@ -42,4 +42,4 @@ export class DefaultBindingHandler implements IBindingHandler {
 The only difference here is that the `ModelBinder` class intercepts the access and delivers the name of the attribute as a second parameter. This is
 a special behavior and the default handler can handle this.
 
-> :ToCPrevNext
+

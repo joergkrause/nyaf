@@ -1,0 +1,57 @@
+site_name: nyaf Documentation
+repo_url: https://github.com/joergkrause/nyaf/
+site_description: The leading Web Component Framework's Documentation
+docs_dir: docs
+site_dir: dist/manual
+nav:
+  - Home: index.md
+  - Introduction: md/intro.md
+  - Setup: md/setup.md
+  - Core Library:
+    - Overview: md/docs/lib/overview.md
+    - Project Configuration: md/docs/lib/configuration.md
+    - Template Language: md/docs/lib/template.md
+    - Smart Components: md/docs/lib/smart.md
+    - Life Cycle: md/docs/lib/lifecycle.md
+    - Attributes: md/docs/lib/attributes.md
+    - Events: md/docs/lib/events.md
+    - Router: md/docs/lib/router.md
+    - Shadow DOM: md/docs/lib/shadowdom.md
+    - Services: md/docs/lib/services.md
+    - Setup: md/docs/lib/setup.md
+  - Forms Extensions:
+    - Overview: md/docs/forms/overview.md
+    - View Models: md/docs/forms/vm.md
+    - Data Binding: md/docs/forms/nbind.md
+    - Custom Binders: md/docs/forms/custombinders.md
+    - Setup: md/docs/forms/setup.md
+  - Flux Store:
+    - Overview: md/docs/store/overview.md
+    - Store Example: md/docs/store/example.md
+    - Global and Local Stores: md/docs/store/globloc.md
+    - Setup: md/docs/store/setup.md
+  - Comparision of @nyaf with...:
+    - ...Angular: md/docs/comparision/angular.md
+    - ...Polymer: md/docs/comparision/polymer.md
+    - ...Preact: md/docs/comparision/preact.md
+    - ...React: md/docs/comparision/react.md
+    - ...Stencil: md/docs/comparision/stencil.md
+    - ...Svelte: md/docs/comparision/svelte.md
+    - ...Vue: md/docs/comparision/vue.md
+  - Internals:
+    - About: md/docs/internals/about.md
+    - Licence: md/docs/internals/lic.md
+    - How it's being made: md/docs/internals/start.md
+theme:
+  name: readthedocs
+  nav_style: light
+  prev_next_buttons_location: both
+  highlightjs: true
+  shortcuts:
+      help: 191    # ?
+      next: 78     # n
+      previous: 80 # p
+      search: 83   # s
+markdown_extensions:
+  - toc:
+      permalink: "#"

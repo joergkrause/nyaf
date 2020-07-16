@@ -147,5 +147,5 @@ In the component the data assignment looks like this:
 ~~~
 
 
-> :ToCPrevNext
+
 

@@ -15,7 +15,7 @@ A @nyaf application consists of:
 
 The browser starts here and the basics structure looks like this:
 
-![](assets/main_ts.png)
+![](/assets/main_ts.png)
 
 The recommended folder structure looks like this:
 

@@ -23,5 +23,5 @@ export class MainComponent extends BaseComponent<{}> {
 
 The third option of `@InjectService` allows to define a singleton. Instead of providing a type for the decorator, here you must provide an instance. The same name will be shared across components.
 
-> :ToCPrevNext
+
 

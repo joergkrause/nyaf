@@ -3,7 +3,7 @@
 
 There is no explicit difference between State and Property. Compared with React it's much more simpler. A state still exists and it supports smart rendering.
 
-![](assets/smartprops.png)
+![](/assets/smartprops.png)
 
 ### State
 
@@ -70,7 +70,7 @@ export class ButtonComponent extends BaseComponent<{ title: string, cnt: number 
 }
 ~~~
 
-![](assets/smartprops2.png)
+![](/assets/smartprops2.png)
 
 The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
 

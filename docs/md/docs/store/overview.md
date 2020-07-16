@@ -2,7 +2,7 @@
 
 This module is the store implementation, a simple flux variant without the burden of Redux. It strictly follows the flux pattern and brings, ones fully understood, a great amount of strict programming style to your application. It brings state to your single page app (SPA). Outside of a SPA it's not useful.
 
-![](assets/flux.png)
+![](/assets/flux.png)
 
 ## How it works
 
@@ -37,7 +37,7 @@ export default {
 };
 ~~~
 
-![](assets/actions.png)
+![](/assets/actions.png)
 
 ### Reducer
 
@@ -59,7 +59,7 @@ export default {
 };
 ~~~
 
-![](assets/reducer.png)
+![](/assets/reducer.png)
 
 The returned payload is the whole store object by reference. The type for the store is optional and helps elevating the power of TypeScript and getting a type safe store.
 
@@ -67,7 +67,7 @@ The returned payload is the whole store object by reference. The type for the st
 
 The store holds the state, provides a dispatch function and fires events in case a store value changes. First, the store can by defined by types, but this is an option and you may decide to go with a simple object just for the sake of simplicity.
 
-![](assets/store.png)
+![](/assets/store.png)
 
 The example shows a store that consists of fragments. This allows one to use parts of the store just by using the type fragments.
 
@@ -155,5 +155,4 @@ export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implem
 }
 ~~~
 
-> :ToCPrevNext
 

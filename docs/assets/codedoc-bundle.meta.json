@@ -68,9 +68,9 @@
   ],
   "components": [
     {
-      "name": "CollapseControl",
-      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/collapse/collapse-control.js",
-      "hash": "v1NchYEuNnYjR/2bwPXhDA=="
+      "name": "ToCPrevNext",
+      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/prevnext/index.js",
+      "hash": "/Rv4lKxSQDV+A9gB+NmB2w=="
     },
     {
       "name": "GithubSearch",
@@ -91,11 +91,6 @@
       "name": "ConfigTransport",
       "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/transport/config.js",
       "hash": "wAzqqM6AQLzQM6LQebkSEQ=="
-    },
-    {
-      "name": "ToCPrevNext",
-      "filename": "/mnt/d/Apps/private/nyaf/@nyaf/nyaf/.codedoc/node_modules/@codedoc/core/dist/es6/components/page/toc/prevnext/index.js",
-      "hash": "/Rv4lKxSQDV+A9gB+NmB2w=="
     }
   ],
   "renderer": {

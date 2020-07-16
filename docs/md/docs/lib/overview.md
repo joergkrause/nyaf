@@ -66,7 +66,7 @@ Once you have more components, it may look like this:
 
 The main goal is to add template features to the JSX part.
 
-> :ToCPrevNext
+
 
 
 # How to use
@@ -139,5 +139,5 @@ Create a file named *index.html* in the very same folder and fill it like this:
 
 Your app starts in line 11.
 
-> :ToCPrevNext
+
 

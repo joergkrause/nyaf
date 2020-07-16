@@ -13,7 +13,7 @@ Any kind of parent element will do. The router code sets the property `innerHTML
 
 > There is just one default outlet. See further below for using named outlets.
 
-![](assets/routerparts.png)
+![](/assets/routerparts.png)
 
 ### Register Routes
 
@@ -139,5 +139,5 @@ GlobalProvider.routerAction.addEventListener('navigated', (evt) => {
 }
 ~~~
 
-> :ToCPrevNext
+
 
