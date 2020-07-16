@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>Router - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Router";
+    var mkdocs_page_input_path = "md/docs/lib/router.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../configuration/">Project Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../events/">Events</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Router</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#router">Router</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#register-routes">Register Routes</a></li>
+        
+            <li><a class="toctree-l4" href="#use-routes">Use Routes</a></li>
+        
+            <li><a class="toctree-l4" href="#named-routes">Named Routes</a></li>
+        
+            <li><a class="toctree-l4" href="#addition-data">Addition Data</a></li>
+        
+            <li><a class="toctree-l4" href="#navigate-to-route">Navigate to Route</a></li>
+        
+            <li><a class="toctree-l4" href="#route-events">Route Events</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Core Library &raquo;</li>
+        
+      
+    
+    <li>Router</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/lib/router.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="router">Router<a class="headerlink" href="#router" title="Permanent link">#</a></h2>
+<p>Usually we create SPAs (Single Page Apps). Hence we need a router. The included router is very simple.</p>
+<p>First, define an outlet where the components appear:</p>
+<pre><code class="html">&lt;div n-router-outlet&gt;&lt;/div&gt;
+</code></pre>
+
+<p>Any kind of parent element will do. The router code sets the property <code>innerHTML</code>. Components, that are being used to provide router content need registration too. They <strong><em>must</em></strong> have a name, too, because that's the way the router internally activates the component.</p>
+<blockquote>
+<p>There is just one default outlet. See further below for using named outlets.</p>
+</blockquote>
+<p><img alt="" src="/assets/routerparts.png" /></p>
+<h3 id="register-routes">Register Routes<a class="headerlink" href="#register-routes" title="Permanent link">#</a></h3>
+<p>The following code shows how to register routes:</p>
+<pre><code class="ts">let routes = {
+  '/': { component: DemoComponent },
+  '/about': { component: AboutComponent },
+  '/demo': { component: DemoComponent },
+  '/contact': { component: ContactComponent },
+  '**': { component: DemoComponent }
+};
+
+GlobalProvider.bootstrap({
+  components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
+  routes: routes
+});
+</code></pre>
+
+<p>The first entry <code>'/': { component: DemoComponent },</code> shall always exist, it's the default route loaded on start. It's being recognized by the <code>'/'</code> key (the position in the array doesn't matter).
+The entry <code>'**': { component: DemoComponent }</code> is optional and defines a fallback in case an invalid path is being used.</p>
+<h3 id="use-routes">Use Routes<a class="headerlink" href="#use-routes" title="Permanent link">#</a></h3>
+<p>To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:</p>
+<pre><code class="html">&lt;a href=&quot;#/&quot; n-link&gt;Home&lt;/a&gt;
+&lt;a href=&quot;#/about&quot; n-link&gt;About&lt;/a&gt;
+&lt;a href=&quot;#/demo&quot; n-link&gt;Demo&lt;/a&gt;
+&lt;a href=&quot;#/contact&quot; n-link&gt;Contact&lt;/a&gt;
+&lt;div n-router-outlet&gt;&lt;/div&gt;
+</code></pre>
+
+<p>The important part here is the <code>n-link</code> attribute. Using this you can distinguish between navigation links for routing and any other anchor tag. You can also use a <code>&lt;button&gt;</code> element or any other. Internally it's just a <code>click</code>-event that's handled and that checks for the attribute, then.</p>
+<p>Please note the hash sign (#). It's required. No code or strategies here, write it by yourself and then enjoy the very small footprint of the outcome.</p>
+<blockquote>
+<p><strong>Pro Tip!</strong> Import the router definition and use additional fields to create a menu directly from router configuration.</p>
+</blockquote>
+<p>If you have some sort of CSS framework running, that provides support for menu navigation by classes, just add the class for the currently active element to the <code>n-link</code> attribute like this:</p>
+<pre><code class="html">&lt;a href=&quot;#/&quot; n-link=&quot;active&quot;&gt;Home&lt;/a&gt;
+&lt;a href=&quot;#/about&quot; n-link=&quot;active&quot;&gt;About&lt;/a&gt;
+&lt;a href=&quot;#/demo&quot; n-link=&quot;active&quot;&gt;Demo&lt;/a&gt;
+&lt;a href=&quot;#/contact&quot; n-link=&quot;active&quot;&gt;Contact&lt;/a&gt;
+&lt;div n-router-outlet&gt;&lt;/div&gt;
+</code></pre>
+
+<p>After this, by clicking the hyperlink, the class "active" will be added to the anchor tag. Any click on any <code>n-link</code> decorated tag will remove all these classes from all these elements, first. The class' name can differ and you can add multiple classes. It's treated as string internally.</p>
+<h3 id="named-routes">Named Routes<a class="headerlink" href="#named-routes" title="Permanent link">#</a></h3>
+<p>The underlying Route definition, the type <code>Routes</code>, allows two additional fields (<code>outlet</code> and <code>data</code>):</p>
+<pre><code class="ts">const routes: Routes = {
+  '/': { component: HomeComponent, outlet: 'main' },
+  '/docu': { component: DocuComponent, outlet: 'main', data: { notlocal: true} },
+  '/about': { component: AboutComponent, outlet: 'main' },
+  '/demo': { component: DemoComponent, outlet: 'main',
+  '/router': { component: RouterComponent, outlet: 'main' },
+  '/router/page1': { component: Page1Component, outlet: 'router' },
+  '/router/page2': { component: Page2Component, outlet: 'router' },
+  '/router/page2/other': { component: Page2Component, outlet: 'other' },
+  '/router/page3/other': { component: Page3Component, outlet: 'other' },
+  '/contact': { component: ContactComponent }
+};
+</code></pre>
+
+<p>With <code>outlet</code> one can define a named outlet. If you use this, you must name all routes as there is no fallback currently. The route outlet might reside everywhere. It may look like this:</p>
+<pre><code class="html">&lt;div n-router-outlet=&quot;other&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<p>If the route's components deliver <code>&lt;li&gt;</code> elements, you can also use something like this to build well formatted HTML:</p>
+<pre><code class="html">&lt;ul n-router-outlet=&quot;other&quot;&gt;&lt;/div&gt;
+</code></pre>
+
+<p>There is no difference on the link side, the decision to address another outlet is made in the configuration only. If the outlet doesn't exists nothing happens and a warning appears on the console (in DEBUG mode).</p>
+<blockquote>
+<p>In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet.</p>
+</blockquote>
+<h3 id="addition-data">Addition Data<a class="headerlink" href="#addition-data" title="Permanent link">#</a></h3>
+<p>The last example showed another field <code>data</code>. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.</p>
+<p>If you use <code>data: { title: 'Some Title' }</code> the value in the field <em>title</em> is being copied to the websites <code>title</code> field. That way it appears on the tab (or header bar in Electron). If it's omitted, it's not being set at all.</p>
+<h3 id="navigate-to-route">Navigate to Route<a class="headerlink" href="#navigate-to-route" title="Permanent link">#</a></h3>
+<p>You can navigate by code:</p>
+<pre><code class="ts">GlobalProvider.navigateRoute('/my-route');
+</code></pre>
+
+<p>The outlet is pulled from configuration, but if provided as second parameter it can be overwritten.</p>
+<blockquote>
+<p><strong>Hint:</strong> In the link elements you use the '#' prefix. In the <code>navigateRoute</code> method this is not necessary and hence not allowed.</p>
+</blockquote>
+<h3 id="route-events">Route Events<a class="headerlink" href="#route-events" title="Permanent link">#</a></h3>
+<p>The router fires two events, available through the static <code>GlobalProvider</code> class like this:</p>
+<pre><code class="ts">GlobalProvider.routerAction.addEventListener('navigate', (evt) =&gt; {
+  const route = evt.detail;
+/*!*/  evt.cancel = true;   // optionally cancel before execution
+}
+</code></pre>
+
+<pre><code class="ts">GlobalProvider.routerAction.addEventListener('navigated', (evt) =&gt; {
+  const route = evt.detail;
+  // this event can't be cancelled
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../shadowdom/" class="btn btn-neutral float-right" title="Shadow DOM">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../events/" class="btn btn-neutral" title="Events"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../events/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../shadowdom/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

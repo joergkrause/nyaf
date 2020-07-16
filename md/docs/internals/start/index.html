@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>How it's being made - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "How it's being made";
+    var mkdocs_page_input_path = "md/docs/internals/start.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../lib/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/configuration/">Project Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lic/">Licence</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">How it's being made</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#how-its-being-made">How it's being made</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#the-base-component">The Base Component</a></li>
+        
+            <li><a class="toctree-l4" href="#the-decorators">The Decorators</a></li>
+        
+            <li><a class="toctree-l4" href="#the-router">The Router</a></li>
+        
+            <li><a class="toctree-l4" href="#the-binder">The Binder</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Internals &raquo;</li>
+        
+      
+    
+    <li>How it's being made</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/internals/start.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="how-its-being-made">How it's being made<a class="headerlink" href="#how-its-being-made" title="Permanent link">#</a></h1>
+<p>This chapter explains the inner workings and solutions used to create the framework. It's also an journey into ECMAScript beyond the usual usage scenario.</p>
+<h2 id="the-base-component">The Base Component<a class="headerlink" href="#the-base-component" title="Permanent link">#</a></h2>
+<p>This is by far the most complex part. It delivers the support for all the features <strong>@nyaf</strong> has to offer.</p>
+<p>Let's look into the inner parts step by step.</p>
+<h3 id="web-component">Web Component<a class="headerlink" href="#web-component" title="Permanent link">#</a></h3>
+<h3 id="ctor">Ctor<a class="headerlink" href="#ctor" title="Permanent link">#</a></h3>
+<h3 id="setup-render">Setup / Render<a class="headerlink" href="#setup-render" title="Permanent link">#</a></h3>
+<h3 id="life-cycle">Life Cycle<a class="headerlink" href="#life-cycle" title="Permanent link">#</a></h3>
+<h3 id="data-handling-for-attributes">Data Handling for Attributes<a class="headerlink" href="#data-handling-for-attributes" title="Permanent link">#</a></h3>
+<h2 id="the-decorators">The Decorators<a class="headerlink" href="#the-decorators" title="Permanent link">#</a></h2>
+<h2 id="the-router">The Router<a class="headerlink" href="#the-router" title="Permanent link">#</a></h2>
+<p>The router is simple yet powerful. It renders components in the outlet by adding the content to <em>innerHTML</em>. That invokes the component's life cycle.</p>
+<h2 id="the-binder">The Binder<a class="headerlink" href="#the-binder" title="Permanent link">#</a></h2>
+<p>The binder is part of <strong>@nyaf/forms</strong> and a complex piece of code that handles the smart rendering using <code>Proxy</code> objects. The usage of proxies has been criticized by many developers because of the complexity, difficult debugging and hard to follow behavior. They're, however, native functions of ECMAScript and fully supported by browsers. The ability to intercept property calls avoid building a n artificial layer on top of the components. The meain reason here is, that it safes a lot of space and makes the package much smaller.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../lic/" class="btn btn-neutral" title="Licence"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../lic/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

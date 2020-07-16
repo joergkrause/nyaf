@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>Store Example - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Store Example";
+    var mkdocs_page_input_path = "md/docs/store/example.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../lib/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/configuration/">Project Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../overview/">Overview</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Store Example</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#type-handling-in-typescript">Type Handling in Typescript</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#example">Example</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Flux Store &raquo;</li>
+        
+      
+    
+    <li>Store Example</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/store/example.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="type-handling-in-typescript">Type Handling in Typescript<a class="headerlink" href="#type-handling-in-typescript" title="Permanent link">#</a></h2>
+<p>The store has these basic parts as described before:</p>
+<ul>
+<li>Actions</li>
+<li>Reducer</li>
+<li>Store and Store Types</li>
+</ul>
+<p>The Actions are basically string constants. The reducers get payload that's anything. The return value is the Store Type.</p>
+<p>The store has two basic function:</p>
+<ul>
+<li>dispatch</li>
+<li>subscribe</li>
+</ul>
+<p>You dispatch an Action along with a payload. So, the types are <code>string</code> and <code>any</code>.</p>
+<p>When you receive a store event from a subscribe this subscription watches for changes of a part of the Store Type. The event handler receives the whole store, then.</p>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">#</a></h3>
+<p>Assume we deal with a CRUD component using a custom model like this:</p>
+<pre><code class="ts">import { Display } from &quot;@nyaf/forms&quot;;
+import { TemplateHint } from &quot;@nyaf/forms&quot;;
+import { Sortable } from &quot;@nyaf/forms&quot;;
+import { Hidden } from &quot;@nyaf/forms&quot;;
+
+export class ArchivModel {
+
+    @Hidden()
+    id: number = 0;
+
+    @Display('Closet')
+    @Sortable()
+    @TemplateHint('table-column', { 'width': 50 })
+    Closet: string = '';
+
+    @Display('Name')
+    @Sortable()
+    @TemplateHint('table-column', { 'width': 100 })
+    Name: string= '';
+
+    @Display('Surname')
+    @Sortable()
+    @TemplateHint('table-column', { 'width': 100 })
+    Surname: string = '';
+
+    @Display('Birthday')
+    @TemplateHint('table-column', { 'width': 100 })
+  Birthday: string = '';
+
+  @Display('Number of Files')
+    @TemplateHint('table-column', { 'width': 30 })
+  NoFiles: number = 1;
+
+    @Display('Archived')
+    @Sortable()
+    @TemplateHint('table-column', { 'width': 50 })
+    ArchivedYear: number = 2010;
+
+}
+</code></pre>
+
+<p>The decorators are from the <em>@nyaf/forms</em> project.</p>
+<p>Now, some actions are required:</p>
+<pre><code class="ts">import { ArchivModel } from &quot;../model/archiv.model&quot;;
+
+export const ALL = 'ALL';
+export const EDIT = 'EDIT';
+export const ADD = 'ADD';
+export const SAVE = 'SAVE';
+export const REMOVE = 'REMOVE';
+
+/**
+ * The defaults that we use as long as the code hasn't sent anything.
+ */
+export default {
+    [ALL]: () =&gt; '',
+    [EDIT]: () =&gt; new ArchivModel(),
+    [ADD]: () =&gt; new ArchivModel(),
+    [SAVE]: () =&gt; new ArchivModel(),
+    [REMOVE]: () =&gt; 0
+};
+</code></pre>
+
+<p>Also, some reducers doing the hard work:</p>
+<pre><code class="ts">import { ALL, ADD, REMOVE, EDIT, SAVE } from '../actions/archive.actions';
+import { archiveStoreType } from '../stores/archive.store';
+import { DatabaseService } from 'app/services/database.service';
+import { DataGridModel } from 'app/components/shared/grid/models/datagrid.model';
+import { ArchivModel } from '../model/archiv.model';
+
+import * as $sql from 'app/resources/sql.json';
+
+/**
+ * The reducer functions are the executing logic. They &quot;do&quot; what the action is asking for.
+ */
+export default {
+    [ALL]: async (state: archiveStoreType, payload: string) =&gt; {
+        const data: any = await DatabaseService.instance.instance.exec($sql.ArchivAnzeigen);
+        const modelData = new DataGridModel&lt;ArchivModel&gt;(data, ArchivModel);
+        state.gridResult = modelData;
+        return state;
+    },
+    [EDIT]: async (state: archiveStoreType, payload: number) =&gt; {
+        const [current]: any = await DatabaseService.instance.instance.exec($sql.ArchivAnzeigenAktuelles, payload);
+        state.current = current;
+        return state;
+    },
+    [ADD]: (state: archiveStoreType, payload: ArchivModel) =&gt; {
+        state.current = null;
+        return state;
+    },
+    [SAVE]: async (state: archiveStoreType, payload: ArchivModel) =&gt; {
+        const data: any = await DatabaseService.instance.instance.exec(
+            payload.id ? $sql.ArchivUpdate : $sql.ArchivInsert,
+            payload.Schrank,
+            payload.Vorname,
+            payload.Nachname,
+            payload.Geburtsdatum,
+            payload.AnzahlAkten,
+            payload.ArchivJahr,
+            payload.id
+        );
+        const modelData = new DataGridModel&lt;ArchivModel&gt;(data, ArchivModel);
+        state.gridResult = modelData;
+        return state;
+    },
+    [REMOVE]: async (state: archiveStoreType, payload: number) =&gt; {
+        const data: any = await DatabaseService.instance.instance.exec($sql.ArchivEntfernenFinal, payload);
+        const modelData = new DataGridModel&lt;ArchivModel&gt;(data, ArchivModel);
+        state.gridResult = modelData;
+        return state;
+    }
+};
+</code></pre>
+
+<p><em>DatabaseService.instance.instance</em> is a service class with singleton pattern. It executes SQL. <em>$sql</em> provides the statements from a resource file.</p>
+<p>THe store summarizes all this for easy processing:</p>
+<pre><code class="ts">import { ArchivModel } from &quot;../model/archiv.model&quot;;
+import { DataGridModel } from &quot;app/components/shared/grid/models/datagrid.model&quot;;
+
+export interface ArchiveStore {
+    current: ArchivModel;
+    gridResult: DataGridModel&lt;ArchivModel&gt;;
+}
+
+/**
+ * A store contains a data structure that helds up to the entire app's state.
+ * It can have any complexity, from a single value up to deep nested objects.
+ */
+export interface ActionStore {
+  search: string;
+}
+
+/**
+ * We export a single store type that contains all single stores as one default.
+ */
+export type archiveStoreType = ActionStore &amp; ArchiveStore;
+
+import archiveReducer from '../reducer/archive.reducer';
+import archiveActions, { SEARCH, ADD, REMOVE, ALL, ARCHIVED, EDIT } from '../actions/archive.actions';
+import { Store } from &quot;@nyaf/store&quot;;
+
+const store = new Store&lt;archiveStoreType&gt;({
+  actions: archiveActions,
+  reducer: { ...archiveReducer },
+  state: { search: '', current: null, gridResult: null }
+});
+
+export default store;
+</code></pre>
+
+<p>Now, the component can dispatch actions with payloads and receive store changes.</p>
+<pre><code class="ts">@CustomElement(&quot;tab-archive-search&quot;)
+@ProvideStore&lt;archiveStoreType&gt;(store)
+export class ArchiveSearchComponent extends StoreComponent&lt;archiveStoreType, {}&gt; {
+
+    constructor() {
+        super();
+        this.store.subscribe('gridResult', (data: archiveStoreType) =&gt; {
+      // Do something with the data
+        });
+    }
+
+    private async showAll(e?: Event) {
+        this.store.dispatch(ALL, null);
+    }
+
+  // render omitted for brevity
+}
+</code></pre>
+
+<p>The reducer receives the <em>ALL</em> action. It pulls all the data and sets the <em>gridResult</em> object. The subscriber listens for this and can handle the data (re-render, for example).</p>
+<p>The essential part is here that the return value of the subscriber is always the Store Type (here <em>archiveStoreType</em>). So you don't need to think about the current type and TypeScript resolves the types within properly. However, the subscriber is for just one property of the store and only changes of this property will trigger the handler. To get the data, access it like this:</p>
+<pre><code class="ts">archiveStoreType.gridResult
+</code></pre>
+
+<p>The underlying object is <code>Proxy</code>, not your actual type.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../globloc/" class="btn btn-neutral float-right" title="Global and Local Stores">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../overview/" class="btn btn-neutral" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../overview/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../globloc/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

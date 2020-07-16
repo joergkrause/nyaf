@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Introduction - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Introduction";
+    var mkdocs_page_input_path = "md/intro.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Introduction</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#the-idea">The Idea</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#approach">Approach</a></li>
+        
+            <li><a class="toctree-l3" href="#quick-start">Quick Start</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#summary">Summary</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#tool-support">Tool Support</a></li>
+        
+            <li><a class="toctree-l3" href="#restrictions">Restrictions</a></li>
+        
+            <li><a class="toctree-l3" href="#credits">Credits</a></li>
+        
+            <li><a class="toctree-l3" href="#readings">Readings</a></li>
+        
+            <li><a class="toctree-l3" href="#further-steps">Further steps</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/lib/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/configuration/">Project Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Introduction</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/intro.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="the-idea">The Idea<a class="headerlink" href="#the-idea" title="Permanent link">#</a></h1>
+<ul>
+<li>We want to use JSX/TSX syntax for quick component dev.</li>
+<li>We want to have support to make a Single Page App (SPA).</li>
+<li>We want to use any current HTML 5 API, such as web components, fetch, and all this with ES2015.</li>
+<li>We want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.</li>
+<li>We want to use TypeScript from the beginning.</li>
+<li>We want to get a very small package.</li>
+<li>We want to use WebPack and other common tools.</li>
+<li>We want to use standards, no weird CLI, no vendor lock in.</li>
+<li>We want to use smart decorators for controlling stuff, not code within the component, for separation of concerns style.</li>
+</ul>
+<h2 id="approach">Approach<a class="headerlink" href="#approach" title="Permanent link">#</a></h2>
+<p>It's based on TSX. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.</p>
+<p>See this excerpt from <code>tsconfig.json</code>:</p>
+<pre><code>&quot;jsx&quot;: &quot;react&quot;,
+&quot;reactNamespace&quot;: &quot;JSX&quot;,
+</code></pre>
+
+<p>A class <code>JSX</code> is the core, it handles the element definitions and extract the template extensions.</p>
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">#</a></h2>
+<p><img alt="" src="/assets/minimum_app.png" /></p>
+<h1 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">#</a></h1>
+<p>Is it worth coding with <strong>@nyaf</strong> and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.</p>
+<p>Actual sizes (0.5.21):</p>
+<ul>
+<li>Core:   31 KB --&gt; 10 KB zipped (always needed)</li>
+<li>Forms:  43 KB --&gt; 13 KB zipped (Forms binding, validation, decorators)</li>
+<li>
+<p>Store:  34 KB --&gt; 11 KB zipped (Flux like store for state management)</p>
+</li>
+<li>
+<p>Total: 108 KB --&gt; 34 KB zipped all files together for your project</p>
+</li>
+</ul>
+<p>However, compared with React or Angular it's a lot simpler. Compared to Vue, Svelte or Polymer it's simpler and even smaller, but the delta is not that thrilling.</p>
+<h2 id="tool-support">Tool Support<a class="headerlink" href="#tool-support" title="Permanent link">#</a></h2>
+<p>What tool support? It's Web Components - any editor will do. It's JSX/TSX, so any good editor can handle this. And there are TypeScript decorators, even this is well supported. So, you don't need to tweak your editor. It works, no red squiggles, guaranteed.</p>
+<h2 id="restrictions">Restrictions<a class="headerlink" href="#restrictions" title="Permanent link">#</a></h2>
+<p>The package runs, if there are no polyfills, only with ES2015. This limits the usage to any modern browser. It's pretty bold in Electron projects.</p>
+<h2 id="credits">Credits<a class="headerlink" href="#credits" title="Permanent link">#</a></h2>
+<p>Inspired by:</p>
+<ul>
+<li><a href="comparision/angular">Angular</a> (thanks for the idea of using decorators)</li>
+<li><a href="comparision/polymer">Polymer</a> (especially lit-element, thanks for showing that Web Components are bold)</li>
+<li><a href="comparision/react">React</a> (thanks for JSX)</li>
+<li><a href="comparision/vue">Vue</a> (thanks for showing short custom attributes)</li>
+<li><a href="comparision/svelte">Svelte</a> (thanks for showing short custom attributes)</li>
+<li>TypeScript (thanks for making JS cool again)</li>
+</ul>
+<h2 id="readings">Readings<a class="headerlink" href="#readings" title="Permanent link">#</a></h2>
+<p>There is a book in the making covering all aspects of <strong>@nyaf</strong>: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how <strong>@nyaf</strong> handles them.</p>
+<h2 id="further-steps">Further steps<a class="headerlink" href="#further-steps" title="Permanent link">#</a></h2>
+<p>Look out for '@nyaf/forms' (forms validation, data binding, UI control) and '@nyaf/store' (a simple flux store). Simple but powerful!</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../setup/" class="btn btn-neutral float-right" title="Setup">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../.." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../.." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../setup/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>Data Binding - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Data Binding";
+    var mkdocs_page_input_path = "md/docs/forms/nbind.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../lib/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/configuration/">Project Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../vm/">View Models</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Data Binding</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#template-language-enhancements">Template Language Enhancements</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#forms">Forms</a></li>
+        
+            <li><a class="toctree-l4" href="#validation">Validation</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#smart-binders">Smart Binders</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#multi-attribute-binding">Multi Attribute Binding</a></li>
+        
+            <li><a class="toctree-l4" href="#even-more-smartness">Even More Smartness</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Forms Extensions &raquo;</li>
+        
+      
+    
+    <li>Data Binding</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/forms/nbind.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="template-language-enhancements">Template Language Enhancements<a class="headerlink" href="#template-language-enhancements" title="Permanent link">#</a></h2>
+<p><strong>@nyaf</strong> has a simple template language. For forms it's just one more command for any input element, <code>n-bind</code>:</p>
+<pre><code class="tsx">model: ModelBinder&lt;UserViewModel&gt;; // instance created by decorator
+
+async render() {
+  const model: UserViewModel = new UserViewModel(); // or where ever the model comes from
+  return await (
+    &lt;&gt;
+      &lt;form&gt;
+/*!*/        &lt;input n-bind=&quot;value: Name&quot; /&gt;
+      &lt;/form&gt;
+    &lt;/&gt;);
+}
+</code></pre>
+
+<p>Now the field knows everything about how to render and how to validate. The first item ("value")  is the HTML element's property you bind to. The second is the model's property name ("Name").</p>
+<p>Once you retrieve the DOM object, you get access to validation:</p>
+<pre><code class="ts">const username = this.querySelector('[name=&quot;userName&quot;]');
+if (username.valid){
+  // call server
+}
+if (username.touched){
+  // show help
+}
+</code></pre>
+
+<p>For a good UI you need a label usually:</p>
+<pre><code class="html">&lt;label n-bind=&quot;innerText: userName&quot; /&gt;
+</code></pre>
+
+<h3 id="forms">Forms<a class="headerlink" href="#forms" title="Permanent link">#</a></h3>
+<p>The model is provided by a decorator</p>
+<pre><code class="tsx">@ViewModel(ModelType)
+export class component extends BaseComponent&lt;any&gt; implements IModel&lt;ModelType&gt; {
+
+  async render() {
+    return await (
+      &lt;form&gt;
+        &lt;label n-bind=&quot;innerText: userName&quot; for=&quot;un&quot;/&gt;
+        &lt;input n-bind=&quot;value: userName&quot; id=&quot;un&quot; /&gt;
+        &lt;br /&gt;
+        &lt;label n-bind=&quot;innerText: city&quot; for=&quot;city&quot;/&gt;
+        &lt;input n-bind=&quot;value: city&quot; id =&quot;city&quot; /&gt;
+     &lt;/form&gt;
+    )
+  }
+
+}
+</code></pre>
+
+<p>Forms bind data. It's bi-directional or uni-directional depending on the chosen handler.</p>
+<h3 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">#</a></h3>
+<p>The error message is just regular output (class example from Bootstrap, not needed by <strong>@nyaf</strong> forms):</p>
+<pre><code class="tsx">&lt;form&gt;
+  &lt;label n-bind=&quot;innerText: userName&quot; for=&quot;un&quot;/&gt;
+  &lt;input n-bind=&quot;value: userName&quot; id=&quot;un&quot;&gt;
+  &lt;div class=&quot;text text-danger&quot;
+       n-show={this.model.state.userName.valid &amp;&amp; this.model.state.userName.touched}
+       innerHTML={this.model.state.userName.errors} &gt;&lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p>Validators can provide the error text, too. This is driven by decorators. The decorators fall back to a simple plain english error message in case you don't provide anything.
+You can, however, provide any kind of message in the decorator. In case you need i18n messages, just add the <code>@Translate</code> decorator as a parameter decorator to the message parameter.</p>
+<p>Distinguish between different validators like this:</p>
+<pre><code class="tsx">&lt;form&gt;
+  &lt;label n-bind=&quot;innerText: userName&quot; for=&quot;un&quot;/&gt;
+  &lt;input n-bind=&quot;value: userName&quot; id=&quot;un&quot;&gt;
+  &lt;div class=&quot;text text-danger&quot;
+       n-show={this.model.state.userName.valid &amp;&amp; this.model.state.userName.touched}
+       innerHTML={this.model.state.userName.errors.required.error} &gt;&lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+
+<blockquote>
+<p>Using <code>n-show</code> is mandatory, it's able to react to state changes. <code>n-if</code> is static and will not change visibility after first render process.</p>
+</blockquote>
+<p>Objects are always set (not undefined), so you don't must test first. The property names are same as the decorators, but in lower case:</p>
+<ul>
+<li><code>@StringLength</code>: <code>stringlength</code></li>
+<li><code>@MaxLength</code>: <code>maximum</code></li>
+<li><code>@MinLength</code>: <code>minimum</code></li>
+<li><code>@Pattern</code>: <code>pattern</code></li>
+<li><code>@Range</code>: <code>range</code></li>
+<li><code>@Required</code>: <code>required</code></li>
+<li><code>@EMail</code>: <code>email</code></li>
+<li><code>@Compare</code>: <code>compare</code></li>
+</ul>
+<h2 id="smart-binders">Smart Binders<a class="headerlink" href="#smart-binders" title="Permanent link">#</a></h2>
+<p>There is an alternative syntax that provides full type support:</p>
+<pre><code class="tsx">&lt;label n-bind={to&lt;ContactModel&gt;(c =&gt; c.email, 'innerText', Display)}&gt;&lt;/label&gt;
+</code></pre>
+
+<p>Use the function <code>to&lt;Type&gt;</code> from <em>@nyaf/forms</em>. The parameters are as follows:</p>
+<ol>
+<li>An expression to select a property type safe</li>
+<li>The property of the element. Any property available in <code>HTMLElement</code> is allowed (and it's restricted to these).</li>
+<li>The (optional) type of decorator that's used to pull data from. If it's omitted, the actual data appear.</li>
+</ol>
+<p>Obviously you could think about writing this:</p>
+<pre><code class="tsx">&lt;input n-bind={to&lt;ContactModel&gt;(c =&gt; c.email, 'value')} /&gt;
+</code></pre>
+
+<p>This is rejected by the compiler, because the property <em>value</em> doesn't exists in <code>HTMLElement</code>. To provide another type, just use a second generic type parameter:</p>
+<pre><code class="tsx">&lt;input n-bind={to&lt;ContactModel, HTMLInputElement&gt;(c =&gt; c.email, 'value')} /&gt;
+</code></pre>
+
+<p>Here you tell the compiler, that it's safe to use <code>HTMLInputElement</code> and so the editor allows <em>value</em> as the second parameter. An even smarter way is to use the lambda here, too:</p>
+<pre><code class="tsx">&lt;input n-bind={to&lt;ContactModel, HTMLInputElement&gt;(c =&gt; c.email, c =&gt; c.value)} /&gt;
+</code></pre>
+
+<p>But, both ways are type safe, even the string is following a constrain. The string is usually shorter, the lambda might use an earlier suggestion from Intellisense.</p>
+<h3 id="multi-attribute-binding">Multi Attribute Binding<a class="headerlink" href="#multi-attribute-binding" title="Permanent link">#</a></h3>
+<p>the <code>n-bind</code> attribute is exclusive, so you can bind only one attribute. That's fine for most cases, but sometimes you'll need multiple bindings. In Angular
+this is easy through the binding syntax around any element (<code>&lt;input [type]="source" [value]="model"&gt;</code>). However, this would require a template compiler and
+additional editor support. To overcome a limitation here, a <code>bind</code> function available:</p>
+<p>In this example to properties are bound:</p>
+<pre><code class="tsx">&lt;input value={bind&lt;T&gt;(c =&gt; c.email)} type={bind&lt;T&gt;(c =&gt; c.toggleType)} n-bind /&gt;
+</code></pre>
+
+<p>The binding handler is not provided, so it falls back to a <code>DefaultBindingHandler</code>, that binds uni-directional to the assigned attribute. That has two
+limitations. First, it's always uni-directional. Second, it can bind only to attributes of <code>HTMLElement</code>. Object properties, such as <code>textContent</code>or <code>innerText</code>
+cannot be reached that way. That's indeed the same with Angular, where you need to encapsulate elements in custom components to reach hidden properties,
+but in <strong>@nyaf</strong> there is a much smarter way.</p>
+<p>Imagine you'll bind to whatever, just assign another binding handler.</p>
+<pre><code class="tsx">&lt;input value={bind&lt;T&gt;(c =&gt; c.email, ValueBindingHandler)} n-bind /&gt;
+</code></pre>
+
+<p>The binding handler may write into whatever property you like, even those not available as attributes. See (Custom Binders)[custombinders.md] for more details.</p>
+<h3 id="even-more-smartness">Even More Smartness<a class="headerlink" href="#even-more-smartness" title="Permanent link">#</a></h3>
+<p>You may also define your component as a generic:</p>
+<pre><code class="ts">// ContactModel defined elsewhere
+export class ContactComponent&lt;T extends ContactModel&gt; extends BaseComponent implements IModel&lt;ContactModel&gt; {
+</code></pre>
+
+<p>And in that case use a shorter from to express the binding:</p>
+<pre><code class="tsx">&lt;label n-bind={to&lt;T&gt;(c =&gt; c.email, c =&gt; c.innerText)} /&gt;
+</code></pre>
+
+<p>That's cool, isn't it? Now we have a fully type save binding definition in the middle of the TSX part without any additions to regular HTML.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../custombinders/" class="btn btn-neutral float-right" title="Custom Binders">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../vm/" class="btn btn-neutral" title="View Models"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../vm/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../custombinders/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

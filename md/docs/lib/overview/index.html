@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>Overview - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Overview";
+    var mkdocs_page_input_path = "md/docs/lib/overview.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class=" current">
+                    
+    <a class="current" href="./">Overview</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#components">Components</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#registration-support">Registration Support</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#how-to-use">How to use</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#prepare-a-project">Prepare a project</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../configuration/">Project Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Core Library &raquo;</li>
+        
+      
+    
+    <li>Overview</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/lib/overview.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="components">Components<a class="headerlink" href="#components" title="Permanent link">#</a></h2>
+<p>Components are the core ingredients. You write components as classes, decorated with the decorator <code>CustomElement</code>. This defines a <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web Component</a>. The Component must be registered, then. This is done by calling the static method <code>GlobalProvider.bootstrap</code>.</p>
+<h3 id="registration-support">Registration Support<a class="headerlink" href="#registration-support" title="Permanent link">#</a></h3>
+<p>Web Components must be registered. To support this, we use decorators. This makes it quite easy to define a component without knowing the details of the browser's API. The name is determined by <code>@CustomElement('my-name')</code>. This is mandatory. Note the base class, which gets a generic that later controls the attributes. The name shall follow the common rules of Web Components, that means, it must have at least one dash '-' so there is no risk of a collision with common HTML element names.</p>
+<pre><code class="tsx">import JSX, { CustomElement } from '@nyaf/lib';
+
+@CustomElement('app-main')
+export class MainComponent extends BaseComponent&lt;{}&gt; {
+
+  constructor() {
+    super();
+  }
+
+  async render() {
+    return await (
+      &lt;&gt;
+        &lt;h1&gt;Demo&lt;/h1&gt;
+      &lt;/&gt;
+    );
+  }
+
+}
+</code></pre>
+
+<p>Let's go step by step through this simple component.</p>
+<p>First, the import includes not only the decorator, but the type <code>JSX</code> too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from <strong>@nyaf/lib</strong> and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLInt know about this and will not complain.</p>
+<p>Second, the component has a base class. All <strong>@nyaf</strong> components are derived from <code>HTMLElement</code>. Currently we don't support inheriting from other element types.</p>
+<p>Now, that the component is defined, it must be registered. In a file called <em>main.ts</em> (or wherever your app is bootstrapped) call this:</p>
+<pre><code class="ts">import { GlobalProvider } from '@nyaf/lib';
+import { MainComponent } from './components/main.component';
+
+GlobalProvider.bootstrap({
+  components: [MainComponent]
+});
+</code></pre>
+
+<p>That's it, the component works now. Use it in the HTML part:</p>
+<pre><code class="html">&lt;body class=&quot;container&quot;&gt;
+  &lt;app-main&gt;&lt;/app-main&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p>Once you have more components, it may look like this:</p>
+<pre><code class="ts">  GlobalProvider.bootstrap({
+    components: [
+      ButtonComponent,
+      TabComponent,
+      TabsComponent,
+      MainComponent]
+  });
+</code></pre>
+
+<p>The main goal is to add template features to the JSX part.</p>
+<h1 id="how-to-use">How to use<a class="headerlink" href="#how-to-use" title="Permanent link">#</a></h1>
+<p>This section describes setup and first steps.</p>
+<h2 id="prepare-a-project">Prepare a project<a class="headerlink" href="#prepare-a-project" title="Permanent link">#</a></h2>
+<p>Install the package:</p>
+<pre><code>npm i @nyaf/lib -S
+</code></pre>
+
+<p>Create a file <code>main.ts</code> in the <em>src</em> folder that looks like this:</p>
+<pre><code>import { GlobalProvider } from '@nyaf/lib';
+
+import { MainComponent } from './main.component';
+
+GlobalProvider.bootstrap({
+  components: [MainComponent],
+});
+</code></pre>
+
+<p>Create file <em>main.component.tsx</em> in the same folder (It must be <em>*.tsx</em>!). Fill this content in:</p>
+<pre><code>import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
+
+@CustomElement('app-main')
+export class MainComponent extends BaseComponent {
+
+    constructor() {
+        super();
+    }
+
+    async render() {
+        return await (
+            &lt;section&gt;
+        &lt;h2&gt;Demo&lt;/h2&gt;
+        &lt;p&gt;Hello nyaf&lt;/p&gt;
+            &lt;/section&gt;
+        );
+    }
+
+}
+</code></pre>
+
+<blockquote>
+<p>Watch the default import for <em>JSX</em> - this IS required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files. It's always <code>JSX</code>, even if we use <em>*.tsx</em>-files.</p>
+</blockquote>
+<p>Create a file named <em>index.html</em> in the very same folder and fill it like this:</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+  &lt;title&gt;Hello nyaf&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hello nyaf&lt;/h1&gt;
+  &lt;app-main&gt;&lt;/app-main&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Your app starts in line 11.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../configuration/" class="btn btn-neutral float-right" title="Project Configuration">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../../../setup/" class="btn btn-neutral" title="Setup"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../../../setup/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../configuration/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

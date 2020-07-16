@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>Smart Components - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Smart Components";
+    var mkdocs_page_input_path = "md/docs/lib/smart.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../configuration/">Project Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../template/">Template Language</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Smart Components</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#smart-components">Smart Components</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#repeater-n-repeat">Repeater - n-repeat</a></li>
+        
+            <li><a class="toctree-l4" href="#transparent-outlet-n-outlet">Transparent Outlet n-outlet</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Core Library &raquo;</li>
+        
+      
+    
+    <li>Smart Components</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/lib/smart.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="smart-components">Smart Components<a class="headerlink" href="#smart-components" title="Permanent link">#</a></h1>
+<p>Some features do not require additional code, they just need a clever usage of the power of TypeScript and Web Components. To simplify your life, a few of these are predefined as integrated components - the Smart Components.</p>
+<h2 id="repeater-n-repeat">Repeater - n-repeat<a class="headerlink" href="#repeater-n-repeat" title="Permanent link">#</a></h2>
+<p>The repeater component creates a loop. In the following example and interface defines a single item. An array with items of this type is provided.</p>
+<pre><code class="jsx">import JSX, { CustomElement, BaseComponent, of } from '@nyaf/lib';
+
+interface T {
+  id: number;
+  name: string;
+}
+
+@CustomElement('app-repeater-test')
+export class RepeaterTestComponent extends BaseComponent&lt;{}&gt; {
+  eventData: any;
+
+  constructor() {
+    super();
+  }
+
+  clickMe(e) {
+    console.log('Button Element Click ', e);
+    this.eventData = e;
+    super.setup();
+  }
+
+  async render() {
+    const data: Array&lt;T&gt; = [{ id: 1, name: 'One' }, { id: 2, name: 'Two' }, { id: 3, name: 'Three' }]
+    return await (
+      &lt;&gt;
+        &lt;div&gt;
+          &lt;ul&gt;
+            &lt;n-repeat source={data}&gt;
+              &lt;li data={of&lt;T&gt;(p =&gt; p.id)}&gt;{of&lt;T&gt;(p =&gt; p.name)}&lt;/li&gt;
+            &lt;/n-repeat&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/&gt;
+    );
+  }
+}
+</code></pre>
+
+<p>The repeater repeats the array's elements. Each element provides properties you can place anywhere in the body using the <code>of&lt;Type&gt;</code> operator. It's type safe, the editor will help you selecting the right properties from the given type.</p>
+<h2 id="transparent-outlet-n-outlet">Transparent Outlet n-outlet<a class="headerlink" href="#transparent-outlet-n-outlet" title="Permanent link">#</a></h2>
+<p>This is another outlet that renders into nothing. Normally you would do this:</p>
+<pre><code class="html">&lt;div n-router-outlet&gt;&lt;/div&gt;
+</code></pre>
+
+<p>But that would place your component in a DIV element. If this is disturbing, just use this:</p>
+<pre><code class="html">&lt;n-outlet&gt;&lt;/n-outlet&gt;
+</code></pre>
+
+<p>Also, a named variety is available:</p>
+<pre><code class="html">&lt;n-outlet name=&quot;main&quot;&gt;&lt;/n-outlet&gt;
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../lifecycle/" class="btn btn-neutral float-right" title="Life Cycle">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../template/" class="btn btn-neutral" title="Template Language"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../template/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../lifecycle/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

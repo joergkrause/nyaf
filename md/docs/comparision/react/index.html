@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>...React - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "...React";
+    var mkdocs_page_input_path = "md/docs/comparision/react.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../lib/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/configuration/">Project Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../preact/">...Preact</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">...React</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#nyaf-and-react">nyaf and React</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#components">Components</a></li>
+        
+            <li><a class="toctree-l4" href="#state">State</a></li>
+        
+            <li><a class="toctree-l4" href="#events">Events</a></li>
+        
+            <li><a class="toctree-l4" href="#conditions">Conditions</a></li>
+        
+            <li><a class="toctree-l4" href="#lists">Lists</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Comparision of @nyaf with... &raquo;</li>
+        
+      
+    
+    <li>...React</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/comparision/react.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="nyaf-and-react">nyaf and React<a class="headerlink" href="#nyaf-and-react" title="Permanent link">#</a></h1>
+<p>Due to the nature of using TSX/JSX for templates it seems that React is quite close. But that's not entirely true. @nyaf has a lot to offer.</p>
+<h2 id="components">Components<a class="headerlink" href="#components" title="Permanent link">#</a></h2>
+<p>React is based on JavaScript and not native in TypeScript. That seems just a small issue, as TypeScript compiles down to JavaScript anyway, but
+in reality it's a big deal. Because of the non-native development style the TypeScript form is not very elegant. And the real advantage of TypeScript, such as advanced types like decorators and interfaces, are not or rarely used. Let's compare it.</p>
+<h3 id="react">React<a class="headerlink" href="#react" title="Permanent link">#</a></h3>
+<p>This is a simple component in React. The name always follows the class name, <em>Welcome</em> in this example.</p>
+<pre><code class="jsx">class Welcome extends React.Component {
+  render() {
+    return &lt;h1&gt;Hello, {this.props.name}&lt;/h1&gt;;
+  }
+}
+</code></pre>
+
+<h3 id="nyaf">@nyaf<a class="headerlink" href="#nyaf" title="Permanent link">#</a></h3>
+<p>This is a simple component on @nyaf. The name is defined separately, and so is the property definition. Apart from this, it's the same.</p>
+<pre><code class="tsx">@CustomElement('app-welcome')
+@Properties({ name: '' })
+class WelcomeComponent extends BaseComponent&lt;{ name: string }&gt; {
+  async render() {
+    return await &lt;h1&gt;Hello, {this.data.name}&lt;/h1&gt;;
+  }
+}
+</code></pre>
+
+<p>The element style is more natural, because the browser engine processes the Web Components, not custom code.</p>
+<p>Because of the generic the editor will recognize and resolve the <code>this.data</code> property, too. Also, the render code allows async calls to pull data
+from a data source or do other non-blocking stuff.</p>
+<h2 id="state">State<a class="headerlink" href="#state" title="Permanent link">#</a></h2>
+<p>React documentation says:</p>
+<blockquote>
+<p>Never mutate <code>this.state</code> directly, as calling <code>setState()</code> afterwards may replace the mutation you made. Treat this.state as if it were immutable.</p>
+</blockquote>
+<p>In @nyaf it's a similar mechanism, but simpler. There is no distinguish between props and state, you define properties and held the state in it. There
+is no need to use the properties, then. That's why it's called <code>data</code> and purposefully <code>setData()</code>. However, you can set the state directly on the
+object and don't need to follow restrictions. It's a Proxy under the hat that handles the changes. If something isn't allows the property would be
+readonly and the editor shows this, no need to read documentation and remember it all the time.</p>
+<h2 id="events">Events<a class="headerlink" href="#events" title="Permanent link">#</a></h2>
+<p>In React a so-called synthetic event looks like this:</p>
+<pre><code class="jsx">&lt;button onClick={activateLasers}&gt;
+  Activate Lasers
+&lt;/button&gt;
+</code></pre>
+
+<p>In @nyaf it's not that different:</p>
+<pre><code class="tsx">&lt;button n-on-click={this.activateLasers}&gt;
+  Activate Lasers
+&lt;/button&gt;
+</code></pre>
+
+<p>The <code>this</code> quantifier is necessary. The main reason is that the code transforms directly into JavaScript and there is nothing "synthetic" here, the
+template engine connects the method as a dynamic handler directly to the event.</p>
+<p>However, you can use custom events that transport additional data. But still, it's the browsers event engine that handles these event natively.</p>
+<h2 id="conditions">Conditions<a class="headerlink" href="#conditions" title="Permanent link">#</a></h2>
+<p>See this example from the React documentation:</p>
+<pre><code class="js">function UserGreeting(props) {
+  return &lt;h1&gt;Welcome back!&lt;/h1&gt;;
+}
+
+function GuestGreeting(props) {
+  return &lt;h1&gt;Please sign up.&lt;/h1&gt;;
+}
+
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return &lt;UserGreeting /&gt;;
+  }
+  return &lt;GuestGreeting /&gt;;
+}
+</code></pre>
+
+<p>In @nyaf this would look a bit different.</p>
+<pre><code class="tsx">@CustomElement('user-greeting')
+export class UserGreeting extends BaseComponent&lt;void&gt; {
+  constructor() { super(); }
+  async render() {
+    return await &lt;h1&gt;Welcome back!&lt;/h1&gt;;
+  }
+}
+
+@CustomElement('guest-greeting')
+export class GuestGreeting() extends BaseComponent&lt;void&gt; {
+  constructor() { super(); }
+  async render() {
+    return await &lt;h1&gt;Please sign up.&lt;/h1&gt;;
+  }
+}
+
+@CustomElement('app-greeting')
+export class Greeting() extends BaseComponent&lt;{ isLoggedIn: boolean}&gt; {
+  constructor() { super(); }
+
+  async render() {
+    const isLoggedIn = this.data.isLoggedIn;
+    return await (
+      &lt;user-greeting n-if={isLoggedIn} /&gt;
+      &lt;guest-greeting n-if={!isLoggedIn} /&gt;
+    );
+  }
+</code></pre>
+
+<p>It's a little more verbose, but it's easier to read due to additional template functions, here <code>n-if</code>.</p>
+<h2 id="lists">Lists<a class="headerlink" href="#lists" title="Permanent link">#</a></h2>
+<p>As far as it's just JSX the handling is the same in React and @nyaf.</p>
+<p>The <em>key</em> feature for rendering of list items according to element changes does not exist in @nyaf. The render engine will always render the whole
+list, if something changes. That's not that smart, but it reduces the template code drastically.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../stencil/" class="btn btn-neutral float-right" title="...Stencil">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../preact/" class="btn btn-neutral" title="...Preact"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../preact/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../stencil/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

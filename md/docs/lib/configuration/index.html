@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>Project Configuration - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Project Configuration";
+    var mkdocs_page_input_path = "md/docs/lib/configuration.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../overview/">Overview</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Project Configuration</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#configuration">Configuration</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#entry-file">Entry File</a></li>
+        
+            <li><a class="toctree-l4" href="#typescript-configuration">TypeScript Configuration</a></li>
+        
+            <li><a class="toctree-l4" href="#webpack-configuration">WebPack Configuration</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Core Library &raquo;</li>
+        
+      
+    
+    <li>Project Configuration</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/lib/configuration.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">#</a></h1>
+<p>A @nyaf application consists of:</p>
+<ol>
+<li>An entry file for registering components, typically called <em>main.ts</em></li>
+<li>At least one root component</li>
+<li>The <em>index.html</em> file the browser loads first</li>
+<li>The configuration for TypeScript, <em>tsconfig.json</em></li>
+<li>The Packer / Builder setup;</li>
+<li>The best choice is probably WebPack, in that case a <em>webpack.config.js</em> file is recommended</li>
+</ol>
+<blockquote>
+<p>To get a new project quickly you can use Yeoman and the various generators explained <a href="yeoman">here</a></p>
+</blockquote>
+<h2 id="entry-file">Entry File<a class="headerlink" href="#entry-file" title="Permanent link">#</a></h2>
+<p>The browser starts here and the basics structure looks like this:</p>
+<p><img alt="" src="/assets/main_ts.png" /></p>
+<p>The recommended folder structure looks like this:</p>
+<pre><code>|
+\--\src
+|  |-- index.html
+|  |-- main.ts
+|  \-- \components
+|  |             |
+|  |             \-- main.component.tsx
+|  |
+|  \-- \assets
+|
+|-- webpack.config.js
+|-- tsconfig.json
+</code></pre>
+
+<h2 id="typescript-configuration">TypeScript Configuration<a class="headerlink" href="#typescript-configuration" title="Permanent link">#</a></h2>
+<p>The TypeScript configuration is typical, but two things are crucial to know:</p>
+<ol>
+<li>You need to compile with the target "es2015" (minimum). ES 5 is explicitly not supported anymore.</li>
+<li>The template language is a variety of JSX, so the setting <em>"jsx"</em> and <em>"reactNamespace"</em> are required.</li>
+</ol>
+<blockquote>
+<p><strong>@nyaf</strong> does not use React, has no relation to React and has almost nothing in common. The setting just tricks the compiler to transpile the templates.</p>
+</blockquote>
+<pre><code class="json">{
+  &quot;compilerOptions&quot;: {
+    /*!*/ &quot;target&quot;: &quot;es2015&quot;,     // The target must be at least ES 2015
+    &quot;module&quot;: &quot;commonjs&quot;,
+    &quot;moduleResolution&quot;: &quot;node&quot;,
+    &quot;resolveJsonModule&quot;: true,
+    &quot;sourceMap&quot;: true,
+    &quot;lib&quot;: [&quot;es2018&quot;, &quot;es5&quot;, &quot;dom&quot;],
+    /*!*/ &quot;jsx&quot;: &quot;react&quot;,           // tell the compiler to accept JSX
+    /*!*/ &quot;reactNamespace&quot;: &quot;JSX&quot;,  // the name of the support class in @nyaf (this IS mandatory)
+    &quot;declaration&quot;: false,
+    &quot;experimentalDecorators&quot;: true,
+    &quot;noImplicitAny&quot;: false,
+    &quot;suppressImplicitAnyIndexErrors&quot;: true,
+    &quot;removeComments&quot;: false,
+    &quot;outDir&quot;: &quot;out-tsc&quot;,
+    &quot;baseUrl&quot;: &quot;./src&quot;,
+    &quot;typeRoots&quot;: [
+      &quot;node_modules/@types&quot;,
+      &quot;src/types&quot;
+    ]
+  },
+  &quot;files&quot;: [&quot;./src/main.ts&quot;]
+}
+</code></pre>
+
+<h2 id="webpack-configuration">WebPack Configuration<a class="headerlink" href="#webpack-configuration" title="Permanent link">#</a></h2>
+<p>WebPack is the recommended packer tool,  but you can use any other if you like. There is no dependency.</p>
+<p>A typical configuration will look like this:</p>
+<pre><code class="js">const dev = process.env.NODE_ENV === 'dev';
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const tsconfig = require('./tsconfig.json');
+
+// Main entry point
+const indexConfig = {
+  template: './src/index.html',
+  inject: 'body',
+  baseHref: './'
+};
+
+const webpackConfig = {
+  mode: 'development',
+  // How source maps are generated : style of source mapping
+  devtool: dev ? 'eval-cheap-module-source-map' : false,
+  // Development server configuration
+  devServer: {
+    historyApiFallback: true,
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000
+  },
+  // Where webpack looks to start building the bundle
+  entry: {
+    'app': './src/main.ts' // Demo app entry point
+  },
+  // How the different types of modules within a project will be treated
+  module: {
+    rules: [
+      { test: /\.ts|\.tsx$/, loader: 'ts-loader' },
+      // All files with a '.scss' extension will be handled by sass-loader
+      {
+        test: /\.(scss)$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|jpeg)$/,
+        loader: 'url-loader?limit=8192'},
+      {
+        test: /\.(woff|woff2)$/,
+        loader: 'file-loader'
+      }
+    ]
+  },
+  // Configure how modules are resolved
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.scss']
+  },
+  // How and where webpack should output bundles, assets and anything else
+  output: {
+    path: path.resolve('./wwwroot'),
+    filename: '[name].js'
+  },
+  // What bundle information gets displayed
+  stats: {
+    warnings: false
+  },
+  // Target a specific environment (cf. doc)
+  target: 'web',
+  // Configure whether to polyfill or mock certain Node.js globals and modules
+  node: {
+    __dirname: false
+  },
+  // Customize the webpack build process with additionals plugins
+  plugins: [
+    new HtmlWebpackPlugin(indexConfig),
+        new CopyWebpackPlugin([
+            {
+                from: './src/assets/images',
+                flatten: true,
+                to: './assets/images/'
+      }
+    ])
+  ]
+};
+
+// Export the config
+module.exports = webpackConfig;
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../template/" class="btn btn-neutral float-right" title="Template Language">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../overview/" class="btn btn-neutral" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../overview/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../template/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>
