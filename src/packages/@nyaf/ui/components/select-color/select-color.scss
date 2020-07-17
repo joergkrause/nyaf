@@ -1,0 +1,29 @@
+@import (once) "../../include/less/vars";
+@import (once) "../../include/less/mixins";
+
+.select-color-item {
+
+    display: block;
+
+    .box {
+        display: block;
+        position: absolute;
+        left: -20px;
+        top: 9px;
+        width: 32px;
+        height: 16px;
+        border: 1px @white solid;
+    }
+
+    .caption {
+        margin-left: 20px;
+    }
+}
+
+.select-input .select-color-item {
+    padding-left: 20px;
+    height: 34px;
+    .box {
+        left: 0;
+    }
+}

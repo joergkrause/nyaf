@@ -1,0 +1,158 @@
+import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
+require('./table.scss');
+import { MD5 } from '../../routines';
+
+@CustomElement('ui-table')
+@Properties<TableProps>({
+  emptyTitle: 'Nothing to show',
+  mode: 'normal',
+  head: null,
+  body: null,
+  cls: '',
+  className: '',
+  clsHeadRow: '',
+  clsHeadCell: '',
+  clsBodyRow: '',
+  clsBodyCell: '',
+  clsEmptyTitle: '',
+})
+@Events([
+  'HeadClick',
+  'CellClick',
+  'DrawCell'
+])
+export class Table extends BaseComponent<TableProps> {
+  constructor() {
+    super();
+    this.state = {
+      body: props.body,
+      bodyHash: MD5(JSON.stringify(props.body))
+    };
+    this.header = null;
+    this.table = null;
+    this.drawHeader = this.drawHeader.bind(this);
+    this.drawBody = this.drawBody.bind(this);
+    this.headClick = this.headClick.bind(this);
+    this.cellClick = this.cellClick.bind(this);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (MD5(JSON.stringify(props.body)) !== state.bodyHash) {
+      return {
+        bodyHash: MD5(JSON.stringify(props.body)),
+        body: props.body
+      };
+    }
+    return null;
+  }
+
+  drawHeader() {
+    const { head, mode, clsHeadRow, clsHeadCell } = this.data;
+
+    if (Array.isArray(head) && head.length > 0) {
+      return (
+        <tr className={clsHeadRow}>
+          {head.map((el, index) => {
+            const { sortable, sortDir, title, name, cls } = el;
+            const sortClass = mode !== 'static' ? `${sortable ? 'sortable-column' : ''} ${sortDir ? 'sort-' + sortDir : ''}` : '';
+            const headClass = cls ? cls : '';
+            return (
+              <th
+                index={index}
+                key={index}
+                className={`${sortClass} ${clsHeadCell} ${headClass}`}
+                onClick={this.headClick}>
+                {title ? title : name}
+              </th>
+            );
+          })}
+        </tr>
+      );
+    }
+  }
+
+  drawBody() {
+    const { emptyTitle, head, clsBodyRow, clsBodyCell, clsEmptyTitle, onDrawCell } = this.props;
+    const { body } = this.state;
+    const tableBody = [];
+    const colSpan = head ? head.length : 1;
+
+    if (!Array.isArray(body) || body.length === 0) {
+      tableBody.push(
+        <tr className={clsBodyRow} key={0}>
+          <td colSpan={colSpan} className={clsEmptyTitle}>{emptyTitle}</td>
+        </tr>
+      );
+    } else {
+      body.forEach((el, index) => {
+        tableBody.push(
+          <tr key={index} className={clsBodyRow}>
+            {el.map((val, key) => {
+              const colProps = this.props.head ? this.props.head[key] : null;
+              const cellClass = `${clsBodyCell} ${colProps && colProps['clsColumn'] ? colProps['clsColumn'] : ''}`;
+              const hasTemplate = colProps && colProps['template'];
+              let cellVal = hasTemplate ? colProps['template'].replace('%VAL%', val) : val;
+              const style = {};
+
+              if (colProps && colProps['size']) {
+                style.width = colProps['size'];
+              }
+
+              cellVal = onDrawCell(cellVal, colProps, key);
+
+              return hasTemplate ?
+                <td key={key} className={cellClass} onClick={this.cellClick} style={style} dangerouslySetInnerHTML={{ __html: cellVal }} /> :
+                <td key={key} className={cellClass} onClick={this.cellClick} style={style}>{cellVal}</td>;
+            })}
+          </tr>
+        );
+      });
+    }
+
+    return tableBody;
+  }
+
+  headClick(e) {
+    this.props.onHeadClick(e);
+  }
+
+  cellClick(e) {
+    this.props.onCellClick(e);
+  }
+
+  async render() {
+    const {
+      emptyTitle, clsEmptyTitle, body: initBody, head, cls, className, mode, clsHeadRow, clsHeadCell, clsBodyRow, clsBodyCell, children,
+      onHeadClick, onCellClick, onDrawCell,
+      ...rest } = this.props;
+    const { body } = this.state;
+    const classTable = `table ${cls} ${className}`;
+
+    return (
+      <table className={classTable} {...rest} ref={ref => this.table = ref}>
+        {head && (
+          <thead>{this.drawHeader()}</thead>
+        )}
+        {body && (
+          <tbody>{this.drawBody()}</tbody>
+        )}
+
+        {children}
+      </table>
+    );
+  }
+}
+
+interface TableProps {
+  emptyTitle: 'Nothing to show',
+  mode: 'normal',
+  head: null;
+  body: null;
+  cls: '',
+  className: '',
+  clsHeadRow: '',
+  clsHeadCell: '',
+  clsBodyRow: '',
+  clsBodyCell: '',
+  clsEmptyTitle: ''
+}

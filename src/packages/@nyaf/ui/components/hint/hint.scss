@@ -1,0 +1,20 @@
+@import (once) "../../include/less/vars";
+@import (once) "../../include/less/mixins";
+
+.hint {
+    display: block;
+    position: fixed;
+    z-index: @zindex-tooltip;
+    background-color: @hintBackground;
+    color: @hintColor;
+    font-size: 12px;
+    max-width: 220px;
+    padding: 10px;
+}
+
+.hinted-text {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: @cyan;
+    text-underline-position: under;
+}

@@ -1,0 +1,238 @@
+@import (once) "../../include/less/vars";
+@import (once) "../../include/less/mixins";
+
+.p-ab {padding-top: 52px!important;}
+.m-ab {margin-top: 52px!important;}
+.h-ab {height: ~"calc(100% - 52px)";}
+
+.app-bar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    min-height: 52px;
+    z-index: @zindex-fixed;
+    background-color: @light;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.app-bar {
+
+    .app-bar-container {
+        background-color: inherit;
+        color: inherit;
+    }
+
+    .brand, .app-bar-item, .app-bar-container, .app-bar-button {
+        display: flex;
+        align-items: center;
+        position: relative;
+        height: 52px;
+        line-height: 52px;
+        padding: 0 16px;
+        background-color: inherit;
+        color: inherit;
+        text-decoration: none;
+        font-size: 14px;
+        flex-shrink: 0;
+        border: none;
+        justify-content: center;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .brand, .app-bar-item, .app-bar-button {
+        cursor: pointer;
+    }
+
+    .app-bar-container {
+        padding: 0;
+    }
+
+    .app-bar-item {
+        white-space: nowrap;
+    }
+
+    .app-bar-button {
+        width: 52px;
+        padding: 0;
+    }
+
+    .app-bar-menu {
+        flex-shrink: 0;
+        list-style: none inside;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        background-color: inherit;
+        color: inherit;
+    }
+
+    .app-bar-menu {
+        & > li, & > li  > a {
+            display: block;
+            line-height: 52px;
+            background-color: inherit;
+            color: inherit;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        & > li  > a, & > .dropdown > a {
+            padding: 0 16px;
+            text-decoration: none;
+            font-size: 14px;
+            position: relative;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            &:hover {
+                color: inherit;
+            }
+        }
+
+        & > li {
+            position: relative;
+        }
+    }
+
+    .brand:not(.no-hover), .app-bar-menu li:not(.no-hover), .hamburger:not(.no-hover), .app-bar-item:not(.no-hover) {
+        &:hover, &:active, .active {
+            background: @hoverBackground;
+        }
+    }
+
+    .hamburger {
+        position: absolute;
+        right: 0;
+        top: 0;
+        display:block;
+        height: 52px;
+        width: 52px;
+
+        &.menu-down {
+            &.active {
+                .line:nth-child(1), .line:nth-child(3) {
+                    margin: -4px 16px;
+                }
+            }
+        }
+    }
+
+    .app-bar-menu, .app-bar-container {
+        .divider {
+            height: 1px!important;
+            line-height: 1px!important;
+            background-color: @lightGray;
+        }
+    }
+
+    a {
+        outline: none!important;
+    }
+}
+
+.app-bar {
+    .app-bar-input {
+        width: 100px;
+        height: 30px;
+        font-size: .875rem;
+        border: none!important;
+        border-radius: 4px;
+    }
+}
+
+
+.app-bar {
+    .hamburger:not(.hidden) ~ .ml-auto {
+        margin-right: 48px;
+    }
+}
+
+.app-bar-expand {
+
+    flex-wrap: nowrap;
+    flex-flow: row;
+
+    .brand, .app-bar-item, .app-bar-container {
+        width: auto;
+        flex-shrink: 1;
+    }
+
+    .app-bar-menu {
+        width: auto;
+        flex-direction: row;
+    }
+
+    .hamburger {
+        display: none;
+    }
+}
+
+.app-bar {
+    .dropdown-toggle {
+        &::before {
+            margin-left: -10px;
+        }
+    }
+}
+
+.app-bar-menu {
+    .dropdown {
+        .drop-object {
+            position: relative;
+
+            .d-menu, .v-menu {
+                border: none;
+            }
+        }
+    }
+    .dropdown-toggle {
+        &::before {
+            margin-left: -16px;
+        }
+    }
+
+    .dropdown {
+        .d-menu {
+            width: 100%;
+        }
+        .dropdown .drop-object{
+            top: 0;
+            left: 0;
+            position: relative;
+        }
+    }
+}
+
+.app-bar-expand {
+    .app-bar-menu {
+        & > .dropdown {
+            .drop-object {
+                position: absolute;
+            }
+            .dropdown-toggle {
+                &::before {
+                    margin-left: -10px;
+                }
+            }
+
+            .dropdown {
+                .drop-object {
+                    position: relative;
+                }
+            }
+        }
+    }
+}
