@@ -1,0 +1,31 @@
+@import "../../src/include/less/vars";
+@import "./vars";
+
+.bg-react {background-color: @reactBackgroundColor!important;}
+.bg-react-secondary {background-color: @reactBackgroundColorSecondary!important;}
+.bg-react-text {background-color: @reactTextColor!important;}
+.bg-react-text-darken {background-color: @reactTextColorDarken!important;}
+.fg-react {color: @reactTextColor!important;}
+
+html, body {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    padding-top: 50px;
+}
+
+#root {
+    height: 100%;
+    min-height: 100%;
+}
+
+.app-bar-react-colors {
+    background-color: @reactBackgroundColor;
+    color: @white;
+}
+
+.adsbygoogle {
+    border: 1px dotted @reactTextColor!important;
+}
