@@ -1,7 +1,7 @@
 import { BaseComponent, ServiceType, InjectService, Properties } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 
-import { CounterService } from './services/counter.service';
+import { CounterService } from '../services/counter.service';
 
 /**
  * Shows how to create a simple interactive component using events and state.

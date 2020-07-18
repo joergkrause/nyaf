@@ -21,16 +21,14 @@ export class GuideActionButton extends BaseComponent<{}> {
 
 
         return(
-            <Article>
-                <GuideLogo/>
+            <demo-article>
+                <demo-guideLogo/>
                 <h1>Action button</h1>
 
                 <p className={'text-leader2'}>
                     Need material action button? Use Metro 4 &lt;ActionButton/&gt; component.
                 </p>
 
-                <br/>
-                <Adsense client={'ca-pub-1632668592742327'} slot={'4639163605'} test={SITE_MODE_DEV}/>
                 <br/>
 
                 <h3>Introduction</h3>
@@ -40,7 +38,7 @@ export class GuideActionButton extends BaseComponent<{}> {
 
                 <br/>
                 <h3>Importing ActionButton</h3>
-                <PrismCode language="js" code={codeImportAction}/>
+                <demo-prismcode language="js" code={codeImportAction}/>
 
                 <br/>
                 <h4>Props</h4>
@@ -91,17 +89,17 @@ export class GuideActionButton extends BaseComponent<{}> {
 
                 <br/>
                 <h4>Using</h4>
-                <Example>
+                <demo-example>
                     <ActionButton icon="star-full" />
                     &nbsp;<ActionButton icon="star-full" variant="secondary"/>
                     &nbsp;<ActionButton icon="rocket" className="alert" />
                     &nbsp;<ActionButton icon="rocket" className="info" variant="secondary" clsIcon="fg-yellow"/>
-                </Example>
-                <PrismCode language="js" code={codeUseActionButton}/>
+                </demo-example>
+                <demo-prismcode language="js" code={codeUseActionButton}/>
 
                 <br/>
                 <h3>Importing MultiAction</h3>
-                <PrismCode language="js" code={codeImportMultiAction}/>
+                <demo-prismcode language="js" code={codeImportMultiAction}/>
 
                 <br/>
                 <h4>Props for MultiAction</h4>
@@ -160,7 +158,7 @@ export class GuideActionButton extends BaseComponent<{}> {
 
                 <br/>
                 <h4>Using</h4>
-                <Example>
+                <demo-example>
                     <Row>
                         <Cell cls='cell-md-3'>
                             <MultiAction icon="star-full" cls="alert" drop={'right'}>
@@ -191,14 +189,12 @@ export class GuideActionButton extends BaseComponent<{}> {
                             </MultiAction>
                         </Cell>
                     </Row>
-                </Example>
+                </demo-example>
 
-                <PrismCode language="js" code={codeUseMultiAction}/>
+                <demo-prismcode language="js" code={codeUseMultiAction}/>
 
                 <br/>
-                <Adsense client={'ca-pub-1632668592742327'} slot={'4639163605'} test={SITE_MODE_DEV}/>
-                <br/>
-            </Article>
+            </demo-article>
         )
     }
 }

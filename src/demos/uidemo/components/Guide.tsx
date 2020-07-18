@@ -81,7 +81,7 @@ export class Guide extends BaseComponent<{}> {
 
                 <Row>
                     <Cell cls={'cell-md-8 cell-lg-9 order-2 order-md-1'}>
-                        <article>
+                        <demo-article>
                             <Switch>
                                 <Route exact path='/guide/' component={GuideIntro}/>
                                 <Route path='/guide/common' component={GuideCommon}/>
@@ -113,7 +113,7 @@ export class Guide extends BaseComponent<{}> {
 
                                 <Route component={NotFound} />
                             </Switch>
-                        </article>
+                        </demo-article>
                     </Cell>
                     <Cell cls={'cell-md-4 cell-lg-3 order-1 order-md-2'} id={'side-nav'}>
                         <SideMenu isMobile={isMobile}/>

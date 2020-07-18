@@ -49,5 +49,3 @@ export class CounterComponent extends BaseComponent<CounterProps> {
     );
   }
 }
-
-
