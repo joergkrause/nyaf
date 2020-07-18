@@ -25,7 +25,9 @@ const webpackConfig = {
   },
   // Where webpack looks to start building the bundle
   entry: {
-    'app': './src/main.ts' // Demo app entry point
+    'portal': './src/demos/portal/main.ts', // Demo app entry point
+    'ui': './src/demos/uidemo/main.ts', // Demo app entry point
+    'features': './src/demos/featuredemo/main.ts' // Demo app entry point
   },
   // How the different types of modules within a project will be treated
   module: {
@@ -54,7 +56,7 @@ const webpackConfig = {
   },
   // Configure how modules are resolved
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.scss'],
+    extensions: ['.ts', '.tsx', '.js', '.scss', '.css'],
     modules: [
       path.resolve('./src'),
       path.resolve('./src/packages'),
@@ -67,8 +69,8 @@ const webpackConfig = {
   },
   // How and where webpack should output bundles, assets and anything else
   output: {
-    path: path.resolve('./dist/demo'),
-    filename: '[name].js'
+    path: path.resolve('./dist/demos/'),
+    filename: '[name].bundle.js'
   },
   // What bundle information gets displayed
   stats: {

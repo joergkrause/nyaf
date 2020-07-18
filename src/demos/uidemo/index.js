@@ -1,7 +1,7 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import 'whatwg-fetch';
-import React from "react";
+import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 import {render} from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
