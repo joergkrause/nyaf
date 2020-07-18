@@ -1,21 +1,33 @@
-import JSX, { BaseComponent } from '@nyaf/lib';
+import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
 require('./container.scss');
 
-export default class Container extends BaseComponent<{}> {
-    async render() {
-        const {as: Element, fluid, cls, className, ...rest} = this.props;
+@CustomElement('ui-container')
+@Properties<ContainerProps>({
+  as: "div",
+  fluid: false,
+  cls: "",
+  className: ""
+})
+export class Container extends BaseComponent<ContainerProps> {
 
-        return (
-            <Element className={`container${fluid ? '-fluid' : ''} ${cls} ${className}`} {...rest}>
-                {this.props.children}
-            </Element>
-        )
-    }
+  constructor() {
+    super();
+  }
+
+  async render() {
+    const { as: Element, fluid, cls, className, ...rest } = this.data;
+
+    return (
+      <Element className={`container${fluid ? '-fluid' : ''} ${cls} ${className}`} {...rest}>
+        {this.children}
+      </Element>
+    )
+  }
 }
 
-Container.defaultProps = {
-    as: "div",
-    fluid: false,
-    cls: "",
-    className: ""
-};
+interface ContainerProps {
+  as: "div",
+  fluid: false,
+  cls: "",
+  className: ""
+}

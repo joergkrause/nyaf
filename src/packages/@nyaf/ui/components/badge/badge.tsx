@@ -1,26 +1,39 @@
-import JSX from '@nyaf/lib'
-import "./badges.css";
+import JSX, { BaseComponent, CustomElement, Properties } from '@nyaf/lib';
+require('./badges.scss');
 
-export default class Badge extends BaseComponent<{}> {
-    async render() {
-        const {value, inside, inline, cls, className} = this.props;
-        const classBadge = `badge ${inline ? 'inline' : ''} ${inside ? 'inside' : ''} ${cls} ${className}`;
+@CustomElement('ui-badge')
+@Properties<BadgeProps>({
+  inside: false,
+  inline: false,
+  value: false,
+  cls: '',
+  className: ''
+})
+export class Badge extends BaseComponent<BadgeProps> {
 
-        return (
-            <span className={classBadge}>
-                {value !== false && (
-                    <span>{value}</span>
-                )}
-                {this.props.children}
-            </span>
-        )
-    }
+  constructor() {
+    super();
+  }
+
+  async render() {
+    const { value, inside, inline, cls, className } = this.data;
+    const classBadge = `badge ${inline ? 'inline' : ''} ${inside ? 'inside' : ''} ${cls} ${className}`;
+
+    return await (
+      <span className={classBadge}>
+        {value !== false && (
+          <span>{value}</span>
+        )}
+        {this.children}
+      </span>
+    )
+  }
 }
 
-Badge.defaultProps = {
-    inside: false,
-    inline: false,
-    value: false,
-    cls: "",
-    className: ""
-};
+interface BadgeProps {
+  inside: boolean;
+  inline: boolean;
+  value: boolean;
+  cls: string;
+  className: string;
+}

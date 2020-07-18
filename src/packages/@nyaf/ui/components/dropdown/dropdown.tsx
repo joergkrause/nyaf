@@ -1,68 +1,78 @@
-import JSX, { BaseComponent } from '@nyaf/lib';
+import JSX, { BaseComponent, CustomElement, Properties } from '@nyaf/lib';
 require('./dropdown.scss');
 
-export default class Dropdown extends BaseComponent<{}> {
-    constructor(props){
-        super(props);
+@CustomElement('ui-dropdown')
+@Properties<DropdownProps>({
+  as: "div",
+  speed: 100,
+  position: "absolute",
+  cls: "",
+  clsDropdown: ""
+})
+export class Dropdown extends BaseComponent<DropdownProps> {
 
-        this.state = {
-            open: false
-        };
+  private dropdown: HTMLElement;
 
-        this.dropdown = React.createRef();
+  constructor() {
+    super();
 
-        this.toggleState = this.toggleState.bind(this);
-        this.handleClickOutside = this.handleClickOutside.bind(this);
-    }
-
-    componentDidMount(){
-        document.addEventListener("mousedown", this.handleClickOutside);
-    }
-
-    componentWillUnmount(){
-        document.removeEventListener("mousedown", this.handleClickOutside);
-    }
-
-    handleClickOutside (event) {
-        if (this.dropdown.current && !this.dropdown.current.contains(event.target)) {
-            this.setState({
-                open: false,
-            });
-        }
+    this.state = {
+      open: false
     };
 
-    toggleState(e){
-        const openState = this.state.open;
-        this.setState({
-            open: !openState
-        });
-        e.preventDefault();
+
+    this.toggleState = this.toggleState.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+
+  handleClickOutside(event) {
+    if (this.dropdown.current && !this.dropdown.current.contains(event.target)) {
+      this.setState({
+        open: false,
+      });
     }
+  };
 
-    async render() {
-        const {as: Element, speed, cls, clsDropdown, position} = this.props;
-        const {open} = this.state;
-        const children = React.Children.toArray(this.props.children);
-        const transition = `height ${speed}ms cubic-bezier(.4, 0, .2, 1)`;
+  toggleState(e) {
+    const openState = this.state.open;
+    this.setState({
+      open: !openState
+    });
+    e.preventDefault();
+  }
 
-        return (
-            <Element className={'dropdown ' + cls + " " + (open ? "dropped" : "")} ref={this.dropdown}>
-                {React.cloneElement(children[0], {
-                    onClick: this.toggleState
-                })}
+  async render() {
+    const { as: Element, speed, cls, clsDropdown, position } = this.data;
+    const { open } = this.state;
+    const children = Array.from(this.children);
+    const transition = `height ${speed}ms cubic-bezier(.4, 0, .2, 1)`;
 
-                <ui-collapse isOpen={open} className={'drop-object ' + clsDropdown} transition={transition}>
-                    {children[1]}
-                </ui-collapse>
-            </Element>
-        )
-    }
+    return (
+      <Element className={'dropdown ' + cls + " " + (open ? "dropped" : "")} ref={this.dropdown}>
+        {React.cloneElement(children[0], {
+          onClick: this.toggleState
+        })}
+
+        <ui-collapse isOpen={open} className={'drop-object ' + clsDropdown} transition={transition}>
+          {children[1]}
+        </ui-collapse>
+      </Element>
+    )
+  }
 }
 
-Dropdown.defaultProps = {
-    as: "div",
-    speed: 100,
-    position: "absolute",
-    cls: "",
-    clsDropdown: ""
-};
+interface DropdownProps {
+  as: string;
+  speed: number;
+  position: 'absolute' | 'relative' | 'fixed';
+  cls: string;
+  clsDropdown: string;
+}

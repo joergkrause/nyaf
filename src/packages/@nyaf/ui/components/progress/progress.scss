@@ -1,13 +1,13 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
-@barHeight: 12px;
+$barHeight: 12px;
 
 .progress {
     display: block;
     position: relative;
     width: 100%;
-    height: @barHeight;
+    height: $barHeight;
     overflow: hidden;
     background: transparent;
 }
@@ -31,14 +31,14 @@
         width: 100%;
         animation: progress-loading 3s infinite linear;
         background: radial-gradient(#a9c0e9 0%, #a9c0e9 16%, transparent 42%);
-        background-size: @barHeight @barHeight;
+        background-size: $barHeight $barHeight;
         margin-top: -1px;
         z-index: 2;
     }
 
     .buffer {
         z-index: 3;
-        background-color: @white;
+        background-color: $white;
         height: 50%;
         top: 50%;
         transform: translateY(-50%);
@@ -46,7 +46,7 @@
 
     .bar {
         z-index: 4;
-        background: @green;
+        background: $green;
     }
 
     .value {
@@ -68,7 +68,7 @@
         &::before {
             height: 100%;
             width: 100%;
-            background-color: @brandColor2;
+            background-color: $brandColor2;
             content: '';
             animation: running-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
@@ -77,10 +77,10 @@
 
 .progress {
     &.small {
-        height: @barHeight / 2;
+        height: $barHeight / 2;
 
         .load {
-            background-size: @barHeight / 2 @barHeight / 2;
+            background-size: $barHeight / 2 $barHeight / 2;
         }
     }
 }

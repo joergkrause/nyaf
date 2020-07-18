@@ -1,5 +1,5 @@
 import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
-require('./buttonh-group.scss');
+require('./button-group.scss');
 
 // TODO Remove active prop from Button
 
@@ -14,6 +14,7 @@ require('./buttonh-group.scss');
 })
 @Events(['ButtonClick'])
 export class ButtonGroup extends BaseComponent<ButtonGroupProps> {
+
   constructor() {
     super();
 

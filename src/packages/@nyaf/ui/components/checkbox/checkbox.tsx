@@ -1,87 +1,131 @@
-import JSX, { BaseComponent } from '@nyaf/lib';
+import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
+import { IModel, ModelBinder, ViewModel } from '@nyaf/forms';
+
 require('./checkbox.scss');
 require('./switch.scss');
 
-export default class Checkbox extends BaseComponent<{}> {
-    constructor(props){
-        super(props);
-        this.state = {
-            checked: props.checked,
-            initState: props.checked
-        };
-        this.onChangeHandler = this.onChangeHandler.bind(this);
-    }
-
-    static getDerivedStateFromProps(props, state){
-        if (props.checked !== state.initState) {
-            return {
-                checked: props.checked,
-                initState: props.checked
-            }
-        }
-        return null;
-    }
-
-    onChangeHandler (e) {
-        const state = e.target.checked;
-        this.setState({
-            checked: state
-        });
-        this.props.onChange(e);
-        this.props[state ? 'onCheck' : 'onUnCheck'](e);
-    };
-
-    async render() {
-        const {
-            transition,
-            mode,
-            checked: propsChecked,
-            caption,
-            variant,
-            cls, className,
-            clsCaption,
-            clsCheck,
-            onChange,
-            onCheck,
-            onUnCheck,
-            ...input
-        } = this.props;
-        const {checked} = this.state;
-
-        const checkboxMode = mode === "switch" ? `switch${(variant === 2 ? '-material' : '')}` : `checkbox ${(variant === 2 ? 'style2' : '')}`;
-
-        return (
-            <label className={`${checkboxMode} ${transition ? "transition-on" : ""} ${cls} ${className}`}>
-                <input type="checkbox" { ...input } checked={checked} onChange={this.onChangeHandler}/>
-                <span className={ 'check ' + clsCheck } />
-                <span className={ 'caption ' + clsCaption }>{caption}</span>
-            </label>
-        )
-    }
+class CheckboxModel {
+  checked = false;
+  initState = false;
 }
 
-Checkbox.defaultProps = {
-    checked: false,
-    mode: "checkbox",
+@CustomElement('ui-checkbox')
+@Properties<CheckboxProps>({
+  checked: false,
+  mode: 'checkbox',
 
-    caption: "",
+  caption: '',
+  variant: 1,
+  transition: true,
+
+  cls: '',
+  className: '',
+  clsCheck: '',
+  clsCaption: ''
+})
+@ViewModel<CheckboxModel>(CheckboxModel)
+@Events([
+  'change',
+  'check',
+  'unCheck'
+])
+export class Checkbox extends BaseComponent<CheckboxProps> implements IModel<CheckboxModel> {
+
+  constructor() {
+    super();
+    this.model.scope.checked = this.data.checked;
+    this.model.scope.initState  = this.data.checked;
+  }
+
+  model: ModelBinder<CheckboxModel>;
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.checked !== state.initState) {
+      return {
+        checked: props.checked,
+        initState: props.checked
+      };
+    }
+    return null;
+  }
+
+  onChangeHandler(e) {
+    const state = e.target.checked;
+    this.model.scope.checked = state;
+    this.dispatch('change', {});
+    if (state) {
+      this.dispatch('check', {});
+    } else {
+      this.dispatch('uncheck', {});
+    }
+  }
+
+  async render() {
+    const {
+      transition,
+      mode,
+      checked: propsChecked,
+      caption,
+      variant,
+      cls, className,
+      clsCaption,
+      clsCheck,
+      ...input
+    } = this.data;
+    const { checked } = this.model.scope;
+
+    const checkboxMode = mode === 'switch' ? `switch${(variant === 2 ? '-material' : '')}` : `checkbox ${(variant === 2 ? 'style2' : '')}`;
+
+    return await (
+      <label className={`${checkboxMode} ${transition ? 'transition-on' : ''} ${cls} ${className}`}>
+        <input type='checkbox' {...input} checked={checked} onChange={this.onChangeHandler} />
+        <span className={'check ' + clsCheck} />
+        <span className={'caption ' + clsCaption}>{caption}</span>
+      </label>
+    );
+  }
+}
+
+interface CheckboxProps {
+  checked: false;
+  mode: 'checkbox' | 'switch';
+
+  caption: string;
+  variant: number;
+  transition: boolean;
+
+  cls: string;
+  className: string;
+  clsCheck: string;
+  clsCaption: string;
+}
+
+@CustomElement('ui-checkbox')
+@Properties<CheckboxProps>(
+  {
+    checked: false,
+    mode: 'switch',
+
+    caption: '',
     variant: 1,
     transition: true,
 
-    cls: "",
-    className: "",
-    clsCheck: "",
-    clsCaption: "",
+    cls: '',
+    className: '',
+    clsCheck: '',
+    clsCaption: ''
+  }
+)
+export class Switch extends BaseComponent<{}> {
 
-    onChange: ()=>{},
-    onCheck: ()=>{},
-    onUnCheck: ()=>{}
-};
+  constructor() {
+    super();
+  }
 
-const Switch = ({mode = "switch", ...rest}) => {
-    return (
-        <Checkbox mode={mode} {...rest}/>
-    )
-};
+  async render() {
+    return await (
+      <ui-checkbox mode={'switch'} {...this.data} />
+    );
+  }
+}
 
-export {Checkbox, Switch};

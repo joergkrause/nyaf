@@ -1,41 +1,49 @@
-import JSX from '@nyaf/lib'
-import Ring from "./ring.jsx";
-import Metro from "./metro.jsx";
-import Square from "./square.jsx";
-import Cycle from "./cycle.jsx";
-import Simple from "./simple.jsx";
+import JSX, { BaseComponent, CustomElement, Properties } from '@nyaf/lib';
 
-import "./activity.css";
+require('./activity.scss');
 
-export default class Activity extends BaseComponent<{}> {
-    render() {
-        let activityType;
-        let activityClassName;
+@CustomElement('ui-activity')
+@Properties<ActivityProps>({
+  type: 'ring',
+  variant: 'light',
+  size: 64,
+  radius: 20,
+  cls: ''
+})
+export class Activity extends BaseComponent<ActivityProps> {
 
-        const {type, variant, size, radius, cls} = this.props;
+  constructor() {
+    super();
+  }
 
-        switch (type) {
-            case 'metro': activityType = <Metro/>; break;
-            case 'square': activityType = <Square/>; break;
-            case 'cycle': activityType = <Cycle/>; break;
-            case 'simple': activityType = <Simple size={size} radius={radius}/>; break;
-            default: activityType = <Ring/>;
-        }
+  async render() {
+    let activityType;
+    let activityClassName;
 
-        activityClassName = `activity-${type} ${variant}-style ${cls}`;
+    const { type, variant, size, radius, cls } = this.data;
 
-        return (
-            <div className={activityClassName}>
-                {activityType}
-            </div>
-        )
+    switch (type) {
+      case 'metro': activityType = <ui-activity-metro />; break;
+      case 'square': activityType = <ui-activity-square />; break;
+      case 'cycle': activityType = <ui-activity-cycle />; break;
+      case 'simple': activityType = <ui-activity-simple size={size} radius={radius} />; break;
+      default: activityType = <ui-activity-ring />;
     }
+
+    activityClassName = `activity-${type} ${variant}-style ${cls}`;
+
+    return await (
+      <div className={activityClassName}>
+        {activityType}
+      </div>
+    );
+  }
 }
 
-Activity.defaultProps = {
-    type: 'ring',
-    variant: 'light',
-    size: 64,
-    radius: 20,
-    cls: ""
-};
+interface ActivityProps {
+  type: 'ring' | 'metro' | 'square' | 'cycle' | 'simple';
+  variant: 'light' | 'dark';
+  size: number;
+  radius: number;
+  cls: string;
+}

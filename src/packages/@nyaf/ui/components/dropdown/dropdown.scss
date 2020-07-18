@@ -1,5 +1,5 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .dropdown {
     display: block;
@@ -10,7 +10,7 @@
 
     .drop-object {
         position: absolute;
-        z-index: @zindex-dropdown;
+        z-index: $zindex-dropdown;
     }
 
     .drop-object.place-right {
@@ -37,16 +37,16 @@
 .dropdown.dropped {
     & > .dropdown-toggle {
         &::before {
-            .rotate(135deg);
-            transition: @transition-short;
+          @include rotate(135deg);
+            transition: $transition-short;
         }
     }
 
     .dropdown.dropped {
         & > .dropdown-toggle {
             &::before {
-                .rotate(45deg);
-                transition: @transition-short;
+                @include rotate(45deg);
+                transition: $transition-short;
             }
         }
     }
@@ -54,11 +54,11 @@
 
 .dropdown-toggle {
 
-    .toggle();
+  @include toggle();
 
     &.drop-marker-light, &.marker-light  {
         &::before {
-            border-color: @white;
+            border-color: $white;
         }
     }
 
@@ -70,8 +70,8 @@
 
     &.active-toggle, &.active-container {
         &::before {
-            .rotate(135deg);
-            transition: @transition-short;
+            @include rotate(135deg);
+            transition: $transition-short;
         }
     }
 
@@ -81,16 +81,16 @@
             top: 50%;
             margin-left: 0;
             margin-top: 0;
-            .translateX(-50%);
-            .translateY(-50%);
-            .rotate(-45deg);
+            @include translateX(-50%);
+            @include translateY(-50%);
+            @include rotate(-45deg);
         }
         &.active-toggle, &.active-container {
             &::before {
-                .translateX(-50%);
-                .translateY(-50%);
-                .rotate(135deg);
-                transition: @transition-short;
+              @include translateX(-50%);
+              @include translateY(-50%);
+              @include rotate(135deg);
+                transition: $transition-short;
             }
         }
     }

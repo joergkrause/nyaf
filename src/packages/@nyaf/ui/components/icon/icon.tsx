@@ -11,6 +11,11 @@ import JSX, { BaseComponent, CustomElement, Properties } from '@nyaf/lib';
   }
 )
 export class Icon extends BaseComponent<IconProps> {
+
+  constructor() {
+    super();
+  }
+
   async render() {
     const {
       prefix,
@@ -26,9 +31,9 @@ export class Icon extends BaseComponent<IconProps> {
 }
 
 interface IconProps {
-  prefix: string;
+  prefix?: string;
   name: string;
-  size: boolean;
-  cls: string;
-  className: string;
+  size?: boolean;
+  cls?: string;
+  className?: string;
 }

@@ -1,85 +1,107 @@
-import JSX, {BaseComponent} from '@nyaf/lib';
+import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
 require('./dialog.scss');
 
-@CustomComponent('ui-dialog')
-export class Dialog extends BaseComponent<{}> {
-    constructor(props) {
-        super(props);
+@CustomElement('ui-dialog')
+@Properties<DialogProps>({
+  closeButton: true,
+  open: false,
+  title: '',
+  actions: [],
+  actionClickClose: true,
+  modal: true,
+  overlayColor: '#ffffff',
+  overlayAlpha: 1,
+  speed: .4,
+  width: 'auto',
+  height: 'auto',
+  contentHeight: 'auto',
+  cls: '',
+  clsTitle: '',
+  clsContent: '',
+  clsActions: ''
+})
+@Events(['close', 'actionclick'])
+export class Dialog extends BaseComponent<DialogProps> {
 
-        this.dialog = React.createRef();
-        this.actions = [];
+  private dialog: HTMLElement;
+  private actions: any[];
 
-        this.actions = this.props.actions.map((el, index) => {
-            return (
-                <Button {...el} key={index} onClick={this.actionButtonClick.bind(this, el.onClick)}/>
-            );
-        });
+  constructor() {
+    super();
 
-        this.onClose = this.onClose.bind(this);
-        this.actionButtonClick = this.actionButtonClick.bind(this);
-    }
+    this.actions = [];
 
-    actionButtonClick(cb) {
-        if (typeof cb === 'function') { cb(); }
-        if (this.props.actionClickClose) { this.props.onClose(); }
-    }
+    this.actions = this.data.actions.map((el, index) => {
+      return (
+        <ui-button {...el} key={index} n-on-click={this.actionButtonClick} />
+      );
+    });
 
-    onClose() {
-        this.props.onClose();
-    }
+    this.onClose = this.onClose.bind(this);
+    this.actionButtonClick = this.actionButtonClick.bind(this);
+  }
 
-    async render() {
-        const {open, title, closeButton, modal, overlayColor, overlayAlpha, speed, cls, clsTitle, clsContent, clsActions, height, width, contentHeight} = this.props;
+  actionButtonClick(e: Event) {
+    this.dispatch('actionclick', {});
+    this.onClose();
+  }
 
-        return (
-            <Body>
-                {modal && open && (
-                    <div className={'overlay'} style={{backgroundColor: overlayColor, opacity: overlayAlpha}}>{''}</div>
-                )}
+  onClose() {
+    this.dispatch('close', {});
+  }
 
-                <div className={'dialog-wrapper'} style={{
-                    transition: `transform ${speed}s, opacity ${speed}s`,
-                    transform: open ? 'translateY(0vh)' : 'translateY(-100vh)',
-                    opacity: open ? 1 : 0,
-                }}>
-                    <div className={'dialog ' + cls} ref={this.dialog} style={{
-                        height: height,
-                        width: width,
-                    }}>
+  async render() {
+    const { open, title, closeButton, modal, overlayColor, overlayAlpha, speed, cls, clsTitle, clsContent, clsActions, height, width, contentHeight } = this.data;
 
-                        {closeButton && (
-                            <Button cls={'square closer'} onClick={this.onClose}/>
-                        )}
+    return (
+      <ui-body>
+        {modal && open && (
+          <div className={'overlay'} style={{ backgroundColor: overlayColor, opacity: overlayAlpha }}>{''}</div>
+        )}
 
-                        <div className={'dialog-title ' + clsTitle}>{title}</div>
-                        <div className={'dialog-content ' + clsContent} style={{height: contentHeight}}>{this.props.children}</div>
+        <div className={'dialog-wrapper'} style={{
+          transition: `transform ${speed}s, opacity ${speed}s`,
+          transform: open ? 'translateY(0vh)' : 'translateY(-100vh)',
+          opacity: open ? 1 : 0,
+        }}>
+          <div className={'dialog ' + cls} ref={this.dialog} style={{
+            height: height,
+            width: width,
+          }}>
 
-                        {this.actions.length > 0 && (
-                            <div className={'dialog-actions ' + clsActions}>{this.actions}</div>
-                        )}
+            {closeButton && (
+              <ui-button cls={'square closer'} onClick={this.onClose} />
+            )}
 
-                    </div>
-                </div>
-            </Body>
-        );
-    }
+            <div className={'dialog-title ' + clsTitle}>{title}</div>
+            <div className={'dialog-content ' + clsContent} style={{ height: contentHeight }}>{this.children}</div>
+
+            {this.actions.length > 0 && (
+              <div className={'dialog-actions ' + clsActions}>{this.actions}</div>
+            )}
+
+          </div>
+        </div>
+      </ui-body>
+    );
+  }
 }
 
-Dialog.defaultProps = {
-    closeButton: true,
-    open: false,
-    title: '',
-    actions: [],
-    actionClickClose: true,
-    modal: true,
-    overlayColor: '#ffffff',
-    overlayAlpha: 1,
-    speed: .4,
-    width: 'auto',
-    height: 'auto',
-    contentHeight: 'auto',
-    cls: '',
-    clsTitle: '',
-    clsContent: '',
-    clsActions: ''
-};
+interface DialogProps {
+  closeButton: boolean;
+  open: boolean;
+  title: string;
+  actions: any[];
+  actionClickClose: boolean;
+  modal: boolean;
+  overlayColor: string;
+  overlayAlpha: number;
+  speed: number;
+  width: string;
+  height: string;
+  contentHeight: string;
+  cls: string;
+  clsTitle: string;
+  clsContent: string;
+  clsActions: string;
+}

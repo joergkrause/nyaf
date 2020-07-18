@@ -1,9 +1,10 @@
-import JSX, { BaseComponent } from '@nyaf/lib';
+import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
 import PropTypes from "prop-types";
 
-export default class ClickOutside extends BaseComponent<{}> {
-    constructor(props) {
-        super(props);
+@CustomElement('ui-outside')
+export class ClickOutside extends BaseComponent<{}> {
+    constructor() {
+        super();
         this.getContainer = this.getContainer.bind(this);
         this.handle = this.handle.bind(this);
         this.isTouch = false;
@@ -37,9 +38,9 @@ export default class ClickOutside extends BaseComponent<{}> {
     }
 }
 
-ClickOutside.defaultProps = {
+interface ClickOutsideProps {
     onClickOutside: e => {}
-};
+}
 
 ClickOutside.propTypes = {
     onClickOutside: PropTypes.func.isRequired

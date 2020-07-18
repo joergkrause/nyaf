@@ -1,5 +1,5 @@
 import JSX, { Properties, CustomElement, BaseComponent } from '@nyaf/lib';
-require('../button/button.scss';
+require('../button/button.scss');
 require('./bottom-nav.scss');
 
 @CustomElement('ui-bottomnavitem')

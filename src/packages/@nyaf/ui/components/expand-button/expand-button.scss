@@ -1,5 +1,5 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .expand-button {
     width: 36px;
@@ -21,9 +21,9 @@
         width: 1.2rem;
         height: 2px;
         margin: 0 0 0;
-        background: @dark;
-        .rotate(0);
-        .transition(.3s, linear);
+        background: $dark;
+        @include rotate(0);
+        @include transition(.3s, linear);
 
         &:before, &:after {
             content: '';
@@ -32,9 +32,9 @@
             right: 0;
             width: 1.2rem;
             height: 2px;
-            background: @dark;
-            .rotate(0);
-            .transition(.3s, linear);
+            background: $dark;
+            @include rotate(0);
+            @include transition(.3s, linear);
         }
 
         &:after {
@@ -44,29 +44,29 @@
 
     &.transform {
         span {
-            .rotate(180deg);
-            background: @dark;
+          @include rotate(180deg);
+            background: $dark;
 
             &:before, &:after {
                 content: '';
                 top: -5px;
                 right: 0;
                 width: .75rem;
-                .rotate(45deg);
+                @include rotate(45deg);
             }
 
             &:after {
                 top: 5px;
-                .rotate(-45deg);
+                @include rotate(-45deg);
             }
         }
     }
 
     &.light {
         span {
-            background-color: @white;
+            background-color: $white;
             &:before, &:after {
-                background-color: @white;
+                background-color: $white;
             }
         }
     }

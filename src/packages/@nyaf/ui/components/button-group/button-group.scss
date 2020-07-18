@@ -1,0 +1,9 @@
+@import '../../include/less/vars';
+@import '../../include/less/mixins';
+
+.button-group {
+  .active {
+    background-color: $darkGray;
+    color: $white;
+  }
+}

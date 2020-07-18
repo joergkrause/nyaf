@@ -1,32 +1,32 @@
 import { GlobalProvider, Routes } from '@nyaf/lib';
 
-import { MainComponent } from './components/demo/pages/main.component';
-import { TabsComponent } from './components/demo/tabs.component';
-import { TabComponent } from './components/demo/tab.component';
-import { SlotTabsComponent } from './components/demo/slottedtabs/tabs.component';
-import { SlotTabComponent } from './components/demo/slottedtabs/tab.component';
-import { ButtonComponent } from './components/demo/button.component';
-import { SlottedComponent } from './components/demo/slotted.component';
-import { AboutComponent } from './components/demo/pages/about.component';
-import { DemoComponent } from './components/demo/pages/demo.component';
-import { DesignDemoComponent } from './components/demo/pages/designdemo.component';
-import { ContactComponent } from './components/demo/pages/contact.component';
-import { CounterComponent } from 'components/demo/counter.component';
-import { StoreCounterComponent } from './components/demo/storecounter.component';
-import { ServiceCounterComponent } from './components/demo/servicecounter.component';
-import { HomeComponent } from 'components/demo/pages/home.component';
-import { DocuComponent } from 'components/demo/pages/docu.component';
-import { ButtonsComponent } from 'components/demo/buttons.component';
-import { FormComponent, SubFormComponent } from 'components/demo/form.component';
-import { ComplexComponent } from 'components/demo/complex.component';
-import { ComplexBoolComponent } from 'components/demo/complexbool.component';
-import { RouterComponent } from 'components/demo/router/router.component';
-import { Page1Component } from 'components/demo/router/page1.component';
-import { Page2Component } from 'components/demo/router/page2.component';
-import { Page3Component } from 'components/demo/router/page3.component';
-import { RepeaterTestComponent } from 'components/demo/repeater.component';
+import { MainComponent } from './components/functionsdemo/pages/main.component';
+import { TabsComponent } from './components/functionsdemo/tabs.component';
+import { TabComponent } from './components/functionsdemo/tab.component';
+import { SlotTabsComponent } from './components/functionsdemo/slottedtabs/tabs.component';
+import { SlotTabComponent } from './components/functionsdemo/slottedtabs/tab.component';
+import { ButtonComponent } from './components/functionsdemo/button.component';
+import { SlottedComponent } from './components/functionsdemo/slotted.component';
+import { AboutComponent } from './components/functionsdemo/pages/about.component';
+import { DemoComponent } from './components/functionsdemo/pages/demo.component';
+import { DesignDemoComponent } from './components/functionsdemo/pages/designdemo.component';
+import { ContactComponent } from './components/functionsdemo/pages/contact.component';
+import { CounterComponent } from 'components/functionsdemo/counter.component';
+import { StoreCounterComponent } from './components/functionsdemo/storecounter.component';
+import { ServiceCounterComponent } from './components/functionsdemo/servicecounter.component';
+import { HomeComponent } from 'components/functionsdemo/pages/home.component';
+import { DocuComponent } from 'components/functionsdemo/pages/docu.component';
+import { ButtonsComponent } from 'components/functionsdemo/buttons.component';
+import { FormComponent, SubFormComponent } from 'components/functionsdemo/form.component';
+import { ComplexComponent } from 'components/functionsdemo/complex.component';
+import { ComplexBoolComponent } from 'components/functionsdemo/complexbool.component';
+import { RouterComponent } from 'components/functionsdemo/router/router.component';
+import { Page1Component } from 'components/functionsdemo/router/page1.component';
+import { Page2Component } from 'components/functionsdemo/router/page2.component';
+import { Page3Component } from 'components/functionsdemo/router/page3.component';
+import { RepeaterTestComponent } from 'components/functionsdemo/repeater.component';
 
-import { ButtonExpander } from 'components/expander/button.expander';
+import { ButtonExpander } from 'components/functionsdemo/expander/button.expander';
 
 import './main.scss';
 

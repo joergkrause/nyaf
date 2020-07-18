@@ -1,8 +1,5 @@
 import JSX, { CustomElement, Properties, BaseComponent } from '@nyaf/lib';
-import Icon from '../icon/icon.jsx';
-import './button.css';
-import Badge from '../badge/badge';
-
+require('./button.scss');
 
 @CustomElement('ui-button')
 @Properties<ButtonProps>({
@@ -16,12 +13,14 @@ import Badge from '../badge/badge';
   className: '',
   clsTitle: '',
   clsIcon: '',
-  lsBadge: ''
+  clsBadge: ''
 })
 export class Button extends BaseComponent<ButtonProps> {
+
+  private button: HTMLElement;
+
   constructor() {
     super();
-    this.button = React.createRef();
   }
 
   async render() {
@@ -42,7 +41,7 @@ export class Button extends BaseComponent<ButtonProps> {
     return (
       <Element className={classButton} ref={this.button} {...rest}>
         {icon && (
-          <Icon prefix={iconPrefix} name={icon} cls={clsIcon} />
+          <ui-icon prefix={iconPrefix} name={icon} cls={clsIcon} />
         )}
 
         {image && (
@@ -54,7 +53,7 @@ export class Button extends BaseComponent<ButtonProps> {
         )}
 
         {badge !== null && (
-          <Badge value={badge} cls={clsBadge} />
+          <ui-badge value={badge} cls={clsBadge} />
         )}
 
         {this.children}
@@ -68,11 +67,11 @@ interface ButtonProps {
   title: string;
   badge: null;
   icon: null;
-  iconPrefix: 'mif-';
+  iconPrefix: string;
   image: null;
   cls: string;
   className: string;
   clsTitle: string;
   clsIcon: string;
-  lsBadge: string;
+  clsBadge: string;
 }

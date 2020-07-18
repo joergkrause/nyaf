@@ -1,11 +1,11 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .info-panel {
     display: flex;
     flex-flow: column;
-    background-color: @white;
-    color: @dark;
+    background-color: $white;
+    color: $dark;
     text-align: center;
 }
 

@@ -1,11 +1,27 @@
-import JSX from '@nyaf/lib'
+import JSX, { CustomElement, BaseComponent, Properties } from '@nyaf/lib';
 
-export default class ActivitySimple extends BaseComponent<{}> {
-    async render() {
-        return (
-            <svg className="circular">
-                <circle className="path" cx={this.props.size / 2} cy={this.props.size / 2} r={this.props.radius} fill="none" strokeWidth="2" strokeMiterlimit="10"/>
-            </svg>
-        )
-    }
+@CustomElement('ui-activity-simple')
+@Properties<ActivitySimpleProps>({
+  size: 20,
+  radius: 2
+})
+export class ActivitySimple extends BaseComponent<ActivitySimpleProps> {
+
+  constructor() {
+    super();
+  }
+
+  async render() {
+    return await (
+      <svg className='circular'>
+        <circle className='path' cx={this.data.size / 2} cy={this.data.size / 2} r={this.data.radius} fill='none' strokeWidth='2' strokeMiterlimit='10' />
+      </svg>
+    );
+  }
+}
+
+
+interface ActivitySimpleProps {
+  size: number;
+  radius: number;
 }

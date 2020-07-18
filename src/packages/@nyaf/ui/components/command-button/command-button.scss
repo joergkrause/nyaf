@@ -18,9 +18,9 @@
     font-weight: 500;
 
     .icon {
-        .px2rem(width, 43px);
-        .px2rem(height, 43px);
-        .px2rem(line-height, 43px);
+        @include px2rem(width, 43px);
+        @include px2rem(height, 43px);
+        @include px2rem(line-height, 43px);
         font-size: 2rem;
         color: inherit;
         order: 1;

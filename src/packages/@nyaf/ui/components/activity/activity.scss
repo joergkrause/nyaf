@@ -1,62 +1,62 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .activity {
     &-ring {
         position: relative;
 
         padding-top: .22rem;
-        width: @activityRingSize;
-        height: @activityRingSize;
+        width: $activityRingSize;
+        height: $activityRingSize;
         margin: .625rem;
 
         & > .wrap {
             position: absolute;
-            width: @activityRingSize - 2;
-            height: @activityRingSize - 2;
+            width: $activityRingSize - 2;
+            height: $activityRingSize - 2;
 
             & > .circle {
                 opacity: 0;
-                width: @activityRingSize - 2;
-                height: @activityRingSize - 2;
-                .rotate(225deg);
-                .animate(orbit @activityRingTime infinite);
+                width: $activityRingSize - 2;
+                height: $activityRingSize - 2;
+                @include rotate(225deg);
+                @include animate(orbit $activityRingTime infinite);
 
                 &:after {
                     position: absolute;
                     content: '';
-                    width: @activityRingSize / 8;
-                    height: @activityRingSize / 8;
-                    border-radius: @activityRingSize / 8;
-                    background: @activityColor;
+                    width: $activityRingSize / 8;
+                    height: $activityRingSize / 8;
+                    border-radius: $activityRingSize / 8;
+                    background: $activityColor;
                 }
             }
 
             &:nth-child(2) {
-                .rotate(@activityRingRotate);
+                @include rotate($activityRingRotate);
                 & > .circle {
-                    animation-delay: @activityRingTime / @activityRingTimeMute;
+                    animation-delay: $activityRingTime / $activityRingTimeMute;
                 }
             }
 
             &:nth-child(3) {
-                .rotate(@activityRingRotate*2);
+                @include rotate($activityRingRotate*2);
                 & > .circle {
-                    animation-delay: @activityRingTime / @activityRingTimeMute*2;
+                    animation-delay: $activityRingTime / $activityRingTimeMute*2;
                 }
             }
 
             &:nth-child(4) {
-                .rotate(@activityRingRotate*3);
+                @include rotate($activityRingRotate*3);
                 & > .circle {
-                    animation-delay: @activityRingTime / @activityRingTimeMute*3;
+                    animation-delay: $activityRingTime / $activityRingTimeMute*3;
                 }
             }
 
             &:nth-child(5) {
-                .rotate(@activityRingRotate*4);
+                @include rotate($activityRingRotate*4);
                 & > .circle {
-                    animation-delay: @activityRingTime / @activityRingTimeMute*4;
+                    animation-delay: $activityRingTime / $activityRingTimeMute*4;
                 }
             }
         }
@@ -65,7 +65,7 @@
             & > .wrap {
                 & > .circle {
                     &:after {
-                        background-color: @activityColorDark;
+                        background-color: $activityColorDark;
                     }
                 }
             }
@@ -75,35 +75,35 @@
             & > .wrap {
                 & > .circle {
                     &:after {
-                        background-color: @cyan;
+                        background-color: $cyan;
                     }
                 }
             }
             & > .wrap:nth-child(2) {
                 & > .circle {
                     &:after {
-                        background-color: @orange;
+                        background-color: $orange;
                     }
                 }
             }
             & > .wrap:nth-child(3) {
                 & > .circle {
                     &:after {
-                        background-color: @green;
+                        background-color: $green;
                     }
                 }
             }
             & > .wrap:nth-child(4) {
                 & > .circle {
                     &:after {
-                        background-color: @red;
+                        background-color: $red;
                     }
                 }
             }
             & > .wrap:nth-child(5) {
                 & > .circle {
                     &:after {
-                        background-color: @yellow;
+                        background-color: $yellow;
                     }
                 }
             }
@@ -116,14 +116,14 @@
 
         width: 100%;
         height: 10px;
-        background-color: @transparent;
+        background-color: $transparent;
 
         & > .circle {
             display: inline-block;
             position: absolute;
             width: 10px;
             height: 10px;
-            background-color: @activityColor;
+            background-color: $activityColor;
             opacity: 0;
             margin-left: 5px;
             animation: metro-slide 3s cubic-bezier(.1,.85,.9,.15) infinite, metro-opacity 2s ease-in-out infinite alternate;
@@ -144,25 +144,25 @@
 
         &.dark-style {
             & > .circle {
-                background-color: @activityColorDark;
+                background-color: $activityColorDark;
             }
         }
 
         &.color-style {
             & > .circle {
-                background-color: @cyan;
+                background-color: $cyan;
             }
             & > .circle:nth-child(2) {
-                background-color: @orange;
+                background-color: $orange;
             }
             & > .circle:nth-child(3) {
-                background-color: @green;
+                background-color: $green;
             }
             & > .circle:nth-child(4) {
-                background-color: @red;
+                background-color: $red;
             }
             & > .circle:nth-child(5) {
-                background-color: @yellow;
+                background-color: $yellow;
             }
         }
     }
@@ -179,7 +179,7 @@
             position: absolute;
             width: 19px;
             height: 19px;
-            background: @activityColor;
+            background: $activityColor;
 
             &:nth-child(1) {
                 left: 0;
@@ -207,26 +207,26 @@
 
         &.dark-style {
             & > .square {
-                background-color: @activityColorDark;
+                background-color: $activityColorDark;
             }
         }
 
         &.color-style {
 
             & > .square:nth-child(1) {
-                background-color: @orange;
+                background-color: $orange;
             }
 
             & > .square:nth-child(2) {
-                background-color: @green;
+                background-color: $green;
             }
 
             & > .square:nth-child(3) {
-                background-color: @cyan;
+                background-color: $cyan;
             }
 
             & > .square:nth-child(4) {
-                background-color: @yellow;
+                background-color: $yellow;
             }
         }
     }
@@ -247,8 +247,8 @@
             margin: -32px 0 0 -32px;
             border-radius: 50%;
             border: 3px solid transparent;
-            border-top-color: @white;
-            animation: ani-pre-spin 1s linear infinite;
+            border-top-color: $white;
+            animation: ani-pre-adjust-hue 1s linear infinite;
             z-index: 1001;
 
             &::before, &::after {
@@ -256,7 +256,7 @@
                 position: absolute;
                 border-radius: 50%;
                 border: 3px solid transparent;
-                border-top-color: @white;
+                border-top-color: $white;
             }
 
             &:before {
@@ -264,7 +264,7 @@
                 left: 5px;
                 right: 5px;
                 bottom: 5px;
-                animation: ani-pre-spin 2s linear infinite;
+                animation: ani-pre-adjust-hue 2s linear infinite;
             }
 
             &:after {
@@ -272,44 +272,44 @@
                 left: 15px;
                 right: 15px;
                 bottom: 15px;
-                animation: spin 1.5s linear infinite;
+                animation: adjust-hue 1.5s linear infinite;
             }
         }
 
         &.dark-style {
             .cycle {
-                border-top-color: @dark;
+                border-top-color: $dark;
 
                 &:before {
-                    border-top-color: @dark;
+                    border-top-color: $dark;
                 }
 
                 &:after {
-                    border-top-color: @dark;
+                    border-top-color: $dark;
                 }
             }
         }
 
         &.color-style {
             .cycle {
-                border-top-color: @cyan;
+                border-top-color: $cyan;
 
                 &:before {
-                    border-top-color: @red;
+                    border-top-color: $red;
                 }
 
                 &:after {
-                    border-top-color: @yellow;
+                    border-top-color: $yellow;
                 }
             }
         }
     }
 
     &-simple {
-        @sizeA: 64;
-        @sizeB: 64;
+        $sizeA: 64;
+        $sizeB: 64;
 
-        .square(@sizeA, px);
+        @include square($sizeA, px);
 
         .circular{
             animation: rotate 2s linear infinite;
@@ -323,12 +323,12 @@
             stroke-dashoffset: 0;
             animation: dash 1.5s ease-in-out infinite;
             stroke-linecap: round;
-            stroke: @white;
+            stroke: $white;
         }
 
         &.dark-style {
             .path {
-                stroke: @dark;
+                stroke: $dark;
             }
         }
 
@@ -338,10 +338,10 @@
 
 
         &.small {
-            .square(@sizeA/2, px);
+            @include square($sizeA/2, px);
             border-radius: 50%;
             .circular {
-                .square(@sizeA/2, px);
+                @include square($sizeA/2, px);
             }
         }
     }
@@ -370,16 +370,16 @@
 
 @keyframes color{
     100%, 0%{
-        stroke: @red;
+        stroke: $red;
     }
     40%{
-        stroke: @blue;
+        stroke: $blue;
     }
     66%{
-        stroke: @green;
+        stroke: $green;
     }
     80%, 90%{
-        stroke: @yellow;
+        stroke: $yellow;
     }
 }
 

@@ -1,7 +1,7 @@
 import JSX, { BaseComponent, CustomElement, Properties } from '@nyaf/lib';
 require('./info-panel.scss');
 
-@CustomElement('ui-infopaneltitle')
+@CustomElement('ui-infopanel-title')
 @Properties<InfoPanelTitleProps>({
   cls: '',
 })
@@ -14,10 +14,10 @@ export class InfoPanelTitle extends BaseComponent<InfoPanelTitleProps> {
 }
 
 interface InfoPanelTitleProps {
-  cls: string;
+  cls?: string;
 }
 
-@CustomElement('ui-infopaneltitle')
+@CustomElement('ui-infopanel-content')
 @Properties<InfoPanelContentProps>({
   cls: '',
 })
@@ -30,10 +30,10 @@ export class InfoPanelContent extends BaseComponent<InfoPanelContentProps> {
 }
 
 interface InfoPanelContentProps {
-  cls: string;
+  cls?: string;
 }
 
-@CustomElement('ui-infopanelfooter')
+@CustomElement('ui-infopanel-footer')
 @Properties<InfoPanelFooterProps>({
   cls: ''
 })
@@ -46,7 +46,7 @@ export class InfoPanelFooter extends BaseComponent<InfoPanelFooterProps> {
 }
 
 interface InfoPanelFooterProps {
-  cls: string;
+  cls?: string;
 }
 
 @CustomElement('ui-infopanel')
@@ -57,7 +57,7 @@ export class InfoPanel extends BaseComponent<InfoPanelProps> {
   async render() {
     const { cls } = this.data;
 
-    return (
+    return await (
       <div className={'info-panel ' + cls}>
         {this.children}
       </div>
@@ -66,5 +66,5 @@ export class InfoPanel extends BaseComponent<InfoPanelProps> {
 }
 
 interface InfoPanelProps {
-  cls: string;
+  cls?: string;
 }

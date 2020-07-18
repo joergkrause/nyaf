@@ -14,10 +14,9 @@ require('./image-button.scss');
   clsIcon: '',
   clsTitle: ''
 })
-export default class ImageButton extends BaseComponent<ImageButtonProps> {
+export class ImageButton extends BaseComponent<ImageButtonProps> {
   constructor() {
     super();
-    this.button = React.createRef();
   }
 
   async render() {
@@ -35,7 +34,7 @@ export default class ImageButton extends BaseComponent<ImageButtonProps> {
     } = this.data;
 
     return (
-      <Element className={`image-button ${cls} ${className}`} ref={this.button} {...rest}>
+      <Element className={`image-button ${cls} ${className}`} {...rest}>
         {icon && (
           <Icon name={icon} prefix={iconPrefix} cls={'icon ' + clsIcon} />
         )}

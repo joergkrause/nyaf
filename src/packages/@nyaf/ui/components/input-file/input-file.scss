@@ -1,8 +1,8 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .file, .drop-zone {
-    .hideElement(input);
+    @include hideElement(input);
 }
 
 .file {
@@ -12,7 +12,7 @@
     padding: 0;
 
     &.focused {
-        box-shadow: 0 0 0 3px rgba(red(@lightGray), green(@lightGray), blue(@lightGray), 0.45);
+        box-shadow: 0 0 0 3px rgba(red($lightGray), green($lightGray), blue($lightGray), 0.45);
     }
 
     .button-group {
@@ -24,14 +24,14 @@
 
     .button {
         background-color: transparent;
-        color: @dark;
+        color: $dark;
         height: 34px;
         min-width: 34px;
         &:focus {
             box-shadow: none;
         }
         &:hover {
-            background-color: @light;
+            background-color: $light;
             text-shadow: rgba(0,0,0,.25) 0.1em 0.1em 0.2em;
         }
     }
@@ -51,8 +51,8 @@
 
     &.disabled .button-group {
         button {
-            background-color: @light;
-            color: darken(@light, 10%);
+            background-color: $light;
+            color: darken($light, 10%);
         }
     }
     .caption {
@@ -60,13 +60,13 @@
         display: block;
         padding: 0 .5rem;
         width: 100%;
-        .text-ellipsis();
+        @include text-ellipsis();
     }
 
     &.disabled {
         button {
-            background-color: @light;
-            color: darken(@light, 10%);
+            background-color: $light;
+            color: darken($light, 10%);
         }
     }
 
@@ -84,9 +84,9 @@
     width: 100%;
     height: auto;
     padding: 40px 0;
-    outline: 4px dashed @darkGray;
+    outline: 4px dashed $darkGray;
     outline-offset: -12px;
-    background-color: @light;
+    background-color: $light;
 
     .icon {
         display: block;
@@ -97,14 +97,14 @@
     .caption {
         margin-top: 10px;
         font-size: 14px;
-        .text-ellipsis();
+        @include text-ellipsis();
     }
 
     &.focused {
-        outline-color: @cyan;
+        outline-color: $cyan;
     }
 
     &.drop-on {
-        outline-color: @green;
+        outline-color: $green;
     }
 }

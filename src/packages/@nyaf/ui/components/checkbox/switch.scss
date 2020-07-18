@@ -12,7 +12,7 @@
     cursor: pointer;
     height: 36px;
 
-    .hideElement(input);
+    @include hideElement(input);
 
     .check, .caption {
         display: block;
@@ -59,8 +59,8 @@
             background-color: $white;
             border-color: $white;
             left: auto;
-            .translateX(1.625rem);
-            .translateY(-50%);
+            @include translateX(1.625rem);
+            @include translateY(-50%);
         }
     }
 
@@ -120,7 +120,7 @@
     height: 36px;
     margin: 0;
 
-    .hideElement(input);
+    @include hideElement(input);
 
     .check, .caption {
         display: inline-block;
@@ -175,7 +175,7 @@
     input:checked ~ .check {
         background-color: rgba(0, 150, 136, 0.5);
         &::before {
-            .translateX(22px);
+          @include translateX(22px);
             //.transition(all, .2s, linear);
         }
     }
@@ -203,13 +203,13 @@
 
         input:not(:checked) ~ .check {
             &::before {
-                .transition(all, .2s, linear);
+              @include transition(all, .2s, linear);
             }
         }
 
         input:checked ~ .check {
             &::before {
-                .transition(all, .2s, linear);
+              @include transition(all, .2s, linear);
             }
         }
     }

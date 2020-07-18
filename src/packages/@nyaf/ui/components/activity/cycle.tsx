@@ -1,7 +1,13 @@
-import JSX from '@nyaf/lib'
+import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
-export default class ActivityCycle extends BaseComponent<{}> {
+@CustomElement('ui-activity-cycle')
+export class ActivityCycle extends BaseComponent<{}> {
+
+  constructor() {
+    super();
+  }
+
     async render() {
-        return <div className="cycle" key={1} />;
+        return await (<div className='cycle' key={1} />);
     }
 }

@@ -1,4 +1,5 @@
 import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
+import { ViewModel, IModel, ModelBinder } from '@nyaf/forms';
 require('./input.scss');
 
 const AutocompleteListItem = ({ start, coincidence, end }) => {
@@ -6,6 +7,14 @@ const AutocompleteListItem = ({ start, coincidence, end }) => {
     <span>{start}<strong>{coincidence}</strong>{end}</span>
   );
 };
+
+class InputModel {
+  initValue: string;
+  value: string;
+  inputType: string;
+  focus: boolean;
+  fieldState: string;
+}
 
 @CustomElement('ui-infobutton')
 @Properties<InputProps>({
@@ -37,31 +46,37 @@ const AutocompleteListItem = ({ start, coincidence, end }) => {
   clsAutocompleteItem: '',
   clsErrorMessage: ''
 })
+@ViewModel<InputModel>(InputModel)
 @Events([
-  'Search',
-  'Clear',
-  'Reveal',
-  'Change',
-  'KeyUp',
-  'Blur',
-  'Focu'
+  'search',
+  'clear',
+  'reveal',
+  'change',
+  'keyup',
+  'blur',
+  'focus'
 ])
-export class Input extends BaseComponent<InputProps> {
+export class Input extends BaseComponent<InputProps> implements IModel<InputModel> {
+
+  private input = null;
+  private history = [];
+  private historyIndex = -1;
+  private autocomplete = [];
+
+
   constructor() {
     super();
 
-    this.state = {
-      initValue: props.value,
-      value: props.value,
-      inputType: props.type,
-      focus: false,
-      fieldState: props.fieldState
-    };
+    this.model.scope.initValue = this.data.value;
+    this.model.scope.value = this.data.value;
+    this.model.scope.inputType = this.data.type;
+    this.model.scope.focus = false;
+    this.model.scope.fieldState = this.data.fieldState;
 
     this.input = null;
     this.history = [];
     this.historyIndex = -1;
-    this.autocomplete = [...this.props.autocomplete].sort((a, b) => a > b);
+    this.autocomplete = [...this.data.autocomplete].sort((a, b) => a > b);
 
     this.onChange = this.onChange.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
@@ -74,132 +89,118 @@ export class Input extends BaseComponent<InputProps> {
     this.focus = this.focus.bind(this);
   }
 
+  model: ModelBinder<InputModel>;
+
   static getDerivedStateFromProps(props, state) {
     if (props.value !== state.initValue || props.fieldState !== state.fieldState) {
       return {
         value: props.value,
         initValue: props.value,
         fieldState: props.fieldState
-      }
+      };
     }
     return null;
   }
 
   componentDidMount() {
-    this.input.addEventListener("blur", this.onBlur);
-    this.input.addEventListener("focus", this.onFocus);
+    this.input.addEventListener('blur', this.onBlur);
+    this.input.addEventListener('focus', this.onFocus);
   }
 
   componentWillUnmount() {
-    this.input.removeEventListener("blur", this.onBlur);
-    this.input.removeEventListener("focus", this.onFocus);
+    this.input.removeEventListener('blur', this.onBlur);
+    this.input.removeEventListener('focus', this.onFocus);
   }
 
   onBlur(e) {
-    this.setState({
-      focus: false
-    });
-    this.props.onBlur(e);
+    this.model.scope.focus = false;
+    this.dispatch('blur', {});
   }
 
   onFocus(e) {
-    this.setState({
-      focus: true
-    });
-    this.props.onFocus(e);
+    this.model.scope.focus = true;
+    this.dispatch('focus', {});
   }
 
   onChange(e) {
-    const { onChange } = this.props;
-
-    this.setState({
-      value: e.target.value ? e.target.value : ""
-    });
-
-    onChange(e);
+    this.model.scope.value = e.target.value ? e.target.value : '';
+    this.dispatch('change', {});
   }
 
   onKeyUp(e) {
-    let val = this.input.value;
+    const val = this.input.value;
 
-    if (this.props.history) {
-      if (e.keyCode === 13) { //Enter
+    if (this.data.history) {
+      if (e.keyCode === 13) { // Enter
         this.history.push(val);
         this.historyIndex = this.history.length - 1;
         this.clearValue(e);
-        if (this.props.preventSubmit) {
+        if (this.data.preventSubmit) {
           e.preventDefault();
         }
       }
 
-      if (e.keyCode === 38) { //Up
+      if (e.keyCode === 38) { // Up
         if (this.historyIndex > 0) {
           this.historyIndex--;
-          this.setState({
-            value: this.history[this.historyIndex]
-          });
+          this.model.scope.value = this.history[this.historyIndex];
         }
       }
 
-      if (e.keyCode === 40) { //Down
+      if (e.keyCode === 40) { // Down
         if (this.historyIndex < this.history.length - 1) {
           this.historyIndex++;
-          this.setState({
-            value: this.history[this.historyIndex]
-          });
+          this.model.scope.value = this.history[this.historyIndex];
         }
       }
     }
 
-    this.props.onChange(e);
-    this.props.onKeyUp(e);
+    this.dispatch('change', {});
+    this.dispatch('keyup', {});
   }
 
   changeInputType() {
-    const { onReveal } = this.props;
 
-    this.setState((prev) => ({
-      inputType: prev.inputType === 'text' ? 'password' : 'text'
-    }));
+    // this.setState((prev) => ({
+    //   inputType: prev.inputType === 'text' ? 'password' : 'text'
+    // }));
 
-    onReveal(this.input);
+    // onReveal(this.input);
   }
 
   clearValue(e) {
-    const { onClear } = this.props;
 
-    this.setState({
-      value: ""
-    });
+    this.model.scope.value = '';
 
     // Original event is a click. On target == clear button. Without value. It cause errors in onChange
     this.input.value = '';
     const event = new Event('change', { bubbles: true, composed: true });
     this.input.dispatchEvent(event);
 
-    this.focus(event);
-    this.onChange(event);
-
-
-    onClear(e);
+    this.dispatch('focus', {});
+    this.dispatch('change', {});
+    this.dispatch('clear', {});
   }
 
   searchValue() {
-    const { searchType, onSearch } = this.props;
+    const { searchType } = this.data;
 
     if (searchType === 'custom') {
-      onSearch(this.input.value, this.input);
+      this.dispatch('search', {
+        detail: {
+          value: this.input.value,
+          input: this.input
+        }
+      });
     } else {
-      if (this.input.form)
+      if (this.input.form) {
         this.input.form.submit();
+      }
     }
   }
 
   autocompleteItemClick(e) {
-    const value = e.target.getAttribute('data-item');
-    this.setState({
-      value: value
-    });
+    this.model.scope.value = e.target.getAttribute('data-item');
   }
 
   focus() {
@@ -208,10 +209,12 @@ export class Input extends BaseComponent<InputProps> {
 
   async render() {
     const {
-      errorMessage, fieldState: initFieldState, type, append, prepend, clear, reveal, search, searchType, history, preventSubmit, customButtons, autocomplete, autocompleteHeight, onSearch, onClear, onReveal,
-      cls, className, clsAppend, clsPrepend, clsClearButton, clsCustomButton, clsSearchButton, clsRevealButton, clsAutocomplete, clsAutocompleteItem, clsButtonGroup, clsErrorMessage,
+      errorMessage, fieldState: initFieldState, type, append, prepend, clear, reveal, search, searchType, history, preventSubmit, customButtons,
+      autocomplete, autocompleteHeight,
+      cls, className, clsAppend, clsPrepend,
+      clsClearButton, clsCustomButton, clsSearchButton, clsRevealButton, clsAutocomplete, clsAutocompleteItem, clsButtonGroup, clsErrorMessage,
       ...props } = this.data;
-    const { value, inputType, focus, fieldState } = this.state;
+    const { value, inputType, focus, fieldState } = this.model.scope;
     const buttons = clear || reveal || search;
 
     const autocompleteItemClick = this.autocompleteItemClick;
@@ -244,7 +247,7 @@ export class Input extends BaseComponent<InputProps> {
                 const { cls, ...btnProps } = btn;
                 return (
                   <ui-button cls={cls + ' ' + clsCustomButton} key={index} {...btnProps} />
-                )
+                );
               })}
             </div>
           )}
@@ -274,7 +277,7 @@ export class Input extends BaseComponent<InputProps> {
                         coincidence={item.substr(searchIndex, value.length)}
                         end={item.substr(searchIndex + value.length)} />
                     </div>
-                  )
+                  );
                 })
               }
             </div>
@@ -284,7 +287,7 @@ export class Input extends BaseComponent<InputProps> {
           <span className={'invalid_feedback ' + clsErrorMessage}>{errorMessage}</span>
         )}
       </>
-    )
+    );
   }
 }
 
@@ -292,7 +295,7 @@ interface InputProps {
   fieldState: string;
   errorMessage: string;
   value: string;
-  type: 'text',
+  type: 'text' | 'password' | 'number' | 'date';
   append: string;
   prepend: string;
   clear: true;

@@ -1,5 +1,5 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .breadcrumbs {
 
@@ -10,8 +10,8 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    background-color: @white;
-    color: lighten(@dark, 30%);
+    background-color: $white;
+    color: lighten($dark, 30%);
 
     .page-item, .breadcrumb-item {
         position: relative;
@@ -19,7 +19,7 @@
         display: list-item;
         background-color: inherit;
         color: inherit;
-        transition: @transition-short;
+        transition: $transition-short;
         margin: 4px;
     }
 
@@ -33,7 +33,7 @@
             content: "";
             height: 1px;
             width: .375rem;
-            background-color: @dark;
+            background-color: $dark;
             top: 50%;
             left: 0;
             margin-left: -.5rem;
@@ -62,7 +62,7 @@
     }
 
     .page-link:hover,  .page-item a:hover, .breadcrumb-item a:hover{
-        color: @dark;
+        color: $dark;
     }
 
     .page-item:last-child, .breadcrumb-item:last-child {

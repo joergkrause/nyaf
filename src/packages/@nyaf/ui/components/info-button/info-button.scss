@@ -1,9 +1,9 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .info-button {
-    border: 1px solid @borderColor;
-    background-color: darken(@light, 5%);
+    border: 1px solid $borderColor;
+    background-color: darken($light, 5%);
     overflow: hidden;
     position: relative;
     align-items: center;
@@ -24,9 +24,9 @@
         font-size: .875rem;
         line-height: 34px;
         height: 36px;
-        transition: @transition-short;
-        background-color: darken(@light, 5%);
-        color: @dark;
+        transition: $transition-short;
+        background-color: darken($light, 5%);
+        color: $dark;
         cursor: pointer;
         outline: none;
         position: relative;
@@ -47,25 +47,25 @@
         background-color: inherit;
         color: inherit;
         &:hover {
-            background-color: @hoverBackground;
+            background-color: $hoverBackground;
         }
     }
     .info {
         font-size: 12px;
         background-color: #FEFEFE;
-        color: @dark;
+        color: $dark;
         padding: 0 .625rem;
         text-decoration: none;
         font-weight: 600;
         line-height: 34px;
 
         &:hover {
-            color: @linkColorHover;
+            color: $linkColorHover;
         }
     }
 
     a.info:hover {
-        color: @dark;
+        color: $dark;
     }
 
     .button .icon {

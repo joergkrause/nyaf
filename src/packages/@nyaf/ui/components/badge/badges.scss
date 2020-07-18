@@ -1,14 +1,14 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .badge {
     position: absolute;
     z-index: 1;
     top: 0;
     right: 0;
-    background-color: @light;
-    color: @dark;
-    border-radius: @borderRadius;
+    background-color: $light;
+    color: $dark;
+    border-radius: $borderRadius;
     display: inline-block;
     padding: .25em .4em;
     font-size: 75%;
@@ -18,8 +18,8 @@
     white-space: nowrap;
     vertical-align: baseline;
 
-    .translateY(-50%);
-    .translateX(50%);
+    @include translateY(-50%);
+    @include translateX(50%);
 }
 
 .brand,
@@ -31,8 +31,8 @@
 .t-menu > li > a
 {
     .badge {
-        .translateY(0);
-        .translateX(0);
+      @include translateY(0);
+      @include translateX(0);
     }
 }
 
@@ -42,13 +42,12 @@
         display: inline-block;
         right: auto;
         top: -1px;
-        .translateY(0);
-        .translateX(0);
+        @include translateY(0);
+        @include translateX(0);
     }
 
     &.inside {
-        .translateY(0);
-        .translateX(0);
+      @include translateY(0);
+      @include translateX(0);
     }
 }
-

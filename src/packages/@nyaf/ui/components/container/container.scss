@@ -1,5 +1,5 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .container, .container2, .container-fluid, section, header, footer, aside {
     .set-relative();
@@ -57,13 +57,13 @@ section {
     }
 }
 
-.generate-container-media-options(@mediaBreakpointListMobileLength);
-.generate-container-media-options(@name, @i: 1) when (@i <= @mediaBreakpointListMobileLength) {
-    @m: extract(@mediaBreakpointListMobile, @i);
+.generate-container-media-options($mediaBreakpointListMobileLength);
+.generate-container-media-options($name, $i: 1) when ($i <= $mediaBreakpointListMobileLength) {
+    $m: extract($mediaBreakpointListMobile, $i);
 
-        .container-@{m} {
-            max-width: @@m!important;
+        .container-#{$m} {
+            max-width: $m !important;
         }
 
-    .generate-container-media-options(@name, @i + 1);
+    .generate-container-media-options($name, $i + 1);
 }

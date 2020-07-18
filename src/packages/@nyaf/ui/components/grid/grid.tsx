@@ -1,5 +1,5 @@
-import JSX from '@nyaf/lib'
-import "./grid.css";
+import JSX from '@nyaf/lib';
+require("./grid.scss");
 
 const Grid = ({as: Element = "div", cls = "", className = "", ...rest}) => {
     return (

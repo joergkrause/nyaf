@@ -1,5 +1,5 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .button, .flat-button {
     display: inline-block;
@@ -13,9 +13,9 @@
     font-size: .875rem;
     line-height: 34px;
     height: 36px;
-    transition: @transition-short;
-    background-color: darken(@light, 5%);
-    color: @dark;
+    transition: $transition-short;
+    background-color: darken($light, 5%);
+    color: $dark;
     cursor: pointer;
     outline: none;
     position: relative;
@@ -36,19 +36,19 @@
 
 .button {
     &:active, &.focus, &:focus {
-        .focus-show(@lightGray);
+        @include focus-show($lightGray);
     }
 
     &:hover {
-        background-color: @hoverBackground;
+        background-color: $hoverBackground;
     }
 
     &.link {
-        background-color: @transparent;
-        color: @linkColor;
+        background-color: $transparent;
+        color: $linkColor;
         &:hover {
-            background-color: @transparent;
-            color: @linkColorHover;
+            background-color: $transparent;
+            color: $linkColorHover;
             text-decoration: underline;
         }
         &.focus, &:focus {
@@ -60,7 +60,7 @@
 .button {
     &.hovered {
         &:hover {
-            background-color:  rgba(red(@dark), green(@dark), blue(@dark), .2);
+            background-color:  rgba(red($dark), green($dark), blue($dark), .2);
         }
     }
 }
@@ -73,52 +73,52 @@
 
 .button {
     &.mini {
-        .px2rem(font-size, 10px);
+        @include px2rem(font-size, 10px);
         padding: 0 .5rem;
         height: 20px;
         line-height: 20px;
         img {
-            .px2rem(height, 10px);
+            @include px2rem(height, 10px);
         }
     }
     &.small {
-        .px2rem(font-size, 12px);
+        @include px2rem(font-size, 12px);
         padding: 0 .6rem;
         height: 26px;
         line-height: 26px;
         img {
-            .px2rem(height, 12px);
+            @include px2rem(height, 12px);
         }
     }
     &.large {
-        .px2rem(font-size, 22px);
+        @include px2rem(font-size, 22px);
         padding: 0 1rem;
         height: 53px;
         line-height: 53px;
         img {
-            .px2rem(height, 22px);
+            @include px2rem(height, 22px);
         }
     }
 }
 
 .button {
     &.square, &.cycle {
-        .px2rem(width, 36px);
-        .px2rem(height, 36px);
+        @include px2rem(width, 36px);
+        @include px2rem(height, 36px);
         padding-left: 0 !important;
         padding-right: 0 !important;
 
         &.mini {
-            .px2rem(width, 22.38px);
-            .px2rem(height, 22.38px);
+            @include px2rem(width, 22.38px);
+            @include px2rem(height, 22.38px);
         }
         &.small {
-            .px2rem(width, 27.59px);
-            .px2rem(height, 27.59px);
+            @include px2rem(width, 27.59px);
+            @include px2rem(height, 27.59px);
         }
         &.large {
-            .px2rem(width, 53px);
-            .px2rem(height, 53px);
+            @include px2rem(width, 53px);
+            @include px2rem(height, 53px);
         }
     }
     &.cycle {
@@ -148,7 +148,7 @@
 
     &:active {
         outline: 0;
-        .focus-show(@gray);
+        @include focus-show($gray);
     }
 
     &.disabled, &:disabled {
@@ -160,7 +160,7 @@
     &.outline {
         background: transparent none;
         border-width: 1px;
-        border-color: @borderColor;
+        border-color: $borderColor;
     }
 }
 
@@ -175,7 +175,7 @@ a {
     &.flat-button
     {
         appearance: none;
-        color: @dark;
+        color: $dark;
         box-shadow: none;
         text-decoration: none;
 
@@ -184,11 +184,11 @@ a {
         }
 
         &:active, &.focus, &:focus {
-            .focus-show(@lightGray);
+            @include focus-show($lightGray);
         }
     }
 }
 
 input[type=button], input[type=submit], input[type=reset] {
-    .button;
+    @include button;
 }

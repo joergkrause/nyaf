@@ -1,5 +1,12 @@
 import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
+import { ViewModel, IModel, ModelBinder } from '@nyaf/forms';
 require('./input-file.scss');
+
+class InputFileModel {
+  caption: string;
+  value: string;
+  focus: boolean;
+}
 
 @CustomElement('ui-inputfile')
 @Properties<InputFileProps>({
@@ -31,31 +38,27 @@ require('./input-file.scss');
   clsClearButton: '',
   clsSelectButton: '',
 })
+@ViewModel<InputFileModel>(InputFileModel)
 @Events([
-  'Clear',
-  'Change',
-  'Blur',
-  'Focus'
+  'clear',
+  'change',
+  'blur',
+  'focus'
 ])
-export class InputFile extends BaseComponent<InputFileProps> {
+export class InputFile extends BaseComponent<InputFileProps> implements IModel<InputFileModel> {
+
+  private input: HTMLInputElement;
+
   constructor() {
     super();
 
-    this.state = {
-      caption: '',
-      value: '',
-      focus: false
-    };
-
+    this.model.scope.caption = '';
+    this.model.scope.value = '';
+    this.model.scope.focus = false;
     this.input = null;
-
-    this.onChange = this.onChange.bind(this);
-    this.clearValue = this.clearValue.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.onFocus = this.onFocus.bind(this);
-    this.focus = this.focus.bind(this);
-    this.inputClick = this.inputClick.bind(this);
   }
+
+  model: ModelBinder<InputFileModel>;
 
   componentDidMount() {
     this.input.addEventListener('blur', this.onBlur);
@@ -73,40 +76,34 @@ export class InputFile extends BaseComponent<InputFileProps> {
     this.setState({
       focus: false
     });
-    this.props.onBlur(e);
+    this.dispatch('blur', {});
   }
 
   onFocus(e) {
     this.setState({
       focus: true
     });
-    this.props.onFocus(e);
+    this.dispatch('focus', {});
   }
 
   onChange(e) {
-    const { onChange } = this.props;
     const fileNames = [...e.target.files].map(f => f.name);
 
-    this.setState({
-      caption: fileNames.join(', '),
-      value: e.target.files
-    });
+    this.model.scope.value = e.target.files;
+    this.model.scope.caption = fileNames.join(', ');
 
-    onChange(e);
+    this.dispatch('change', {});
   }
 
   clearValue(e) {
-    const { onClear } = this.props;
 
     this.input.value = '';
-    this.setState({
-      value: '',
-      caption: ''
-    });
+    this.model.scope.value = '';
+    this.model.scope.caption = '';
 
     this.focus();
 
-    onClear(e);
+    this.dispatch('clear', {});
   }
 
   inputClick() {
@@ -119,12 +116,12 @@ export class InputFile extends BaseComponent<InputFileProps> {
 
   async render() {
     const {
-      append, prepend, clear, select, customButtons, onClear, onSelect,
+      append, prepend, clear, select, customButtons,
       cls, className, clsAppend, clsPrepend, clsClearButton, clsCustomButton, clsSelectButton, clsButtonGroup, clsCaption,
       mode, buttonTitle, dropTitle, dropTitleSecondary, buttonIcon, buttonIconPrefix, buttonIconSize,
       dropIcon, dropIconPrefix, dropIconSize,
       ...props } = this.data;
-    const { value, focus, caption } = this.state;
+    const { value, focus, caption } = this.model.scope;
     const buttons = true;
 
     return await (
@@ -173,14 +170,14 @@ export class InputFile extends BaseComponent<InputFileProps> {
         )}
 
         {mode !== 'input' && dropIcon !== '' && (
-          <Icon name={'dropIcon'} iconPrefix={dropIconPrefix} size={dropIconSize} />
+          <ui-icon name={'dropIcon'} iconPrefix={dropIconPrefix} size={dropIconSize}></ui-icon>
         )}
 
         {mode !== 'input' && (
-          <React.Fragment>
+          <>
             <span className={'caption ' + clsCaption}>{dropTitle}</span>
             <span className={'files ' + clsCaption}>{value.length + ' ' + dropTitleSecondary}</span>
-          </React.Fragment>
+          </>
         )}
 
       </label>
@@ -206,7 +203,7 @@ interface InputFileProps {
   prepend: string;
   clear: boolean;
   select: boolean;
-  customButtons: [],
+  customButtons: [];
   cls: string;
   className: string;
   clsCaption: string;

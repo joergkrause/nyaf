@@ -1,25 +1,27 @@
 import JSX, { CustomElement, Properties, BaseComponent, Events } from '@nyaf/lib';
 require('./pagination.scss');
 
-@CustomElement('ui-paginationitem')
+@CustomElement('ui-pagination-item')
 @Properties<PaginationItemProps>({
   cls: '',
   className: '',
   title: '',
   data: null
-}
+})
 @Events(['click'])
 class PaginationItem extends BaseComponent<PaginationItemProps> {
+
+  private index: number;
 
   constructor() {
     super();
   }
 
   async render() {
-    const { cls, className, title, data, index } = this.data;
+    const { cls, className, title, data } = this.data;
 
     return (
-      <li key={index} className={`page-item ${cls} ${className}`} data-index={index}>
+      <li key={this.index} className={`page-item ${cls} ${className}`} data-index={this.index}>
         <a className={'page-link'} data-value={data}>{title}</a>
       </li>
     );
@@ -27,10 +29,10 @@ class PaginationItem extends BaseComponent<PaginationItemProps> {
 }
 
 interface PaginationItemProps {
-  cls: '',
-  className: '',
-  title: '',
-  data: null
+  cls: string;
+  className: string;
+  title: string;
+  data: any;
 }
 
 @CustomElement('ui-pagination')
@@ -46,27 +48,27 @@ interface PaginationItemProps {
   moreTitle: '...',
 })
 @Events(['click'])
-export class Pagination extends BaseComponent<{}> {
+export class Pagination extends BaseComponent<PaginationProps> {
   constructor() {
     super();
-    this.clickHandler = this.clickHandler.bind(this);
-    this.addItem = this.addItem.bind(this);
   }
 
   clickHandler(e) {
     const val = e.target.getAttribute('data-value');
-    if (val) { this.props.onClick(val); }
+    if (val) {
+      this.dispatch('click', { detail: val });
+     }
   }
 
   addItem(title, data, className = '') {
     return (
-      <PaginationItem title={title} className={className} data={data} />
+      <ui-pagination-item title={title} className={className} data={data} />
     );
   }
 
   render() {
-    const { cls, className, total, itemsPerPage, current, distance, prevTitle, nextTitle, moreTitle, onClick, ...props } = this.props;
-    const pagesCount = parseInt(itemsPerPage) === -1 ? 1 : Math.ceil(total / itemsPerPage);
+    const { cls, className, total, itemsPerPage, current, distance, prevTitle, nextTitle, moreTitle, ...props } = this.data;
+    const pagesCount = +itemsPerPage === -1 ? 1 : Math.ceil(total / itemsPerPage);
     const items = [];
 
     items.push(this.addItem(prevTitle, 'prev', `service prev-page ${current === 1 ? 'disabled' : ''}`));
@@ -108,12 +110,7 @@ export class Pagination extends BaseComponent<{}> {
 
     return (
       <ul className={`pagination ${cls} ${className} ${total === 0 ? 'disabled' : ''}`} {...props} onClick={this.clickHandler}>
-        {items.map((el, index) => {
-          return React.cloneElement(el, {
-            key: index,
-            onClick: this.itemClick
-          });
-        })}
+        {items}
       </ul>
     );
   }

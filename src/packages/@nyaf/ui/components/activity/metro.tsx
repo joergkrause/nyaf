@@ -1,21 +1,22 @@
-import JSX from '@nyaf/lib'
+import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
-export default class ActivityMetro extends BaseComponent<{}> {
-    constructor(props) {
-        super(props);
-        this.createItems = this.createItems.bind(this);
+@CustomElement('ui-activity-metro')
+export class ActivityMetro extends BaseComponent<{}> {
+    constructor() {
+        super();
     }
 
     createItems() {
-        let items = [];
-        for(let i = 0; i < 5; i++)
+        const items = [];
+        for (let i = 0; i < 5; i++) {
             items.push(
-                <div className="circle" key={i} />
+                <div className='circle' key={i} />
             );
+        }
         return items;
-    };
+    }
 
     async render() {
-        return this.createItems();
+      return (<>{ this.createItems() }</>);
     }
 }

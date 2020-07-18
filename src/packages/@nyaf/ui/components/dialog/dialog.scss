@@ -1,5 +1,5 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .dialog-wrapper {
     display: flex;
@@ -11,7 +11,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: @zindex-modal-backdrop;
+    z-index: $zindex-modal-backdrop;
 }
 
 .dialog {
@@ -20,17 +20,17 @@
     flex-flow: column;
     width: auto;
     height: auto;
-    max-width: ~"calc(100vw - 100px)";
-    max-height: ~"calc(100vh - 100px)";
-    background-color: @white;
-    color: @dark;
-    z-index: @zindex-modal;
-    border: 1px solid @borderColor;
+    max-width: calc(100vw - 100px);
+    max-height: calc(100vh - 100px);
+    background-color: $white;
+    color: $dark;
+    z-index: $zindex-modal;
+    border: 1px solid $borderColor;
 }
 
 .dialog {
     &.shadow-on {
-        .shadow(3);
+        @include shadow(3);
     }
 }
 
@@ -42,8 +42,8 @@
     font-size: 1.325rem;
     padding: 12px 24px;
     order: 1;
-    border-bottom: 1px solid @borderColor;
-    .text-ellipsis();
+    border-bottom: 1px solid $borderColor;
+    @include text-ellipsis();
 }
 
 .dialog-content {
@@ -52,7 +52,7 @@
 }
 
 .dialog-actions {
-    border-top: 1px solid @winFlatBorderColor;
+    border-top: 1px solid $winFlatBorderColor;
     padding: 8px 16px;
     order: 3;
     margin-top: auto;
@@ -88,27 +88,27 @@
 }
 
 .dialog {
-    each(@buttonPredefinedTypes, {
-        @color: "@{value}Color";
+    @each $value in $buttonPredefinedTypes {
+        $color: "@{value}Color";
 
-        &.@{value} {
-            border: 1px solid @@color;
+        &.#{$value} {
+            border: 1px solid $color;
 
             .dialog-title {
-                background-color: @@color;
-                border-bottom-color: @@color;
-                color: @white;
+                background-color: $color;
+                border-bottom-color: $color;
+                color: $white;
             }
 
             .dialog-actions {
-                border-top-color: @@color;
+                border-top-color: $color;
             }
         }
-    })
+    }
 
     &.light, &.yellow {
         .dialog-title {
-            color: @dark;
+            color: $dark;
         }
     }
 }

@@ -1,34 +1,43 @@
-import JSX from '@nyaf/lib'
-import "./hamburger.css";
+import JSX, { CustomElement, Properties, BaseComponent, Events } from '@nyaf/lib';
+require('./hamburger.scss');
 
-export default class Hamburger extends BaseComponent<{}> {
-    constructor(props){
-        super(props);
-        this.onClick = this.onClick.bind(this);
-    }
 
-    onClick(e){
-        this.props.onClick(e);
-    }
+@CustomElement('ui-hamburger')
+@Properties<HamburgerProps>({
+  cls: '',
+  className: '',
+  variant: 'menu-down',
+  active: false,
+  theme: 'light'
+})
+@Events(['click'])
+export class Hamburger extends BaseComponent<HamburgerProps> {
 
-    async render() {
-        const {theme, cls, className, variant, active, onClick, ...rest} = this.props;
+  constructor() {
+    super();
+  }
 
-        return (
-            <button className={`hamburger ${theme} ${variant} ${cls} ${className} ${active ? 'active' : ''}`} onClick={this.onClick} {...rest}>
-                <span className={'line'}/>
-                <span className={'line'}/>
-                <span className={'line'}/>
-            </button>
-        )
-    }
+  onClick(e) {
+    this.dispatch('click', {});
+  }
+
+  async render() {
+    const { theme, cls, className, variant, active, ...rest } = this.data;
+
+    return await (
+      <button className={`hamburger ${theme} ${variant} ${cls} ${className} ${active ? 'active' : ''}`} n-on-click={this.onClick} {...rest}>
+        <span className={'line'} />
+        <span className={'line'} />
+        <span className={'line'} />
+      </button>
+    );
+  }
 }
 
-Hamburger.defaultProps = {
-    cls: "",
-    className: "",
-    variant: 'menu-down',
-    active: false,
-    theme: "light",
-    onClick: () => {}
-};
+interface HamburgerProps {
+  cls?: string;
+  className?: string;
+  variant?: 'menu-down';
+  active?: boolean;
+  theme?: 'light' | 'dark';
+}

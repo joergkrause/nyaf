@@ -12,7 +12,7 @@ in reality it's a big deal. Because of the non-native development style the Type
 This is a simple component in React. The name always follows the class name, *Welcome* in this example.
 
 ~~~jsx
-class Welcome extends React.Component {
+class Welcome extends BaseComponent<{}> {
   render() {
     return <h1>Hello, {this.props.name}</h1>;
   }
