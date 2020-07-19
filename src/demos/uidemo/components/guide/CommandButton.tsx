@@ -1,5 +1,7 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-commandbutton')
 export class GuideCommandButton extends BaseComponent<{}> {
 
@@ -10,13 +12,13 @@ export class GuideCommandButton extends BaseComponent<{}> {
   async render() {
     const codeImport = `import {CommandButton} from "@nyaf/ui";`;
     const codeUsing = `
-            <CommandButton
+            <ui-commandbutton
                 icon="share"
                 title="Yes, share and connect"
                 subtitle="Use this option for home or work"/>`;
 
     const codeUsing2 = `
-            <CommandButton as={'a'}
+            <ui-commandbutton as={'a'}
                 icon="share"
                 title="Yes, share and connect"
                 subtitle="Use this option for home or work"
@@ -37,13 +39,13 @@ export class GuideCommandButton extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <div className='example'>
-          <CommandButton icon="share" title="Yes, share and connect" subtitle="Use this option for home or work" />
-                    &nbsp;<CommandButton as={'a'} icon="share" title="Yes, share and connect" subtitle="Use this option for home or work" cls="icon-right info fg-white" />
+          <ui-commandbutton icon='share' title='Yes, share and connect' subtitle='Use this option for home or work' />
+    &nbsp;<ui-commandbutton as={'a'} icon='share' title='Yes, share and connect' subtitle='Use this option for home or work' cls='icon-right info fg-white' />
         </div>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h4>Props</h4>
@@ -104,14 +106,14 @@ export class GuideCommandButton extends BaseComponent<{}> {
 
         <br />
         <h3>Using</h3>
-        <demo-prismcode language="js" code={codeUsing} />
-        <demo-prismcode language="js" code={codeUsing2} />
+        <demo-prismcode language='js' code={codeUsing} />
+        <demo-prismcode language='js' code={codeUsing2} />
 
 
         <br />
 
         <br />
       </demo-article>
-    )
+    );
   }
 }

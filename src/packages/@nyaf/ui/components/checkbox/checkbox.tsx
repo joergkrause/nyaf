@@ -1,5 +1,5 @@
 import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
-import { IModel, ModelBinder, ViewModel } from '@nyaf/forms';
+import { IModel, ModelBinder, ViewModel, to } from '@nyaf/forms';
 
 require('./checkbox.scss');
 require('./switch.scss');
@@ -72,13 +72,12 @@ export class Checkbox extends BaseComponent<CheckboxProps> implements IModel<Che
       clsCheck,
       ...input
     } = this.data;
-    const { checked } = this.model.scope;
 
     const checkboxMode = mode === 'switch' ? `switch${(variant === 2 ? '-material' : '')}` : `checkbox ${(variant === 2 ? 'style2' : '')}`;
 
     return await (
       <label className={`${checkboxMode} ${transition ? 'transition-on' : ''} ${cls} ${className}`}>
-        <input type='checkbox' {...input} checked={checked} onChange={this.onChangeHandler} />
+        <input type='checkbox' {...input} n-bind={to<CheckboxModel, HTMLInputElement>(m => m.checked, 'checked')} n-on-change={this.onChangeHandler} />
         <span className={'check ' + clsCheck} />
         <span className={'caption ' + clsCaption}>{caption}</span>
       </label>
@@ -86,7 +85,7 @@ export class Checkbox extends BaseComponent<CheckboxProps> implements IModel<Che
   }
 }
 
-@CustomElement('ui-checkbox')
+@CustomElement('ui-switch')
 @Properties<CheckboxProps>(
   {
     checked: false,
@@ -102,7 +101,7 @@ export class Checkbox extends BaseComponent<CheckboxProps> implements IModel<Che
     clsCaption: ''
   }
 )
-export class Switch extends BaseComponent<{}> {
+export class Switch extends BaseComponent<CheckboxProps> {
 
   constructor() {
     super();

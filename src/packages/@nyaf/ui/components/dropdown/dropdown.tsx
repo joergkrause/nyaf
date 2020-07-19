@@ -3,11 +3,11 @@ require('./dropdown.scss');
 
 @CustomElement('ui-dropdown')
 @Properties<DropdownProps>({
-  as: "div",
+  as: 'div',
   speed: 100,
-  position: "absolute",
-  cls: "",
-  clsDropdown: ""
+  position: 'absolute',
+  cls: '',
+  clsDropdown: ''
 })
 export class Dropdown extends BaseComponent<DropdownProps> {
 
@@ -26,11 +26,11 @@ export class Dropdown extends BaseComponent<DropdownProps> {
   }
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside);
+    document.addEventListener('mousedown', this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside);
+    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
   handleClickOutside(event) {
@@ -39,7 +39,7 @@ export class Dropdown extends BaseComponent<DropdownProps> {
         open: false,
       });
     }
-  };
+  }
 
   toggleState(e) {
     const openState = this.state.open;
@@ -56,7 +56,7 @@ export class Dropdown extends BaseComponent<DropdownProps> {
     const transition = `height ${speed}ms cubic-bezier(.4, 0, .2, 1)`;
 
     return (
-      <Element className={'dropdown ' + cls + " " + (open ? "dropped" : "")} ref={this.dropdown}>
+      <Element className={'dropdown ' + cls + ' ' + (open ? 'dropped' : '')} ref={this.dropdown}>
         {React.cloneElement(children[0], {
           onClick: this.toggleState
         })}
@@ -65,7 +65,7 @@ export class Dropdown extends BaseComponent<DropdownProps> {
           {children[1]}
         </ui-collapse>
       </Element>
-    )
+    );
   }
 }
 

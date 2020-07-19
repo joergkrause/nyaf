@@ -44,7 +44,7 @@
         height: .75rem;
         width: .75rem;
         top: 50%;
-        .translateY(-50%);
+        @include translateY(-50%);
         border: 2px #333 solid;
         cursor: pointer;
         background: #333;

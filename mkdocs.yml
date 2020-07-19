@@ -6,6 +6,7 @@ site_dir: dist/manual
 nav:
   - Home: index.md
   - Introduction: md/intro.md
+  - Learn: md/learn.md
   - Setup: md/setup.md
   - Core Library:
     - Overview: md/docs/lib/overview.md

@@ -1,47 +1,44 @@
-import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
-import PropTypes from "prop-types";
+import JSX, { BaseComponent, CustomElement, Events } from '@nyaf/lib';
 
 @CustomElement('ui-outside')
+@Events(['clickoutside'])
 export class ClickOutside extends BaseComponent<{}> {
-    constructor() {
-        super();
-        this.getContainer = this.getContainer.bind(this);
-        this.handle = this.handle.bind(this);
-        this.isTouch = false;
-    }
 
-    getContainer(ref) {
-        this.container = ref;
-    }
+  private isTouch: boolean;
+  private container: HTMLElement;
 
-    render() {
-        const { children, onClickOutside, ...props } = this.props;
-        return <div {...props} ref={this.getContainer}>{children}</div>
-    }
+  constructor() {
+    super();
+    this.getContainer = this.getContainer.bind(this);
+    this.handle = this.handle.bind(this);
+    this.isTouch = false;
+  }
 
-    componentDidMount() {
-        document.addEventListener('touchend', this.handle, true);
-        document.addEventListener('click', this.handle, true);
-    }
+  getContainer(ref) {
+    this.container = ref;
+  }
 
-    componentWillUnmount() {
-        document.removeEventListener('touchend', this.handle, true);
-        document.removeEventListener('click', this.handle, true);
-    }
+  render() {
+    const { ...props } = this.data;
+    return <div {...props} ref={this.getContainer}>{this.children}</div>;
+  }
 
-    handle(e) {
-        if (e.type === 'touchend') this.isTouch = true;
-        if (e.type === 'click' && this.isTouch) return;
-        const { onClickOutside } = this.props;
-        const el = this.container;
-        if (el && !el.contains(e.target)) onClickOutside(e);
+  componentDidMount() {
+    document.addEventListener('touchend', this.handle, true);
+    document.addEventListener('click', this.handle, true);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('touchend', this.handle, true);
+    document.removeEventListener('click', this.handle, true);
+  }
+
+  handle(e) {
+    if (e.type === 'touchend') { this.isTouch = true; }
+    if (e.type === 'click' && this.isTouch) { return; }
+    const el = this.container;
+    if (el && !el.contains(e.target)) {
+      this.dispatch('clickoutside', e);
     }
+  }
 }
-
-interface ClickOutsideProps {
-    onClickOutside: e => {}
-}
-
-ClickOutside.propTypes = {
-    onClickOutside: PropTypes.func.isRequired
-};

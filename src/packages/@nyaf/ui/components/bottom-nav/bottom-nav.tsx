@@ -2,7 +2,7 @@ import JSX, { Properties, CustomElement, BaseComponent } from '@nyaf/lib';
 require('../button/button.scss');
 require('./bottom-nav.scss');
 
-@CustomElement('ui-bottomnavitem')
+@CustomElement('ui-bottomnav-item')
 @Properties<BottomNavItemProps>({
   as: 'button',
   label: '',
@@ -12,7 +12,7 @@ require('./bottom-nav.scss');
   clsButtonIcon: '',
   clsButtonLabel: ''
 })
-export class BottomNavItem extends BaseComponent<BottomNavItemProps {
+export class BottomNavItem extends BaseComponent<BottomNavItemProps> {
 
   constructor() {
     super();
@@ -28,24 +28,26 @@ export class BottomNavItem extends BaseComponent<BottomNavItemProps {
       clsButtonLabel
     } = this.data;
 
-    const Element = this.props.as;
+    const Element = this.data.as;
 
     return (
-      <Element className={'button ' + clsButton}>
-        <span className={'icon ' + clsButtonIcon}>
-          {icon && (
-            <span className={'mif-' + icon} />
-          )}
+      JSX.createElement(Element, { className: 'button ' + clsButton },
+        (<>
+          <span className={'icon ' + clsButtonIcon}>
+            {icon && (
+              <span className={'mif-' + icon} />
+            )}
 
-          {image && (
-            <img src={image} alt='' />
-          )}
-        </span>
-        <span className={'label ' + clsButtonLabel}>
-          {label}
-        </span>
-      </Element>
-    );
+            {image && (
+              <img src={image} alt='' />
+            )}
+          </span>
+          <span className={'label ' + clsButtonLabel}>
+            {label}
+          </span>
+        </>)
+      ));
+
   }
 }
 
