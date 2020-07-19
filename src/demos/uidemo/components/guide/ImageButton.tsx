@@ -1,25 +1,27 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-imagebutton')
 export class GuideImageButton extends BaseComponent<{}> {
   constructor() {
     super();
   }
   async render() {
-    const codeImport = `import {ImageButton} from "metro4-react";`;
-    const codeUse1 = `<ImageButton icon="share" title="Share your connect"/>`;
+    const codeImport = `import {ImageButton} from "@nyaf/ui";`;
+    const codeUse1 = `<ui-imagebutton icon="share" title="Share your connect"/>`;
     const codeUse2 = `
-            <ImageButton
+            <ui-imagebutton
                 icon="share"
                 title="Share your connect"
                 cls="icon-right info"/>`;
     const codeUse3 = `
-            <ImageButton as="a"
+            <ui-imagebutton as="a"
                 icon="rocket"
                 title="This is a link"
                 className={'alert fg-white'}/>`;
     const codeUse4 = `
-            <ImageButton className='success'>
+            <ui-imagebutton className='success'>
                 <Icon name="rocket" prefix="fa fa-" cls="icon"/>
                 <span className="caption">Image button</span>
             </ImageButton>
@@ -40,19 +42,19 @@ export class GuideImageButton extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <demo-example>
-          <ImageButton icon="share" title="Share your connect" />
-                    &nbsp;<ImageButton icon="share" title="Share your connect" cls="icon-right info" />
-                    &nbsp;<ImageButton as="a" icon="rocket" title="This is a link" className={'alert fg-white'} />
-                    &nbsp;<ImageButton className='success'><Icon name="rocket" prefix="fa fa-" cls='icon' /> <span className="caption">Image button</span></ImageButton>
+          <ui-imagebutton icon='share' title='Share your connect' />
+          &nbsp;<ui-imagebutton icon='share' title='Share your connect' cls='icon-right info' />
+          &nbsp;<ui-imagebutton as='a' icon='rocket' title='This is a link' className={'alert fg-white'} />
+          &nbsp;<ui-imagebutton className='success'><ui-icon name='rocket' prefix='fa fa-' cls='icon' /> <span className='caption'>Image button</span></ui-imagebutton>
         </demo-example>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader}>
+        <ui-table className='table-border cell-border' head={tablePropsHeader}>
           <tbody>
             <tr>
               <td><code>as</code></td>
@@ -95,19 +97,19 @@ export class GuideImageButton extends BaseComponent<{}> {
               <td>Button class for icon or image</td>
             </tr>
           </tbody>
-        </Table>
+        </ui-table>
 
         <br />
         <h3>Using</h3>
-        <demo-prismcode language="js" code={codeUse1} />
-        <demo-prismcode language="js" code={codeUse2} />
-        <demo-prismcode language="js" code={codeUse3} />
-        <demo-prismcode language="js" code={codeUse4} />
+        <demo-prismcode language='js' code={codeUse1} />
+        <demo-prismcode language='js' code={codeUse2} />
+        <demo-prismcode language='js' code={codeUse3} />
+        <demo-prismcode language='js' code={codeUse4} />
 
         <br />
 
         <br />
       </demo-article>
-    )
+    );
   }
 }

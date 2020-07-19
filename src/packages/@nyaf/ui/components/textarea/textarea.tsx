@@ -13,10 +13,10 @@ const changeEvents = ['keyup', 'keydown', 'change', 'cut', 'paste', 'drop', 'pro
   clsClearButton: '',
 })
 @Events([
-  'Clear',
-  'Change',
-  'Blur',
-  'Focus'
+  'clear',
+  'change',
+  'blur',
+  'focus'
 ])
 export class Textarea extends BaseComponent<TextareaProps> {
   constructor() {
@@ -151,14 +151,10 @@ export class Textarea extends BaseComponent<TextareaProps> {
 }
 
 interface TextareaProps {
-  autosize: true;
-  value: '',
-  append: '',
-  prepend: '',
-  clear: true;
-  clsClearButton: '',
-  onClear: () => {};
-  onChange: () => {};
-  onBlur: () => {};
-  onFocus: () => {};
+  autosize: boolean;
+  value: string;
+  append: string;
+  prepend: string;
+  clear: boolean;
+  clsClearButton: string;
 }

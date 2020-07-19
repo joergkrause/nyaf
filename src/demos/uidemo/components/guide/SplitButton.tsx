@@ -1,27 +1,29 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import {tablePropsHeader} from '../Defs';
+
 @CustomElement('guide-splitbutton')
 export class GuideSplitButton extends BaseComponent<{}> {
   constructor() {
     super();
   }
   async render() {
-    const codeImport = `import {SplitButton} from 'metro4-react'`;
+    const codeImport = `import {SplitButton} from '@nyaf/ui';`;
     const codeUseDefault = `
-            <SplitButton>
-                <Button>Reply</Button>
-                <Button/>
+            <ui-splitbutton>
+                <ui-button>Reply</Button>
+                <ui-button/>
                 <ul>
                     <li><a href={'#'}>Item 1</a></li>
                     <li><a href={'#'}>Item 2</a></li>
                     <li><a href={'#'}>Item 3</a></li>
                 </ul>
-            </SplitButton>
+            </ui-splitbutton>
         `;
 
     const tablePropsData = [
-      ["<code>cls</code>", "", "Additional classes"],
-      ["<code>className</code>", "", "Additional classes"],
+      ['<code>cls</code>', '', 'Additional classes'],
+      ['<code>className</code>', '', 'Additional classes'],
     ];
 
     return (
@@ -41,68 +43,68 @@ export class GuideSplitButton extends BaseComponent<{}> {
           <code>SplitButton</code> is a composite component and consists of the main button, drop-down list, and a drop-down list control button.
                 </p>
         <div className='example'>
-          <Row>
-            <Cell cls={'cell-md-3'}>
-              <SplitButton>
-                <Button>Reply</Button>
-                <Button />
+          <ui-row>
+            <ui-cell cls={'cell-md-3'}>
+              <ui-splitbutton>
+                <ui-button>Reply</ui-button>
+                <ui-button />
                 <ul>
                   <li><a href={'#'}>Item 1</a></li>
                   <li><a href={'#'}>Item 2</a></li>
                   <li><a href={'#'}>Item 3</a></li>
                 </ul>
-              </SplitButton>
-            </Cell>
-            <Cell cls={'cell-md-3'}>
-              <SplitButton>
-                <Button cls={'primary'}>Reply</Button>
-                <Button cls={'alert'} />
+              </ui-splitbutton>
+            </ui-cell>
+            <ui-cell cls={'cell-md-3'}>
+              <ui-splitbutton>
+                <ui-button cls={'primary'}>Reply</ui-button>
+                <ui-button cls={'alert'} />
                 <ul>
                   <li><a href={'#'}>Item 1</a></li>
                   <li><a href={'#'}>Item 2</a></li>
                   <li><a href={'#'}>Item 3</a></li>
                 </ul>
-              </SplitButton>
-            </Cell>
-            <Cell cls={'cell-md-3'}>
-              <SplitButton clsMainButton={'warning rounded'} clsSplitButton={'info rounded'}>
-                <Button>Reply</Button>
-                <Button />
+              </ui-splitbutton>
+            </ui-cell>
+            <ui-cell cls={'cell-md-3'}>
+              <ui-splitbutton clsMainButton={'warning rounded'} clsSplitButton={'info rounded'}>
+                <ui-button>Reply</ui-button>
+                <ui-button />
                 <ul>
                   <li><a href={'#'}>Item 1</a></li>
                   <li><a href={'#'}>Item 2</a></li>
                   <li><a href={'#'}>Item 3</a></li>
                 </ul>
-              </SplitButton>
-            </Cell>
-            <Cell cls={'cell-md-3'}>
-              <SplitButton clsMainButton={'success outline'} clsSplitButton={'info rounded'}>
-                <Button>Reply</Button>
-                <Button onClick={() => alert('Clicked')}>...</Button>
-              </SplitButton>
-            </Cell>
-          </Row>
+              </ui-splitbutton>
+            </ui-cell>
+            <ui-cell cls={'cell-md-3'}>
+              <ui-splitbutton clsMainButton={'success outline'} clsSplitButton={'info rounded'}>
+                <ui-button>Reply</ui-button>
+                <ui-button onClick={() => alert('Clicked')}>...</ui-button>
+              </ui-splitbutton>
+            </ui-cell>
+          </ui-row>
         </div>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader} body={tablePropsData} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsData} />
 
         <br />
         <h3>Using</h3>
         <p className='remark warning'>
           Button elements must be followed in strict order: main button, list control button and list. The list is an optional item.
                 </p>
-        <demo-prismcode language="js" code={codeUseDefault} />
+        <demo-prismcode language='js' code={codeUseDefault} />
 
         <br />
 
         <br />
       </demo-article>
-    )
+    );
   }
 }

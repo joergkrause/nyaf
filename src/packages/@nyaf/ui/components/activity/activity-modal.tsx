@@ -1,36 +1,40 @@
-import JSX from '@nyaf/lib'
-import "./activity.css";
-import Body from "../body/body";
-import Activity from "./activity";
+import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
+import './activity.css';
 
-export default class ActivityModal extends BaseComponent<{}> {
-    constructor(props){
-        super(props);
-        this.overlayClick = this.overlayClick.bind(this);
-    }
+@CustomElement('ui-activity-modal')
+@Properties<ActivityModalProps>({
+  open: false,
+  overlayColor: '#ffffff',
+  overlayAlpha: 1
+})
+@Events(['close'])
+export class ActivityModal extends BaseComponent<ActivityModalProps> {
 
-    overlayClick(e){
-        this.props.onClose(e);
-    }
+  constructor() {
+    super();
+  }
 
-    render() {
-        const {open, onClose, overlayColor, overlayAlpha, ...props} = this.props;
+  overlayClick(e) {
+    this.dispatch('close', {});
+  }
 
-        return (
-            <Body>
-                {open && (
-                    <div className={'overlay'} style={{backgroundColor: overlayColor, opacity: overlayAlpha}} onClick={this.overlayClick}>
-                        <Activity {...props} cls={'activity-modal'} />
-                    </div>
-                )}
-            </Body>
-        )
-    }
+  async render() {
+    const { open, overlayColor, overlayAlpha, ...props } = this.data;
+
+    return await (
+      <ui-body>
+        {open && (
+          <div className={'overlay'} style={{ backgroundColor: overlayColor, opacity: overlayAlpha }} n-on-click={this.overlayClick}>
+            <ui-activity {...props} cls={'activity-modal'} />
+          </div>
+        )}
+      </ui-body>
+    );
+  }
 }
 
-ActivityModal.defaultProps = {
-    open: false,
-    overlayColor: "#ffffff",
-    overlayAlpha: 1,
-    onClose: () => {}
-};
+interface ActivityModalProps {
+  open: boolean;
+  overlayColor: string;
+  overlayAlpha: number;
+}

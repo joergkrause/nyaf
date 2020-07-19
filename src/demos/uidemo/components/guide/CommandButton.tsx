@@ -8,7 +8,7 @@ export class GuideCommandButton extends BaseComponent<{}> {
   }
 
   async render() {
-    const codeImport = `import {CommandButton} from "metro4-react";`;
+    const codeImport = `import {CommandButton} from "@nyaf/ui";`;
     const codeUsing = `
             <CommandButton
                 icon="share"
@@ -47,7 +47,7 @@ export class GuideCommandButton extends BaseComponent<{}> {
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader}>
+        <ui-table className='table-border cell-border' head={tablePropsHeader}>
           <tbody>
             <tr>
               <td><code>as</code></td>
@@ -100,7 +100,7 @@ export class GuideCommandButton extends BaseComponent<{}> {
               <td>Class for button icon or image</td>
             </tr>
           </tbody>
-        </Table>
+        </ui-table>
 
         <br />
         <h3>Using</h3>

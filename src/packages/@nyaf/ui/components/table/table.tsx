@@ -1,6 +1,12 @@
 import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
 require('./table.scss');
 import { MD5 } from '../../routines';
+import { IModel, ModelBinder } from '@nyaf/forms';
+
+class TableModel {
+  body: any;
+  bodyHash: string;
+}
 
 @CustomElement('ui-table')
 @Properties<TableProps>({
@@ -17,24 +23,24 @@ import { MD5 } from '../../routines';
   clsEmptyTitle: '',
 })
 @Events([
-  'HeadClick',
-  'CellClick',
-  'DrawCell'
+  'headclick',
+  'cellclick',
+  'drawcell'
 ])
-export class Table extends BaseComponent<TableProps> {
+export class Table extends BaseComponent<TableProps> implements IModel<TableModel> {
+
+  header: any;
+  table: any;
+
   constructor() {
     super();
-    this.state = {
-      body: props.body,
-      bodyHash: MD5(JSON.stringify(props.body))
-    };
+    this.model.scope.body = this.data.body;
+    this.model.scope.bodyHash = MD5(JSON.stringify(this.data.body));
     this.header = null;
     this.table = null;
-    this.drawHeader = this.drawHeader.bind(this);
-    this.drawBody = this.drawBody.bind(this);
-    this.headClick = this.headClick.bind(this);
-    this.cellClick = this.cellClick.bind(this);
   }
+
+  model: ModelBinder<TableModel>;
 
   static getDerivedStateFromProps(props, state) {
     if (MD5(JSON.stringify(props.body)) !== state.bodyHash) {
@@ -72,7 +78,7 @@ export class Table extends BaseComponent<TableProps> {
   }
 
   drawBody() {
-    const { emptyTitle, head, clsBodyRow, clsBodyCell, clsEmptyTitle, onDrawCell } = this.props;
+    const { emptyTitle, head, clsBodyRow, clsBodyCell, clsEmptyTitle } = this.data;
     const { body } = this.state;
     const tableBody = [];
     const colSpan = head ? head.length : 1;
@@ -113,19 +119,18 @@ export class Table extends BaseComponent<TableProps> {
   }
 
   headClick(e) {
-    this.props.onHeadClick(e);
+    this.dispatch('headclick', e);
   }
 
   cellClick(e) {
-    this.props.onCellClick(e);
+    this.dispatch('cellclick', e);
   }
 
   async render() {
     const {
-      emptyTitle, clsEmptyTitle, body: initBody, head, cls, className, mode, clsHeadRow, clsHeadCell, clsBodyRow, clsBodyCell, children,
-      onHeadClick, onCellClick, onDrawCell,
-      ...rest } = this.props;
-    const { body } = this.state;
+      emptyTitle, clsEmptyTitle, body: initBody, head, cls, className, mode, clsHeadRow, clsHeadCell, clsBodyRow, clsBodyCell
+      ...rest } = this.data;
+    const { body } = this.model.scope;
     const classTable = `table ${cls} ${className}`;
 
     return (
@@ -136,23 +141,22 @@ export class Table extends BaseComponent<TableProps> {
         {body && (
           <tbody>{this.drawBody()}</tbody>
         )}
-
-        {children}
+        {this.children}
       </table>
     );
   }
 }
 
 interface TableProps {
-  emptyTitle: 'Nothing to show',
-  mode: 'normal',
-  head: null;
+  emptyTitle: string;
+  mode: 'normal';
+  head: any[];
   body: null;
-  cls: '',
-  className: '',
-  clsHeadRow: '',
-  clsHeadCell: '',
-  clsBodyRow: '',
-  clsBodyCell: '',
-  clsEmptyTitle: ''
+  cls: string;
+  className: string;
+  clsHeadRow: string;
+  clsHeadCell: string;
+  clsBodyRow: string;
+  clsBodyCell: string;
+  clsEmptyTitle: string;
 }

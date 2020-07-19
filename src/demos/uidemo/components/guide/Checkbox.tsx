@@ -1,20 +1,22 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-checkbox')
 export class GuideCheckbox extends BaseComponent<{}> {
   render() {
-    const codeImport = `import {Checkbox} from "metro4-react";`;
+    const codeImport = `import { Checkbox } from "@nyaf/ui";`;
     const codeUsing = `
-            <Checkbox/>
-            <Checkbox checked/>
-            <Checkbox caption='Checkbox'/>
+            <ui-checkbox/>
+            <ui-checkbox checked/>
+            <ui-checkbox caption='Checkbox'/>
 
-            <Checkbox variant={2}/>
-            <Checkbox checked variant={2}/>
-            <Checkbox caption='Checkbox' variant={2}/>
+            <ui-checkbox variant={2}/>
+            <ui-checkbox checked variant={2}/>
+            <ui-checkbox caption='Checkbox' variant={2}/>
 
-            <Checkbox caption='Checkbox' disabled/>
-            <Checkbox caption='Checkbox' readOnly={true}/>
+            <ui-checkbox caption='Checkbox' disabled/>
+            <ui-checkbox caption='Checkbox' readOnly={true}/>
         `;
 
     const tablePropsBody = [
@@ -45,52 +47,52 @@ export class GuideCheckbox extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <demo-example>
-          <Row>
-            <Cell cls='cell-md-6'>
+          <ui-row>
+            <ui-cell cls='cell-md-6'>
               <h4>Variant 1</h4>
               <div>
-                <Checkbox />
-                <Checkbox checked />
-                <Checkbox caption='Checkbox' />
+                <ui-checkbox />
+                <ui-checkbox checked />
+                <ui-checkbox caption='Checkbox' />
                 <div>
-                  <Checkbox disabled />
-                  <Checkbox checked disabled />
-                  <Checkbox caption='Checkbox' disabled />
+                  <ui-checkbox disabled />
+                  <ui-checkbox checked disabled />
+                  <ui-checkbox caption='Checkbox' disabled />
                 </div>
               </div>
-            </Cell>
-            <Cell cls='cell-md-6'>
+            </ui-cell>
+            <ui-cell cls='cell-md-6'>
               <h4>Variant 2</h4>
               <div>
-                <Checkbox variant={2} />
-                <Checkbox checked variant={2} />
-                <Checkbox caption='Checkbox' variant={2} />
+                <ui-checkbox variant={2} />
+                <ui-checkbox checked variant={2} />
+                <ui-checkbox caption='Checkbox' variant={2} />
                 <div>
-                  <Checkbox disabled variant={2} />
-                  <Checkbox checked disabled variant={2} />
-                  <Checkbox caption='Checkbox' disabled variant={2} />
+                  <ui-checkbox disabled variant={2} />
+                  <ui-checkbox checked disabled variant={2} />
+                  <ui-checkbox caption='Checkbox' disabled variant={2} />
                 </div>
               </div>
-            </Cell>
-          </Row>
+            </ui-cell>
+          </ui-row>
         </demo-example>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h3>Using</h3>
-        <demo-prismcode language="js" code={codeUsing} />
+        <demo-prismcode language='js' code={codeUsing} />
 
         <br />
         <h4>Props</h4>
-        <Table className="table-border cell-border" head={tablePropsHeader} body={tablePropsBody} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
 
         <br />
 
         <br />
       </demo-article>
-    )
+    );
   }
 }

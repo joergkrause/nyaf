@@ -13,11 +13,11 @@ const inputChangeEvents = 'change input propertychange cut paste copy drop'.spli
   clsTagTitle: '',
   clsTagRemover: ''
 })
-  @Events([
-    'Change',
-    'Blur',
-    'Focus'
-})
+@Events([
+  'change',
+  'blur',
+  'focus'
+])
 export class TagInput extends BaseComponent<TagInputProps> {
   constructor() {
     super();
@@ -174,15 +174,11 @@ export class TagInput extends BaseComponent<TagInputProps> {
 }
 
 interface TagInputProps {
-  staticMode: false;
+  staticMode: boolean;
   tags: [];
-  maxTags: 0;
-  tagTrigger: [13, 188];
-  clsTag: '',
-  clsTagTitle: '',
-  clsTagRemover: '',
-  onChange: () => {};
-  onBlur: () => {};
-  onFocus: () => {};
+  maxTags: number;
+  tagTrigger: number[];
+  clsTag: string;
+  clsTagTitle: string;
+  clsTagRemover: string;
 }
-

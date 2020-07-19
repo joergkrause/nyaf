@@ -1,12 +1,14 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-template')
 export class GuideTemplate extends BaseComponent<{}> {
   constructor() {
     super();
   }
   async render() {
-    const codeImport = `import {Component} from "metro4-react";`;
+    const codeImport = `import {Component} from "@nyaf/ui";`;
     const codeUsing = ``;
 
     const tablePropsBody = [];
@@ -31,20 +33,20 @@ export class GuideTemplate extends BaseComponent<{}> {
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h3>Using</h3>
-        <demo-prismcode language="js" code={codeUsing} />
+        <demo-prismcode language='js' code={codeUsing} />
 
         <br />
         <h4>Props</h4>
-        <Table className="table-border cell-border" head={tablePropsHeader} body={tablePropsBody} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
 
         <br />
 
         <br />
       </demo-article>
-    )
+    );
   }
 }

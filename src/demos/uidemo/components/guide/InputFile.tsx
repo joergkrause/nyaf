@@ -1,17 +1,19 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-inoutfile')
 export class GuideInputFile extends BaseComponent<{}> {
   constructor() {
     super();
   }
   async render() {
-    const codeImport = `import {InputFile} from "metro4-react";`;
+    const codeImport = `import { InputFile } from "@nyaf/ui";`;
     const codeUsing = `
-            <InputFile/>
-            <InputFile buttonIcon={'folder'} buttonTitle={''}/>
-            <InputFile buttonIcon={'folder'} buttonTitle={''} customButtons={customButtons} multiple={true}/>
-            <InputFile mode={'drop'} multiple={true}/>
+            <ui-inputfile/>
+            <ui-inputfile buttonIcon={'folder'} buttonTitle={''}/>
+            <ui-inputfile buttonIcon={'folder'} buttonTitle={''} customButtons={customButtons} multiple={true}/>
+            <ui-inputfile mode={'drop'} multiple={true}/>
         `;
 
     const customButtons = [
@@ -20,7 +22,7 @@ export class GuideInputFile extends BaseComponent<{}> {
         icon: 'apple',
         image: '',
         cls: 'info',
-        onClick: () => { alert('info!') }
+        onClick: () => { alert('info!'); }
       },
       {
         title: '',
@@ -28,38 +30,38 @@ export class GuideInputFile extends BaseComponent<{}> {
         iconPrefix: 'fa fa-',
         image: '',
         cls: 'alert',
-        onClick: () => { alert('halo!') }
+        onClick: () => { alert('halo!'); }
       }
     ];
 
     const tablePropsBody = [
-      ["mode", "input", "Input file mode: <code>input</code> or <code>drop</code>"],
-      ["buttonIcon", "null", "Button icon name"],
-      ["buttonIconPrefix", "mif-", "Button icon name prefix"],
-      ["buttonTitle", "Choose file(s)", "Button title (it is default)"],
-      ["dropIcon", "null", "Drop mode icon name"],
-      ["dropIconPrefix", "mif-", "Drop mode icon name prefix"],
-      ["dropIconSize", "1x", "Drop mode icon size. For Metro icon font can be from 1x to 10x"],
-      ["dropTitle", "<strong>Choose a file(s)</strong> or drop it here", "Drop mode main title"],
-      ["dropTitleSecondary", "file(s) selected", "Drop mode main secondary title"],
-      ["append", "null", "Append data"],
-      ["prepend", "null", "Prepend data"],
-      ["clear", "true", "Show clear button"],
-      ["select", "true", "Show select button"],
-      ["customButtons", "[]", "Array of custom buttons"],
-      ["cls", "null", "Additional classes for component"],
-      ["className", "null", "Additional classes for component"],
-      ["clsCaption", "null", "Additional classes caption (select file names)"],
-      ["clsAppend", "null", "Additional classes for append"],
-      ["clsPrepend", "null", "Additional classes for prepend"],
-      ["clsButtonGroup", "null", "Additional classes for custom buttons container"],
-      ["clsCustomButton", "null", "Additional classes for custom buttons"],
-      ["clsClearButton", "null", "Additional classes for clear button"],
-      ["clsSelectButton", "null", "Additional classes for select button"],
-      ["onClear", "()=>{}", "Callback for clear event"],
-      ["onChange", "()=>{}", "Callback for change event"],
-      ["onFocus", "()=>{}", "Callback for focus event"],
-      ["onBlur", "()=>{}", "Callback for blur event"],
+      ['mode', 'input', 'Input file mode: <code>input</code> or <code>drop</code>'],
+      ['buttonIcon', 'null', 'Button icon name'],
+      ['buttonIconPrefix', 'mif-', 'Button icon name prefix'],
+      ['buttonTitle', 'Choose file(s)', 'Button title (it is default)'],
+      ['dropIcon', 'null', 'Drop mode icon name'],
+      ['dropIconPrefix', 'mif-', 'Drop mode icon name prefix'],
+      ['dropIconSize', '1x', 'Drop mode icon size. For Metro icon font can be from 1x to 10x'],
+      ['dropTitle', '<strong>Choose a file(s)</strong> or drop it here', 'Drop mode main title'],
+      ['dropTitleSecondary', 'file(s) selected', 'Drop mode main secondary title'],
+      ['append', 'null', 'Append data'],
+      ['prepend', 'null', 'Prepend data'],
+      ['clear', 'true', 'Show clear button'],
+      ['select', 'true', 'Show select button'],
+      ['customButtons', '[]', 'Array of custom buttons'],
+      ['cls', 'null', 'Additional classes for component'],
+      ['className', 'null', 'Additional classes for component'],
+      ['clsCaption', 'null', 'Additional classes caption (select file names)'],
+      ['clsAppend', 'null', 'Additional classes for append'],
+      ['clsPrepend', 'null', 'Additional classes for prepend'],
+      ['clsButtonGroup', 'null', 'Additional classes for custom buttons container'],
+      ['clsCustomButton', 'null', 'Additional classes for custom buttons'],
+      ['clsClearButton', 'null', 'Additional classes for clear button'],
+      ['clsSelectButton', 'null', 'Additional classes for select button'],
+      ['onClear', '()=>{}', 'Callback for clear event'],
+      ['onChange', '()=>{}', 'Callback for change event'],
+      ['onFocus', '()=>{}', 'Callback for focus event'],
+      ['onBlur', '()=>{}', 'Callback for blur event'],
     ];
 
     return (
@@ -73,43 +75,43 @@ export class GuideInputFile extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <demo-example>
-          <Row>
-            <Cell cls={'cell-md-4'}>
-              <InputFile />
-            </Cell>
+          <ui-row>
+            <ui-cell cls={'cell-md-4'}>
+              <ui-inputfile />
+            </ui-cell>
 
-            <Cell cls={'cell-md-4'}>
-              <InputFile buttonIcon={'folder'} buttonTitle={''} />
-            </Cell>
+            <ui-cell cls={'cell-md-4'}>
+              <ui-inputfile buttonIcon={'folder'} buttonTitle={''} />
+            </ui-cell>
 
-            <Cell cls={'cell-md-4'}>
-              <InputFile buttonIcon={'folder'} buttonTitle={''} customButtons={customButtons} multiple={true} />
-            </Cell>
-          </Row>
+            <ui-cell cls={'cell-md-4'}>
+              <ui-inputfile buttonIcon={'folder'} buttonTitle={''} customButtons={customButtons} multiple={true} />
+            </ui-cell>
+          </ui-row>
           <br />
-          <Row>
-            <Cell cls={'cell-md-12'}>
-              <InputFile mode={'drop'} multiple={true} />
-            </Cell>
-          </Row>
+          <ui-row>
+            <ui-cell cls={'cell-md-12'}>
+              <ui-inputfile mode={'drop'} multiple={true} />
+            </ui-cell>
+          </ui-row>
         </demo-example>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h3>Using</h3>
-        <demo-prismcode language="js" code={codeUsing} />
+        <demo-prismcode language='js' code={codeUsing} />
 
         <br />
         <h4>Props</h4>
-        <Table className="table-border cell-border" head={tablePropsHeader} body={tablePropsBody} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
 
         <br />
 
         <br />
       </demo-article>
-    )
+    );
   }
 }

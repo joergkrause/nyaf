@@ -11,7 +11,7 @@ export class Article extends BaseComponent<{ cls: string, className: string }> {
     return await (
       <article className={`${this.data.cls} ${this.data.className}`}>
         {this.children}
-      </demo-article>
+      </article>
     );
   }
 

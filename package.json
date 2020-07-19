@@ -44,6 +44,7 @@
     "mini-css-extract-plugin": "^0.6.0",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",
+    "prismjs": "^1.20.0",
     "rimraf": "^3.0.2",
     "sass-loader": "^8.0.2",
     "showdown": "^1.9.1",

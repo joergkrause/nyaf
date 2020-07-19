@@ -22,3 +22,4 @@ export const tablePropsHeader = [
     },
 ];
 
+export const METRO_OFF_SITE = 'https://metroui.org.ua/';

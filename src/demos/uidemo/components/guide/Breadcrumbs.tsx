@@ -1,16 +1,18 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import {tablePropsHeader} from '../Defs';
+
 @CustomElement('guide-breadcrumbs')
-export class GuideBreadcrumbs extends BaseComponent<{}> {
+export class GuideBreadCrumbs extends BaseComponent<{}> {
   render() {
-    const codeImport = `import {Breadcrumbs, BreadcrumbsItem} from "metro4-react";`;
+    const codeImport = `import {<ui-breadcrumbs, <ui-breadcrumbsItem} from "@nyaf/ui";`;
     const codeUsing = `
-            <Breadcrumbs>
-                <BreadcrumbsItem href="/home">Home</BreadcrumbsItem>
-                <BreadcrumbsItem href="/products">Products</BreadcrumbsItem>
-                <BreadcrumbsItem href="download">Download</BreadcrumbsItem>
-                <BreadcrumbsItem>Windows 10</BreadcrumbsItem>
-            </Breadcrumbs>
+            <<ui-breadcrumbs>
+                <<ui-breadcrumb-item href="/home">Home</<ui-breadcrumb-item>
+                <<ui-breadcrumb-item href="/products">Products</<ui-breadcrumb-item>
+                <<ui-breadcrumb-item href="download">Download</<ui-breadcrumb-item>
+                <<ui-breadcrumb-item>Windows 10</<ui-breadcrumb-item>
+            </<ui-breadcrumbs>
         `;
 
     const codeItemStructure = `
@@ -37,7 +39,7 @@ export class GuideBreadcrumbs extends BaseComponent<{}> {
     return (
       <demo-article>
         <demo-guidelogo></demo-guidelogo>
-        <h1>Breadcrumbs</h1>
+        <h1>BreadcCrumbs</h1>
 
         <br />
 
@@ -63,11 +65,11 @@ export class GuideBreadcrumbs extends BaseComponent<{}> {
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
 
         <br />
         <h4>Item Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBodyItem} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBodyItem} />
         <p>
           In additional, you can use all valid props for <code>&lt;a&gt;</code> - such as <code>href</code>, <code>target</code>, etc.
                 </p>

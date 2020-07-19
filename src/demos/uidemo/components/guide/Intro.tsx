@@ -1,14 +1,16 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { METRO_OFF_SITE } from '../Defs';
+
 @CustomElement('guide-intro')
 export class GuideIntro extends BaseComponent<{}> {
   constructor() {
     super();
   }
   async render() {
-    const codeInstallNpm = `> npm install metro4-react`;
-    const codeInstallYarn = `> yarn add metro4-react`;
-    const codeImportComponent = `import {Button} from "metro4-react";`;
+    const codeInstallNpm = `> npm install @nyaf/ui`;
+    const codeInstallYarn = `> yarn add @nyaf/ui`;
+    const codeImportComponent = `import {Button} from "@nyaf/ui";`;
 
     return (
       <demo-article>
@@ -46,7 +48,7 @@ export class GuideIntro extends BaseComponent<{}> {
         <h3>Importing</h3>
 
         <p>
-          You should import individual components like: <code>metro4-react/Button</code> rather than the entire library.
+          You should import individual components like: <code>@nyaf/ui/Button</code> rather than the entire library.
                     Doing so pulls in only the specific components that you use, which can significantly reduce the amount of code you end up sending to the client.
                 </p>
         <demo-prismcode language="js" code={codeImportComponent} />
@@ -56,6 +58,6 @@ export class GuideIntro extends BaseComponent<{}> {
         <br />
 
       </demo-article>
-    )
+    );
   }
 }

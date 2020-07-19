@@ -25,7 +25,7 @@ const webpackConfig = {
   },
   // Where webpack looks to start building the bundle
   entry: {
-    'portal': './src/demos/portal/main.ts', // Demo app entry point
+    // 'portal': './src/demos/portal/main.ts', // Demo app entry point
     'ui': './src/demos/uidemo/main.ts', // Demo app entry point
     'features': './src/demos/featuredemo/main.ts' // Demo app entry point
   },
@@ -50,6 +50,10 @@ const webpackConfig = {
       },
       {
         test: /\.(woff|woff2)$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.(jp[e]?g|png)$/,
         loader: 'file-loader'
       }
     ]

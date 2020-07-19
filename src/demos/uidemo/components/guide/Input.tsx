@@ -1,5 +1,7 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-input')
 export class GuideInput extends BaseComponent<{}> {
   constructor() {
@@ -25,14 +27,14 @@ export class GuideInput extends BaseComponent<{}> {
       }
     ];
 
-    const codeImport = `import {Input} from "metro4-react";`;
+    const codeImport = `import {Input} from "@nyaf/ui";`;
     const codeUsing = `
-            <Input placeholder='Input value' value={123}/>
-            <Input placeholder='Search...' search={true} onSearch={ val => console.log(val) } />
-            <Input autocomplete={["Value 1", "Value 2", "Value 3", "Value 4"]} />
-            <Input fieldState={'error'} errorMessage={'Enter a valid value'}/>
-            <Input value='Input value' append={<Icon name='rocket'/>}/>
-            <Input value='Input value' prepend='Prepend:'/>
+            <ui-input placeholder='Input value' value={123}/>
+            <ui-input placeholder='Search...' search={true} onSearch={ val => console.log(val) } />
+            <ui-input autocomplete={["Value 1", "Value 2", "Value 3", "Value 4"]} />
+            <ui-input fieldState={'error'} errorMessage={'Enter a valid value'}/>
+            <ui-input value='Input value' append={<Icon name='rocket'/>}/>
+            <ui-input value='Input value' prepend='Prepend:'/>
         `;
 
     const tablePropsBody = [
@@ -87,71 +89,71 @@ export class GuideInput extends BaseComponent<{}> {
           Use <code>Input</code> component to create form text input element.
                 </p>
         <demo-example>
-          <Row>
-            <Cell cls='cell-md-4'>
+          <ui-row>
+            <ui-cell cls='cell-md-4'>
               <h6>default</h6>
-              <Input placeholder='Input value' value={123} />
-            </Cell>
-            <Cell cls='cell-md-4'>
+              <ui-input placeholder='Input value' value={123} />
+            </ui-cell>
+            <ui-cell cls='cell-md-4'>
               <h6>password</h6>
-              <Input placeholder='Enter a password' type='password' />
-            </Cell>
-            <Cell cls='cell-md-4'>
+              <ui-input placeholder='Enter a password' type='password' />
+            </ui-cell>
+            <ui-cell cls='cell-md-4'>
               <h6>search</h6>
-              <Input placeholder='Search...' search={true} onSearch={val => console.log(val)} />
-            </Cell>
-          </Row>
+              <ui-input placeholder='Search...' search={true} onSearch={val => console.log(val)} />
+            </ui-cell>
+          </ui-row>
 
-          <Row>
-            <Cell cls='cell-md-4'>
+          <ui-row>
+            <ui-cell cls='cell-md-4'>
               <h6>history</h6>
-              <Input history={true} />
-            </Cell>
-            <Cell cls='cell-md-4'>
+              <ui-input history={true} />
+            </ui-cell>
+            <ui-cell cls='cell-md-4'>
               <h6>autocomplete</h6>
-              <Input autocomplete={autocompleteList} />
-            </Cell>
-            <Cell cls='cell-md-4'>
+              <ui-input autocomplete={autocompleteList} />
+            </ui-cell>
+            <ui-cell cls='cell-md-4'>
               <h5>custom buttons</h5>
-              <Input customButtons={customButtons} />
-            </Cell>
-          </Row>
+              <ui-input customButtons={customButtons} />
+            </ui-cell>
+          </ui-row>
 
-          <Row>
-            <Cell cls='cell-md-4'>
+          <ui-row>
+            <ui-cell cls='cell-md-4'>
               <h6>state required</h6>
-              <Input cls={'required'} />
-            </Cell>
-            <Cell cls='cell-md-4'>
+              <ui-input cls={'required'} />
+            </ui-cell>
+            <ui-cell cls='cell-md-4'>
               <h6>state error</h6>
-              <Input fieldState={'error'} errorMessage={'Enter a valid value'} />
-            </Cell>
-            <Cell cls='cell-md-4'>
+              <ui-input fieldState={'error'} errorMessage={'Enter a valid value'} />
+            </ui-cell>
+            <ui-cell cls='cell-md-4'>
               <h6>state success</h6>
-              <Input fieldState={'success'} />
-            </Cell>
-          </Row>
+              <ui-input fieldState={'success'} />
+            </ui-cell>
+          </ui-row>
 
-          <Row>
-            <Cell cls='cell-md-6'>
+          <ui-row>
+            <ui-cell cls='cell-md-6'>
               <h6>prepend</h6>
-              <Input value='Input value' prepend='Prepend:' />
-            </Cell>
-            <Cell cls='cell-md-6'>
+              <ui-input value='Input value' prepend='Prepend:' />
+            </ui-cell>
+            <ui-cell cls='cell-md-6'>
               <h6>prepend icon</h6>
-              <Input value='Input value' prepend={<Icon name='rocket' />} />
-            </Cell>
-          </Row>
-          <Row>
-            <Cell cls='cell-md-6'>
+              <ui-input value='Input value' prepend={<ui-icon name='rocket' />} />
+            </ui-cell>
+          </ui-row>
+          <ui-row>
+            <ui-cell cls='cell-md-6'>
               <h6>append</h6>
-              <Input value='Input value' append='%' />
-            </Cell>
-            <Cell cls='cell-md-6'>
+              <ui-input value='Input value' append='%' />
+            </ui-cell>
+            <ui-cell cls='cell-md-6'>
               <h6>append icon</h6>
-              <Input value='Input value' append={<Icon name='rocket' />} />
-            </Cell>
-          </Row>
+              <ui-input value='Input value' append={<ui-icon name='rocket' />} />
+            </ui-cell>
+          </ui-row>
         </demo-example>
 
         <br />
@@ -160,7 +162,7 @@ export class GuideInput extends BaseComponent<{}> {
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
 
         <br />
         <h3>Using</h3>

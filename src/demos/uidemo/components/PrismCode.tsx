@@ -1,66 +1,67 @@
-import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
+import JSX, { CustomElement, BaseComponent, Properties } from '@nyaf/lib';
 
-import Prism from "prismjs"
-
+import Prism from 'prismjs';
 
 @CustomElement('demo-prismcode')
-export class PrismCode extends BaseComponent<{}> {
-    constructor() {
-        super();
-        this.ref = React.createRef();
-        this.highlight = this.highlight.bind(this);
-        this.cleanCode = this.cleanCode.bind(this);
+@Properties<{ plugins: any, language: string, children: any, code: string }>({
+  plugins: null,
+  language: '',
+  children: null,
+  code: ''
+})
+export class PrismCode extends BaseComponent<{ plugins: any, language: string, children: any, code: string }> {
+  constructor() {
+    super();
+  }
+
+  componentDidMount() {
+    this.highlight();
+  }
+
+  componentDidUpdate() {
+    this.highlight();
+  }
+
+  highlight() {
+    Prism.highlightElement(this);
+  }
+
+  cleanCode(code) {
+    const txt = code
+      .replace(/^[\r\n]+/, '')	// strip leading newline
+      .replace(/\s+$/g, '');
+
+    if (/^\S/gm.test(txt)) {
+      return txt;
     }
 
-    componentDidMount() {
-        this.highlight();
+    let mat, str, re = /^[\t ]+/gm, len, min = 1e3;
+
+    while (mat = re.exec(txt)) {
+      len = mat[0].length;
+
+      if (len < min) {
+        min = len;
+        str = mat[0];
+      }
     }
 
-    componentDidUpdate() {
-        this.highlight()
+    if (min === 1e3) {
+      return;
     }
 
-    highlight(){
-        if (this.ref && this.ref.current) {
-            Prism.highlightElement(this.ref.current)
-        }
-    };
+    return txt.replace(new RegExp('^' + str, 'gm'), '');
+  }
 
-    cleanCode(code){
-        const txt = code
-            .replace(/^[\r\n]+/, "")	// strip leading newline
-            .replace(/\s+$/g, "");
-
-        if (/^\S/gm.test(txt)) {
-            return txt;
-        }
-
-        let mat, str, re = /^[\t ]+/gm, len, min = 1e3;
-
-        while (mat = re.exec(txt)) {
-            len = mat[0].length;
-
-            if (len < min) {
-                min = len;
-                str = mat[0];
-            }
-        }
-
-        if (min === 1e3)
-            return;
-
-        return  txt.replace(new RegExp("^" + str, 'gm'), "");
-    };
-
-    async render() {
-        const { plugins, language, children } = this.data;
-        const code = this.cleanCode(this.data.code);
-        return await (
-            <pre className={!plugins ? "" : plugins.join(" ")}>
-                <code ref={this.ref} className={`language-${language}`}>
-                  {this.data.code ? code : children}
-                </code>
-            </pre>
-        )
-    }
+  async render() {
+    const { plugins, language, children } = this.data;
+    const code = this.cleanCode(this.data.code);
+    return await (
+      <pre className={!plugins ? '' : plugins.join(' ')}>
+        <code className={`language-${language}`}>
+          {this.data.code ? code : children}
+        </code>
+      </pre>
+    );
+  }
 }

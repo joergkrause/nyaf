@@ -17,59 +17,61 @@ require('./shortcut.scss');
 })
 @Events([])
 export class Shortcut extends BaseComponent<ShortcutProps> {
-    constructor() {
-        super();
-        this.button = React.createRef();
-    }
 
-    async render() {
-        const {
-            as: Element,
-            icon,
-            iconPrefix,
-            image,
-            title,
-            badge,
-            cls,
-            className,
-            clsIcon,
-            clsTitle,
-            clsBadge,
-            ...rest
-        } = this.data;
+  private button: HTMLElement;
 
-        return (
-            <Element className={`shortcut ${cls} ${className}`} ref={this.button} {...rest}>
-                {icon && (
-                    <ui-icon name={icon} prefix={iconPrefix} cls={'icon ' + clsIcon}/>
-                )}
+  constructor() {
+    super();
+  }
 
-                {image && (
-                    <img className={'icon ' + clsIcon} src={image} alt=''/>
-                )}
+  async render() {
+    const {
+      as: Element,
+      icon,
+      iconPrefix,
+      image,
+      title,
+      badge,
+      cls,
+      className,
+      clsIcon,
+      clsTitle,
+      clsBadge,
+      ...rest
+    } = this.data;
 
-                {title && (
-                    <span className={'caption ' + clsTitle}>{title}</span>
-                )}
+    return (
+      <Element className={`shortcut ${cls} ${className}`} ref={this.button} {...rest}>
+        {icon && (
+          <ui-icon name={icon} prefix={iconPrefix} cls={'icon ' + clsIcon} />
+        )}
 
-                {badge && (
-                    <ui-badge cls={clsBadge} value={badge}/>
-                )}
-            </Element>
-        );
-    }
+        {image && (
+          <img className={'icon ' + clsIcon} src={image} alt='' />
+        )}
+
+        {title && (
+          <span className={'caption ' + clsTitle}>{title}</span>
+        )}
+
+        {badge && (
+          <ui-badge cls={clsBadge} value={badge} />
+        )}
+      </Element>
+    );
+  }
 }
 
 interface ShortcutProps {
-    as: 'button',
-    title: '',
-    badge: null;
-    icon: null;
-    iconPrefix: 'mif-',
-    image: null;
-    cls: '',
-    className: '',
-    clsIcon: '',
-    clsTitle: '',
-    clsBadge: ''
+  as: 'button';
+  title: string;
+  badge: null;
+  icon: null;
+  iconPrefix: string;
+  image: null;
+  cls: string;
+  className: string;
+  clsIcon: string;
+  clsTitle: string;
+  clsBadge: string;
 }

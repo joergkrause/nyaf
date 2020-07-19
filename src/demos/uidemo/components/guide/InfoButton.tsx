@@ -1,15 +1,17 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-infobutton')
 export class GuideInfoButton extends BaseComponent<{}> {
   constructor() {
     super();
   }
   async render() {
-    const codeImport = `import {InfoButton} from "metro4-react" `;
-    const codeUse = `<InfoButton title="Star" subtitle="6,208" icon="star-full" />`;
+    const codeImport = `import {InfoButton} from "@nyaf/ui" `;
+    const codeUse = `<ui-infobutton title="Star" subtitle="6,208" icon="star-full" />`;
     const codeUseAnchor = `
-            <InfoButton as="a"
+            <ui-infobutton as="a"
                 title="This is a link"
                 subtitle="6,208"
                 icon="star-full"
@@ -17,7 +19,7 @@ export class GuideInfoButton extends BaseComponent<{}> {
                 href="https://metroui.org.ua"/>
         `;
     const codeUseAnchor2 = `
-            <InfoButton
+            <ui-infobutton
                 title="This is a link"
                 subtitle="6,208"
                 icon="star-full"
@@ -40,19 +42,19 @@ export class GuideInfoButton extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <div className='example'>
-          <InfoButton title="Star" subtitle="6,208" icon="star-full" />
-                    &nbsp;<InfoButton title="Star" subtitle="6,208" icon="star-full" cls="alert" />
-                    &nbsp;<InfoButton title="Star" subtitle="6,208" icon="star-full" cls="info rounded" />
-                    &nbsp;<InfoButton as="a" title="This is a link" subtitle="6,208" icon="star-full" cls="warning rounded" href="https://metroui.org.ua" />
+          <ui-infobutton title='Star' subtitle='6,208' icon='star-full' />
+    &nbsp;<ui-infobutton title='Star' subtitle='6,208' icon='star-full' cls='alert' />
+    &nbsp;<ui-infobutton title='Star' subtitle='6,208' icon='star-full' cls='info rounded' />
+    &nbsp;<ui-infobutton as='a' title='This is a link' subtitle='6,208' icon='star-full' cls='warning rounded' href='https://metroui.org.ua' />
         </div>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader}>
+        <ui-table className='table-border cell-border' head={tablePropsHeader}>
           <tbody>
             <tr>
               <td><code>as</code></td>
@@ -125,19 +127,19 @@ export class GuideInfoButton extends BaseComponent<{}> {
               <td>onClick event handler</td>
             </tr>
           </tbody>
-        </Table>
+        </ui-table>
 
         <br />
         <h3>Using</h3>
-        <demo-prismcode language="js" code={codeUse} />
-        <demo-prismcode language="js" code={codeUseAnchor} />
-        <demo-prismcode language="js" code={codeUseAnchor2} />
+        <demo-prismcode language='js' code={codeUse} />
+        <demo-prismcode language='js' code={codeUseAnchor} />
+        <demo-prismcode language='js' code={codeUseAnchor2} />
 
 
         <br />
 
         <br />
       </demo-article>
-    )
+    );
   }
 }

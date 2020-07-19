@@ -66,7 +66,7 @@ export class ButtonGroup extends BaseComponent<ButtonGroupProps> {
     return (
       <div className={`button-group ${cls} ${className}`}>
         {
-          React.Children.map(this.children, (button, index) => {
+          Array.from(this.children).map((button, index) => {
             const correctIndex = index + 1;
             const isActive = buttons.includes(correctIndex);
             return (

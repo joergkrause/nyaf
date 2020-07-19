@@ -1,3 +1,7 @@
+import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
+
+import { tablePropsHeader } from '../Defs';
+
 import '@fortawesome/fontawesome-free/css/all.css';
 
 @CustomElement('guide-button')
@@ -6,20 +10,20 @@ export class GuideButton extends BaseComponent<{}> {
     super();
   }
   async render() {
-    const codeImport = `import {Button} from "metro4-react";`;
+    const codeImport = `import {Button} from "@nyaf/ui";`;
     const codeDefaultUse = `
-            <Button title="Button">
-            <Button>Button</Button>
+            <ui-button title="Button">
+            <ui-button>Button</Button>
         `;
     const codeAddIcon = `
-            <Button icon='rocket'/>
-            <Button icon='rocket' iconPrefix="fa fa-"/>
-            <Button image='images/location.png'/>
+            <ui-button icon='rocket'/>
+            <ui-button icon='rocket' iconPrefix="fa fa-"/>
+            <ui-button image='images/location.png'/>
         `;
-    const codeAddBadge = `<Button icon="envelop" badge={10} clsBadge={'alert'}/>`;
-    const codeSemanticUse = `<Button as='a' title='This is link' href='https://metroui.org.ua'/>`;
+    const codeAddBadge = `<ui-button icon="envelop" badge={10} clsBadge={'alert'}/>`;
+    const codeSemanticUse = `<ui-button as='a' title='This is link' href='https://metroui.org.ua'/>`;
 
-    const codeCLassesUse = `<Button title='Button' cls='alert' clsTitle='fg-yellow'/>`;
+    const codeCLassesUse = `<ui-button title='Button' cls='alert' clsTitle='fg-yellow'/>`;
 
     const tablePropsData = [
       ['<code>as</code>', '<code>button</code>', 'Semantic element'],
@@ -49,15 +53,15 @@ export class GuideButton extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <div className='example'>
-          <Button title='Button' />
-                    &nbsp;<Button cls='alert' title='Button' />
-                    &nbsp;<Button cls='info' title='Button' icon='rocket' />
-                    &nbsp;<Button cls='warning' icon='bell' />
-                    &nbsp;<Button as='a' cls='secondary' title='Link as Button' href='#' />
-                    &nbsp;<Button as='span' cls='primary' title='Span as Button' />
-                    &nbsp;<Button title='Flat Button' cls={'flat-button'} />
-                    &nbsp;<Button icon='envelop' badge={10} clsBadge={'alert'} />
-                    &nbsp;<Button title={<Icon name='rocket' />} badge={10} clsBadge={'alert'} />
+          <ui-button title='Button' />
+                    &nbsp;<ui-button cls='alert' title='Button' />
+                    &nbsp;<ui-button cls='info' title='Button' icon='rocket' />
+                    &nbsp;<ui-button cls='warning' icon='bell' />
+                    &nbsp;<ui-button as='a' cls='secondary' title='Link as Button' href='#' />
+                    &nbsp;<ui-button as='span' cls='primary' title='Span as Button' />
+                    &nbsp;<ui-button title='Flat Button' cls={'flat-button'} />
+                    &nbsp;<ui-button icon='envelop' badge={10} clsBadge={'alert'} />
+                    &nbsp;<ui-button title={<ui-icon name='rocket' />} badge={10} clsBadge={'alert'} />
         </div>
 
         <br />
@@ -66,41 +70,41 @@ export class GuideButton extends BaseComponent<{}> {
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader} body={tablePropsData} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsData} />
 
         <br />
         <h3>Using</h3>
 
         <h5>Default</h5>
         <div className={'example'}>
-          <Button title={'Button'} />
-                    &nbsp;<Button>Button</Button>
+          <ui-button title={'Button'} />
+          &nbsp;<ui-button>Button</ui-button>
         </div>
         <demo-prismcode language='jsx' code={codeDefaultUse} />
 
         <h5>Create as anchor</h5>
         <div className={'example'}>
-          <Button as='a' title='This is link' href='https://metroui.org.ua' />
+          <ui-button as='a' title='This is link' href='https://metroui.org.ua' />
         </div>
         <demo-prismcode language='jsx' code={codeSemanticUse} />
 
         <h5>Add icon</h5>
         <div className={'example'}>
-          <Button icon={'rocket'} />
-                    &nbsp;<Button icon='rocket' iconPrefix='fa fa-' />
-                    &nbsp;<Button image='../images/location.png' />
+          <ui-button icon={'rocket'} />
+                    &nbsp;<ui-button icon='rocket' iconPrefix='fa fa-' />
+                    &nbsp;<ui-button image='../images/location.png' />
         </div>
         <demo-prismcode language='jsx' code={codeAddIcon} />
 
         <h5>Add badge</h5>
         <div className={'example'}>
-          <Button icon='envelop' badge={10} clsBadge={'alert'} />
+          <ui-button icon='envelop' badge={10} clsBadge={'alert'} />
         </div>
         <demo-prismcode language='jsx' code={codeAddBadge} />
 
         <h5>Use classes</h5>
         <div className='example'>
-          <Button title='Button' cls='alert' clsTitle='fg-yellow' />
+          <ui-button title='Button' cls='alert' clsTitle='fg-yellow' />
         </div>
         <demo-prismcode language='jsx' code={codeCLassesUse} />
 

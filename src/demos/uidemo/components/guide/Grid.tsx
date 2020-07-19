@@ -1,5 +1,7 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-grid')
 export class GuideGrid extends BaseComponent<{}> {
 
@@ -8,35 +10,35 @@ export class GuideGrid extends BaseComponent<{}> {
   }
 
   async render() {
-    const codeImport = `import {Grid, Row, Cell} from "metro4-react;"`;
-    const codeUseGrid = `<Grid>...</Grid>`;
+    const codeImport = `import {Grid, Row, Cell} from "@nyaf/ui;"`;
+    const codeUseGrid = `<ui-grid>...</ui-grid>`;
     const codeUseRow = `
-            <Grid>
-                <Row>...</Row>
+            <ui-grid>
+                <ui-row>...</ui-row>
                 ...
-                <Row>...</Row>
-            </Grid>
+                <ui-row>...</ui-row>
+            </ui-grid>
         `;
     const codeUseRowStandalone = `
-            <Row>...</Row>
+            <ui-row>...</ui-row>
             ...
-            <Row>...</Row>
+            <ui-row>...</ui-row>
         `;
     const codeUseCell = `
-            <Row>
-                <Cell>...</Cell>
+            <ui-row>
+                <ui-cell>...</ui-cell>
                 ...
-                <Cell>...</Cell>
-            </Row>
+                <ui-cell>...</ui-cell>
+            </ui-row>
         `;
     const codeUseCellClass = `
-            <Row>
-                <Cell cls="cell-md-6">...</Cell>
-                <Cell cls="cell-md-2">...</Cell>
-                <Cell cls="cell-md-2">...</Cell>
-            </Row>
+            <ui-row>
+                <ui-cell cls="cell-md-6">...</ui-cell>
+                <ui-cell cls="cell-md-2">...</ui-cell>
+                <ui-cell cls="cell-md-2">...</ui-cell>
+            </ui-row>
         `;
-    const codeUseCellResponsive = `<Cell cls="cell-md-6">...</Cell>`;
+    const codeUseCellResponsive = `<ui-cell cls="cell-md-6">...</ui-cell>`;
 
     return (
       <demo-article>
@@ -55,7 +57,7 @@ export class GuideGrid extends BaseComponent<{}> {
         <p>
           Metro 4 grid system uses a series of <code>containers</code>, <code>rows</code>, and <code>columns</code> to layout and align content.
                 </p>
-        <Table className='table-border cell-border' >
+        <ui-table className='table-border cell-border' >
           <tbody>
             <tr>
               <td>Containers</td>
@@ -70,18 +72,18 @@ export class GuideGrid extends BaseComponent<{}> {
               <td><code>Cell</code></td>
             </tr>
           </tbody>
-        </Table>
+        </ui-table>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h4>Grid</h4>
-        <demo-prismcode language="jsx" code={codeUseGrid} />
+        <demo-prismcode language='jsx' code={codeUseGrid} />
 
         <h5>Props</h5>
-        <Table className='table-border cell-border' head={tablePropsHeader}>
+        <ui-table className='table-border cell-border' head={tablePropsHeader}>
           <tbody>
             <tr>
               <td><code>as</code></td>
@@ -94,18 +96,18 @@ export class GuideGrid extends BaseComponent<{}> {
               <td>Element classes</td>
             </tr>
           </tbody>
-        </Table>
+        </ui-table>
 
         <br />
         <h4>Row</h4>
-        <demo-prismcode language="jsx" code={codeUseRow} />
+        <demo-prismcode language='jsx' code={codeUseRow} />
         <p>
           You can use <code>Row</code> without a <code>Grid</code> element.
                 </p>
-        <demo-prismcode language="jsx" code={codeUseRowStandalone} />
+        <demo-prismcode language='jsx' code={codeUseRowStandalone} />
 
         <h5>Props</h5>
-        <Table className='table-border cell-border' head={tablePropsHeader}>
+        <ui-table className='table-border cell-border' head={tablePropsHeader}>
           <tbody>
             <tr>
               <td><code>as</code></td>
@@ -118,14 +120,14 @@ export class GuideGrid extends BaseComponent<{}> {
               <td>Element classes</td>
             </tr>
           </tbody>
-        </Table>
+        </ui-table>
 
         <br />
         <h4>Cell</h4>
-        <demo-prismcode language="jsx" code={codeUseCell} />
+        <demo-prismcode language='jsx' code={codeUseCell} />
 
         <h5>Props</h5>
-        <Table className='table-border cell-border' head={tablePropsHeader}>
+        <ui-table className='table-border cell-border' head={tablePropsHeader}>
           <tbody>
             <tr>
               <td><code>as</code></td>
@@ -138,7 +140,7 @@ export class GuideGrid extends BaseComponent<{}> {
               <td>Element classes</td>
             </tr>
           </tbody>
-        </Table>
+        </ui-table>
         <p className='remark info'>
           Each cell has default <code>padding: 6px</code>. To remove all padding use class <code>.no-gap</code> for <code>Grid</code> or <code>Row</code>.
                 </p>
@@ -148,8 +150,10 @@ export class GuideGrid extends BaseComponent<{}> {
         <h3>Responsive tiers</h3>
         <p>
           You can use responsive modification classes to create responsive, mobile-first grid system.
-                    These class named as <code>cell-[mobile-point]-[span]</code>, where <b>mobile-point</b> one of: <code>fs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> and <code>xxl</code>, and <b>span</b> - how much cell spans on this media point.
-                </p>
+            These class named as <code>cell-[mobile-point]-[span]</code>, where <b>mobile-point</b> one of:
+            <code>fs</code>, <code>sm</code>, <code>md</code>, <code>lg</code>, <code>xl</code> and <code>xxl</code>, and <b>span</b> -
+            how much cell spans on this media point.
+        </p>
 
         <p className='remark info'>
           Also, you can use alias <code>col-[mobile-point]-[span]</code>. This alias is specifically introduced for Bootstrap users.
@@ -159,15 +163,15 @@ export class GuideGrid extends BaseComponent<{}> {
           In example below, cell will use one column when width less then <code>768px</code>, and six columns when width more or equal <code>768px</code>.
                 </p>
 
-        <demo-prismcode language="jsx" code={codeUseCellResponsive} />
+        <demo-prismcode language='jsx' code={codeUseCellResponsive} />
 
         <p>
           You can combine classes to build responsive grid with 12 columns total.
                 </p>
 
-        <demo-prismcode language="jsx" code={codeUseCellClass} />
+        <demo-prismcode language='jsx' code={codeUseCellClass} />
 
-        <Table className='table-border cell-border'>
+        <ui-table className='table-border cell-border'>
           <tbody>
             <tr>
               <td><b>fs</b></td>
@@ -194,13 +198,13 @@ export class GuideGrid extends BaseComponent<{}> {
               <td><code>min-width 1452px</code></td>
             </tr>
           </tbody>
-        </Table>
+        </ui-table>
 
         <br />
 
         <br />
 
       </demo-article>
-    )
+    );
   }
 }

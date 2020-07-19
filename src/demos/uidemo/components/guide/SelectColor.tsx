@@ -1,12 +1,15 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import {tablePropsHeader} from '../Defs';
+import { Color } from '@nyaf/ui';
+
 @CustomElement('guide-selectcolor')
 export class GuideSelectColor extends BaseComponent<{}> {
   constructor() {
     super();
   }
   async render() {
-    const codeImport = `import {SelectColor} from "metro4-react";`;
+    const codeImport = `import {SelectColor} from "@nyaf/ui";`;
     const codeUsing = `<SelectColor source={Color.colorListMetro} prepend="Color: "/>`;
     const codeUsing2 = `
             <SelectColor filter={false} value="#008000" colorNameInCaption={false}>
@@ -29,40 +32,40 @@ export class GuideSelectColor extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <demo-example>
-          <Row>
-            <Cell cls="cell-sm-5">
-              <SelectColor source={Color.colorListMetro} prepend="Color: " />
-            </Cell>
-            <Cell cls="cell-sm-5">
-              <SelectColor source={Color.colorListStandard} append="your color" />
-            </Cell>
-            <Cell cls="cell-sm-2">
-              <SelectColor filter={false} value="#008000" showColorName={false} prepend={<Icon name="palette" />} >
-                <option value="#ff0000">red</option>
-                <option value="#008000">green</option>
-                <option value="#0000ff">blue</option>
-              </SelectColor>
-            </Cell>
-          </Row>
+          <ui-row>
+            <ui-cell cls='cell-sm-5'>
+              <ui-selectcolor source={Color.colorListMetro} prepend='Color: ' />
+            </ui-cell>
+            <ui-cell cls='cell-sm-5'>
+              <ui-selectcolor source={Color.colorListStandard} append='your color' />
+            </ui-cell>
+            <ui-cell cls='cell-sm-2'>
+              <ui-selectcolor filter={false} value='#008000' showColorName={false} prepend={<ui-icon name='palette' />} >
+                <option value='#ff0000'>red</option>
+                <option value='#008000'>green</option>
+                <option value='#0000ff'>blue</option>
+              </ui-selectcolor>
+            </ui-cell>
+          </ui-row>
         </demo-example>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h3>Using</h3>
-        <demo-prismcode language="js" code={codeUsing} />
-        <demo-prismcode language="js" code={codeUsing2} />
+        <demo-prismcode language='js' code={codeUsing} />
+        <demo-prismcode language='js' code={codeUsing2} />
 
         <br />
         <h4>Props</h4>
-        <Table className="table-border cell-border" head={tablePropsHeader} body={tablePropsBody} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
 
         <br />
 
         <br />
       </demo-article>
-    )
+    );
   }
 }

@@ -1,5 +1,5 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .clear-float {
     @include clear();

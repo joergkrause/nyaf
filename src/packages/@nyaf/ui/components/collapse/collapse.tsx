@@ -9,7 +9,13 @@ const EXPANDED = "expanded";
 @CustomElement('ui-collapse')
 @Properties<CollapseProps>({
   className: "collapse-css-transition",
-  style: {}
+  style: {},
+  excludeStateCSS: '',
+  transition: '',
+  elementType: '',
+  collapseHeight: 0, // exclude from ...rest
+  isOpen: false,
+
 })
 @Events(['init', 'change'])
 export class Collapse extends BaseComponent<CollapseProps> {
@@ -23,13 +29,33 @@ export class Collapse extends BaseComponent<CollapseProps> {
       },
       hasReversed: false
     }
-    this.onTransitionEnd = this.onTransitionEnd.bind(this);
-    this.getHeight = this.getHeight.bind(this);
-    this.onCallback = this.onCallback.bind(this);
-    this.setCollapsed = this.setCollapsed.bind(this);
-    this.setCollapsing = this.setCollapsing.bind(this);
-    this.setExpanded = this.setExpanded.bind(this);
-    this.setExpanding = this.setExpanding.bind(this);
+  }
+;
+;
+;
+;
+;
+;
+
+  // Detect a new collapse state from props.isOpen change
+  static getDerivedStateFromProps(props, state) {
+    const isOpen =
+      state.collapseState === EXPANDED || state.collapseState === EXPANDING;
+
+    if (!isOpen && props.isOpen) {
+      return {
+        hasReversed: state.collapseState === COLLAPSING,
+        collapseState: EXPANDING
+      };
+    }
+    if (isOpen && !props.isOpen) {
+      return {
+        hasReversed: state.collapseState === EXPANDING,
+        collapseState: COLLAPSING
+      };
+    }
+
+    return null;
   }
 
   async render() {
@@ -77,27 +103,6 @@ export class Collapse extends BaseComponent<CollapseProps> {
     );
   }
 
-  // Detect a new collapse state from props.isOpen change
-  static getDerivedStateFromProps(props, state) {
-    const isOpen =
-      state.collapseState === EXPANDED || state.collapseState === EXPANDING;
-
-    if (!isOpen && props.isOpen) {
-      return {
-        hasReversed: state.collapseState === COLLAPSING,
-        collapseState: EXPANDING
-      };
-    }
-    if (isOpen && !props.isOpen) {
-      return {
-        hasReversed: state.collapseState === EXPANDING,
-        collapseState: COLLAPSING
-      };
-    }
-
-    return null;
-  }
-
   lifeCycle(state: LifeCycle) {
     if (state === LifeCycle.Load) {
       this.onCallback(this.props.onInit);
@@ -140,8 +145,7 @@ export class Collapse extends BaseComponent<CollapseProps> {
         default:
       }
     }
-  };
-
+  }
   getHeight() {
     return `${this.content.scrollHeight}px`;
   }
@@ -152,8 +156,7 @@ export class Collapse extends BaseComponent<CollapseProps> {
         ...this.state,
         isMoving: isMoving(this.state.collapseState)
       });
-  };
-
+  }
   setCollapsed() {
     if (!this.content) return;
 
@@ -166,8 +169,7 @@ export class Collapse extends BaseComponent<CollapseProps> {
       },
       () => this.onCallback(this.props.onChange)
     );
-  };
-
+  }
   setCollapsing() {
     if (!this.content) return;
 
@@ -192,8 +194,7 @@ export class Collapse extends BaseComponent<CollapseProps> {
         () => this.onCallback(this.props.onChange)
       );
     });
-  };
-
+  }
   setExpanding() {
     nextFrame(() => {
       if (this.content) {
@@ -211,8 +212,7 @@ export class Collapse extends BaseComponent<CollapseProps> {
         );
       }
     });
-  };
-
+  }
   setExpanded() {
     if (!this.content) return;
 
@@ -226,12 +226,16 @@ export class Collapse extends BaseComponent<CollapseProps> {
       },
       () => this.onCallback(this.props.onChange)
     );
-  };
-}
+  }}
 
 interface CollapseProps {
   className: "collapse-css-transition",
-  style: {}
+  style: {},
+  excludeStateCSS: string;
+  transition: string;
+  elementType: string;
+  collapseHeight: number;
+  isOpen: boolean;
 }
 
 function nextFrame(callback) {

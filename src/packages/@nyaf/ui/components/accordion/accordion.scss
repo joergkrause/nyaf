@@ -1,14 +1,14 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .accordion {
-    .reset-list();
+    @include reset-list();
     position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: @white;
-    color: @dark;
+    background-color: $white;
+    color: $dark;
 }
 
 .accordion {
@@ -22,7 +22,7 @@
             display: block;
             position: relative;
             padding: .5rem 1rem;
-            background-color: @light;
+            background-color: $light;
             cursor: pointer;
             white-space: nowrap;
             overflow: hidden;
@@ -50,7 +50,7 @@
             height: 40px;
             text-align: center;
             transform: rotate(0);
-            transition: transform @transition-speed;
+            transition: transform $transition-speed;
             transform-origin: 50% 50%;
         }
     }
@@ -60,7 +60,7 @@
             & > .heading {
                 &::before {
                     transform: rotate(90deg);
-                    transition: transform @transition-speed;
+                    transition: transform $transition-speed;
                 }
             }
         }
@@ -80,7 +80,7 @@
                 & > .heading {
                     &::before {
                         transform: rotate(-90deg);
-                        transition: transform @transition-speed;
+                        transition: transform $transition-speed;
                     }
                 }
             }
@@ -100,7 +100,7 @@
         & > .frame > .heading {
             padding: 16px 42px 16px 16px;
             font-size: 16px;
-            background-color: @white;
+            background-color: $white;
 
             &::after {
                 display: block;
@@ -114,13 +114,13 @@
                 text-align: center;
                 line-height: 1;
                 transform: rotate(0);
-                transition: transform @transition-speed;
+                transition: transform $transition-speed;
                 transform-origin: 50% 50%;
             }
         }
 
         .frame + .frame {
-            border-top: 1px @borderColor solid;
+            border-top: 1px $borderColor solid;
         }
 
         & > .frame > .content {
@@ -133,7 +133,7 @@
                 .heading {
                     &::after {
                         transform: rotate(90deg);
-                        transition: transform @transition-speed;
+                        transition: transform $transition-speed;
                     }
                 }
             }
@@ -150,7 +150,7 @@
                 left: 16px;
                 right: auto;
                 top: 8px;
-                .rotate(180deg);
+                @include rotate(180deg);
             }
         }
 

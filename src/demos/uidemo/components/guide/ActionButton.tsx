@@ -1,22 +1,24 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-actionbutton')
 export class GuideActionButton extends BaseComponent<{}> {
-    render(){
-        const codeImportAction = `import {ActionButton} from "metro4-react";`;
-        const codeImportMultiAction = `import {MultiAction, MultiActionItem} from "metro4-react";`;
+    render() {
+        const codeImportAction = `import {ActionButton} from "@nyaf/ui";`;
+        const codeImportMultiAction = `import {MultiAction, MultiActionItem} from "@nyaf/ui";`;
         const codeUseActionButton = `
-            <ActionButton icon="star-full" />
-            <ActionButton icon="star-full" variant="secondary"/>
-            <ActionButton icon="rocket" className="alert" />
-            <ActionButton icon="rocket" className="info" variant="secondary" clsIcon="fg-yellow"/>
+            <ui-actionbutton icon="star-full" />
+            <ui-actionbutton icon="star-full" variant="secondary"/>
+            <ui-actionbutton icon="rocket" className="alert" />
+            <ui-actionbutton icon="rocket" className="info" variant="secondary" clsIcon="fg-yellow"/>
         `;
         const codeUseMultiAction = `
-            <MultiAction icon="star-full" cls="alert" drop={'right'}>
-                <MultiActionItem icon="home" />
-                <MultiActionItem icon="rocket" onClick={...}/>
-                <MultiActionItem icon="adb" onClick={...}/>
-            </MultiAction>
+            <ui-multiaction icon="star-full" cls="alert" drop={'right'}>
+                <ui-multiaction-item icon="home" />
+                <ui-multiaction-item icon="rocket" onClick={...}/>
+                <ui-multiaction-item icon="adb" onClick={...}/>
+            </ui-multiaction>
         `;
 
 
@@ -38,11 +40,11 @@ export class GuideActionButton extends BaseComponent<{}> {
 
                 <br/>
                 <h3>Importing ActionButton</h3>
-                <demo-prismcode language="js" code={codeImportAction}/>
+                <demo-prismcode language='js' code={codeImportAction}/>
 
                 <br/>
                 <h4>Props</h4>
-                <Table className='table-border cell-border' head={tablePropsHeader}>
+                <ui-table className='table-border cell-border' head={tablePropsHeader}>
                     <tbody>
                     <tr>
                         <td><code>as</code></td>
@@ -85,26 +87,26 @@ export class GuideActionButton extends BaseComponent<{}> {
                         <td>Button state</td>
                     </tr>
                     </tbody>
-                </Table>
+                </ui-table>
 
                 <br/>
                 <h4>Using</h4>
                 <demo-example>
-                    <ActionButton icon="star-full" />
-                    &nbsp;<ActionButton icon="star-full" variant="secondary"/>
-                    &nbsp;<ActionButton icon="rocket" className="alert" />
-                    &nbsp;<ActionButton icon="rocket" className="info" variant="secondary" clsIcon="fg-yellow"/>
+                    <ui-actionbutton icon='star-full' />
+                    &nbsp;<ui-actionbutton icon='star-full' variant='secondary'/>
+                    &nbsp;<ui-actionbutton icon='rocket' className='alert' />
+                    &nbsp;<ui-actionbutton icon='rocket' className='info' variant='secondary' clsIcon='fg-yellow'/>
                 </demo-example>
-                <demo-prismcode language="js" code={codeUseActionButton}/>
+                <demo-prismcode language='js' code={codeUseActionButton}/>
 
                 <br/>
                 <h3>Importing MultiAction</h3>
-                <demo-prismcode language="js" code={codeImportMultiAction}/>
+                <demo-prismcode language='js' code={codeImportMultiAction}/>
 
                 <br/>
                 <h4>Props for MultiAction</h4>
                 <p>Same as for <code>ActionButton</code> and:</p>
-                <Table className='table-border cell-border' head={tablePropsHeader}>
+                <ui-table className='table-border cell-border' head={tablePropsHeader}>
                     <tbody>
                     <tr>
                         <td><code>drop</code></td>
@@ -122,11 +124,11 @@ export class GuideActionButton extends BaseComponent<{}> {
                         <td>Callback for click event</td>
                     </tr>
                     </tbody>
-                </Table>
+                </ui-table>
 
                 <br/>
                 <h4>Props for MultiActionItem</h4>
-                <Table className='table-border cell-border' head={tablePropsHeader}>
+                <ui-table className='table-border cell-border' head={tablePropsHeader}>
                     <tbody>
                     <tr>
                         <td><code>icon</code></td>
@@ -154,47 +156,47 @@ export class GuideActionButton extends BaseComponent<{}> {
                         <td>Callback for click event </td>
                     </tr>
                     </tbody>
-                </Table>
+                </ui-table>
 
                 <br/>
                 <h4>Using</h4>
                 <demo-example>
-                    <Row>
-                        <Cell cls='cell-md-3'>
-                            <MultiAction icon="star-full" cls="alert" drop={'right'}>
-                                <MultiActionItem icon="home" />
-                                <MultiActionItem icon="rocket" onClick={() => alert('rocket')}/>
-                                <MultiActionItem icon="adb" onClick={() => alert('adb')}/>
-                            </MultiAction>
-                        </Cell>
-                        <Cell cls='cell-md-3 d-flex flex-justify-center'>
-                            <MultiAction icon="star-full" cls="alert" drop={'up'}>
-                                <MultiActionItem icon="home" onClick={() => alert('home')}/>
-                                <MultiActionItem icon="rocket" onClick={() => alert('rocket')}/>
-                                <MultiActionItem icon="adb" onClick={() => alert('adb')}/>
-                            </MultiAction>
-                        </Cell>
-                        <Cell cls='cell-md-3 d-flex flex-justify-center'>
-                            <MultiAction icon="star-full" cls="alert" drop={'bottom'}>
-                                <MultiActionItem icon="home" onClick={() => alert('home')}/>
-                                <MultiActionItem icon="rocket" onClick={() => alert('rocket')}/>
-                                <MultiActionItem icon="adb" onClick={() => alert('adb')}/>
-                            </MultiAction>
-                        </Cell>
-                        <Cell cls='cell-md-3 d-flex flex-justify-end'>
-                            <MultiAction icon="star-full" cls="alert" drop={'left'}>
-                                <MultiActionItem icon="home" onClick={() => alert('home')}/>
-                                <MultiActionItem icon="rocket" onClick={() => alert('rocket')}/>
-                                <MultiActionItem icon="adb" onClick={() => alert('adb')}/>
-                            </MultiAction>
-                        </Cell>
-                    </Row>
+                    <ui-row>
+                        <ui-cell cls='cell-md-3'>
+                            <ui-multiaction icon='star-full' cls='alert' drop={'right'}>
+                                <ui-multiaction-item icon='home' />
+                                <ui-multiaction-item icon='rocket' onClick={() => alert('rocket')}/>
+                                <ui-multiaction-item icon='adb' onClick={() => alert('adb')}/>
+                            </ui-multiaction>
+                        </ui-cell>
+                        <ui-cell cls='cell-md-3 d-flex flex-justify-center'>
+                            <ui-multiaction icon='star-full' cls='alert' drop={'up'}>
+                                <ui-multiaction-item icon='home' onClick={() => alert('home')}/>
+                                <ui-multiaction-item icon='rocket' onClick={() => alert('rocket')}/>
+                                <ui-multiaction-item icon='adb' onClick={() => alert('adb')}/>
+                            </ui-multiaction>
+                        </ui-cell>
+                        <ui-cell cls='cell-md-3 d-flex flex-justify-center'>
+                            <ui-multiaction icon='star-full' cls='alert' drop={'bottom'}>
+                                <ui-multiaction-item icon='home' onClick={() => alert('home')}/>
+                                <ui-multiaction-item icon='rocket' onClick={() => alert('rocket')}/>
+                                <ui-multiaction-item icon='adb' onClick={() => alert('adb')}/>
+                            </ui-multiaction>
+                        </ui-cell>
+                        <ui-cell cls='cell-md-3 d-flex flex-justify-end'>
+                            <ui-multiaction icon='star-full' cls='alert' drop={'left'}>
+                                <ui-multiaction-item icon='home' onClick={() => alert('home')}/>
+                                <ui-multiaction-item icon='rocket' onClick={() => alert('rocket')}/>
+                                <ui-multiaction-item icon='adb' onClick={() => alert('adb')}/>
+                            </ui-multiaction>
+                        </ui-cell>
+                    </ui-row>
                 </demo-example>
 
-                <demo-prismcode language="js" code={codeUseMultiAction}/>
+                <demo-prismcode language='js' code={codeUseMultiAction}/>
 
                 <br/>
             </demo-article>
-        )
+        );
     }
 }

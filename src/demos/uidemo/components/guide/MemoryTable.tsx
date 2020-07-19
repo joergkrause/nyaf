@@ -1,5 +1,7 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-memorytable')
 export class GuideMemoryTable extends BaseComponent<{}> {
 
@@ -16,9 +18,9 @@ export class GuideMemoryTable extends BaseComponent<{}> {
   }
 
   render() {
-    const codeImport = `import {MemoryTable} from "metro4-react";`;
+    const codeImport = `import {MemoryTable} from "@nyaf/ui";`;
     const codeUse = `
-            <MemoryTable
+            <ui-memorytable
                 className="table-border striped"
                 source={'../data/table.json'}
                 rowsTitle='Show: '
@@ -67,7 +69,7 @@ export class GuideMemoryTable extends BaseComponent<{}> {
                 </p>
         <br />
         <demo-example>
-          <MemoryTable
+          <ui-memorytable
             className='table-border striped'
             source={'../data/table.json'}
             rowsTitle='Show: '
@@ -92,7 +94,7 @@ export class GuideMemoryTable extends BaseComponent<{}> {
         <p>
           Component <code>MemoryTable</code> has standard props as for <code>Table</code> component and an addition properties:
                 </p>
-        <Table className='table-border cell-border' body={tablePropsData} head={tablePropsHeader} />
+        <ui-table className='table-border cell-border' body={tablePropsData} head={tablePropsHeader} />
 
         <br />
         <h3>Using</h3>

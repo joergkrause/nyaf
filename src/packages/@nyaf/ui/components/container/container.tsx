@@ -3,10 +3,10 @@ require('./container.scss');
 
 @CustomElement('ui-container')
 @Properties<ContainerProps>({
-  as: "div",
+  as: 'div',
   fluid: false,
-  cls: "",
-  className: ""
+  cls: '',
+  className: ''
 })
 export class Container extends BaseComponent<ContainerProps> {
 
@@ -21,13 +21,13 @@ export class Container extends BaseComponent<ContainerProps> {
       <Element className={`container${fluid ? '-fluid' : ''} ${cls} ${className}`} {...rest}>
         {this.children}
       </Element>
-    )
+    );
   }
 }
 
 interface ContainerProps {
-  as: "div",
-  fluid: false,
-  cls: "",
-  className: ""
+  as: 'div';
+  fluid: boolean;
+  cls: string;
+  className: string;
 }

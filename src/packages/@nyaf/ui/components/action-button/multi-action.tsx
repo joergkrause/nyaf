@@ -3,11 +3,11 @@ require('./action-button.scss');
 
 @CustomElement('ui-multiactionitem')
 @Properties<MultiActionItemProps>({
-  icon: null;
+  icon: null,
   iconPrefix: 'mif-',
-  image: null;
+  image: null,
   cls: '',
-  className: '',
+  className: ''
 })
 @Events(['Click'])
 export class MultiActionItem extends BaseComponent<MultiActionItemProps> {
@@ -18,11 +18,11 @@ export class MultiActionItem extends BaseComponent<MultiActionItemProps> {
   }
 
   onClick(e) {
-    this.props.onClick(e);
+    this.dispatch('click', e);
   }
 
   render() {
-    const { icon, iconPrefix, cls, className, onClick, ...rest } = this.data;
+    const { icon, iconPrefix, cls, className, ...rest } = this.data;
     return (
       <li>
         <a {...rest} onClick={this.onClick}>
@@ -74,16 +74,16 @@ export class MultiAction extends BaseComponent<MultiActionProps> {
     click();
   }
 
-  render() {
-    const { drop, onClick, itemClickClose, ...rest } = this.data;
+  async render() {
+    const { drop, itemClickClose, ...rest } = this.data;
 
     rest.cls = this.state.active ? rest.cls + ' active ' : rest.cls;
 
-    return (
+    return await (
       <div className='multi-action'>
         <ActionButton {...rest} onClick={this.toggleState} />
         <ul className={'actions drop-' + drop}>
-          {React.Children.map(this.props.children, (item, index) => {
+          {Array.from(this.children).map((item, index) => {
             return (
               <ui-multiactionitem key={index} {...item.props} onClick={(e) => { this.itemClick(e, item.props.onClick); }}></ui-multiactionitem>
             );

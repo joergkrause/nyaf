@@ -1,23 +1,25 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import {tablePropsHeader} from '../Defs';
+
 @CustomElement('guide-shortcut')
 export class GuideShortcut extends BaseComponent<{}> {
   constructor() {
     super();
   }
   async render() {
-    const codeImport = `import {Shortcut} from "metro4-react";`;
-    const codeUse = `<Shortcut icon="rocket" title="Rocket"/>`;
-    const codeUse2 = `<Shortcut image="../images/location.png" title="Location"/>`;
+    const codeImport = `import {Shortcut} from "@nyaf/ui";`;
+    const codeUse = `<ui-shortcut icon="rocket" title="Rocket"/>`;
+    const codeUse2 = `<ui-shortcut image="../images/location.png" title="Location"/>`;
     const codeUse3 = `
-            <Shortcut
+            <ui-shortcut
                 icon="windows"
                 cls="alert"
                 title="Windows"
                 badge={10}
                 clsBadge="bg-white fg-dark"/>`;
     const codeUse4 = `
-            <Shortcut as="a"
+            <ui-shortcut as="a"
                 href="#"
                 icon="windows"
                 cls="success"
@@ -53,12 +55,12 @@ export class GuideShortcut extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <demo-example>
-          <Shortcut icon='rocket' title='Rocket' />
-                    &nbsp;<Shortcut icon='share' title='Share' cls='info' />
-                    &nbsp;<Shortcut icon='share' cls='warning no-caption' />
-                    &nbsp;<Shortcut icon='windows' cls='alert' title='Windows' badge={10} clsBadge='bg-white fg-dark' />
-                    &nbsp;<Shortcut as='a' href='#' icon='windows' cls='success' title='Anchor' badge={10} />
-                    &nbsp;<Shortcut image='../images/location.png' title='Location' />
+          <ui-shortcut icon='rocket' title='Rocket' />
+                    &nbsp;<ui-shortcut icon='share' title='Share' cls='info' />
+                    &nbsp;<ui-shortcut icon='share' cls='warning no-caption' />
+                    &nbsp;<ui-shortcut icon='windows' cls='alert' title='Windows' badge={10} clsBadge='bg-white fg-dark' />
+                    &nbsp;<ui-shortcut as='a' href='#' icon='windows' cls='success' title='Anchor' badge={10} />
+                    &nbsp;<ui-shortcut image='../images/location.png' title='Location' />
         </demo-example>
 
         <br />
@@ -67,7 +69,7 @@ export class GuideShortcut extends BaseComponent<{}> {
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader} body={tablePropsData} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsData} />
 
         <br />
         <h3>Using</h3>

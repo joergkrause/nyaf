@@ -1,22 +1,24 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-buttongroup')
 export class GuideButtonGroup extends BaseComponent<{}> {
 
   async render() {
-    const codeImport = `import {ButtonGroup} from "metro4-react";`;
+    const codeImport = `import {ButtonGroup} from "@nyaf/ui";`;
     const codeUsing = `
-            <ButtonGroup>
-                <Button title="1"/>
-                <Button title="2"/>
-                <Button title="3"/>
-            </ButtonGroup>
+            <ui-buttongroup>
+                <ui-button title="1"/>
+                <ui-button title="2"/>
+                <ui-button title="3"/>
+            </ui-buttongroup>
 
-            <ButtonGroup radio="true">
-                <Button title="1"/>
-                <Button title="2"/>
-                <Button title="3"/>
-            </ButtonGroup>
+            <ui-buttongroup radio="true">
+                <ui-button title="1"/>
+                <ui-button title="2"/>
+                <ui-button title="3"/>
+            </ui-buttongroup>
         `;
 
     const tablePropsBody = [
@@ -46,22 +48,22 @@ export class GuideButtonGroup extends BaseComponent<{}> {
           You can group buttons using component <code>ButtonGroup</code> and set switch mode: <code>check</code> or <code>radio</code>.
                 </p>
         <demo-example>
-          <Row>
-            <Cell cls='cell-md-6'>
-              <ButtonGroup>
-                <Button title='1' />
-                <Button title='2' />
-                <Button title='3' />
-              </ButtonGroup>
-            </Cell>
-            <Cell cls='cell-md-6'>
-              <ButtonGroup radio={true}>
-                <Button title='1' />
-                <Button title='2' />
-                <Button title='3' />
-              </ButtonGroup>
-            </Cell>
-          </Row>
+          <ui-row>
+            <ui-cell cls='cell-md-6'>
+              <ui-buttongroup>
+                <ui-button title='1' />
+                <ui-button title='2' />
+                <ui-button title='3' />
+              </ui-buttongroup>
+            </ui-cell>
+            <ui-cell cls='cell-md-6'>
+              <ui-buttongroup radio={true}>
+                <ui-button title='1' />
+                <ui-button title='2' />
+                <ui-button title='3' />
+              </ui-buttongroup>
+            </ui-cell>
+          </ui-row>
         </demo-example>
 
         <br />
@@ -74,7 +76,7 @@ export class GuideButtonGroup extends BaseComponent<{}> {
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
 
         <br />
 

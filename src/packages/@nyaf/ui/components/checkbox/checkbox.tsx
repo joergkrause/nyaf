@@ -86,20 +86,6 @@ export class Checkbox extends BaseComponent<CheckboxProps> implements IModel<Che
   }
 }
 
-interface CheckboxProps {
-  checked: false;
-  mode: 'checkbox' | 'switch';
-
-  caption: string;
-  variant: number;
-  transition: boolean;
-
-  cls: string;
-  className: string;
-  clsCheck: string;
-  clsCaption: string;
-}
-
 @CustomElement('ui-checkbox')
 @Properties<CheckboxProps>(
   {
@@ -129,3 +115,16 @@ export class Switch extends BaseComponent<{}> {
   }
 }
 
+interface CheckboxProps {
+  checked: false;
+  mode: 'checkbox' | 'switch';
+
+  caption: string;
+  variant: number;
+  transition: boolean;
+
+  cls: string;
+  className: string;
+  clsCheck: string;
+  clsCaption: string;
+}

@@ -9,4 +9,4 @@ const MediaPoints = {
     'xxl': 1452,
 };
 
-export {MediaPoints};
+export { MediaPoints };

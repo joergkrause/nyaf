@@ -6,9 +6,9 @@ export class GuideTable extends BaseComponent<{}> {
     super();
   }
   async render() {
-    const codeImport = `import {Table} from "metro4-react";`;
+    const codeImport = `import {Table} from "@nyaf/ui";`;
     const codeUseDirectly = `
-            <Table cls="table">
+            <ui-table cls="table">
                 <thead>
                     <tr>
                         <td>...</td>
@@ -23,7 +23,7 @@ export class GuideTable extends BaseComponent<{}> {
                         <td>...</td>
                     </tr>
                 </tbody>
-            </Table>
+            </ui-table>
         `;
     const codeUseArray = `
             const tablePropsHeader = [
@@ -57,7 +57,7 @@ export class GuideTable extends BaseComponent<{}> {
                 ["onDrawCell", "", "Callback for body cell draw event"],
             ];
 
-            <Table head={tablePropsHeader} body={tablePropsData} className="table-border cell-border"/>
+            <ui-table head={tablePropsHeader} body={tablePropsData} className="table-border cell-border"/>
         `;
 
     const codeUseArrayForBody = `
@@ -116,7 +116,7 @@ export class GuideTable extends BaseComponent<{}> {
 
         <br />
         <h4>Props</h4>
-        <Table head={tablePropsHeader} body={tablePropsData} className="table-border cell-border" />
+        <ui-table head={tablePropsHeader} body={tablePropsData} className="table-border cell-border" />
 
         <br />
         <h3>Using</h3>
@@ -138,7 +138,7 @@ export class GuideTable extends BaseComponent<{}> {
         <br />
         <h4>Define table head with array</h4>
         <p>When you define table head from array, you can use next props:</p>
-        <Table className="table-border cell-border" body={tableDefineHeadProps} onDrawCell={(val, props, index) => index === 0 ? "<code>" + val + "</code>" : val} />
+        <ui-table className="table-border cell-border" body={tableDefineHeadProps} onDrawCell={(val, props, index) => index === 0 ? "<code>" + val + "</code>" : val} />
 
         <br />
         <h4>Define table body with array</h4>

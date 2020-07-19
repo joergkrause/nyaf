@@ -69,13 +69,13 @@ interface AccordionFrameProps {
   'FrameBeforeClose'
 ])
 export class Accordion extends BaseComponent<AccordionProps> {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     const openFrames = {};
 
-    React.Children.forEach(this.props.children, (child, index) => {
-      if (child.props.open) {
+    Array.from(this.children).forEach((child, index) => {
+      if (child.getAttribute('open')) {
         openFrames[index] = true;
       }
     });
@@ -125,7 +125,7 @@ export class Accordion extends BaseComponent<AccordionProps> {
     return await (
       <div className={className}>
         {
-          React.Children.map(this.props.children, (frame, index) => {
+          Array.from(this.children).map((frame, index) => {
             const props = frame.props;
             const frameProps = {
               animationDuration,
@@ -152,14 +152,14 @@ export class Accordion extends BaseComponent<AccordionProps> {
 }
 
 interface AccordionProps {
-  marker: true;
-  variant: 1;
-  oneFrame: true;
-  oneFrameOpen: true;
-  animationDuration: 300;
+  marker: boolean;
+  variant: number;
+  oneFrame: boolean;
+  oneFrameOpen: boolean;
+  animationDuration: number;
 
-  clsAccordion: '',
-  clsFrame: '',
-  clsFrameHeading: '',
-  clsFrameContent: '',
+  clsAccordion: string;
+  clsFrame: string;
+  clsFrameHeading: string;
+  clsFrameContent: string;
 }

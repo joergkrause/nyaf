@@ -1,6 +1,12 @@
 import JSX, { CustomElement, Properties, Events, BaseComponent } from '@nyaf/lib';
 require('./rating.scss');
 import Utils from '../../routines/utils';
+import { IModel, ModelBinder } from '@nyaf/forms';
+
+class RatingModel {
+  value: number;
+  initValue: number;
+}
 
 @CustomElement('ui-rating')
 @Properties<RatingProps>({
@@ -23,34 +29,36 @@ import Utils from '../../routines/utils';
   'Change',
   'Click'
 ])
-export class Rating extends BaseComponent<RatingProps> {
+export class Rating extends BaseComponent<RatingProps> implements IModel<RatingModel> {
+
+  private input: HTMLInputElement;
+  private _id: string;
+  private values: any;
+
   constructor() {
     super();
 
-    this.input = React.createRef();
+    this.model.scope.value = this.data.value;
+    this.model.scope.initValue = this.data.value;
 
-    this.state = {
-      value: props.value,
-      initValue: props.value
-    };
+    this._id = this.id ? this.id : Utils.elementId('rating');
+    this.values = this.data.values.length ? this.data.values.sort((a, b) => a - b) : [...Array(this.data.stars)].map((el, i) => i + 1);
 
-    this.id = props.id ? props.id : Utils.elementId('rating');
-    this.values = props.values.length ? props.values.sort((a, b) => a - b) : [...Array(props.stars)].map((el, i) => i + 1);
-
-    if (props.starColor || props.staredColor) {
+    if (this.data.starColor || this.data.staredColor) {
       const sheet = Utils.newCssSheet();
-      if (props.starColor && !props.isStatic) {
-        Utils.addCssRule(sheet, '#' + this.id + ' .stars:hover li', 'color: ' + props.starColor + ';');
+      if (this.data.starColor && !this.data.isStatic) {
+        Utils.addCssRule(sheet, '#' + this._id + ' .stars:hover li', 'color: ' + this.data.starColor + ';');
       }
-      if (props.staredColor) {
-        Utils.addCssRule(sheet, '#' + this.id + ' .stars li.on', 'color: ' + props.staredColor + ';');
-        Utils.addCssRule(sheet, '#' + this.id + ' .stars li.half::after', 'color: ' + props.staredColor + ';');
+      if (this.data.staredColor) {
+        Utils.addCssRule(sheet, '#' + this._id + ' .stars li.on', 'color: ' + this.data.staredColor + ';');
+        Utils.addCssRule(sheet, '#' + this._id + ' .stars li.half::after', 'color: ' + this.data.staredColor + ';');
       }
     }
 
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
   }
+  model: ModelBinder<RatingModel>;
 
   static getDerivedStateFromProps(props, state) {
     if (props.value !== state.initValue) {
@@ -63,20 +71,18 @@ export class Rating extends BaseComponent<RatingProps> {
   }
 
   onChange(e) {
-    this.props.onChange(e);
+    this.dispatch('change', {});
     console.log(e);
   }
 
   onClick(val) {
-    this.setState({
-      value: this.values.indexOf(val) + 1
-    });
-    this.props.onClick(val);
+    this.model.scope.value = this.values.indexOf(val) + 1;
+    this.dispatch('click', {});
   }
 
   async render() {
-    const { round, half, isStatic, caption, stars, cls, clsStars, clsStar, clsStarOn, clsCaption } = this.props;
-    const { value } = this.state;
+    const { round, half, isStatic, caption, stars, cls, clsStars, clsStar, clsStarOn, clsCaption } = this.data;
+    const { value } = this.model.scope;
     const items = [], values = this.values;
     const val = isStatic ? Math.floor(value) : Math[round](value);
 
@@ -111,18 +117,18 @@ export class Rating extends BaseComponent<RatingProps> {
 }
 
 interface RatingProps {
-  value: 0;
-  values: [];
-  round: 'round', // round, ceil, floor
-  stars: 5;
-  isStatic: false;
-  half: true;
-  caption: '',
-  starColor: null;
-  staredColor: null;
-  cls: '',
-  clsStars: '',
-  clsStar: '',
-  clsStarOn: '',
-  clsCaption: ''
+  value: number;
+  values: any[];
+  round: 'round' | 'ceil' | 'floor';
+  stars: number;
+  isStatic: boolean;
+  half: boolean;
+  caption: string;
+  starColor: string;
+  staredColor: string;
+  cls: string;
+  clsStars: string;
+  clsStar: string;
+  clsStarOn: string;
+  clsCaption: string;
 }

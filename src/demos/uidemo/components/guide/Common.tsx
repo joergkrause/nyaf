@@ -1,6 +1,8 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
-const codeImportCommon = `import {Common} 'metro4-react';`;
+import { METRO_OFF_SITE } from '../Defs';
+
+const codeImportCommon = `import {Common} '@nyaf/ui';`;
 
 @CustomElement('guide-common')
 export class GuideCommon extends BaseComponent<{}> {
@@ -54,8 +56,7 @@ export class GuideCommon extends BaseComponent<{}> {
         </ul>
         <p>
           Detailed description you can find in official <a href={METRO_OFF_SITE + 'animation.html'}>Metro 4 Documentation</a>.
-                </p>
-
+        </p>
 
         <br />
 

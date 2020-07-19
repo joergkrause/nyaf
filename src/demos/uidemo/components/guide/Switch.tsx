@@ -1,23 +1,25 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-switch')
 export class GuideSwitch extends BaseComponent<{}> {
   constructor() {
     super();
   }
   async render() {
-    const codeImport = `import {Switch} from "metro4-react";`;
+    const codeImport = `import { Switch } from "@nyaf/ui";`;
     const codeUsing = `
-            <Switch/>
-            <Switch checked/>
-            <Switch caption='Switch'/>
+            <ui-switch/>
+            <ui-switch checked/>
+            <ui-switch caption='Switch'/>
 
-            <Switch variant={2}/>
-            <Switch checked variant={2}/>
-            <Switch caption='Switch' variant={2}/>
+            <ui-switch variant={2}/>
+            <ui-switch checked variant={2}/>
+            <ui-switch caption='Switch' variant={2}/>
 
-            <Switch caption='Switch' disabled/>
-            <Switch caption='Switch' readOnly={true}/>
+            <ui-switch caption='Switch' disabled/>
+            <ui-switch caption='Switch' readOnly={true}/>
         `;
 
     const tablePropsBody = [
@@ -48,52 +50,52 @@ export class GuideSwitch extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <demo-example>
-          <Row>
-            <Cell cls='cell-md-6'>
+          <ui-row>
+            <ui-cell cls='cell-md-6'>
               <h4>Variant 1</h4>
               <div>
-                <Switch />
-                <Switch checked />
-                <Switch caption='Switch' />
+                <ui-switch />
+                <ui-switch checked />
+                <ui-switch caption='Switch' />
                 <div>
-                  <Switch disabled />
-                  <Switch checked disabled />
-                  <Switch caption='Switch' disabled />
+                  <ui-switch disabled />
+                  <ui-switch checked disabled />
+                  <ui-switch caption='Switch' disabled />
                 </div>
               </div>
-            </Cell>
-            <Cell cls='cell-md-6'>
+            </ui-cell>
+            <ui-cell cls='cell-md-6'>
               <h4>Variant 2</h4>
               <div>
-                <Switch variant={2} />
-                <Switch checked variant={2} />
-                <Switch caption='Switch' variant={2} />
+                <ui-switch variant={2} />
+                <ui-switch checked variant={2} />
+                <ui-switch caption='Switch' variant={2} />
                 <div>
-                  <Switch disabled variant={2} />
-                  <Switch checked disabled variant={2} />
-                  <Switch caption='Switch' disabled variant={2} />
+                  <ui-switch disabled variant={2} />
+                  <ui-switch checked disabled variant={2} />
+                  <ui-switch caption='Switch' disabled variant={2} />
                 </div>
               </div>
-            </Cell>
-          </Row>
+            </ui-cell>
+          </ui-row>
         </demo-example>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImport} />
+        <demo-prismcode language='js' code={codeImport} />
 
         <br />
         <h3>Using</h3>
-        <demo-prismcode language="js" code={codeUsing} />
+        <demo-prismcode language='js' code={codeUsing} />
 
         <br />
         <h4>Props</h4>
-        <Table className="table-border cell-border" head={tablePropsHeader} body={tablePropsBody} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
 
         <br />
 
         <br />
       </demo-article>
-    )
+    );
   }
 }

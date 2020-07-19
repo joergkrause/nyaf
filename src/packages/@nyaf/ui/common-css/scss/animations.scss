@@ -1,5 +1,5 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
 
 .ani-adjust-hue, .ani-hover-adjust-hue:hover {
     @include animate( ani-adjust-hue 1.5s linear infinite);

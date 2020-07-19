@@ -9,6 +9,7 @@ export class Example extends BaseComponent<{ cls: string, className: string }> {
   }
 
   async render() {
+    const rest = this.data; // TODO: required?
     return await (
       <div className={`example ${this.data.cls} ${this.data.className}`} {...rest}>
         {this.children}

@@ -1,28 +1,78 @@
-import JSX from '@nyaf/lib';
-require("./grid.scss");
+import JSX, { CustomElement, Properties, BaseComponent } from '@nyaf/lib';
+require('./grid.scss');
 
-const Grid = ({as: Element = "div", cls = "", className = "", ...rest}) => {
-    return (
-        <Element className={`grid ${cls} ${className}`} {...rest}>
-            {rest.children}
-        </Element>
-    )
-};
+@CustomElement('ui-grid')
+@Properties<GridRowCellProperties> (
+  {
+    as: 'div',
+    cls: '',
+    className: ''
+  }
+)
+export class Grid extends BaseComponent<GridRowCellProperties> {
 
-const Row = ({as: Element = "div", cls = "", className = "", ...rest}) => {
-    return (
-        <Element className={`row ${cls} ${className}`} {...rest}>
-            {rest.children}
-        </Element>
-    )
-};
+  constructor() {
+    super();
+  }
 
-const Cell = ({as: Element = "div", cls = "", className = "", ...rest}) => {
-    return (
-        <Element className={`${cls} ${className}`} {...rest}>
-            {rest.children}
-        </Element>
-    )
-};
+  async render() {
+    return await (
+      <Element className={`grid ${this.data.cls} ${this.data.className}`} {...this.data}>
+        {this.children}
+      </Element >
+    );
+  }
+}
 
-export {Grid, Row, Cell};
+@CustomElement('ui-row')
+@Properties<GridRowCellProperties> (
+  {
+    as: 'div',
+    cls: '',
+    className: ''
+  }
+)
+export class Row extends BaseComponent<GridRowCellProperties> {
+
+  constructor() {
+    super();
+  }
+
+  async render() {
+    return await (
+      <Element className={`grid ${this.data.cls} ${this.data.className}`} {...this.data}>
+        {this.children}
+      </Element >
+    );
+  }
+}
+
+@CustomElement('ui-cell')
+@Properties<GridRowCellProperties> (
+  {
+    as: 'div',
+    cls: '',
+    className: ''
+  }
+)
+export class Cell extends BaseComponent<GridRowCellProperties> {
+
+  constructor() {
+    super();
+  }
+
+  async render() {
+    return await (
+      <Element className={`grid ${this.data.cls} ${this.data.className}`} {...this.data}>
+        {this.children}
+      </Element >
+    );
+  }
+}
+
+interface GridRowCellProperties {
+  as: string;
+  cls: string;
+  className: string;
+}
+

@@ -1,72 +1,79 @@
-@import (once) "../../include/less/vars";
-@import (once) "../../include/less/mixins";
+@import '../../include/less/vars';
+@import '../../include/less/mixins';
 
-.textarea, textarea {
-    height: auto;
-    padding: .5rem .75rem;
+.textarea,
+textarea {
+  height: auto;
+  padding: 0.5rem 0.75rem;
 }
 
 textarea {
-    line-height: 1.2;
+  line-height: 1.2;
 }
 
 .textarea {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
 
-    .fake-textarea {
-        opacity: 0;
-        z-index: -1;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: lightblue;
-        border: 1px solid red;
+  .fake-textarea {
+    opacity: 0;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: lightblue;
+    border: 1px solid red;
+  }
+
+  textarea {
+    min-height: 4rem;
+    overflow-y: hidden;
+    resize: none;
+    border: none !important;
+    transition: height 0.1s linear;
+
+    &:focus {
+      box-shadow: none;
     }
+  }
 
-    textarea {
-        min-height: 4rem;
-        overflow-y: hidden;
-        resize: none;
-        border: none!important;
-        transition: height .1s linear;
+  &.no-scroll-vertical textarea {
+    overflow-y: hidden !important;
+  }
 
-        &:focus {
-            box-shadow: none;
-        }
+  .input-clear-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    background-color: transparent;
+    &:hover {
+      background-color: $light;
+      text-shadow: rgba(0, 0, 0, 0.25) 0.1em 0.1em 0.2em;
     }
+  }
 
-    &.no-scroll-vertical textarea {
-        overflow-y: hidden!important;
+  &.disabled {
+    .clear-button {
+      display: none;
     }
+  }
 
-    .input-clear-button {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 2;
-        background-color: transparent;
-        &:hover {
-            background-color: @light;
-            text-shadow: rgba(0,0,0,.25) 0.1em 0.1em 0.2em;
-        }
-    }
+  .prepend {
+    order: 1;
+  }
+  .append {
+    order: 3;
+  }
+  textarea {
+    order: 2;
+  }
 
-    &.disabled {
-        .clear-button {
-            display: none;
-        }
-    }
-
-    .prepend {order: 1}
-    .append {order: 3}
-    textarea {order: 2;}
-
-    .input-clear-button ~ textarea {
-        padding-right: 48px;
-    }
+  .input-clear-button ~ textarea {
+    padding-right: 48px;
+  }
 }

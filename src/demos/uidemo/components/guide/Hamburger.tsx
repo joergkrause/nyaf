@@ -1,29 +1,28 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
+import { tablePropsHeader } from '../Defs';
+
 @CustomElement('guide-hamburger')
 export class GuideHamburger extends BaseComponent<{}> {
 
+  hamburgerState: boolean;
+
   constructor() {
     super();
-    this.state = {
-      hamburgerState: false
-    };
-    this.toggleHamburger = this.toggleHamburger.bind(this);
+    this.hamburgerState = false;
   }
 
   toggleHamburger() {
-    this.setState({
-      hamburgerState: !this.state.hamburgerState
-    });
+    this.hamburgerState = !this.hamburgerState;
+    this.setup();
   }
 
-  render() {
-    const { hamburgerState } = this.state;
-    const codeImport = `import {Hamburger} from "metro4-react";`;
+  async render() {
+    const codeImport = `import {Hamburger} from "@nyaf/ui";`;
     const codeUsing = `
-            <Hamburger/>
-            <Hamburger theme="dark"/>
-            <Hamburger variant="arrow-left" active="true"/>
+            <ui-hamburger/>
+            <ui-hamburger theme="dark"/>
+            <ui-hamburger variant="arrow-left" active="true"/>
         `;
 
     const tablePropsBody = [
@@ -35,7 +34,7 @@ export class GuideHamburger extends BaseComponent<{}> {
       ['onClick', '()=>{}', 'Hamburger click event callback'],
     ];
 
-    return (
+    return await (
       <demo-article>
         <demo-guidelogo></demo-guidelogo>
         <h1>Hamburger</h1>
@@ -50,14 +49,14 @@ export class GuideHamburger extends BaseComponent<{}> {
                     This button can transform from one state to any.
                 </p>
         <demo-example>
-          <AppBar cls={'pos-relative z-dropdown'} hamburgerColor={'dark'} expandPoint={null}>
-            <AppBarItem isBrand={true} name={'Metro 4 for React'} />
-            <AppBarMenu cls={'ml-auto'} >
+          <ui-appbar cls={'pos-relative z-dropdown'} hamburgerColor={'dark'} expandPoint={null}>
+            <ui-appbar-item isBrand={true} name={'Metro 4 for React'} />
+            <ui-appbar-menu cls={'ml-auto'} >
               <li><a href={'#'}>Home</a></li>
               <li><a href={'#'}>Documentation</a></li>
               <li><a href={'#'}>GitHub</a></li>
-            </AppBarMenu>
-          </AppBar>
+            </ui-appbar-menu>
+          </ui-appbar>
         </demo-example>
 
         <br />
@@ -70,37 +69,37 @@ export class GuideHamburger extends BaseComponent<{}> {
 
         <br />
         <h4>Props</h4>
-        <Table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
+        <ui-table className='table-border cell-border' head={tablePropsHeader} body={tablePropsBody} />
 
         <br />
         <h4>Hamburger themes</h4>
         <demo-example>
-          <Row>
-            <Cell cls='cell-md-6 bg-dark'>
-              <Hamburger />
+          <ui-row>
+            <ui-cell cls='cell-md-6 bg-dark'>
+              <ui-hamburger />
               <span className='fg-white ml-4'>Theme <code>light</code> (default)</span>
-            </Cell>
-            <Cell cls='cell-md-6'>
-              <Hamburger theme='dark' />
+            </ui-cell>
+            <ui-cell cls='cell-md-6'>
+              <ui-hamburger theme='dark' />
               <span className='ml-4'>Theme <code>dark</code></span>
-            </Cell>
-          </Row>
+            </ui-cell>
+          </ui-row>
         </demo-example>
 
         <br />
         <h4>Hamburger variants</h4>
         <demo-example>
-          <Row>
-            <Cell cls='cell-md-6'>
-              <Button onClick={this.toggleHamburger} title='Toggle Hamburger' />
-            </Cell>
-            <Cell cls='cell-md-6'>
-              <Hamburger variant='arrow-left' active={hamburgerState} theme='dark' />
-              <Hamburger variant='arrow-right' active={hamburgerState} theme='dark' />
-              <Hamburger variant='menu-down' active={hamburgerState} theme='dark' />
-              <Hamburger variant='menu-up' active={hamburgerState} theme='dark' />
-            </Cell>
-          </Row>
+          <ui-row>
+            <ui-cell cls='cell-md-6'>
+              <ui-button onClick={this.toggleHamburger} title='Toggle Hamburger' />
+            </ui-cell>
+            <ui-cell cls='cell-md-6'>
+              <ui-hamburger variant='arrow-left' active={this.hamburgerState} theme='dark' />
+              <ui-hamburger variant='arrow-right' active={this.hamburgerState} theme='dark' />
+              <ui-hamburger variant='menu-down' active={this.hamburgerState} theme='dark' />
+              <ui-hamburger variant='menu-up' active={this.hamburgerState} theme='dark' />
+            </ui-cell>
+          </ui-row>
         </demo-example>
 
         <br />

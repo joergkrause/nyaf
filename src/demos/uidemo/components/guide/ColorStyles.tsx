@@ -1,4 +1,7 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
+import { Color } from '@nyaf/ui';
+
+import { METRO_OFF_SITE } from '../Defs';
 
 @CustomElement('guide-colorstyles')
 export class GuideColorStyles extends BaseComponent<{}> {
@@ -8,10 +11,11 @@ export class GuideColorStyles extends BaseComponent<{}> {
   }
 
   async render() {
-    const codeImportColors = `import {Colors} from 'metro4-react';`;
+    const codeImportColors = `import {Colors} from '@nyaf/ui';`;
     const palette = [];
 
-    for (let c in Color.colorListMetro) {
+    // tslint:disable-next-line: forin
+    for (const c in Color.colorListMetro) {
       palette.push(
         <tr key={c}>
           <td className={`fg-white bg-light${c.capitalize()}`}>light{c.capitalize()}</td>
@@ -27,7 +31,8 @@ export class GuideColorStyles extends BaseComponent<{}> {
         <h1>Color styles</h1>
 
         <p className={'text-leader2'}>
-          In Metro 4 for React you can easily convey information through color. Presence of predefined colors and classes for working with them makes the process of color transfer very simple.
+          In Metro 4 for React you can easily convey information through color. Presence of predefined colors
+          and classes for working with them makes the process of color transfer very simple.
                 </p>
 
         <br />
@@ -36,17 +41,18 @@ export class GuideColorStyles extends BaseComponent<{}> {
 
         <h3>Introduction</h3>
         <p>
-          This module contains any classes for set: <code>background</code>, <code>ribbed-background</code>, <code>foreground (text)</code>, <code>outline</code>, <code>border</code> colors from <code>metro</code> color palette.
+          This module contains any classes for set: <code>background</code>, <code>ribbed-background</code>,
+          <code>foreground (text)</code>, <code>outline</code>, <code>border</code> colors from <code>metro</code> color palette.
                     Each color present in three variants: <code>light</code>, <code>normal</code> and <code>dark</code>.
                 </p>
 
         <br />
         <h3>Importing</h3>
-        <demo-prismcode language="js" code={codeImportColors} />
+        <demo-prismcode language='js' code={codeImportColors} />
 
         <br />
         <h3>Class naming</h3>
-        <Table cls={'table-border cell-border'}>
+        <ui-table cls={'table-border cell-border'}>
           <tbody>
             <tr>
               <td>background</td>
@@ -79,11 +85,11 @@ export class GuideColorStyles extends BaseComponent<{}> {
               <td><span className={'border bd-cyan'}>ribbed-cyan</span></td>
             </tr>
           </tbody>
-        </Table>
+        </ui-table>
 
         <br />
         <h3>Palette</h3>
-        <Table><tbody>{palette}</tbody></Table>
+        <ui-table><tbody>{palette}</tbody></ui-table>
 
         <p>
           More about additional colors you can read in official <a href={METRO_OFF_SITE + 'colors.html#_additional_colors'}>Metro 4 Documentation</a>.
@@ -94,6 +100,6 @@ export class GuideColorStyles extends BaseComponent<{}> {
         <br />
 
       </demo-article>
-    )
+    );
   }
 }
