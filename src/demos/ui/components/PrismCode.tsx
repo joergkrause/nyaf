@@ -1,6 +1,6 @@
 import JSX, { CustomElement, BaseComponent, Properties } from '@nyaf/lib';
 
-import Prism from 'prismjs';
+import * as prism from 'prismjs';
 
 @CustomElement('demo-prismcode')
 @Properties<{ plugins: any, language: string, children: any, code: string }>({
@@ -23,7 +23,7 @@ export class PrismCode extends BaseComponent<{ plugins: any, language: string, c
   }
 
   highlight() {
-    Prism.highlightElement(this);
+    prism.highlightElement(this, true);
   }
 
   cleanCode(code) {

@@ -100,9 +100,6 @@ export class Demo extends BaseComponent<{}> implements IModel<DemoModel> {
 
   async render() {
     return await (
-      <ui-container>
-        <ui-mainmenu />
-
         <ui-grid>
           <h2 className='text-light'>&lt;Hint/&gt;</h2>
           <div>
@@ -1123,7 +1120,6 @@ export class Demo extends BaseComponent<{}> implements IModel<DemoModel> {
 
 
         </ui-grid>
-      </ui-container>
     );
   }
 }

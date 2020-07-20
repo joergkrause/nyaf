@@ -1,4 +1,5 @@
 import { GlobalProvider, Routes } from '@nyaf/lib';
+import * as prism from 'prismjs';
 
 import {
   Badge,
@@ -31,7 +32,7 @@ const routes: Routes = {
   '/guide/checkbox': { component: GuideCheckbox, outlet: 'guide' },
   '/support': { component: Support, outlet: 'main' },
   '/demo': { component: Demo, outlet: 'main' },
-  '': { component: NotFound, outlet: 'main' }
+  '**': { component: NotFound, outlet: 'main' }
 };
 
 const demoComponents = [
@@ -67,3 +68,7 @@ GlobalProvider.bootstrap({
   // register for router
   routes: routes
 });
+
+import './css/index.scss';
+
+setTimeout(() => prism.highlightAll(), 0);

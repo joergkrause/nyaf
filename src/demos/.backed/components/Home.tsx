@@ -1,6 +1,6 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
-require('../css/home.css');
+require('../css/home.scss');
 import LogoSocial from '../images/logo-social.png';
 
 @CustomElement('demo-home')
@@ -104,7 +104,7 @@ export class Home extends BaseComponent<{}> {
                   <h4 className='mt-4'>Community</h4>
                   <p>
                     Get additional help from the Metro 4 for React community.
-                                    </p>
+                  </p>
                 </ui-cell>
               </ui-row>
             </div>
@@ -121,7 +121,7 @@ export class Home extends BaseComponent<{}> {
             <ui-row className='who-uses'>
               <ui-cell className='cell-md-4' />
               <ui-cell className='cell-md-4'>
-                <a href='https://mirohost.net'><img src='images/mirohost_logo.svg' /></a>
+                <a href='https://www.joerkrause.de'><img src='images/mirohost_logo.svg' /></a>
               </ui-cell>
               <ui-cell className='cell-md-4' />
             </ui-row>
@@ -164,9 +164,9 @@ export class Home extends BaseComponent<{}> {
               <br />
               <span className='no-wrap'>IDE PhpStorm by <a href='https://www.jetbrains.com/'>JetBrains</a>.</span>
               <br />
-                            &nbsp;Code licensed <a href='https://github.com/olton/Metro4-React/blob/master/LICENSE'>MIT</a>,
-                            Docs <a href='https://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>.
-                        </div>
+                &nbsp;Code licensed <a href='https://github.com/olton/Metro4-React/blob/master/LICENSE'>MIT</a>,
+                Docs <a href='https://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>.
+              </div>
 
           </ui-container>
         </ui-container>

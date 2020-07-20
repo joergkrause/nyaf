@@ -23,7 +23,6 @@ export class Home extends BaseComponent<{}> {
   async render() {
     return await (
       <>
-        <ui-mainmenu />
         <ui-hero cls={'add-neb'}>
           <h1 className={'text-center fg-react'}><span className={'reduce-2 enlarge-3-md'}>Metro 4 for React</span></h1>
           <h5 className='text-center fg-white text-upper text-light'>

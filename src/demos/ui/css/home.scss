@@ -1,5 +1,5 @@
 @import "vars";
-@import "../../src/include/scss/vars";
+@import "../../../packages/@nyaf/ui/include/scss/vars.scss";
 
 .hero {
     background: $reactBackgroundColor;

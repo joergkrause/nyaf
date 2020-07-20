@@ -92,7 +92,7 @@ const Utils = {
     }
 
     const ns = o.split('.');
-    let context = window;
+    let context: Window = window;
 
     for (let i = 0; i < ns.length; i++) {
       context = context[ns[i]];

@@ -17,7 +17,7 @@ export class MainMenu extends BaseComponent<{ fullSize: boolean }> {
             <li><a n-link href="#/guide">Guide</a></li>
             <li><a n-link href="#/demo">Demo</a></li>
             <li>
-              <a href="https://www.patreon.com/metro4_react" target={'_blank'} className="text-bold fg-yellow">
+              <a href="https://www.patreon.com/nyaf" target={'_blank'} className="text-bold fg-yellow">
                 <span className="d-block ani-vertical-">Support Project</span></a>
             </li>
             <li>

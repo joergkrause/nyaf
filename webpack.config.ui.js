@@ -7,7 +7,7 @@ const tsconfig = require('./tsconfig.json');
 
 // Main entry point
 const indexConfig = {
-  template: './src/demos/featuredemo/index.html',
+  template: './src/demos/ui/index.html',
   inject: 'body',
   baseHref: './'
 };
@@ -25,9 +25,7 @@ const webpackConfig = {
   },
   // Where webpack looks to start building the bundle
   entry: {
-    // 'portal': './src/demos/portal/main.ts', // Demo app entry point
-    'ui': './src/demos/uidemo/main.ts', // Demo app entry point
-    'features': './src/demos/featuredemo/main.ts' // Demo app entry point
+    'ui': './src/demos/ui/main.ts' // Demo app entry point
   },
   // How the different types of modules within a project will be treated
   module: {
@@ -73,7 +71,7 @@ const webpackConfig = {
   },
   // How and where webpack should output bundles, assets and anything else
   output: {
-    path: path.resolve('./dist/demo/'),
+    path: path.resolve(__dirname, './dist/demo/ui'),
     filename: '[name].bundle.js'
   },
   // What bundle information gets displayed
@@ -92,9 +90,9 @@ const webpackConfig = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: './src/demos/featuredemo/link.css',
+          from: './src/demos/ui/images/*',
           flatten: true,
-          to: './demo/featuredemo/assets/css/'
+          to: './images/'
         }
       ]
     })

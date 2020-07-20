@@ -43,6 +43,11 @@
     <title>Metro 4 for React - Create UI with Metro UI and @nyaf</title>
   </head>
   <body>
-    <demo-home></demo-home>
+    <ui-container fluid={true} cls={'guide-main-container'}>
+      <demo-mainmenu fullSize={true} />
+      <div n-router-outlet="main">
+        <demo-home></demo-home>
+      </div>
+    </ui-container>
   </body>
 </html>

@@ -22,8 +22,6 @@
     "skipLibCheck": true
   },
   "files": [
-    "./src/demos/featuredemo/main.ts",
-    "./src/demos/uidemo/main.ts",
     "./src/packages/@nyaf/lib/index.ts",
     "./src/packages/@nyaf/forms/index.ts",
     "./src/packages/@nyaf/store/index.ts"
