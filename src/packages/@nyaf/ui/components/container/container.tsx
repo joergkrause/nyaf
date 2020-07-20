@@ -16,12 +16,7 @@ export class Container extends BaseComponent<ContainerProps> {
 
   async render() {
     const { as: Element, fluid, cls, className, ...rest } = this.data;
-
-    return (
-      <Element className={`container${fluid ? '-fluid' : ''} ${cls} ${className}`} {...rest}>
-        {this.children}
-      </Element>
-    );
+    return await JSX.createElement(Element, { className: `container${fluid ? '-fluid' : ''} ${cls} ${className}`}, this.innerHTML);
   }
 }
 

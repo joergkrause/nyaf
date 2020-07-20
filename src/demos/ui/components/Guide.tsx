@@ -12,13 +12,13 @@ export class Guide extends BaseComponent<{}> {
   async render() {
 
     return await (
-        <ui-row>
+        <ui-row cls='guide-main-container'>
           <ui-cell cls={'cell-md-8 cell-lg-9 order-2 order-md-1'}>
             <demo-article n-router-outlet='guide'>
             </demo-article>
           </ui-cell>
           <ui-cell cls={'cell-md-4 cell-lg-3 order-1 order-md-2'} id={'side-nav'}>
-            <ui-sidemenu isMobile={false} />
+            <demo-sidemenu isMobile={false} />
           </ui-cell>
         </ui-row>
     );

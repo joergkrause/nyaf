@@ -6,6 +6,7 @@ import {
   Checkbox,
   Switch,
   Button,
+  Container
 } from '@nyaf/ui';
 
 import { Home } from './components/Home';
@@ -56,7 +57,8 @@ const uiComponents = [
   Badge,
   Checkbox,
   Switch,
-  Button
+  Button,
+  Container
 ];
 
 GlobalProvider.bootstrap({

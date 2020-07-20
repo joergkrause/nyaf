@@ -1,5 +1,5 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
-import { IModel, ModelBinder } from '@nyaf/forms';
+import { IModel, ModelBinder, ViewModel } from '@nyaf/forms';
 import { Color } from '@nyaf/ui';
 
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -52,6 +52,7 @@ class DemoModel {
 }
 
 @CustomElement('demo-demo')
+@ViewModel<DemoModel>(DemoModel)
 export class Demo extends BaseComponent<{}> implements IModel<DemoModel> {
 
   constructor() {

@@ -10,7 +10,7 @@ export class Support extends BaseComponent<{}> {
   async render() {
     return await (
       <div className={'container'}>
-
+        Support Information...
       </div>
     )
   }

@@ -10,7 +10,7 @@ export class Article extends BaseComponent<{ cls: string, className: string }> {
   async render() {
     return await (
       <article className={`${this.data.cls} ${this.data.className}`}>
-        {this.children}
+        {this.innerHTML}
       </article>
     );
   }
