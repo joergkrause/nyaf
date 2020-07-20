@@ -38,27 +38,27 @@ export class Button extends BaseComponent<ButtonProps> {
 
     const classButton = `button ${cls} ${className}`;
 
-    return (
-      <Element className={classButton} ref={this.button} {...rest}>
-        {icon && (
-          <ui-icon prefix={iconPrefix} name={icon} cls={clsIcon} />
-        )}
+    return JSX.createElement(Element, Object.assign({ className: classButton }, rest),
+        (
+          <>
+            {icon && (
+              <ui-icon prefix={iconPrefix} name={icon} cls={clsIcon} />
+            )}
 
-        {image && (
-          <img className={'icon ' + clsIcon} src={image} alt='' />
-        )}
+            {image && (
+              <img className={'icon ' + clsIcon} src={image} alt='' />
+            )}
 
-        {title && (
-          <span className={'caption ' + clsTitle}>{title}</span>
-        )}
+            {title && (
+              <span className={'caption ' + clsTitle}>{title}</span>
+            )}
 
-        {badge !== null && (
-          <ui-badge value={badge} cls={clsBadge} />
-        )}
-
-        {this.children}
-      </Element>
-    );
+            {badge !== null && (
+              <ui-badge value={badge} cls={clsBadge} />
+            )}
+          </>
+        ), <>this.children</>
+      );
   }
 }
 

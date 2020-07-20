@@ -1,0 +1,6 @@
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
+
+@mixin debug {
+    .debug();
+}

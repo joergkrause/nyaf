@@ -26,7 +26,7 @@ export class Badge extends BaseComponent<BadgeProps> {
         )}
         {this.children}
       </span>
-    )
+    );
   }
 }
 

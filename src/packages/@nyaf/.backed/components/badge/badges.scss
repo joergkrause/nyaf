@@ -1,0 +1,53 @@
+@import "../../include/less/vars";
+@import "../../include/less/mixins";
+
+.badge {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: $light;
+    color: $dark;
+    border-radius: $borderRadius;
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+
+    @include translateY(-50%);
+    @include translateX(50%);
+}
+
+.brand,
+.app-bar-item,
+.app-bar-menu > li > a,
+.h-menu > li > a,
+.d-menu > li > a,
+.v-menu > li > a,
+.t-menu > li > a
+{
+    .badge {
+      @include translateY(0);
+      @include translateX(0);
+    }
+}
+
+.badge {
+    &.inline {
+        position: relative;
+        display: inline-block;
+        right: auto;
+        top: -1px;
+        @include translateY(0);
+        @include translateX(0);
+    }
+
+    &.inside {
+      @include translateY(0);
+      @include translateX(0);
+    }
+}
