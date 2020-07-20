@@ -1,9 +1,9 @@
 @import "vars";
-@import "../../src/include/less/vars";
+@import "../../src/include/scss/vars";
 
 .hero {
-    background: @reactBackgroundColor;
-    background: linear-gradient(to bottom, @reactBackgroundColor 0%, @reactBackgroundColorSecondary 100%);
+    background: $reactBackgroundColor;
+    background: linear-gradient(to bottom, $reactBackgroundColor 0%, $reactBackgroundColorSecondary 100%);
 }
 
 .hero::before {
@@ -33,7 +33,7 @@
         top: 100%;
         left: 50%;
         transform: translateX(-50%);
-        border-color: @reactBackgroundColorSecondary transparent transparent transparent;
+        border-color: $reactBackgroundColorSecondary transparent transparent transparent;
     }
 }
 
@@ -45,9 +45,9 @@
 
 footer {
     a {
-        color: @reactTextColor;
+        color: $reactTextColor;
         &:hover {
-            color: @white;
+            color: $white;
         }
     }
 }

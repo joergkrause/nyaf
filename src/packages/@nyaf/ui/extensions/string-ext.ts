@@ -7,7 +7,7 @@ export function contains(s: string): boolean {
     return !!~String.prototype.indexOf.apply(s, arguments);
 }
 
-export function toDate(format = '%y-%m-%d', options = {}): Date {
+export function toDate(format = '%y-%m-%d', options: { months?: string[] } = {}): Date | string {
     let result;
     let normalized, normalizedFormat, formatItems, dateItems, checkValue;
     let monthIndex, dayIndex, yearIndex, hourIndex, minutesIndex, secondsIndex;
@@ -23,7 +23,7 @@ export function toDate(format = '%y-%m-%d', options = {}): Date {
         options.months = defaultMonths;
     }
 
-    const monthNameToNumber = function(month, months) {
+    const monthNameToNumber = function(month, months): Date | number {
         let d, index;
 
         if (typeof month !== 'string') {
@@ -69,13 +69,13 @@ export function toDate(format = '%y-%m-%d', options = {}): Date {
     secondsIndex  = formatItems.indexOf('ss') > -1 ? formatItems.indexOf('ss') : formatItems.indexOf('%s');
 
     if (monthIndex > -1 && dateItems[monthIndex] !== '') {
-        if (isNaN(parseInt(dateItems[monthIndex]))) {
-            dateItems[monthIndex] = monthNameToNumber(dateItems[monthIndex], months);
+        if (isNaN(parseInt(dateItems[monthIndex], 10))) {
+            dateItems[monthIndex] = monthNameToNumber(dateItems[monthIndex], options.months);
             if (dateItems[monthIndex] === -1) {
                 return 'Invalid Date';
             }
         } else {
-            parsedMonth = parseInt(dateItems[monthIndex]);
+            parsedMonth = parseInt(dateItems[monthIndex], 10);
             if (parsedMonth < 1 || parsedMonth > 12) {
                 return 'Invalid Date';
             }
@@ -111,7 +111,7 @@ export function toArray(delimiter = ',', type = 'string', format = false) {
 
         switch (type) {
             case 'int':
-            case 'integer': result = parseInt(s); break;
+            case 'integer': result = parseInt(s, 10); break;
             case 'number':
             case 'float': result = parseFloat(s); break;
             case 'date': result = !format ? new Date(s) : s.toDate(format); break;

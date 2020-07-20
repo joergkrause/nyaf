@@ -1,9 +1,9 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
-import '@fortawesome/fontawesome-free/css/all.css';
-
-import '../css/demo.css';
 import { IModel, ModelBinder } from '@nyaf/forms';
 import { Color } from '@nyaf/ui';
+
+import '@fortawesome/fontawesome-free/css/all.css';
+import '../css/demo.scss';
 
 const autocompleteList = ['Ukraine', 'USA', 'Canada', 'Marokko', 'Singapur'];
 

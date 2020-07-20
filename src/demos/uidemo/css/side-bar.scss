@@ -20,7 +20,7 @@
     position: relative;
     display: block;
     overflow-y: auto;
-    width: ~"calc(100% + 20px)";
+    width: calc(100% + 20px);
 
     .group-title {
         display: block;
@@ -75,7 +75,7 @@
     }
 
     .side-bar-menu {
-        max-height: ~"calc(100vh - 120px)";
+        max-height: calc(100vh - 120px);
     }
 }
 

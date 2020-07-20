@@ -1,7 +1,7 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
-require('../css/home.css');
-import LogoSocial from '../images/logo-social.png';
+require('../css/home.scss');
+const LogoSocial = require('../images/logo-social.png');
 
 @CustomElement('demo-home')
 export class Home extends BaseComponent<{}> {

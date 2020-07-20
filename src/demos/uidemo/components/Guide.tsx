@@ -1,6 +1,6 @@
 import JSX, { CustomElement, BaseComponent } from '@nyaf/lib';
 
-import '../css/guide.css';
+import '../css/guide.scss';
 
 @CustomElement('demo-guide')
 export class Guide extends BaseComponent<{}> {

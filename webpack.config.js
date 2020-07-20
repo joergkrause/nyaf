@@ -7,7 +7,7 @@ const tsconfig = require('./tsconfig.json');
 
 // Main entry point
 const indexConfig = {
-  template: './src/index.html',
+  template: './src/demos/featuredemo/index.html',
   inject: 'body',
   baseHref: './'
 };
@@ -49,7 +49,7 @@ const webpackConfig = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(woff|woff2)$/,
+        test: /\.(woff|woff2|svg|eot|ttf)$/,
         loader: 'file-loader'
       },
       {
@@ -73,7 +73,7 @@ const webpackConfig = {
   },
   // How and where webpack should output bundles, assets and anything else
   output: {
-    path: path.resolve('./dist/demos/'),
+    path: path.resolve('./dist/demo/'),
     filename: '[name].bundle.js'
   },
   // What bundle information gets displayed
@@ -92,9 +92,9 @@ const webpackConfig = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: './src/link.css',
+          from: './src/demos/featuredemo/link.css',
           flatten: true,
-          to: './demo/assets/css/'
+          to: './demo/featuredemo/assets/css/'
         }
       ]
     })

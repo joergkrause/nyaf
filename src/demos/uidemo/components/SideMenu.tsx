@@ -1,5 +1,5 @@
 import JSX, { CustomElement, BaseComponent, Properties } from '@nyaf/lib';
-import '../css/side-bar.css';
+import '../css/side-bar.scss';
 
 const menuItems = {
   'General': [
@@ -116,7 +116,7 @@ export class SideMenu extends BaseComponent<{ open: boolean, isMobile: boolean }
       menuItems[itemGroup].map(item => {
         return items.push(
           <li key={itemIndex++}>
-            <ui-navlink exact={item.exact ? true : null} to={item.to} n-on-click={this.toggleMenu}>{item.caption}</ui-navLink>
+            <ui-navlink exact={item.exact ? true : null} to={item.to} n-on-click={this.toggleMenu}>{item.caption}</ui-navlink>
           </li>);
       });
     }

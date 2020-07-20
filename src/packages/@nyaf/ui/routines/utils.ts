@@ -165,15 +165,19 @@ const Utils = {
 
   secondsToFormattedString: function (time) {
     const sec_num = parseInt(time, 10);
-    let hours = Math.floor(sec_num / 3600);
-    let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-    let seconds = sec_num - (hours * 3600) - (minutes * 60);
+    const hours = Math.floor(sec_num / 3600);
+    const minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    const seconds = sec_num - (hours * 3600) - (minutes * 60);
 
-    if (hours < 10) { hours = '0' + hours; }
-    if (minutes < 10) { minutes = '0' + minutes; }
-    if (seconds < 10) { seconds = '0' + seconds; }
+    let hour: string = hours.toString();
+    let minute: string = minutes.toString();
+    let second: string = seconds.toString();
 
-    return [hours, minutes, seconds].join(':');
+    if (hours < 10) { hour = '0' + hours; }
+    if (minutes < 10) { minute = '0' + minutes; }
+    if (seconds < 10) { second = '0' + seconds; }
+
+    return [hour, minute, second].join(':');
   },
 
   callback: function (f, args, context) {
@@ -184,7 +188,7 @@ const Utils = {
     return new Function('a', f);
   },
 
-  exec: function (f, args, context, throw_error) {
+  exec: function (f, args, context, throw_error?) {
     let func, result;
 
     if (f === undefined || f === null) { return false; }
@@ -408,7 +412,7 @@ const Utils = {
     return window.getComputedStyle(el, pseudo);
   },
 
-  getStyleOne: function (el, property, pseudo) {
+  getStyleOne: function (el, property, pseudo?) {
     return Utils.getStyle(el, pseudo).getPropertyValue(property);
   },
 

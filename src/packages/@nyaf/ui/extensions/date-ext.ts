@@ -1,7 +1,7 @@
 export function getWeek(dowOffset: number) {
   let nYear, nday, newYear, day, daynum, weeknum;
 
-  dowOffset = typeof dowOffset === 'number' ? parseInt(dowOffset) : 0;
+  dowOffset = typeof dowOffset === 'number' ? +dowOffset : 0;
   newYear = new Date(this.getFullYear(), 0, 1);
   day = newYear.getDay() - dowOffset;
   day = (day >= 0 ? day : day + 7);
@@ -97,7 +97,7 @@ export function formatDate(format, locale) {
         target.setMonth(0, 1);
         const nJan1 = target.getDay();
         if (nJan1 !== 4) { target.setMonth(0, 1 + ((4 - nJan1) + 7) % 7); }
-        return zeroPad(1 + Math.ceil((n1stThu - target) / 604800000), 2);
+        return zeroPad(1 + Math.ceil((n1stThu - target.getTime()) / 604800000), 2);
       })(),
       '%w': '' + nDay,
       '%x': date.toLocaleDateString(),
