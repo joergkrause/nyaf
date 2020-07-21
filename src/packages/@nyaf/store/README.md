@@ -37,7 +37,7 @@ An async load must not be splitted up. The calls are async, hence the state chan
 
 Define the capabilities of your app, along with some default or initial value. In this example I use `Symbol` to define unique constants that are being used for any further request of an action.
 
-~~~
+~~~ts
 export const INC = 'INC';
 export const DEC = 'DEC';
 export const SET = 'SET';
@@ -53,18 +53,18 @@ export default {
 
 Define, what happens if an action is being dispatched:
 
-~~~
+~~~ts
 import { INC, DEC } from '../actions/counter.action';
 import stateType from '../states/counter.state';
 
 export default {
     [INC]: (state: stateType, payload: number) => {
-      state.counter = state.counter + payload;
-      return state;
+      const counter = state.counter + payload;
+      return { counter };
     },
     [DEC]: (state: stateType, payload: number) => {
-      state.counter = state.counter - payload;
-      return state;
+      const counter = state.counter - payload;
+      return { counter };
     }
 };
 ~~~
@@ -75,7 +75,7 @@ The returned payload is the whole store object by reference. The type for the st
 
 The store holds the state, provides a dispatch function and fires events in case a store value changes. First, the store can by defined by types, but this is an option and you may decide to go with a simple object just for the sake of simplicity. The example shows a store that consists of fragments. This allows one to use parts of the store just by using the type fragments.
 
-~~~
+~~~ts
 // This is a store fragment
 export interface DemoTitleStore {
   title: string;
@@ -92,7 +92,7 @@ export default store;
 
 Now the usage within a component. First, you must configure the store with the elements written before. As shown it's easy to combine reducers and add the various actions. To have the state typed a generic is being used.
 
-~~~
+~~~ts
 import counterReducer from '../reducer/counter.reducer';
 import setReducer from '../reducer/set.reducer';
 import counterActions from '../actions/counter.action';
@@ -107,7 +107,7 @@ const store = new Store<storeStateType>({
 
 Now make the *store* constant available in the component, if it's not yet defined there. This store can handle just on single component or spread multiple components and form eventually a single source of truth for the whole application.
 
-~~~
+~~~tsx
 @CustomElement('app-store-counter')
 @ProvideStore<storeStateType>(store)
 export class StoreCounterComponent extends StoreComponent<storeStateType, { cnt: number }> {
@@ -180,7 +180,7 @@ When you receive a store event from a subscribe this subscription watches for ch
 
 Assume we deal with a CRUD component using a custom model like this:
 
-~~~
+~~~ts
 import { Display } from "@nyaf/forms";
 import { TemplateHint } from "@nyaf/forms";
 import { Sortable } from "@nyaf/forms";
@@ -226,7 +226,7 @@ The decorators are from the *@nyaf/forms* project.
 
 Now, some actions are required:
 
-~~~
+~~~ts
 import { ArchivModel } from "../model/archiv.model";
 
 export const SEARCH = 'SEARCH';
@@ -255,7 +255,7 @@ export default {
 
 Also, some reducers doing the hard work:
 
-~~~
+~~~ts
 import { SEARCH, ALL, ARCHIVED, ADD, REMOVE, EDIT, SAVE, HIDE } from '../actions/archive.actions';
 import { archiveStoreType } from '../stores/archive.store';
 import { DatabaseService } from 'app/services/database.service';
@@ -330,7 +330,7 @@ export default {
 
 THe store summarizes all this for easy processing:
 
-~~~
+~~~ts
 import { ArchivModel } from "../model/archiv.model";
 import { DataGridModel } from "app/components/shared/grid/models/datagrid.model";
 
@@ -367,7 +367,7 @@ export default store;
 
 Now, the component can dispatch actions with payloads and receive store changes.
 
-~~~
+~~~tsx
 @CustomElement("tab-archive-search")
 @ProvideStore<archiveStoreType>(store)
 export class ArchiveSearchComponent extends StoreComponent<archiveStoreType, {}> {
@@ -391,7 +391,7 @@ The reducer receives the *ALL* action. It pulls all the data and sets the *gridR
 
 The essential part is here that the return value of the subscriber is always the Store Type (here *archiveStoreType*). So you don't need to think about the current type and TypeScript resolves the types within properly. However, the subscriber is for just one property of the store and only changes of this property will trigger the handler. To get the data, access it like this:
 
-~~~
+~~~ts
 archiveStoreType.gridResult
 ~~~
 
@@ -401,6 +401,6 @@ The underlying object is `Proxy`, not your actual type.
 
 Install the package:
 
-~~~
+~~~bash
 npm i @nyaf/store -S
 ~~~

@@ -7,19 +7,25 @@ enum StoreState {
   Mutation
 }
 
+/**
+ * The store class. You can have multiple stores, even if merged to simplify access different instances exist.
+ * The store receives dispatch calls to mutate the store. Each property is handled separately.
+ * If one changes through a reducer, the subscriber event fires. This returns the whole store, but only
+ * the **one** property you currently subscribe to has it's new value already; all others remain until they receive their values.
+ * That happens even if the reducer returns multiple values in one single step. To assure a fully mutated object
+ */
 export class Store<ST> {
   private _actions: Map<string, any>;
   private _reducer: Map<string, (state: any, payload: any, actionKey?: string) => Promise<any> | any>;
   private _subscribers: Map<string, Map<string, { remove: () => void; }>> = new Map();
   private _status: Map<string, StoreState> = new Map();
-  private state: ProxyConstructor;
-  private observer: Observer;
+  private _state: ProxyConstructor;
+  private _observer: Observer;
   private _id: string;
 
   constructor(params: StoreParams<ST>) {
     this._id = uuidv4();
-    this.observer = Observer.getInstance();
-
+    this._observer = Observer.getInstance();
     // Look in the passed params object for actions and reducer
     // that might have been passed in
     if (params.hasOwnProperty('actions')) {
@@ -44,14 +50,14 @@ export class Store<ST> {
         // Set our state to be a Proxy. We are setting the default state by
     // checking the params and defaulting to an empty object if no default
     // state is passed in
-    this.state = new Proxy(params.state || {}, {
+    this._state = new Proxy(params.state || {}, {
       set: (state: any, storeProperty: string, value: any) => {
         // Set the value as we would normally
         state[storeProperty] = value;
         // Trace out to the console. This will be grouped by the related action
         console.log(`stateChange: ${storeProperty.toString()}:`, value);
         // Publish the change event for the components that are listening
-        this.observer.publish(storeProperty, this.state);
+        this._observer.publish(storeProperty, this._state);
         return true;
       }
     });
@@ -91,11 +97,21 @@ export class Store<ST> {
     // Let anything that's watching the status know that we're mutating state
     this._status.set(actionKey, StoreState.Mutation);
     // Get a new version of the state by running the mutation
-    const state = await this.reducer.get(actionKey)(this.state, value, actionKey);
-    // merge states
-    Object.assign(this.state, state);
+    const state = await this.reducer.get(actionKey)(this._state, value, actionKey);
+    // merge states; this is tricky. The assign will fire the subscribers one by one, so if the first get it's call, the other values are
+    // not yet set, and if we pull data from store.state it's plain wrong
+    Object.assign(this._state, state);
     this._status.set(actionKey, StoreState.Resting);
+    this._observer.publish('__dispatched__', this._state);
     return true;
+  }
+
+  /**
+   * The final event that shows that all mutations of a reducer call are done. Returns the fully mutated store.
+   * @param cb A callback function to receive the complete store.
+   */
+  dispatched(cb: (value: ST) => void): void {
+    this._observer.subscribe('__dispatched__', cb);
   }
 
   /**
@@ -106,7 +122,7 @@ export class Store<ST> {
    * @param cb The callback that will be called when a change happened. Parameter is the current state object. The callback may not return anything.
    * */
   subscribe(storeProperty: keyof ST & string, cb: (value: ST) => void): { remove: () => void; } {
-    const subscription = this.observer.subscribe(storeProperty, cb);
+    const subscription = this._observer.subscribe(storeProperty, cb);
     if (!this._subscribers.get(storeProperty)) {
       this._subscribers.set(storeProperty, new Map());
     }
@@ -165,16 +181,39 @@ export class Store<ST> {
     return this as Store<any>;
   }
 
+  /**
+   * The state of the store. If not in a dispatch call, its usually Resting. @see StoreState.
+   */
   get status(): Map<string, StoreState> {
     return this._status;
   }
 
+  /**
+   * The known actions. Dispatching a missing action results in an exception.
+   */
   get actions(): Map<string, any> {
     return this._actions;
   }
 
+  /**
+   * The registered reducers with the action names as keys.
+   */
   get reducer(): Map<string, (state: any, payload: any, actionKey?: string) => Promise<any> | any> {
     return this._reducer;
+  }
+
+  /**
+   * The stores internal Id. Useful for debugging and referencing.
+   */
+  get id(): string {
+    return this._id;
+  }
+
+  /**
+   * The current store data. If pulled in a change subscription be aware that multiple mutations may follow and the state is not yet completed.
+   */
+  get state(): any {
+    return this._state;
   }
 
 }
