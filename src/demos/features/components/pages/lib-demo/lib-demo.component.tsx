@@ -1,10 +1,10 @@
 import JSX, { BaseComponent, CustomElement, LifeCycle, Select } from '@nyaf/lib';
-import { ComplexComponent } from '../complex.component';
-import { ComplexBoolComponent } from '../complexbool.component';
-import { ButtonComponent } from '../button.component';
+import { ComplexComponent } from './components/complex.component';
+import { ComplexBoolComponent } from './components/complexbool.component';
+import { ButtonComponent } from './components/button.component';
 
-@CustomElement('app-demo')
-export class DemoComponent extends BaseComponent {
+@CustomElement('app-lib-demo')
+export class LibDemoComponent extends BaseComponent {
   constructor() {
     super();
   }

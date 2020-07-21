@@ -9,50 +9,57 @@ export class MainComponent extends BaseComponent<{}> {
 
   async render() {
     return await (
-      <section>
-        <ul class='nav nav-pills'>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/' n-link='active'>
-              Home
+      <section class='row'>
+        <div class='col'>
+          <ul class='nav nav-pills'>
+            <li class='nav-item'>
+              <a class='nav-link' href='#/' n-link='active'>
+                Home
             </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/docu' n-link='active'>
-              Quick
+            </li>
+            <li class='nav-item'>
+              <a class='nav-link' href='#/docu' n-link='active'>
+                Quick
             </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='apidoc/index.html' target='apidoc'>
-              API &#x1f517;
+            </li>
+            <li class='nav-item'>
+              <a class='nav-link' href='apidoc/index.html' target='apidoc'>
+                API &#x1f517;
             </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='manual/index.html' target='manual'>
-              Manual 	&#x1f517;
+            </li>
+            <li class='nav-item'>
+              <a class='nav-link' href='manual/index.html' target='manual'>
+                Manual 	&#x1f517;
             </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/demo' n-link='active'>
-              @nyaf/lib
+            </li>
+            <li class='nav-item'>
+              <a class='nav-link' href='#/libdemo' n-link='active'>
+                @nyaf/lib
             </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/router' n-link='active'>
-              @nyaf/store
+            </li>
+            <li class='nav-item'>
+              <a class='nav-link' href='#/formsdemo' n-link='active'>
+                @nyaf/forms
             </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/contact' n-link='active'>
-              @nyaf/forms
+            </li>
+            <li class='nav-item'>
+              <a class='nav-link' href='#/storedemo' n-link='active'>
+                @nyaf/store
             </a>
-          </li>
-          <li class='nav-item'>
-            <a class='nav-link' href='#/about' n-link='active'>
-              About
+            </li>
+            <li class='nav-item'>
+              <a class='nav-link' href='#/router' n-link='active'>
+                @nyaf/lib Router
             </a>
-          </li>
-        </ul>
-        <div n-router-outlet />
+            </li>
+            <li class='nav-item'>
+              <a class='nav-link' href='#/about' n-link='active'>
+                About
+            </a>
+            </li>
+          </ul>
+          <div n-router-outlet />
+        </div>
       </section>
     );
   }

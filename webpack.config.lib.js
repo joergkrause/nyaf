@@ -51,7 +51,8 @@ const webpackConfig = {
   },
   // What bundle information gets displayed
   stats: {
-    warnings: false
+    warnings: false,
+    assets: false,
   },
   // Target a specific environment (cf. doc)
   target: 'web',
@@ -65,9 +66,9 @@ const webpackConfig = {
       patterns: [
         { from: '**/README.md', to: '', context: 'src/packages', toType: 'dir' },
         { from: '**/package.json', to: '', context: 'src/packages', toType: 'dir' },
-        { from: '**/*.d.ts', to: '@nyaf/lib', context: path.resolve(__dirname, 'out-tsc/packages/@nyaf/lib') },
-        { from: '**/*.d.ts', to: '@nyaf/store', context: path.resolve(__dirname, 'out-tsc/packages/@nyaf/store') },
-        { from: '**/*.d.ts', to: '@nyaf/forms', context: path.resolve(__dirname, 'out-tsc/packages/@nyaf/forms') },
+        { from: '**/*.d.ts', to: '@nyaf/lib', context: path.resolve(__dirname, 'out-tsc/lib') },
+        { from: '**/*.d.ts', to: '@nyaf/forms', context: path.resolve(__dirname, 'out-tsc/forms') },
+        { from: '**/*.d.ts', to: '@nyaf/store', context: path.resolve(__dirname, 'out-tsc/store') },
         {
           from: '@nyaf/cli/**/*',
           flatten: false,
@@ -77,7 +78,7 @@ const webpackConfig = {
         }
       ],
       options: {
-        concurrency: 100,
+        concurrency: 100
       }
     }),
     //   new TypedocWebpackPlugin({

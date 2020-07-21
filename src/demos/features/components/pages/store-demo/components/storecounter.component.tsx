@@ -1,6 +1,6 @@
 import JSX, { CustomElement, Properties, BaseComponent } from '@nyaf/lib';
 import { ProvideStore, Store, IStore } from '@nyaf/store';
-import { INC, DEC, SET, actions, counterReducer, setReducer, counterStoreType } from '../flux/flux.demo';
+import { INC, DEC, SET, actions, counterReducer, setReducer, counterStoreType } from '../../../../flux/flux.demo';
 import { StoreParams } from '@nyaf/store';
 
 // global store (assume this in the main component)

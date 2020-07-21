@@ -56,7 +56,7 @@ import { isBoolean } from 'util';
  * to do this in the Lifecycle.Load step, you can add your custom handler:
  *
  * ```
- * @ViewModel(UserModel, { handlers: { 'custom': CustomHandler } })
+ * @ViewModel(UserModel, { handlers: { 'custom': new CustomHandler() } })
  * ```
  *
  * The `model` property is enforced by the @see IModel<VM> interface. That's for typing, the actual value is created at

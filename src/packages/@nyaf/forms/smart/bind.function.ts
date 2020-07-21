@@ -1,4 +1,4 @@
-import { of, NameofOptions, Type } from '@nyaf/lib';
+import { of, Type } from '@nyaf/lib';
 import { IBindingHandler } from '../modelbinder/ibindinghandler.interface';
 
 /**

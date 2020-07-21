@@ -1,5 +1,17 @@
 {
-  "ignoreCompilerErrors": true,
+  "name": "@nyaf API Documentation",
+  "ignoreCompilerErrors": false,
+  "moduleResolution": "node",
+  "includeDeclarations": false,
   "mode": "file",
-  "out": "dist/apidoc"
+  "out": "dist/apidoc",
+  "theme": "default",
+  "preserveConstEnums": "true",
+  "excludePrivate": true,
+  "excludeNotExported": true,
+  "excludeExternals": true,
+  "exclude": [
+    "./src/demos",
+    "./src/packages/@nyaf/.backed/"
+  ]
 }

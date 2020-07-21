@@ -1,12 +1,15 @@
 import { BaseComponent, LifeCycle, Select } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
-import { ContactModel } from './models/contact.model';
+import { ContactModel } from './components/models/contact.model';
 import { ViewModel, ModelBinder, IModel, to, Display, bind } from '@nyaf/forms/';
-import { ValueBindingHandler } from '@nyaf/forms/modelbinder/handlers/valuebindinghandler.class';
+import { ValueBindingHandler } from '@nyaf/forms';
 
-@CustomElement('app-contact')
-@ViewModel(ContactModel, { factory: m => m.email = 'bla@fasel.com' })
-export class ContactComponent<T extends ContactModel> extends BaseComponent implements IModel<ContactModel> {
+@CustomElement('app-forms-demo')
+@ViewModel(ContactModel, {
+  factory: m => m.email = 'bla@fasel.com',
+  handler: { 'value': new ValueBindingHandler() }
+})
+export class FormsDemoComponent<T extends ContactModel> extends BaseComponent implements IModel<ContactModel> {
 
   model: ModelBinder<ContactModel>;
   @Select('#mybtn') btn: HTMLButtonElement;

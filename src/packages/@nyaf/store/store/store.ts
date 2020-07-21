@@ -104,17 +104,18 @@ export class Store<ST> {
    * @param cb The callback that will be called when a change happened. Parameter is the current state object. The callback may not return anything.
    * */
   subscribe(storeProperty: keyof ST & string, cb: (value: ST) => void): { remove: () => void; } {
-    const s = this.observer.subscribe(storeProperty, cb);
+    const subscription = this.observer.subscribe(storeProperty, cb);
     if (!this._subscribers.get(storeProperty)) {
       this._subscribers.set(storeProperty, []);
     }
     const a = this._subscribers.get(storeProperty);
-    const idx = a.push(s);
+    const idx = a.push(subscription);
     this._subscribers.set(storeProperty, a);
+    const that = this;
     return {
       remove: () => {
-        s.remove();
-        a.splice(idx - 1, 1);
+        subscription.remove();
+        that._subscribers.set(storeProperty, a.splice(idx - 1, 1));
       }
     };
   }

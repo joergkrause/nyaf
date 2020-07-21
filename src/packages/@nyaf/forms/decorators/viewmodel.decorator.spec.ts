@@ -1,9 +1,6 @@
 import { ViewModel } from './viewmodel.decorator';
 import { isFunction } from 'util';
 
-
-type Type<T> = new (...args: any[]) => T;
-
 test('ViewModel signature', () => {
   expect(isFunction(ViewModel)).toBeTruthy();
 });

@@ -1,8 +1,6 @@
 ﻿import { ModelBinder } from '../modelbinder/modelbinder.class';
 import { IBindingHandler } from '../modelbinder/ibindinghandler.interface';
-import { BaseComponent } from '@nyaf/lib';
-
-type Type<T> = new (...args: any[]) => T;
+import { BaseComponent, Type } from '@nyaf/lib';
 
 /**
  * This type allows various settings for the view. It's optional and all members are optional.
@@ -25,7 +23,7 @@ type Type<T> = new (...args: any[]) => T;
  */
 export interface IViewDecoratorOptions<T> {
   ctor?: Partial<T>;
-  handler?: { [key: string]: IBindingHandler };
+  handler?: { [property: string]: IBindingHandler };
   factory?: (params: T) => void;
 }
 

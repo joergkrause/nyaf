@@ -7,6 +7,11 @@ const N_ROUTER_OUTLET_SEL = '[n-router-outlet]';
 const N_LINK = 'n-link';
 const N_LINK_SEL = `[${N_LINK}]`;
 
+/**
+ * The router implementation. Usually, there is no need to call this class directly.
+ *
+ * The only method one need is the @see navigateRoute method to call a route path programmaticially.
+ */
 export class Router {
 
   private static _routerInstance: Router;
@@ -20,6 +25,10 @@ export class Router {
     return this._routerInstance;
   }
 
+  /**
+   * Called by the bootstrapper to setup a route environment. The route definition is held in memory as static object.
+   * @param routes The route definition
+   */
   public registerRouter(routes: Routes) {
     Router._routes = routes;
     // find the outlets after ready

@@ -28,6 +28,8 @@
     "./src/packages/@nyaf/ui/index.ts"
   ],
   "exclude": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "./src/demos",
+    "./src/packages/@nyaf/.backed/"
   ]
 }
