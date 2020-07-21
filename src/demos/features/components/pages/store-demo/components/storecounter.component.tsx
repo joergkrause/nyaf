@@ -1,36 +1,7 @@
 import JSX, { CustomElement, Properties, BaseComponent } from '@nyaf/lib';
 import { ProvideStore, Store, IStore } from '@nyaf/store';
-import { INC, DEC, SET, actions, counterReducer, setReducer, counterStoreType } from '../../../../flux/flux.demo';
-import { StoreParams } from '@nyaf/store';
-
-// global store (assume this in the main component)
-type storeStateType = { version: string };
-
-const store = new Store<storeStateType>({
-  actions: { 'version': 'version' },
-  reducer: { 'version': (state, payload) => state.version = payload },
-  state: { version: '' }
-});
-
-const counterStore: StoreParams<counterStoreType> = {
-  actions: { INC, DEC },
-  reducer: counterReducer,
-  state: { counter: 0 }
-};
-
-// local store
-store.mergeStore<counterStoreType>(counterStore);
-
-const counterSetStore: StoreParams<counterStoreType> = {
-  actions: { SET },
-  reducer: setReducer,
-  state: { counter: 0 }
-};
-
-// another local store
-store.mergeStore<counterStoreType>(counterSetStore);
-
-type allStoreTypes = storeStateType & counterStoreType;
+import { INC, DEC, SET } from './actions/counter.actions';
+import store, { allStoreTypes } from './store/counter.store';
 
 /**
  * Shows a component that's using the store to handle the business logic outside the component.
@@ -41,18 +12,17 @@ type allStoreTypes = storeStateType & counterStoreType;
 export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implements IStore<allStoreTypes> {
 
   store: Store<allStoreTypes>;
-  private sub;
-  private sub2;
+  private sub: { remove: () => void; };
+  private sub2: { remove: () => void; };
 
   constructor() {
     super();
     console.log('Store Count Ctor called');
-    super.setData('cnt', 0);
+    this.store.dispatch(SET, this.data.cnt);
     // fire if a value changes in the store, takes name of the store value
     this.sub = this.store.subscribe('counter', str => {
       console.log('Counter subscriber recveived a value', str);
       this.data.cnt = str.counter;
-      console.log('***** After assigned to Proxy *****', this.data.cnt);
     });
     this.sub2 = this.store.subscribe('version', v => {
       alert(v.version);
@@ -78,9 +48,9 @@ export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implem
     this.store.dispatch(DEC, 1);
   }
 
-  clickMeSet(e) {
+  clickMeSet(e, val: number) {
     console.log('Counter Element Click SET');
-    this.store.dispatch(SET, 100);
+    this.store.dispatch(SET, val);
   }
 
   clickMeVersion(e) {
@@ -92,21 +62,35 @@ export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implem
     const c = this.data.cnt;
     return await (
       <>
-        <div>
-          <button type='button' n-on-click={e => this.clickMeAdd(e)}>
-            Add 1
+        <div class='row m-5'>
+          <div class='col-3'>
+            <button class='btn btn-md btn-success' type='button' n-on-click={e => this.clickMeAdd(e)}>
+              Add 1
           </button>
-          <button type='button' n-on-click={e => this.clickMeSub(e)}>
-            Sub 1
+          </div>
+          <div class='col-3'>
+            <button class='btn btn-md btn-danger' type='button' n-on-click={e => this.clickMeSub(e)}>
+              Sub 1
           </button>
-          <button type='button' n-on-click={e => this.clickMeSet(e)}>
-            Set 100
+          </div>
+          <div class='col-3'>
+            <button class='btn btn-md btn-primary' type='button' n-on-click={e => this.clickMeSet(e, 100)}>
+              Set 100
+            </button>
+            <button class='btn btn-md btn-primary' type='button' n-on-click={e => this.clickMeSet(e, 50)}>
+              Set 50
+            </button>
+          </div>
+          <div class='col-3'>
+            <button class='btn btn-md btn-secondary' type='button' n-on-click={e => this.clickMeVersion(e)}>
+              Show Version
           </button>
-          <button type='button' n-on-click={e => this.clickMeVersion(e)}>
-            Show Version
-          </button>
+          </div>
         </div>
-        <pre style='border: 1px solid gray;'>{c}</pre>
+        <div class='row m-5'>
+          <p>The value is changed in a reducer and component re-renders automatically:</p>
+          <div class='badge badge-info'>{c}</div>
+        </div>
       </>
     );
   }

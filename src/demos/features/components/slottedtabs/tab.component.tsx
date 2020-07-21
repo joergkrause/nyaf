@@ -1,24 +1,21 @@
-import JSX, { BaseComponent, Properties, CustomElement, ShadowDOM } from '@nyaf/lib';
 
-export interface SlotTabProps {
-  targetId: string;
-}
+import JSX, { BaseComponent, CustomElement, ShadowDOM, UseParentStyles, LifeCycle } from '@nyaf/lib';
 
 @CustomElement('app-slot-tab')
-@Properties<SlotTabProps>({ targetId: '' })
-export class SlotTabComponent extends BaseComponent<SlotTabProps> {
+@ShadowDOM(true)
+export class SlotTabComponent extends BaseComponent<{}> {
 
   private _title: string;
-  private _targetId: string;
 
   constructor() {
     super();
+    this.classList.add('hide');
   }
 
-  render() {
-    return (
-      <div id={this.targetId}>
-        [{this.innerHTML}]
+  async render() {
+    return await (
+      <div id={this.getAttribute('data-id')}>
+        <slot></slot>
       </div>
     );
   }
@@ -29,14 +26,6 @@ export class SlotTabComponent extends BaseComponent<SlotTabProps> {
 
   public set title(value) {
     this._title = value;
-  }
-
-  public get targetId() {
-    return this._targetId;
-  }
-
-  public set targetId(value) {
-    this._targetId = value;
   }
 
 }

@@ -22,6 +22,7 @@ import { ServiceCounterComponent } from './components/pages/lib-demo/components/
 import { ButtonsComponent } from './components/pages/lib-demo/components/buttons.component';
 // store
 import { StoreCounterComponent } from './components/pages/store-demo/components/storecounter.component';
+import { StoreDataComponent } from './components/pages/store-demo/components/storedata.component';
 // forms
 import { FormComponent, SubFormComponent } from './components/pages/forms-demo/components/form.component';
 // router
@@ -34,6 +35,7 @@ import { Page3Component } from './components/router/page3.component';
 import { ButtonExpander } from './expander/button.expander';
 
 import './main.scss';
+import 'bootstrap';
 
 const routes: Routes = {
   '/': { component: HomeComponent },
@@ -61,8 +63,11 @@ GlobalProvider.bootstrap({
     AboutComponent,
     LibDemoComponent,
     StoreDemoComponent,
+    StoreCounterComponent,
+    StoreDataComponent,
     FormsDemoComponent,
     TabComponent,
+    TabsComponent,
     SlotTabsComponent,
     SlotTabComponent,
     ButtonComponent,
@@ -73,6 +78,7 @@ GlobalProvider.bootstrap({
     ComplexBoolComponent,
     ServiceCounterComponent,
     ButtonsComponent,
+    RouterComponent,
     Page1Component,
     Page2Component,
     Page3Component,

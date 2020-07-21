@@ -1,44 +1,129 @@
-import JSX, { BaseComponent, UseParentStyles, CustomElement, ShadowDOM } from '@nyaf/lib';
-import { SlotTabComponent } from './tab.component';
+import JSX, { BaseComponent, CustomElement, LifeCycle, Events, ShadowDOM, UseParentStyles } from '@nyaf/lib';
 import { v4 as uuidv4 } from 'uuid';
 
-// generic box that moves content to header
+interface TabStore {
+  node: Node;
+  targetId: string;
+  id: string;
+}
+
+interface IMaterialTabsDefaultConfig {
+  materialtabsDeferred?: number;
+  deep?: boolean;
+  fixedTabs?: boolean;
+
+  clsComponent?: string;
+  clsTab?: string;
+  clsTabActive?: string;
+  clsMarker?: string;
+
+  onBeforeTabOpen?();
+  onTabOpen?();
+  onTabsScroll?();
+  onTabsCreate?();
+};
+
+// tslint:disable-next-line:max-classes-per-file
 @CustomElement('app-slot-tabs')
-@ShadowDOM()
-@UseParentStyles()
+@Events(['all'])
+@ShadowDOM(true)
+@UseParentStyles(true)
 export class SlotTabsComponent extends BaseComponent<{}> {
+
+  private tabChildren: TabStore[] = [];
 
   constructor() {
     super();
   }
 
-  render() {
-    const tabChildren = Array.prototype.slice.call(this.children).map((child) => {
-      const tab = child as SlotTabComponent;
-      const targetId: string = uuidv4();
-      tab.targetId = targetId;
-      return {
-        tab,
-        href: `#${targetId}`
-      };
+  async render() {
+    let first = 0;
+    const tabHeaders = Array.prototype.slice.call(this.children).map((child: Element) => {
+      const targetId: string = child.id ?? '_' + uuidv4();
+      child.setAttribute('id', targetId);
+      this.tabChildren.push({
+        node: child,
+        targetId,
+        id: child.id
+      });
+      return (
+        <li class='nav-item'>
+          <a class={'nav-link ' + (0 === first++ ? 'active' : '')} href={`#${targetId}`} >{child.getAttribute('title')}</a>
+        </li>
+      );
     });
-    const tabTitles = tabChildren.map((tabChild: { href: string; tab: SlotTabComponent; }) => (
-      <li>
-        <a href={tabChild.href}>{tabChild.tab.title}</a>
-      </li>
-    ));
-    return (
+    return await (
       <>
-        <ul data-expand='true' data-role='materialtabs' class='pos-absolute'>
-          {tabTitles}
+        <ul role="nav" class="nav nav-tabs">
+          {tabHeaders}
         </ul>
-        <div class='cell-12 border bd-default no-border-top'>
-          <slot></slot>
-        </div>
-        <div class='test'>
-          This is only red, if the styles are being copied, because the element is in isolated shadow DOM.
+        <div class='row'>
+          <div class='col'>
+            <slot></slot>
+          </div>
         </div>
       </>
-    );
+    )
   }
+
+  lifeCycle(lc: LifeCycle) {
+    if (lc === LifeCycle.Load) {
+      let first = 0;
+      this.shadowRoot.querySelectorAll('li')
+        .forEach(li => {
+          li.addEventListener('click', (e: Event) => this.selectTab(e));
+          if (first === 0) {
+            this.openTab(li.querySelector('a').getAttribute('href'));
+          }
+          first++;
+        });
+    }
+  }
+
+  private selectTab(e: Event) {
+    let targetId = (e.target as HTMLElement).getAttribute('href');
+    if (!targetId) {
+      const innerA = (e.target as HTMLElement).querySelector('a');
+      if (innerA) {
+        targetId = innerA.getAttribute('href');
+      }
+    }
+    this.openTab(targetId);
+    e.preventDefault();
+    e.cancelBubble = true;
+    return false;
+  }
+
+  async setTab(id: string): Promise<void> {
+    const targetId = this.tabChildren.filter((child) => child.id === id).shift().targetId;
+    // use shadowRoot because it is shadowed
+    this.openTab(`#${targetId}`);
+    return Promise.resolve();
+  }
+
+  // the visible tabs are in the shadowroot, the content is outside in the document
+  private openTab(targetId: string) {
+    const tabs = this.shadowRoot.querySelectorAll('li > a');
+    // const tab = this.querySelector<HTMLElement>(targetId);
+    const a = this.shadowRoot.querySelector(`[href="${targetId}"]`);
+    // hide all
+    const tabContent = this.querySelectorAll('app-slot-tab');
+    tabContent.forEach((t: HTMLElement) => {
+      t.classList.add('d-none');
+    });
+    // deactivate all
+    tabs.forEach(t => {
+      t.classList.remove('active');
+    });
+    // activate
+    a.classList.add('active');
+    // move the marker
+    // make tabContent visible
+    const currentTab = this.querySelector('app-slot-tab' + targetId);
+    currentTab.classList.remove('d-none');
+  }
+
+
+
 }
+

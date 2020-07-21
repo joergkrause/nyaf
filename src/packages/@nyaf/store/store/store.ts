@@ -1,4 +1,4 @@
-import { Observer } from '@nyaf/lib';
+import { Observer, uuidv4 } from '@nyaf/lib';
 import { StoreParams } from './store.params';
 
 enum StoreState {
@@ -10,12 +10,14 @@ enum StoreState {
 export class Store<ST> {
   private _actions: Map<string, any>;
   private _reducer: Map<string, (state: any, payload: any, actionKey?: string) => Promise<any> | any>;
-  private _subscribers: Map<string, { remove: () => void; }[]> = new Map();
+  private _subscribers: Map<string, Map<string, { remove: () => void; }>> = new Map();
   private _status: Map<string, StoreState> = new Map();
   private state: ProxyConstructor;
   private observer: Observer;
+  private _id: string;
 
   constructor(params: StoreParams<ST>) {
+    this._id = uuidv4();
     this.observer = Observer.getInstance();
 
     // Look in the passed params object for actions and reducer
@@ -106,16 +108,19 @@ export class Store<ST> {
   subscribe(storeProperty: keyof ST & string, cb: (value: ST) => void): { remove: () => void; } {
     const subscription = this.observer.subscribe(storeProperty, cb);
     if (!this._subscribers.get(storeProperty)) {
-      this._subscribers.set(storeProperty, []);
+      this._subscribers.set(storeProperty, new Map());
     }
-    const a = this._subscribers.get(storeProperty);
-    const idx = a.push(subscription);
-    this._subscribers.set(storeProperty, a);
+    const setOfSubscribers = this._subscribers.get(storeProperty);
+    const idx = uuidv4();
+    setOfSubscribers.set(idx, subscription);
+    this._subscribers.set(storeProperty, setOfSubscribers);
     const that = this;
     return {
       remove: () => {
-        subscription.remove();
-        that._subscribers.set(storeProperty, a.splice(idx - 1, 1));
+        // observer
+        that._subscribers.get(storeProperty).get(idx).remove();
+        // subscriber
+        that._subscribers.get(storeProperty).delete(idx);
       }
     };
   }

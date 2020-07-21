@@ -16,11 +16,13 @@
 @import "~bootstrap/scss/navbar";
 @import "~bootstrap/scss/card";
 @import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/badge";
 
 blockquote {
   border-left: 4px solid gray;
   background-color: gainsboro;
-  padding: 15px 5px 5px 10px;  
+  padding: 15px 5px 5px 10px;
 }
 
 pre {
