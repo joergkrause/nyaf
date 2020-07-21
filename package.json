@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "lint": "tslint './src/packages/@nyaf/lib/src/**/*.ts' && tslint './src/packages/@nyaf/forms/src/**/*.ts' && tslint './src/packages/@nyaf/store/src/**/*.ts'",
-    "nyaf": "export NODE_ENV=prod && webpack --config webpack.config.lib.js --env.NODE_ENV=prod --env.production && npm run doc",
+    "nyaf": "export NODE_ENV=prod && webpack --config webpack.config.lib.js --env.NODE_ENV=prod --env.production",
     "nyaf-debug": "export NODE_ENV=dev && webpack --config webpack.config.lib.js --env.NODE_ENV=dev --env.development",
     "build": "rimraf dist/@nyaf && cp README.md ./src/packages/@nyaf/lib && rimraf out-tsc && tsc && npm run nyaf",
     "build-debug": "rimraf dist/@nyaf && rimraf out-tsc && tsc && npm run nyaf-debug",
