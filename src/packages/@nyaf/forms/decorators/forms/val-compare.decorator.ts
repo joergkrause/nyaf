@@ -17,7 +17,10 @@ export function Compare(withProperty: string, msg?: string) {
     return compareInternal;
 }
 
-export function compareInternalSetup(target: any, key: string, withProperty: string, msg?: string) {
+/**
+ * @ignore
+ */
+function compareInternalSetup(target: any, key: string, withProperty: string, msg?: string) {
 
     // create a helper property to transport a meta data value
     Object.defineProperty(target, `__hasCompareProperty__${key}`, {

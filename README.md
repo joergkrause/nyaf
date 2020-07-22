@@ -877,15 +877,15 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 Is it worth coding with NYAF and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual sizes (0.5.22):
+Actual package sizes (0.5.23, published 22th of July 2020):
 
-* Lib:    26 KB -->  8 KB zipped (always needed)
-* Forms:  41 KB --> 10 KB zipped (Forms binding, validation, decorators)
-* Store:  29 KB -->  8 KB zipped (Flux like store for state management)
+* Lib:    36 KB --> 11 KB zipped (always needed)
+* Forms:  17 KB -->  5 KB zipped (Forms binding, validation, decorators)
+* Store:   5 KB -->  2 KB zipped (Flux like store for state management)
 
-* Total:  96 KB --> 26 KB zipped all files together for your project
+* Total:  58 KB --> 18 KB zipped all files together for your project
 
-However, compared with React or Angular it's a lot simpler. Compared to Vue, Svelte or Polymer it's simpler and even smaller, but the delta is not that thrilling.
+However, compared with React or Angular it's a lot simpler. Compared to Vue, Svelte, or Polymer it's simpler and even smaller, too.
 
 ## Tool Support
 

@@ -15,7 +15,10 @@ export function Pattern(pattern: RegExp, msg?: string) {
   return patternInternal;
 }
 
-export function patternInternalSetup(target: any, key: string, reg: RegExp, msg?: string) {
+/**
+ * @ignore
+ */
+function patternInternalSetup(target: any, key: string, reg: RegExp, msg?: string) {
   // create a helper property to transport a meta data value
   Object.defineProperty(target, `__hasPattern__${key}`, {
     value: reg,

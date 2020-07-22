@@ -125,7 +125,7 @@ export class ModelBinder<VM extends object> {
               // `n-bind:${sourceProperty}:${realTarget}:`
               expressionParts = attrBind.value.split(':');
               const [, scopeKey, handlerClass, decoratorKey] = expressionParts;
-              const bindingHandler = Object.keys(mbInstance.handlers).filter(k => mbInstance.handlers[k].constructor.name === handlerClass).shift()
+              const bindingHandler = Object.keys(mbInstance.handlers).filter(k => mbInstance.handlers[k].constructor.name === handlerClass).shift();
               ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), bindingHandler, decoratorKey?.trim(), attrBind.name);
             });
           } else {

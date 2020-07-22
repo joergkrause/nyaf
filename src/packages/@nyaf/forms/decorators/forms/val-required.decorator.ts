@@ -15,7 +15,10 @@ export function Required(msg?: string) {
     return requiredInternal;
 }
 
-export function requiredInternalSetup(target: any, key: string, msg?: string) {
+/**
+ * @ignore
+ */
+function requiredInternalSetup(target: any, key: string, msg?: string) {
     Object.defineProperty(target, `__isRequired__${key}`, {
         value: true,
         enumerable: false,

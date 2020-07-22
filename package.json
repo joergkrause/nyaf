@@ -1,15 +1,16 @@
 {
   "name": "nyaf",
-  "version": "0.5.22",
+  "version": "0.5.23",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "lint": "tslint './src/packages/@nyaf/lib/src/**/*.ts' && tslint './src/packages/@nyaf/forms/src/**/*.ts' && tslint './src/packages/@nyaf/store/src/**/*.ts'",
+    "lint": "tslint --project ./src/packages/@nyaf/lib && tslint --project ./src/packages/@nyaf/forms && tslint --project ./src/packages/@nyaf/store",
     "nyaf": "export NODE_ENV=prod && webpack --config webpack.config.lib.js --env.NODE_ENV=prod --env.production",
     "nyaf-debug": "export NODE_ENV=dev && webpack --config webpack.config.lib.js --env.NODE_ENV=dev --env.development",
     "build": "rimraf dist/@nyaf && cp README.md ./src/packages/@nyaf/lib && rimraf out-tsc && tsc && npm run nyaf",
     "build-debug": "rimraf dist/@nyaf && rimraf out-tsc && tsc && npm run nyaf-debug",
+    "start": "npm run start-features",
     "start-features": "webpack-dev-server --config webpack.config.features.js --open",
     "start-ui": "webpack-dev-server --config webpack.config.ui.js --open",
     "build-demo": "webpack --config webpack.config.features.js --env.NODE_ENV=prod --env.production && webpack --config webpack.config.ui.js --env.NODE_ENV=prod --env.production ",
@@ -19,7 +20,8 @@
     "t-forms": "typedoc --name \"@nyaf forms\" --out dist/apidoc/forms src/packages/@nyaf/forms",
     "t-store": "typedoc --name \"@nyaf store\" --out dist/apidoc/store src/packages/@nyaf/store",
     "t-ui": "typedoc --name \"@nyaf ui\" --out dist/apidoc/ui src/packages/@nyaf/ui",
-    "publish-doc": "mkdocs gh-deploy"
+    "publish-doc": "mkdocs gh-deploy",
+    "all": "rimraf dist && npm run build && npm run build-demo && npm run doc"
   },
   "repository": {
     "type": "git",

@@ -3,7 +3,7 @@
  *
  * Allows a component to dispatch custom events. The argument is an array, so add any number of event names here.
  *
- * @example
+ * ```
  *   @CustomElement('app-button')
  *   @Properties<ButtonPropType>({ text: ''})
  *   @Events(['custom'])
@@ -31,7 +31,7 @@
  *       );
  *     }
  *   }
- *
+ * ```
  */
 export function Events(names: string[]) {
   // the original decorator

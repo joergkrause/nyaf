@@ -18,7 +18,10 @@ export function Range(from: number | Date, to: number | Date, msg?: string) {
   return rangeInternal;
 }
 
-export function rangeInternalSetup(target: any, key: string, from: number | Date, to: number | Date, msg?: string) {
+/**
+ * @ignore
+ */
+function rangeInternalSetup(target: any, key: string, from: number | Date, to: number | Date, msg?: string) {
   // property value
 
   // create a helper property to transport a meta data value

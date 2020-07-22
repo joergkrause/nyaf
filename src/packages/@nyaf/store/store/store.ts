@@ -1,9 +1,21 @@
 import { Observer, uuidv4 } from '@nyaf/lib';
 import { StoreParams } from './store.params';
 
+/**
+ * The current state of the store during a store operation.
+ */
 enum StoreState {
+  /**
+   * An action is being dispatched.
+   */
   Action,
+  /**
+   * Regular state, waiting for action.
+   */
   Resting,
+  /**
+   * Object mutates, but not yet finished.
+   */
   Mutation
 }
 

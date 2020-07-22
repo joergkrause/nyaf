@@ -1,4 +1,4 @@
-import { ServiceType } from "../types/servicetype";
+import { ServiceType } from '../types/servicetype';
 
 /**
  * The service class that is not singleton must provide a ctor.

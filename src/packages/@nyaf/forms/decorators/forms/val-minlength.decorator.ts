@@ -15,7 +15,10 @@ export function MinLength(len: number, msg?: string) {
     return minLengthInternal;
 }
 
-export function minLengthInternalSetup(target: any, key: string, len: number, msg?: string) {
+/**
+ * @ignore
+ */
+function minLengthInternalSetup(target: any, key: string, len: number, msg?: string) {
 
     // create a helper property to transport a meta data value
     Object.defineProperty(target, `__hasMinLength__${key}`, {

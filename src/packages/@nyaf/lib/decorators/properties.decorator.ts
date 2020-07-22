@@ -14,6 +14,7 @@ export function Properties<T extends {}>(defaults: T) {
   return propInternal;
 }
 
+/** @ignore */
 function propInternalSetup<T>(target: any, defaults: T) {
   Object.defineProperty(target, '__observedAttributes__', {
     get: function () {

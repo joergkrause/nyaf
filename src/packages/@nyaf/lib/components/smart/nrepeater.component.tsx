@@ -13,7 +13,7 @@ export class NRepeaterComponent extends BaseComponent<{ source: [] }> {
   }
 
   async render() {
-    if (!this.data.source) return null;
+    if (!this.data.source) { return null; }
     const loop = this.data.source.map(item => this.replace(this.innerHTML, item));
     return await (
       <>

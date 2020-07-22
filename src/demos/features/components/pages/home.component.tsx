@@ -11,13 +11,13 @@ export class HomeComponent extends BaseComponent {
   render() {
     return (
       <>
-        <h2>NYAF Demo and Docs</h2>
-        <p>NYAF is a simple frontend library that simplifies the usage of native Web Components.</p>
+        <h2>@nyaf Demo and Docs</h2>
+        <p>@nyaf is a simple frontend library that simplifies the usage of native Web Components.</p>
         <p>
           It follows a philosophie that got somehow lost in past years &ndash; instead of adding more an more functions to a frontend framework, it's
           much better to extend th e developer's toolchain and try to keep the result as simple as possible, using native functions wherever possible.
         </p>
-        <p>The tooling of NYAF has three main ingredients:</p>
+        <p>The tooling of @nyaf has three main ingredients:</p>
         <ol>
           <li>Using TypeScript is mandatory</li>
           <li>Using JSX/TSX for components is the preferred way to create those</li>
@@ -25,10 +25,10 @@ export class HomeComponent extends BaseComponent {
         </ol>
         <p>The result is outstanding. Very easy to write components, very small code, very fast execution.</p>
         <blockquote>
-          The core library is actually <b>34 KB</b>, zipped roughly <b>11 KB</b>.
+          The core library is actually <b>36 KB</b>, zipped roughly <b>11 KB</b>.
         </blockquote>
         <h3>Template techniques</h3>
-        <p>Template are powerful und can handle special instruction, it's a bit looking like a Vue.</p>
+        <p>Template are powerful und can handle special instruction, it's a bit looking like Vue.</p>
         <p>
           Templates are written in JSX, and this part looks much like React. However, state and attribute management is put together and hence much
           easier to handle than in React.
@@ -39,7 +39,7 @@ export class HomeComponent extends BaseComponent {
         <p>Decorators handle all definitions, and this is looking a lot like Angular.</p>
         <h3>Best Bread</h3>
         <p>
-          NYAF takes the best from everything and strips all parts that a browser can handle natively. Especially there is <strong>no</strong>...:
+        @nyaf takes the best from everything and strips all parts that a browser can handle natively. Especially there is <strong>no</strong>...:
         </p>
         <ul>
           <li>

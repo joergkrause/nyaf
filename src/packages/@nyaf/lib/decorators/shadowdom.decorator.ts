@@ -15,6 +15,7 @@ export function ShadowDOM(useShadow: boolean = true) {
     return shadowDOMInternal;
 }
 
+/** @ignore */
 function shadowDOMInternalSetup(target: any, useShadow: boolean) {
 
     Object.defineProperty(target, 'withShadow', {

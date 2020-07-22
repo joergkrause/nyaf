@@ -8,9 +8,10 @@ import { Display } from '../decorators/ui/hint-display.decorator';
  * @param prop The property to bind to. Change the second generic to allow more properties.
  * @param target A decorator key that provides the property, use somthing like display.desc for example.
  * @param options Additional options
+ * @typeParam T A view model type
  */
 export function to<T extends Object, H extends HTMLElement = HTMLElement>(
-  nameFunction: ((obj: T) => any) | { new(...params: any[]): T },
+  nameFunction: ((obj: T) => any) | (new(...params: any[]) => T),
   prop: keyof H | ((o: H) => any),
   target?: string,
   options?: NameofOptions): string {

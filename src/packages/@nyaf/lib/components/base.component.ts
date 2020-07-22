@@ -208,13 +208,13 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
                 if (['push', 'unshift'].includes(innerProp)) {
                   return function (el) {
                     return Array.prototype[innerProp].apply(target, arguments);
-                  }
+                  };
                 }
                 if (['pop'].includes(innerProp)) {
                   return function () {
                     const el = Array.prototype[innerProp].apply(target, arguments);
                     return el;
-                  }
+                  };
                 }
                 return val.bind(target);
               }

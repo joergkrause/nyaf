@@ -15,7 +15,10 @@ export function MaxLength(len: number, msg?: string) {
     return maxLengthInternal;
 }
 
-export function maxLengthInternalSetup(target: any, key: string, len: number, msg?: string) {
+/**
+ * @ignore
+ */
+function maxLengthInternalSetup(target: any, key: string, len: number, msg?: string) {
 
     // create a helper property to transport a meta data value
     Object.defineProperty(target, `__hasMaxLength__${key}`, {

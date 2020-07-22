@@ -6,7 +6,10 @@ import { ValueBindingHandler } from '@nyaf/forms';
 
 @CustomElement('app-forms-demo')
 @ViewModel(ContactModel, {
-  factory: m => m.email = 'bla@fasel.com',
+  factory: (m: ContactModel) => {
+    m.email = 'bla@fasel.com';
+    m.name = 'Test Name';
+  },
   handler: { 'value': new ValueBindingHandler() }
 })
 export class FormsDemoComponent<T extends ContactModel> extends BaseComponent implements IModel<ContactModel> {

@@ -18,13 +18,57 @@ import { BaseComponent, Type } from '@nyaf/lib';
  * 2. value: A binder that handles any kind of @see IHTMLInputElement ; this is bi-directional
  * 3. checkbox: Handles a value by accepting a `boolean` value and supports the `checked` property instead of `value`.
  *
- *
+ * @typeParam T The view model
  *
  */
 export interface IViewDecoratorOptions<T> {
+  /**
+   * An optional object used to create an instance. This overrides the view model's default constructor.
+   */
   ctor?: Partial<T>;
+  /**
+   * An optional list of handlers, that handle custom binding operations. Assign the name used in `n-bind` and an instance of the binder class.
+   *
+   * ```typescript
+   * @ViewModel<Model>(Model, { handler: { 'special': new SpecialBinder() }})
+   * ```
+   * In this scenario, the class *SpecialBinder* must implement @see IBindingHandler.
+   * Any bindings that apply to 'special' are now being re-routed through this custom binder code (exclusively, bypassing the default binders).
+   */
   handler?: { [property: string]: IBindingHandler };
-  factory?: (params: T) => void;
+  /**
+   * If the @see ctor option is not flexible enough and you need a very constructed object, this is the right way to setup.
+   *
+   * In the following example the factory sets just one property to a distinct value (a pre-fill).
+   *
+   * ```typescript
+   * @CustomElement('app-forms-demo')
+   * @ViewModel(ContactModel, {
+   *   factory: m => m.email = 'bla@fasel.com',
+   *   handler: { 'value': new ValueBindingHandler() }
+   * })
+   * export class FormsDemoComponent<T extends ContactModel> extends BaseComponent implements IModel<ContactModel> {
+   *
+   *   model: ModelBinder<ContactModel>;
+   *
+   *   // omitted for brevity
+   * }
+   * ```
+   *
+   * If you access the model (without any further code required) like this: `this.model.scope.email` the value is already filled in.
+   * An even more complex setup is possible providing a definition like this:
+   *
+   * ```typescript
+   *  factory: (m: ContactModel) => {
+   *    m.email = 'bla@fasel.com';
+   *    m.name = 'Test Name';
+   *  }
+   * ```
+   * @param model Placeholder for the model type
+   * @typeParam T The view model type
+   *
+   */
+  factory?: (model: T) => void;
 }
 
 /**
@@ -48,6 +92,9 @@ export function ViewModel<T extends {}>(model: Type<T>, options?: IViewDecorator
   return viewModelInternal;
 }
 
+/**
+ * @ignore
+ */
 function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, options?: IViewDecoratorOptions<T>) {
   // create a helper property to transport a meta data value
   // this is an implicit property not available from user code, it's just to support the forms services

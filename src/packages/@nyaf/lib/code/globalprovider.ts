@@ -11,7 +11,7 @@ import { NRepeaterComponent } from '../components/smart/nrepeater.component';
 import { NOutletComponent } from '../components/smart/noutlet.component';
 
 /**
- * Main support class that provides all global functions.
+ * Main support class that provides all global functions. You must call at least the @see bootstrap method to register components.
  */
 export class GlobalProvider {
 

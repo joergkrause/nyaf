@@ -27,6 +27,9 @@ const webpackConfig = {
       },
     ]
   },
+  externals: [
+    '@nyaf/lib'
+  ],
   // Configure how modules are resolved
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
