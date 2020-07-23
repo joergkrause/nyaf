@@ -37,6 +37,17 @@ GlobalProvider.bootstrap({
 The first entry `'/': { component: DemoComponent },` shall always exist, it's the default route loaded on start. It's being recognized by the `'/'` key (the position in the array doesn't matter).
 The entry `'**': { component: DemoComponent }` is optional and defines a fallback in case an invalid path is being used.
 
+You can shorten the property here, too:
+
+~~~ts
+const components = [DemoComponent, AboutComponent, ContactComponent, MainComponent];
+
+GlobalProvider.bootstrap({
+  components,
+  routes
+});
+~~~
+
 ### Use Routes
 
 To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
@@ -103,7 +114,7 @@ There is no difference on the link side, the decision to address another outlet 
 
 > In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet.
 
-### Addition Data
+### Additional Data
 
 The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.
 
@@ -125,19 +136,19 @@ The outlet is pulled from configuration, but if provided as second parameter it 
 
 The router fires two events, available through the static `GlobalProvider` class like this:
 
-~~~ts
+~~~js
 GlobalProvider.routerAction.addEventListener('navigate', (evt) => {
   const route = evt.detail;
-/*!*/  evt.cancel = true;   // optionally cancel before execution
+  evt.cancel = true;   // optionally cancel before execution
 }
 ~~~
 
-~~~ts
+~~~js
 GlobalProvider.routerAction.addEventListener('navigated', (evt) => {
   const route = evt.detail;
   // this event can't be cancelled
 }
 ~~~
 
-
+If you have a dynamic component and you set the event handler, don't forget to remove the event handler in the dispose callback.
 

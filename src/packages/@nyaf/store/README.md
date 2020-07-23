@@ -43,7 +43,7 @@ export const DEC = 'DEC';
 export const SET = 'SET';
 
 export default {
-  [INC]: () => 1, // initial value of payload, this can be omitted if you doesn't care
+  [INC]: () => 1, // initial value of payload, this can be omitted if you don't care
   [DEC]: () => -1,
   SET
 };

@@ -37,5 +37,193 @@ export class ContactComponent extends BaseComponent {
 }
 ~~~
 
+Shadow DOM goes well along with the usage of slots. A typical example is a Tabs Component, that could look like this:
 
+## Example with Shadow DOM
+
+First, the definition of a single tab.
+
+### Tab
+
+~~~tsx
+import JSX, { BaseComponent, CustomElement, ShadowDOM, UseParentStyles, LifeCycle } from '@nyaf/lib';
+
+@CustomElement('app-slot-tab')
+@ShadowDOM(true)
+export class SlotTabComponent extends BaseComponent<{}> {
+
+  private _title: string;
+
+  constructor() {
+    super();
+    this.classList.add('hide');
+  }
+
+  async render() {
+    return await (
+      <div id={this.getAttribute('data-id')}>
+        <slot></slot>
+      </div>
+    );
+  }
+
+  public get title() {
+    return this._title;
+  }
+
+  public set title(value) {
+    this._title = value;
+  }
+
+}
+~~~
+
+The `<slot>` element is the content target. The id is used to address the tab (to open it, actually).
+
+### Tabs
+
+Now the container that handles multiple tabs.
+
+~~~
+import JSX, { BaseComponent, CustomElement, LifeCycle, Events, ShadowDOM, UseParentStyles, uuidv4 } from '@nyaf/lib';
+
+interface TabStore {
+  node: Node;
+  targetId: string;
+  id: string;
+}
+
+interface IMaterialTabsDefaultConfig {
+  materialtabsDeferred?: number;
+  deep?: boolean;
+  fixedTabs?: boolean;
+
+  clsComponent?: string;
+  clsTab?: string;
+  clsTabActive?: string;
+  clsMarker?: string;
+
+  onBeforeTabOpen?();
+  onTabOpen?();
+  onTabsScroll?();
+  onTabsCreate?();
+};
+
+// tslint:disable-next-line:max-classes-per-file
+@CustomElement('app-slot-tabs')
+@Events(['all'])
+@ShadowDOM(true)
+@UseParentStyles(true)
+export class SlotTabsComponent extends BaseComponent<{}> {
+
+  private tabChildren: TabStore[] = [];
+
+  constructor() {
+    super();
+  }
+
+  async render() {
+    let first = 0;
+    const tabHeaders = Array.prototype.slice.call(this.children).map((child: Element) => {
+      const targetId: string = child.id ?? '_' + uuidv4();
+      child.setAttribute('id', targetId);
+      this.tabChildren.push({
+        node: child,
+        targetId,
+        id: child.id
+      });
+      return (
+        <li class='nav-item'>
+          <a class={'nav-link ' + (0 === first++ ? 'active' : '')} href={`#${targetId}`} >{child.getAttribute('title')}</a>
+        </li>
+      );
+    });
+    return await (
+      <>
+        <ul role="nav" class="nav nav-tabs">
+          {tabHeaders}
+        </ul>
+        <div class='row'>
+          <div class='col'>
+            <slot></slot>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  lifeCycle(lc: LifeCycle) {
+    if (lc === LifeCycle.Load) {
+      let first = 0;
+      this.shadowRoot.querySelectorAll('li')
+        .forEach(li => {
+          li.addEventListener('click', (e: Event) => this.selectTab(e));
+          if (first === 0) {
+            this.openTab(li.querySelector('a').getAttribute('href'));
+          }
+          first++;
+        });
+    }
+  }
+
+  private selectTab(e: Event) {
+    let targetId = (e.target as HTMLElement).getAttribute('href');
+    if (!targetId) {
+      const innerA = (e.target as HTMLElement).querySelector('a');
+      if (innerA) {
+        targetId = innerA.getAttribute('href');
+      }
+    }
+    this.openTab(targetId);
+    e.preventDefault();
+    e.cancelBubble = true;
+    return false;
+  }
+
+  async setTab(id: string): Promise<void> {
+    const targetId = this.tabChildren.filter((child) => child.id === id).shift().targetId;
+    // use shadowRoot because it is shadowed
+    this.openTab(`#${targetId}`);
+    return Promise.resolve();
+  }
+
+  // the visible tabs are in the shadow-root, the content is outside in the document
+  private openTab(targetId: string) {
+    const tabs = this.shadowRoot.querySelectorAll('li > a');
+    // const tab = this.querySelector<HTMLElement>(targetId);
+    const a = this.shadowRoot.querySelector(`[href="${targetId}"]`);
+    // hide all
+    const tabContent = this.querySelectorAll('app-slot-tab');
+    tabContent.forEach((t: HTMLElement) => {
+      t.classList.add('d-none');
+    });
+    // deactivate all
+    tabs.forEach(t => {
+      t.classList.remove('active');
+    });
+    // activate
+    a.classList.add('active');
+    // move the marker
+    // make tabContent visible
+    const currentTab = this.querySelector('app-slot-tab' + targetId);
+    currentTab.classList.remove('d-none');
+  }
+
+}
+~~~
+
+### Usage
+
+The usage is quite simple. Just add as many tabs as required:
+
+~~~tsx
+<app-slot-tabs id='demoTabs'>
+  <app-slot-tab title='Store Counter' id='d1'>
+    <app-store-counter id='s1' cnt={42}></app-store-counter>
+  </app-slot-tab>
+  <app-slot-tab title='Store Data' id='d2'>
+    <app-store-data id='s2'></app-store-data>
+  </app-slot-tab>
+</app-slot-tabs>
+~~~
 

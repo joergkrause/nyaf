@@ -1,5 +1,4 @@
-import JSX, { BaseComponent, CustomElement, LifeCycle, Events, ShadowDOM, UseParentStyles } from '@nyaf/lib';
-import { v4 as uuidv4 } from 'uuid';
+import JSX, { BaseComponent, CustomElement, LifeCycle, Events, ShadowDOM, UseParentStyles, uuidv4 } from '@nyaf/lib';
 
 interface TabStore {
   node: Node;

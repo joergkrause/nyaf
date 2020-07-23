@@ -36,6 +36,47 @@ clickMe(e?: Event) {
 
 The `Event` type conforms to HTML 5 DOM. Replace according the attached event (`MouseEvent` etc., see [here](https://developer.mozilla.org/en-US/docs/Web/API/Event) for details).
 
+### Syntax Enhancements
+
+#### Short Form
+
+If you don't need access to the parameter of the event (example: a click, which just happens), the a short form is possible:
+
+~~~tsx
+<button type="button" n-on-click={this.clickMe}>
+~~~
+
+#### Additional Parameters
+
+You can add constant values like this:
+
+~~~tsx
+<button type="button" n-on-click={(e) => this.clickMe(e, 'PROP')}>
+~~~
+
+> **Warning!** Regardless the type, the received value will be a `string` type at runtime.
+
+~~~tsx
+<button type="button" n-on-click={(e) => this.clickMe(e, 100)}>
+~~~
+
+This works, but the function will receive "100".
+
+~~~tsx
+<button type="button" n-on-click={(e) => this.clickMe(e, 1 + 2)}>
+~~~
+
+This works, too, but the function will receive "1 + 2". The expression is not being executed! So, this is somehow limited in the current version. You can add multiple parameters, though.
+
+~~~tsx
+<button type="button" n-on-click={(e) => this.clickMe(e, 1, 2)}>
+
+clickMe(e: Event, a: string, b: string) {
+  const r = +a + +b;
+}
+~~~
+
+Usually, it doesn't make sense to have calculation on constant values. So in reality this isn't a serious limitation.
 
 ### Async
 
@@ -55,7 +96,7 @@ Sometimes the JavaScript events are not flexible enough. So you can define your 
 
 Imagine a button component like this:
 
-~~~
+~~~tsx
 @CustomElement('app-button')
 @Events(['showAlert'])
 export class ButtonComponent extends BaseComponent {
@@ -83,13 +124,13 @@ export class ButtonComponent extends BaseComponent {
 
 The custom event in this example is called *showAlert*. It's invoked by a click. The element's host component has code like this:
 
-~~~
+~~~tsx
 <app-button n-on-showAlert={(e) => this.someHandler(e)} />
 ~~~
 
 The argument *e* contains an `CustomEvent` object. It can carry any number of custom data. The `click`-invoker is just an example, any action can call a custom event, even a web socket callback, a timer, or an HTTP request result. Both `CustomEvent` and `CustomEventInit` have a field `detail` that can carry any object or scalar and is the proposed way to transport custom data with the event. The event handler could look like this:
 
-~~~
+~~~ts
 private showAlert(e: CustomEvent) {
   const data = e.detail;
   // Your code that handles the event
@@ -97,6 +138,4 @@ private showAlert(e: CustomEvent) {
 ~~~
 
 > Custom events can be async, too. Just add `n-async` to the element that fires the event and add the `async` modifier to the handler.
-
-
 

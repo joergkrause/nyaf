@@ -46,14 +46,14 @@ The TypeScript configuration is typical, but two things are crucial to know:
 ~~~json
 {
   "compilerOptions": {
-    /*!*/ "target": "es2015",     // The target must be at least ES 2015
+    "target": "es2015",     // The target must be at least ES 2015
     "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
     "lib": ["es2018", "es5", "dom"],
-    /*!*/ "jsx": "react",           // tell the compiler to accept JSX
-    /*!*/ "reactNamespace": "JSX",  // the name of the support class in @nyaf (this IS mandatory)
+    "jsx": "react",           // tell the compiler to accept JSX
+    "reactNamespace": "JSX",  // the name of the support class in @nyaf (this IS mandatory)
     "declaration": false,
     "experimentalDecorators": true,
     "noImplicitAny": false,

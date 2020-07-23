@@ -93,7 +93,7 @@ export class GlobalProvider {
           });
         });
         Promise.all(customComponents).then(() => {
-          // prepare route
+          // prepare route, we can't route if the component is not ready yet
           GlobalProvider.router.registerRouter(props.routes);
         });
       }

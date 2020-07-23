@@ -11,7 +11,7 @@ async render() {
   return await (
     <>
       <form>
-/*!*/        <input n-bind="value: Name" />
+        <input n-bind="value: Name" />
       </form>
     </>);
 }
@@ -140,15 +140,17 @@ But, both ways are type safe, even the string is following a constrain. The stri
 
 ### Multi Attribute Binding
 
-the `n-bind` attribute is exclusive, so you can bind only one attribute. That's fine for most cases, but sometimes you'll need multiple bindings. In Angular
+The `n-bind` attribute is exclusive, so you can bind only one attribute. That's fine for most cases, but sometimes you'll need multiple bindings. In Angular
 this is easy through the binding syntax around any element (`<input [type]="source" [value]="model">`). However, this would require a template compiler and
 additional editor support. To overcome a limitation here, a `bind` function available:
 
-In this example to properties are bound:
+In this example two properties are bound:
 
 ~~~tsx
 <input value={bind<T>(c => c.email)} type={bind<T>(c => c.toggleType)} n-bind />
 ~~~
+
+> The `n-bind` is still required to efficiently trigger the binder logic. It's now empty, though (default value is `true` internally).
 
 The binding handler is not provided, so it falls back to a `DefaultBindingHandler`, that binds uni-directional to the assigned attribute. That has two
 limitations. First, it's always uni-directional. Second, it can bind only to attributes of `HTMLElement`. Object properties, such as `textContent`or `innerText`
@@ -169,7 +171,9 @@ You may also define your component as a generic:
 
 ~~~ts
 // ContactModel defined elsewhere
-export class ContactComponent<T extends ContactModel> extends BaseComponent implements IModel<ContactModel> {
+export class ContactComponent<T extends ContactModel>
+       extends BaseComponent<any>
+       implements IModel<ContactModel> {
 ~~~
 
 And in that case use a shorter from to express the binding:
@@ -180,5 +184,12 @@ And in that case use a shorter from to express the binding:
 
 That's cool, isn't it? Now we have a fully type save binding definition in the middle of the TSX part without any additions to regular HTML.
 
+Any in case you have special properties beyond `HTMLElement`, than just provide the proper type:
 
+~~~tsx
+<input n-bind={to<T, HTMLInputElement>(c => c.email, c => c.value)} />
+~~~
 
+This gives full type support in any editor for all types, even custom Web Components will work here.
+
+> This technique avoids parsing the template, and the missing parser makes the package so small. The function simply returns a magic string that the model binder class recognizes at runtime. The function call with a generic helps the editor to understand the types and avoids mistakes.

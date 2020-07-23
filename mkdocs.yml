@@ -45,6 +45,7 @@ nav:
     - Licence: md/docs/internals/lic.md
     - How it's being made: md/docs/internals/start.md
 theme:
+  custom_dir: docs/_templates/
   name: readthedocs
   nav_style: light
   prev_next_buttons_location: both

@@ -44,15 +44,15 @@ export class StoreDemoComponent extends BaseComponent<any> implements IStore<glo
             </blockquote>
             <div class='row mt-2'>
               <div class='col'>
-              <app-slot-tabs id='demoTabs'>
-                <app-slot-tab title='Store Counter' id='d1'>
-                  <app-store-counter id='s1' cnt={42}></app-store-counter>
-                </app-slot-tab>
-                <app-slot-tab title='Store Data' id='d2'>
-                  <app-store-data id='s2'></app-store-data>
-                </app-slot-tab>
+                <app-slot-tabs id='demoTabs'>
+                  <app-slot-tab title='Store Counter' id='d1'>
+                    <app-store-counter id='s1' cnt={42}></app-store-counter>
+                  </app-slot-tab>
+                  <app-slot-tab title='Store Data' id='d2'>
+                    <app-store-data id='s2'></app-store-data>
+                  </app-slot-tab>
                 </app-slot-tabs>
-                </div>
+              </div>
             </div>
           </div>
         </div>

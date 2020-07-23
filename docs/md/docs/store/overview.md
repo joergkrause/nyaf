@@ -31,13 +31,17 @@ export const DEC = 'DEC';
 export const SET = 'SET';
 
 export default {
-  [INC]: () => 1, // initial value of payload, this can be omitted if you doesn't care
+  [INC]: () => 1, // initial value of payload, this can be omitted if you don't care
   [DEC]: () => -1,
   SET
 };
 ~~~
 
-![](/assets/actions.png)
+The following figure shows the relevant parts of the action definition:
+
+![Figure: The main parts store: the action setup](/assets/actions.png)
+
+> **Why using actions?** It's convenient to have typed constants in the editor and use easy to remember names without the chance to create mistakenly typos.
 
 ### Reducer
 
@@ -59,9 +63,19 @@ export default {
 };
 ~~~
 
+The following figure shows the relevant parts of the reducer definition:
+
 ![](/assets/reducer.png)
 
 The returned payload is the whole store object by reference. The type for the store is optional and helps elevating the power of TypeScript and getting a type safe store.
+
+> **Why using reducers?** Pure function calls are the foundation of a side effect free business layer. You have exactly one location where the logic goes -  the reducer. That's said, from now omn you will know where to have logic, where to have UI, and where to store everything.
+
+Reducers can be sync or async, every function can be made as you like.
+
+#### Return Value Considerations
+
+The return value is an object that contains the fragments of the store that need to be changed. Through subscriptions this is the way to inform other instances that something happened. But be careful with setting multiple values in one single step. The store logic will execute property by property and immediately publish the change event. A subscriber will receive the changes in the exact order of the properties in the reducers returns value. If the subscriber receives the first property's change event, the ne value is provided. However, the remaining values are not yet set, and hence the store is in an intermediate state. You must wait for all subscribers to get their final values. the best way to avoid hassle here is to avoid returning multiple values from single reducer function.
 
 ### Store and Dispatcher
 
@@ -115,7 +129,8 @@ export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implem
     this.setData('cnt', 0);
     // fire if a value changes in the store, takes name of the store value
     this.store.subscribe('counter', str => {
-      this.setData('cnt', str.counter);
+      // write to a observed property to force re-render
+      this.data.cnt = str.counter;
     });
   }
 
@@ -138,21 +153,21 @@ export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implem
     return (
       <>
         <div>
-          <button type='button' n-on-Click={e => this.clickMeAdd(e)}>
+          <button type='button' n-on-click={this.clickMeAdd}>
             Add 1
           </button>
-          <button type='button' n-on-Click={e => this.clickMeSub(e)} n-async>
+          <button type='button' n-on-click={this.clickMeSub}>
             Sub 1
           </button>
-          <button type='button' n-on-Click={e => this.clickMeSet(e)} n-async>
+          <button type='button' n-on-click={this.clickMeSet}>
             Set 100
           </button>
         </div>
-        <pre style='border: 1px solid gray;'>{super.data.cnt}</pre>
+        <pre style='border: 1px solid gray;'>{this.data.cnt}</pre>
       </>
     );
   }
 }
 ~~~
 
-
+> **Tip!** Combine this example with the forms module (*@nyaf/forms*) and get binding on element level using the `n-bind` template feature.
