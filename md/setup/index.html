@@ -25,7 +25,31 @@
   <script src="../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
   
 </head>
 
@@ -58,6 +82,11 @@
     <a class="" href="../intro/">Introduction</a>
 	    </li>
           
+            <li class="toctree-l1">
+		
+    <a class="" href="../learn/">Learn</a>
+	    </li>
+          
             <li class="toctree-l1 current">
 		
     <a class="current" href="./">Setup</a>
@@ -84,6 +113,10 @@
                 <li class="">
                     
     <a class="" href="../docs/lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/jsx/">JSX / TSX</a>
                 </li>
                 <li class="">
                     
@@ -285,7 +318,7 @@
         <a href="../docs/lib/overview/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../intro/" class="btn btn-neutral" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../learn/" class="btn btn-neutral" title="Learn"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -313,7 +346,7 @@
           <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../intro/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../learn/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../docs/lib/overview/" style="color: #fcfcfc">Next &raquo;</a></span>

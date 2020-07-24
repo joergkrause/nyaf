@@ -25,7 +25,31 @@
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
   
 </head>
 
@@ -60,6 +84,11 @@
           
             <li class="toctree-l1">
 		
+    <a class="" href="../../../learn/">Learn</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
     <a class="" href="../../../setup/">Setup</a>
 	    </li>
           
@@ -78,6 +107,10 @@
                 <li class="">
                     
     <a class="" href="../template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../jsx/">JSX / TSX</a>
                 </li>
                 <li class=" current">
                     
@@ -336,7 +369,7 @@ export class RepeaterTestComponent extends BaseComponent&lt;{}&gt; {
         <a href="../lifecycle/" class="btn btn-neutral float-right" title="Life Cycle">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../template/" class="btn btn-neutral" title="Template Language"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../jsx/" class="btn btn-neutral" title="JSX / TSX"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -364,7 +397,7 @@ export class RepeaterTestComponent extends BaseComponent&lt;{}&gt; {
           <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../template/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../jsx/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../lifecycle/" style="color: #fcfcfc">Next &raquo;</a></span>

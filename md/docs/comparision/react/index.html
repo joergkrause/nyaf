@@ -25,7 +25,31 @@
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
   
 </head>
 
@@ -60,6 +84,11 @@
           
             <li class="toctree-l1">
 		
+    <a class="" href="../../../learn/">Learn</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
     <a class="" href="../../../setup/">Setup</a>
 	    </li>
           
@@ -78,6 +107,10 @@
                 <li class="">
                     
     <a class="" href="../../lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/jsx/">JSX / TSX</a>
                 </li>
                 <li class="">
                     
@@ -284,7 +317,7 @@
 in reality it's a big deal. Because of the non-native development style the TypeScript form is not very elegant. And the real advantage of TypeScript, such as advanced types like decorators and interfaces, are not or rarely used. Let's compare it.</p>
 <h3 id="react">React<a class="headerlink" href="#react" title="Permanent link">#</a></h3>
 <p>This is a simple component in React. The name always follows the class name, <em>Welcome</em> in this example.</p>
-<pre><code class="jsx">class Welcome extends React.Component {
+<pre><code class="jsx">class Welcome extends BaseComponent&lt;{}&gt; {
   render() {
     return &lt;h1&gt;Hello, {this.props.name}&lt;/h1&gt;;
   }

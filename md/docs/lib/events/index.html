@@ -25,7 +25,31 @@
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
   
 </head>
 
@@ -60,6 +84,11 @@
           
             <li class="toctree-l1">
 		
+    <a class="" href="../../../learn/">Learn</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
     <a class="" href="../../../setup/">Setup</a>
 	    </li>
           
@@ -78,6 +107,10 @@
                 <li class="">
                     
     <a class="" href="../template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../jsx/">JSX / TSX</a>
                 </li>
                 <li class="">
                     
@@ -101,6 +134,8 @@
         <ul>
         
             <li><a class="toctree-l4" href="#n-on-event">n-on-[event]</a></li>
+        
+            <li><a class="toctree-l4" href="#syntax-enhancements">Syntax Enhancements</a></li>
         
             <li><a class="toctree-l4" href="#async">Async</a></li>
         
@@ -299,6 +334,36 @@
 </code></pre>
 
 <p>The <code>Event</code> type conforms to HTML 5 DOM. Replace according the attached event (<code>MouseEvent</code> etc., see <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event">here</a> for details).</p>
+<h3 id="syntax-enhancements">Syntax Enhancements<a class="headerlink" href="#syntax-enhancements" title="Permanent link">#</a></h3>
+<h4 id="short-form">Short Form<a class="headerlink" href="#short-form" title="Permanent link">#</a></h4>
+<p>If you don't need access to the parameter of the event (example: a click, which just happens), the a short form is possible:</p>
+<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={this.clickMe}&gt;
+</code></pre>
+
+<h4 id="additional-parameters">Additional Parameters<a class="headerlink" href="#additional-parameters" title="Permanent link">#</a></h4>
+<p>You can add constant values like this:</p>
+<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={(e) =&gt; this.clickMe(e, 'PROP')}&gt;
+</code></pre>
+
+<blockquote>
+<p><strong>Warning!</strong> Regardless the type, the received value will be a <code>string</code> type at runtime.</p>
+</blockquote>
+<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={(e) =&gt; this.clickMe(e, 100)}&gt;
+</code></pre>
+
+<p>This works, but the function will receive "100".</p>
+<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={(e) =&gt; this.clickMe(e, 1 + 2)}&gt;
+</code></pre>
+
+<p>This works, too, but the function will receive "1 + 2". The expression is not being executed! So, this is somehow limited in the current version. You can add multiple parameters, though.</p>
+<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={(e) =&gt; this.clickMe(e, 1, 2)}&gt;
+
+clickMe(e: Event, a: string, b: string) {
+  const r = +a + +b;
+}
+</code></pre>
+
+<p>Usually, it doesn't make sense to have calculation on constant values. So in reality this isn't a serious limitation.</p>
 <h3 id="async">Async<a class="headerlink" href="#async" title="Permanent link">#</a></h3>
 <p>You can combine any event with the attribute <code>n-async</code> to make the call to the event's handler function async. This attribute does not take any parameters. The handler method must not be decorated with <code>async</code>.</p>
 <pre><code>&lt;button n-on-click={this.clickMe} n-async&gt;OK&lt;/button&gt;
@@ -312,7 +377,7 @@
 <li>use the <code>n-on-&lt;myCustomEventName&gt;</code> attribute to attach the event.</li>
 </ul>
 <p>Imagine a button component like this:</p>
-<pre><code>@CustomElement('app-button')
+<pre><code class="tsx">@CustomElement('app-button')
 @Events(['showAlert'])
 export class ButtonComponent extends BaseComponent {
   constructor() {
@@ -338,11 +403,11 @@ export class ButtonComponent extends BaseComponent {
 </code></pre>
 
 <p>The custom event in this example is called <em>showAlert</em>. It's invoked by a click. The element's host component has code like this:</p>
-<pre><code>&lt;app-button n-on-showAlert={(e) =&gt; this.someHandler(e)} /&gt;
+<pre><code class="tsx">&lt;app-button n-on-showAlert={(e) =&gt; this.someHandler(e)} /&gt;
 </code></pre>
 
 <p>The argument <em>e</em> contains an <code>CustomEvent</code> object. It can carry any number of custom data. The <code>click</code>-invoker is just an example, any action can call a custom event, even a web socket callback, a timer, or an HTTP request result. Both <code>CustomEvent</code> and <code>CustomEventInit</code> have a field <code>detail</code> that can carry any object or scalar and is the proposed way to transport custom data with the event. The event handler could look like this:</p>
-<pre><code>private showAlert(e: CustomEvent) {
+<pre><code class="ts">private showAlert(e: CustomEvent) {
   const data = e.detail;
   // Your code that handles the event
 }

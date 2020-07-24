@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../../../img/favicon.ico">
+  <title>JSX / TSX - nyaf Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "JSX / TSX";
+    var mkdocs_page_input_path = "md/docs/lib/jsx.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../learn/">Learn</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../setup/">Setup</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../configuration/">Project Configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../template/">Template Language</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">JSX / TSX</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#jsx-tsx">JSX / TSX</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#introduction">Introduction</a></li>
+        
+            <li><a class="toctree-l4" href="#examples">Examples</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../services/">Services</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extensions</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Core Library &raquo;</li>
+        
+      
+    
+    <li>JSX / TSX</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/lib/jsx.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="jsx-tsx">JSX / TSX<a class="headerlink" href="#jsx-tsx" title="Permanent link">#</a></h1>
+<p>Fundamentally, JSX just provides syntactic sugar for the JSX.createElement(component, props, ...children) function. In <strong>@nyaf</strong> we use only
+the TSX variant. That means, the transformation and conversion to JavaScript is made by the TypeScript transpiler.</p>
+<blockquote>
+<p>Be aware, that while the main framework with JSX built-in is React, <strong>@nyaf</strong> has absolutely no relation to React, and the behavior of the code is different.</p>
+</blockquote>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">#</a></h2>
+<p>The example assume that some code surrounds the snippets or is just the return value of the <em>render()</em> method.</p>
+<p>The TSX code:</p>
+<pre><code class="tsx">&lt;my-button color=&quot;blue&quot; shadowSize={2}&gt;
+  Click Me
+&lt;/my-button&gt;
+</code></pre>
+
+<p>compiles into:</p>
+<pre><code class="js">JSX.createElement(
+  'my-button',
+  {color: 'blue', shadowSize: 2},
+  'Click Me'
+)
+</code></pre>
+
+<h3 id="jsx-scope">JSX Scope<a class="headerlink" href="#jsx-scope" title="Permanent link">#</a></h3>
+<p>Since JSX compiles into calls to <code>JSX.createElement</code>, the JSX class must also always be in scope from your TSX code.</p>
+<p>For example, both of the imports are necessary in this code, even though React and CustomButton are not directly referenced from JavaScript:</p>
+<pre><code class="tsx">import JSX from '@nyaf/lib';
+
+// code omitted for brevity
+
+async render() {
+  // return JSX.createElement('custom-button', {color: 'red'}, null);
+  return await (&lt;custom-button color=&quot;red&quot; /&gt;);
+}
+</code></pre>
+
+<blockquote>
+<p>It's a default export, so no curly braces here!</p>
+</blockquote>
+<p>If you don’t use a JavaScript bundler and loaded <strong>@nyaf</strong> from a <code>&lt;script&gt;</code> tag, it is already in scope as the JSX global.</p>
+<blockquote>
+<p>The elements used in the TSX parts are registered globally and there is no additional import required. That's a fundamentally different behavior in comparison to React. In React the first argument is a type and the elements will render itself based on the given type. In <strong>@nyaf</strong> the first argument is a string, and the constructed element is pushed to the browser as string through <code>innerHTML</code>, and the browser renders the content directly using native code.</p>
+</blockquote>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h2>
+<p>You can also use the self-closing form of the tag if there are no children. So:</p>
+<pre><code class="tsx">&lt;div className=&quot;sidebar&quot; /&gt;
+</code></pre>
+
+<p>compiles into:</p>
+<pre><code class="js">JSX.createElement(
+  'div',
+  {className: 'sidebar'}
+)
+</code></pre>
+
+<p>If you want to test out how some specific JSX is converted into JavaScript, you can try out the online Babel compiler.</p>
+<h3 id="specifying-the-element-type">Specifying The Element Type<a class="headerlink" href="#specifying-the-element-type" title="Permanent link">#</a></h3>
+<p>The first part of a TSX tag determines the type of the element. It's the name of a registered Web Component.</p>
+<h3 id="user-defined-components-must-be-in-kebap-style">User-Defined Components Must Be in Kebap Style<a class="headerlink" href="#user-defined-components-must-be-in-kebap-style" title="Permanent link">#</a></h3>
+<p>When an element type starts with a lowercase letter, it refers to a built-in component like <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code> and results in a string 'div' or 'span' passed to JSX.createElement. Types that have a dashed name like <my-foo /> compile to JSX.createElement('my-foo') and correspond to a component defined globally through <code>GlobalProvider</code>.</p>
+<p>We recommend naming components always with kebap style.</p>
+<h3 id="props-in-tsx">Props in TSX<a class="headerlink" href="#props-in-tsx" title="Permanent link">#</a></h3>
+<p>There are several different ways to specify props in TSX.</p>
+<h4 id="javascript-expressions-as-props">JavaScript Expressions as Props<a class="headerlink" href="#javascript-expressions-as-props" title="Permanent link">#</a></h4>
+<p>You can pass any JavaScript expression as a prop, by surrounding it with <code>{}</code>. For example, in this TSX:</p>
+<pre><code class="tsx">&lt;my-component foo={1 + 2 + 3 + 4} /&gt;
+</code></pre>
+
+<p>For 'my-component', the value of <em>props.foo</em> will be 10 because the expression 1 + 2 + 3 + 4 gets evaluated.</p>
+<p><code>if</code> statements and for loops are not expressions in JavaScript, so they can’t be used in TSX directly. Instead, you can put these in the surrounding code. For example:</p>
+<pre><code class="ts">function NumberDescriber(props) {
+  let description;
+  if (props.number % 2 == 0) {
+    description = &lt;strong&gt;even&lt;/strong&gt;;
+  } else {
+    description = &lt;i&gt;odd&lt;/i&gt;;
+  }
+  return (&lt;div&gt;{props.number} is an {description} number&lt;/div&gt;);
+}
+</code></pre>
+
+<p>You can learn more about conditional rendering and loops in the corresponding sections.</p>
+<h4 id="string-literals">String Literals<a class="headerlink" href="#string-literals" title="Permanent link">#</a></h4>
+<p>You can pass a string literal as a prop. These two JSX expressions are equivalent:</p>
+<pre><code class="tsx">&lt;my-component message=&quot;hello world&quot; /&gt;
+
+&lt;my-component message={'hello world'} /&gt;
+</code></pre>
+
+<p>When you pass a string literal, its value is HTML-unescaped. So these two JSX expressions are equivalent:</p>
+<pre><code class="tsx">&lt;my-component message=&quot;&amp;lt;3&quot; /&gt;
+
+&lt;my-component message={'&lt;3'} /&gt;
+</code></pre>
+
+<p>This behavior is usually not relevant. It’s only mentioned here for completeness.</p>
+<h4 id="props-default-to-true">Props Default to “True”<a class="headerlink" href="#props-default-to-true" title="Permanent link">#</a></h4>
+<p>If you pass no value for a prop, it defaults to true. These two JSX expressions are equivalent:</p>
+<pre><code class="tsx">&lt;my-textbox autocomplete /&gt;
+
+&lt;my-textbox autocomplete={true} /&gt;
+</code></pre>
+
+<p>In general, we don’t recommend not passing a value for a prop, because it can be confused with the ES6 object shorthand {foo} which is short for {foo: foo} rather than {foo: true}. This behavior is just there so that it matches the behavior of HTML.</p>
+<h4 id="spread-attributes">Spread Attributes<a class="headerlink" href="#spread-attributes" title="Permanent link">#</a></h4>
+<p>If you already have props as an object, and you want to pass it in JSX, you can use ... as a “spread” operator to pass the whole props object. These two components are equivalent:</p>
+<pre><code class="tsx">function App1() {
+  return &lt;app-greeting firstName=&quot;Ben&quot; lastName=&quot;Hector&quot; /&gt;;
+}
+
+function App2() {
+  const props = {firstName: 'Ben', lastName: 'Hector'};
+  return &lt;app-greeting {...props} /&gt;;
+}
+</code></pre>
+
+<p>You can also pick specific props that your component will consume while passing all other props using the spread operator.</p>
+<pre><code class="tsx">const Button = props =&gt; {
+  const { kind, ...other } = props;
+  const className = kind === &quot;primary&quot; ? &quot;PrimaryButton&quot; : &quot;SecondaryButton&quot;;
+  return &lt;button className={className} {...other} /&gt;;
+};
+
+const App = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;Button kind=&quot;primary&quot; onClick={() =&gt; console.log(&quot;clicked!&quot;)}&gt;
+        Hello World!
+      &lt;/Button&gt;
+    &lt;/div&gt;
+  );
+};
+</code></pre>
+
+<p>In the example above, the kind prop is safely consumed and is not passed on to the <code>&lt;button&gt;</code> element in the DOM. All other props are passed via the ...other object making this component really flexible. You can see that it passes an onClick and children props.</p>
+<p>Spread attributes can be useful but they also make it easy to pass unnecessary props to components that don’t care about them or to pass invalid HTML attributes to the DOM. We recommend using this syntax sparingly.</p>
+<h3 id="children-in-tsx">Children in TSX<a class="headerlink" href="#children-in-tsx" title="Permanent link">#</a></h3>
+<p>In JSX expressions that contain both an opening tag and a closing tag, the content between those tags is passed as a special prop: props.children. There are several different ways to pass children:</p>
+<h3 id="string-literals_1">String Literals<a class="headerlink" href="#string-literals_1" title="Permanent link">#</a></h3>
+<p>You can put a string between the opening and closing tags and props.children will just be that string. This is useful for many of the built-in HTML elements. For example:</p>
+<pre><code class="tsx">&lt;my-component&gt;Hello world!&lt;/MyComponent&gt;
+</code></pre>
+
+<p>This is valid JSX, and props.children in MyComponent will simply be the string "Hello world!". HTML is unescaped, so you can generally write JSX just like you would write HTML in this way:</p>
+<pre><code class="tsx">&lt;div&gt;This is valid HTML &amp;amp; JSX at the same time.&lt;/div&gt;
+</code></pre>
+
+<p>JSX removes whitespace at the beginning and ending of a line. It also removes blank lines. New lines adjacent to tags are removed; new lines that occur in the middle of string literals are condensed into a single space. So these all render to the same thing:</p>
+<pre><code class="tsx">&lt;div&gt;Hello World&lt;/div&gt;
+
+&lt;div&gt;
+  Hello World
+&lt;/div&gt;
+
+&lt;div&gt;
+  Hello
+  World
+&lt;/div&gt;
+
+&lt;div&gt;
+
+  Hello World
+&lt;/div&gt;
+</code></pre>
+
+<h3 id="jsx-children">JSX Children<a class="headerlink" href="#jsx-children" title="Permanent link">#</a></h3>
+<p>You can provide more JSX elements as the children. This is useful for displaying nested components:</p>
+<pre><code class="tsx">&lt;MyContainer&gt;
+  &lt;MyFirstComponent /&gt;
+  &lt;MySecondComponent /&gt;
+&lt;/MyContainer&gt;
+</code></pre>
+
+<p>You can mix together different types of children, so you can use string literals together with JSX children. This is another way in which JSX is like HTML, so that this is both valid JSX and valid HTML:</p>
+<pre><code class="tsx">&lt;div&gt;
+  Here is a list:
+  &lt;ul&gt;
+    &lt;li&gt;Item 1&lt;/li&gt;
+    &lt;li&gt;Item 2&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>A React component can also return an array of elements:</p>
+<pre><code class="tsx">render() {
+  // No need to wrap list items in an extra element!
+  return [
+    // Don't forget the keys :)
+    &lt;li key=&quot;A&quot;&gt;First item&lt;/li&gt;,
+    &lt;li key=&quot;B&quot;&gt;Second item&lt;/li&gt;,
+    &lt;li key=&quot;C&quot;&gt;Third item&lt;/li&gt;,
+  ];
+}
+</code></pre>
+
+<h4 id="javascript-expressions-as-children">JavaScript Expressions as Children<a class="headerlink" href="#javascript-expressions-as-children" title="Permanent link">#</a></h4>
+<p>You can pass any JavaScript expression as children, by enclosing it within {}. For example, these expressions are equivalent:</p>
+<pre><code class="tsx">&lt;my-component&gt;foo&lt;/MyComponent&gt;
+
+&lt;my-component&gt;{'foo'}&lt;/MyComponent&gt;
+</code></pre>
+
+<p>This is often useful for rendering a list of JSX expressions of arbitrary length. For example, this renders an HTML list:</p>
+<pre><code class="tsx">function Item(props) {
+  return &lt;li&gt;{props.message}&lt;/li&gt;;
+}
+
+function TodoList() {
+  const todos = ['finish doc', 'submit pr', 'nag dan to review'];
+  return (
+    &lt;ul&gt;
+      {todos.map((message) =&gt; &lt;Item key={message} message={message} /&gt;)}
+    &lt;/ul&gt;
+  );
+}
+</code></pre>
+
+<p>JavaScript expressions can be mixed with other types of children. This is often useful in lieu of string templates:</p>
+<pre><code class="tsx">function Hello(props) {
+  return &lt;div&gt;Hello {props.addressee}!&lt;/div&gt;;
+}
+</code></pre>
+
+<h4 id="functions-as-children">Functions as Children<a class="headerlink" href="#functions-as-children" title="Permanent link">#</a></h4>
+<p>Normally, JavaScript expressions inserted in JSX will evaluate to a string, a React element, or a list of those things. However, props.children works just like any other prop in that it can pass any sort of data, not just the sorts that React knows how to render. For example, if you have a custom component, you could have it take a callback as props.children:</p>
+<pre><code class="tsx">// Calls the children callback numTimes to produce a repeated component
+function Repeat(props) {
+  let items = [];
+  for (let i = 0; i &lt; props.numTimes; i++) {
+    items.push(props.children(i));
+  }
+  return &lt;div&gt;{items}&lt;/div&gt;;
+}
+
+function ListOfTenThings() {
+  return (
+    &lt;Repeat numTimes={10}&gt;
+      {(index) =&gt; &lt;div key={index}&gt;This is item {index} in the list&lt;/div&gt;}
+    &lt;/Repeat&gt;
+  );
+}
+</code></pre>
+
+<p>Children passed to a custom component can be anything, as long as that component transforms them into something React can understand before rendering. This usage is not common, but it works if you want to stretch what JSX is capable of.</p>
+<p>Booleans, Null, and Undefined Are Ignored
+false, null, undefined, and true are valid children. They simply don’t render. These JSX expressions will all render to the same thing:</p>
+<pre><code class="tsx">&lt;div /&gt;
+
+&lt;div&gt;&lt;/div&gt;
+
+&lt;div&gt;{false}&lt;/div&gt;
+
+&lt;div&gt;{null}&lt;/div&gt;
+
+&lt;div&gt;{undefined}&lt;/div&gt;
+
+&lt;div&gt;{true}&lt;/div&gt;
+</code></pre>
+
+<p>This can be useful to conditionally render React elements. This JSX renders the <Header /> component only if showHeader is true:</p>
+<pre><code class="tsx">&lt;div&gt;
+  {showHeader &amp;&amp; &lt;Header /&gt;}
+  &lt;Content /&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>One caveat is that some “falsy” values, such as the 0 number, are still rendered by React. For example, this code will not behave as you might expect because 0 will be printed when props.messages is an empty array:</p>
+<pre><code class="tsx">&lt;div&gt;
+  {props.messages.length &amp;&amp;
+    &lt;MessageList messages={props.messages} /&gt;
+  }
+&lt;/div&gt;
+</code></pre>
+
+<p>To fix this, make sure that the expression before &amp;&amp; is always boolean:</p>
+<pre><code class="tsx">&lt;div&gt;
+  {props.messages.length &gt; 0 &amp;&amp;
+    &lt;MessageList messages={props.messages} /&gt;
+  }
+&lt;/div&gt;
+</code></pre>
+
+<p>Conversely, if you want a value like false, true, null, or undefined to appear in the output, you have to convert it to a string first:</p>
+<pre><code class="tsx">&lt;div&gt;
+  My JavaScript variable is {String(myVariable)}.
+&lt;/div&gt;
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../smart/" class="btn btn-neutral float-right" title="Smart Components">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../template/" class="btn btn-neutral" title="Template Language"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../template/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../smart/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+
+</body>
+</html>

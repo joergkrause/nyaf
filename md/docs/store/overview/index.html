@@ -25,7 +25,31 @@
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
   
 </head>
 
@@ -60,6 +84,11 @@
           
             <li class="toctree-l1">
 		
+    <a class="" href="../../../learn/">Learn</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
     <a class="" href="../../../setup/">Setup</a>
 	    </li>
           
@@ -78,6 +107,10 @@
                 <li class="">
                     
     <a class="" href="../../lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/jsx/">JSX / TSX</a>
                 </li>
                 <li class="">
                     
@@ -293,13 +326,17 @@ export const DEC = 'DEC';
 export const SET = 'SET';
 
 export default {
-  [INC]: () =&gt; 1, // initial value of payload, this can be omitted if you doesn't care
+  [INC]: () =&gt; 1, // initial value of payload, this can be omitted if you don't care
   [DEC]: () =&gt; -1,
   SET
 };
 </code></pre>
 
-<p><img alt="" src="/assets/actions.png" /></p>
+<p>The following figure shows the relevant parts of the action definition:</p>
+<p><img alt="Figure: The main parts store: the action setup" src="/assets/actions.png" /></p>
+<blockquote>
+<p><strong>Why using actions?</strong> It's convenient to have typed constants in the editor and use easy to remember names without the chance to create mistakenly typos.</p>
+</blockquote>
 <h3 id="reducer">Reducer<a class="headerlink" href="#reducer" title="Permanent link">#</a></h3>
 <p>Define, what happens if an action is being dispatched:</p>
 <pre><code class="ts">import { INC, DEC } from '../actions/counter.action';
@@ -317,8 +354,15 @@ export default {
 };
 </code></pre>
 
+<p>The following figure shows the relevant parts of the reducer definition:</p>
 <p><img alt="" src="/assets/reducer.png" /></p>
 <p>The returned payload is the whole store object by reference. The type for the store is optional and helps elevating the power of TypeScript and getting a type safe store.</p>
+<blockquote>
+<p><strong>Why using reducers?</strong> Pure function calls are the foundation of a side effect free business layer. You have exactly one location where the logic goes -  the reducer. That's said, from now omn you will know where to have logic, where to have UI, and where to store everything.</p>
+</blockquote>
+<p>Reducers can be sync or async, every function can be made as you like.</p>
+<h4 id="return-value-considerations">Return Value Considerations<a class="headerlink" href="#return-value-considerations" title="Permanent link">#</a></h4>
+<p>The return value is an object that contains the fragments of the store that need to be changed. Through subscriptions this is the way to inform other instances that something happened. But be careful with setting multiple values in one single step. The store logic will execute property by property and immediately publish the change event. A subscriber will receive the changes in the exact order of the properties in the reducers returns value. If the subscriber receives the first property's change event, the ne value is provided. However, the remaining values are not yet set, and hence the store is in an intermediate state. You must wait for all subscribers to get their final values. the best way to avoid hassle here is to avoid returning multiple values from single reducer function.</p>
 <h3 id="store-and-dispatcher">Store and Dispatcher<a class="headerlink" href="#store-and-dispatcher" title="Permanent link">#</a></h3>
 <p>The store holds the state, provides a dispatch function and fires events in case a store value changes. First, the store can by defined by types, but this is an option and you may decide to go with a simple object just for the sake of simplicity.</p>
 <p><img alt="" src="/assets/store.png" /></p>
@@ -361,7 +405,8 @@ export class StoreCounterComponent extends BaseComponent&lt;{ cnt: number }&gt; 
     this.setData('cnt', 0);
     // fire if a value changes in the store, takes name of the store value
     this.store.subscribe('counter', str =&gt; {
-      this.setData('cnt', str.counter);
+      // write to a observed property to force re-render
+      this.data.cnt = str.counter;
     });
   }
 
@@ -384,22 +429,26 @@ export class StoreCounterComponent extends BaseComponent&lt;{ cnt: number }&gt; 
     return (
       &lt;&gt;
         &lt;div&gt;
-          &lt;button type='button' n-on-Click={e =&gt; this.clickMeAdd(e)}&gt;
+          &lt;button type='button' n-on-click={this.clickMeAdd}&gt;
             Add 1
           &lt;/button&gt;
-          &lt;button type='button' n-on-Click={e =&gt; this.clickMeSub(e)} n-async&gt;
+          &lt;button type='button' n-on-click={this.clickMeSub}&gt;
             Sub 1
           &lt;/button&gt;
-          &lt;button type='button' n-on-Click={e =&gt; this.clickMeSet(e)} n-async&gt;
+          &lt;button type='button' n-on-click={this.clickMeSet}&gt;
             Set 100
           &lt;/button&gt;
         &lt;/div&gt;
-        &lt;pre style='border: 1px solid gray;'&gt;{super.data.cnt}&lt;/pre&gt;
+        &lt;pre style='border: 1px solid gray;'&gt;{this.data.cnt}&lt;/pre&gt;
       &lt;/&gt;
     );
   }
 }
 </code></pre>
+
+<blockquote>
+<p><strong>Tip!</strong> Combine this example with the forms module (<em>@nyaf/forms</em>) and get binding on element level using the <code>n-bind</code> template feature.</p>
+</blockquote>
               
             </div>
           </div>

@@ -25,7 +25,31 @@
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
   
 </head>
 
@@ -60,6 +84,11 @@
           
             <li class="toctree-l1">
 		
+    <a class="" href="../../../learn/">Learn</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
     <a class="" href="../../../setup/">Setup</a>
 	    </li>
           
@@ -78,6 +107,10 @@
                 <li class="">
                     
     <a class="" href="../template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../jsx/">JSX / TSX</a>
                 </li>
                 <li class="">
                     
@@ -105,6 +138,19 @@
     <ul class="subnav">
             
     <li class="toctree-l3"><a href="#shadow-dom">Shadow DOM</a></li>
+    
+
+    <li class="toctree-l3"><a href="#example-with-shadow-dom">Example with Shadow DOM</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#tab">Tab</a></li>
+        
+            <li><a class="toctree-l4" href="#tabs">Tabs</a></li>
+        
+            <li><a class="toctree-l4" href="#usage">Usage</a></li>
+        
+        </ul>
     
 
     </ul>
@@ -291,6 +337,184 @@
 export class ContactComponent extends BaseComponent {
   // omitted for brevity
 }
+</code></pre>
+
+<p>Shadow DOM goes well along with the usage of slots. A typical example is a Tabs Component, that could look like this:</p>
+<h2 id="example-with-shadow-dom">Example with Shadow DOM<a class="headerlink" href="#example-with-shadow-dom" title="Permanent link">#</a></h2>
+<p>First, the definition of a single tab.</p>
+<h3 id="tab">Tab<a class="headerlink" href="#tab" title="Permanent link">#</a></h3>
+<pre><code class="tsx">import JSX, { BaseComponent, CustomElement, ShadowDOM, UseParentStyles, LifeCycle } from '@nyaf/lib';
+
+@CustomElement('app-slot-tab')
+@ShadowDOM(true)
+export class SlotTabComponent extends BaseComponent&lt;{}&gt; {
+
+  private _title: string;
+
+  constructor() {
+    super();
+    this.classList.add('hide');
+  }
+
+  async render() {
+    return await (
+      &lt;div id={this.getAttribute('data-id')}&gt;
+        &lt;slot&gt;&lt;/slot&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  public get title() {
+    return this._title;
+  }
+
+  public set title(value) {
+    this._title = value;
+  }
+
+}
+</code></pre>
+
+<p>The <code>&lt;slot&gt;</code> element is the content target. The id is used to address the tab (to open it, actually).</p>
+<h3 id="tabs">Tabs<a class="headerlink" href="#tabs" title="Permanent link">#</a></h3>
+<p>Now the container that handles multiple tabs.</p>
+<pre><code>import JSX, { BaseComponent, CustomElement, LifeCycle, Events, ShadowDOM, UseParentStyles, uuidv4 } from '@nyaf/lib';
+
+interface TabStore {
+  node: Node;
+  targetId: string;
+  id: string;
+}
+
+interface IMaterialTabsDefaultConfig {
+  materialtabsDeferred?: number;
+  deep?: boolean;
+  fixedTabs?: boolean;
+
+  clsComponent?: string;
+  clsTab?: string;
+  clsTabActive?: string;
+  clsMarker?: string;
+
+  onBeforeTabOpen?();
+  onTabOpen?();
+  onTabsScroll?();
+  onTabsCreate?();
+};
+
+// tslint:disable-next-line:max-classes-per-file
+@CustomElement('app-slot-tabs')
+@Events(['all'])
+@ShadowDOM(true)
+@UseParentStyles(true)
+export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
+
+  private tabChildren: TabStore[] = [];
+
+  constructor() {
+    super();
+  }
+
+  async render() {
+    let first = 0;
+    const tabHeaders = Array.prototype.slice.call(this.children).map((child: Element) =&gt; {
+      const targetId: string = child.id ?? '_' + uuidv4();
+      child.setAttribute('id', targetId);
+      this.tabChildren.push({
+        node: child,
+        targetId,
+        id: child.id
+      });
+      return (
+        &lt;li class='nav-item'&gt;
+          &lt;a class={'nav-link ' + (0 === first++ ? 'active' : '')} href={`#${targetId}`} &gt;{child.getAttribute('title')}&lt;/a&gt;
+        &lt;/li&gt;
+      );
+    });
+    return await (
+      &lt;&gt;
+        &lt;ul role=&quot;nav&quot; class=&quot;nav nav-tabs&quot;&gt;
+          {tabHeaders}
+        &lt;/ul&gt;
+        &lt;div class='row'&gt;
+          &lt;div class='col'&gt;
+            &lt;slot&gt;&lt;/slot&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/&gt;
+    )
+  }
+
+  lifeCycle(lc: LifeCycle) {
+    if (lc === LifeCycle.Load) {
+      let first = 0;
+      this.shadowRoot.querySelectorAll('li')
+        .forEach(li =&gt; {
+          li.addEventListener('click', (e: Event) =&gt; this.selectTab(e));
+          if (first === 0) {
+            this.openTab(li.querySelector('a').getAttribute('href'));
+          }
+          first++;
+        });
+    }
+  }
+
+  private selectTab(e: Event) {
+    let targetId = (e.target as HTMLElement).getAttribute('href');
+    if (!targetId) {
+      const innerA = (e.target as HTMLElement).querySelector('a');
+      if (innerA) {
+        targetId = innerA.getAttribute('href');
+      }
+    }
+    this.openTab(targetId);
+    e.preventDefault();
+    e.cancelBubble = true;
+    return false;
+  }
+
+  async setTab(id: string): Promise&lt;void&gt; {
+    const targetId = this.tabChildren.filter((child) =&gt; child.id === id).shift().targetId;
+    // use shadowRoot because it is shadowed
+    this.openTab(`#${targetId}`);
+    return Promise.resolve();
+  }
+
+  // the visible tabs are in the shadow-root, the content is outside in the document
+  private openTab(targetId: string) {
+    const tabs = this.shadowRoot.querySelectorAll('li &gt; a');
+    // const tab = this.querySelector&lt;HTMLElement&gt;(targetId);
+    const a = this.shadowRoot.querySelector(`[href=&quot;${targetId}&quot;]`);
+    // hide all
+    const tabContent = this.querySelectorAll('app-slot-tab');
+    tabContent.forEach((t: HTMLElement) =&gt; {
+      t.classList.add('d-none');
+    });
+    // deactivate all
+    tabs.forEach(t =&gt; {
+      t.classList.remove('active');
+    });
+    // activate
+    a.classList.add('active');
+    // move the marker
+    // make tabContent visible
+    const currentTab = this.querySelector('app-slot-tab' + targetId);
+    currentTab.classList.remove('d-none');
+  }
+
+}
+</code></pre>
+
+<h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h3>
+<p>The usage is quite simple. Just add as many tabs as required:</p>
+<pre><code class="tsx">&lt;app-slot-tabs id='demoTabs'&gt;
+  &lt;app-slot-tab title='Store Counter' id='d1'&gt;
+    &lt;app-store-counter id='s1' cnt={42}&gt;&lt;/app-store-counter&gt;
+  &lt;/app-slot-tab&gt;
+  &lt;app-slot-tab title='Store Data' id='d2'&gt;
+    &lt;app-store-data id='s2'&gt;&lt;/app-store-data&gt;
+  &lt;/app-slot-tab&gt;
+&lt;/app-slot-tabs&gt;
 </code></pre>
               
             </div>

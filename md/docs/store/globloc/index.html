@@ -25,7 +25,31 @@
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
   
 </head>
 
@@ -60,6 +84,11 @@
           
             <li class="toctree-l1">
 		
+    <a class="" href="../../../learn/">Learn</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
     <a class="" href="../../../setup/">Setup</a>
 	    </li>
           
@@ -78,6 +107,10 @@
                 <li class="">
                     
     <a class="" href="../../lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/jsx/">JSX / TSX</a>
                 </li>
                 <li class="">
                     
@@ -271,7 +304,7 @@
               
                 <h2 id="global-and-local-store">Global and Local Store<a class="headerlink" href="#global-and-local-store" title="Permanent link">#</a></h2>
 <p>Technically there is just one store. But logically you will usually split the access into a global store (per app or module) and a local one - per component.</p>
-<p>![(assets/globloc.png)]</p>
+<p><img alt="" src="assets/globloc.png" /></p>
 <h3 id="merge-strategy">Merge Strategy<a class="headerlink" href="#merge-strategy" title="Permanent link">#</a></h3>
 <p>Within a component the stores are being merged and appears as one unit afterwards.</p>
               

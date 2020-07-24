@@ -25,7 +25,31 @@
   <script src="../../../../js/jquery-2.1.1.min.js" defer></script>
   <script src="../../../../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script> 
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
   
 </head>
 
@@ -60,6 +84,11 @@
           
             <li class="toctree-l1">
 		
+    <a class="" href="../../../learn/">Learn</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
     <a class="" href="../../../setup/">Setup</a>
 	    </li>
           
@@ -78,6 +107,10 @@
                 <li class="">
                     
     <a class="" href="../template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../jsx/">JSX / TSX</a>
                 </li>
                 <li class="">
                     
@@ -110,7 +143,7 @@
         
             <li><a class="toctree-l4" href="#named-routes">Named Routes</a></li>
         
-            <li><a class="toctree-l4" href="#addition-data">Addition Data</a></li>
+            <li><a class="toctree-l4" href="#additional-data">Additional Data</a></li>
         
             <li><a class="toctree-l4" href="#navigate-to-route">Navigate to Route</a></li>
         
@@ -308,6 +341,15 @@ GlobalProvider.bootstrap({
 
 <p>The first entry <code>'/': { component: DemoComponent },</code> shall always exist, it's the default route loaded on start. It's being recognized by the <code>'/'</code> key (the position in the array doesn't matter).
 The entry <code>'**': { component: DemoComponent }</code> is optional and defines a fallback in case an invalid path is being used.</p>
+<p>You can shorten the property here, too:</p>
+<pre><code class="ts">const components = [DemoComponent, AboutComponent, ContactComponent, MainComponent];
+
+GlobalProvider.bootstrap({
+  components,
+  routes
+});
+</code></pre>
+
 <h3 id="use-routes">Use Routes<a class="headerlink" href="#use-routes" title="Permanent link">#</a></h3>
 <p>To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:</p>
 <pre><code class="html">&lt;a href=&quot;#/&quot; n-link&gt;Home&lt;/a&gt;
@@ -359,7 +401,7 @@ The entry <code>'**': { component: DemoComponent }</code> is optional and define
 <blockquote>
 <p>In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet.</p>
 </blockquote>
-<h3 id="addition-data">Addition Data<a class="headerlink" href="#addition-data" title="Permanent link">#</a></h3>
+<h3 id="additional-data">Additional Data<a class="headerlink" href="#additional-data" title="Permanent link">#</a></h3>
 <p>The last example showed another field <code>data</code>. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.</p>
 <p>If you use <code>data: { title: 'Some Title' }</code> the value in the field <em>title</em> is being copied to the websites <code>title</code> field. That way it appears on the tab (or header bar in Electron). If it's omitted, it's not being set at all.</p>
 <h3 id="navigate-to-route">Navigate to Route<a class="headerlink" href="#navigate-to-route" title="Permanent link">#</a></h3>
@@ -373,17 +415,19 @@ The entry <code>'**': { component: DemoComponent }</code> is optional and define
 </blockquote>
 <h3 id="route-events">Route Events<a class="headerlink" href="#route-events" title="Permanent link">#</a></h3>
 <p>The router fires two events, available through the static <code>GlobalProvider</code> class like this:</p>
-<pre><code class="ts">GlobalProvider.routerAction.addEventListener('navigate', (evt) =&gt; {
+<pre><code class="js">GlobalProvider.routerAction.addEventListener('navigate', (evt) =&gt; {
   const route = evt.detail;
-/*!*/  evt.cancel = true;   // optionally cancel before execution
+  evt.cancel = true;   // optionally cancel before execution
 }
 </code></pre>
 
-<pre><code class="ts">GlobalProvider.routerAction.addEventListener('navigated', (evt) =&gt; {
+<pre><code class="js">GlobalProvider.routerAction.addEventListener('navigated', (evt) =&gt; {
   const route = evt.detail;
   // this event can't be cancelled
 }
 </code></pre>
+
+<p>If you have a dynamic component and you set the event handler, don't forget to remove the event handler in the dispose callback.</p>
               
             </div>
           </div>
