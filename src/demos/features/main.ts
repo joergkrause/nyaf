@@ -35,10 +35,14 @@ import { Page3Component } from './components/router/page3.component';
 import { ButtonExpander } from './expander/button.expander';
 
 import './main.scss';
+import './assets/css/styles.css';
+import 'jquery';
 import 'bootstrap';
+import 'jquery-easing';
 
 const routes: Routes = {
   '/': { component: HomeComponent },
+  '/home': { component: HomeComponent },
   '/docu': { component: DocuComponent, data: { notlocal: true } },
   '/about': { component: AboutComponent },
   '/libdemo': { component: LibDemoComponent },

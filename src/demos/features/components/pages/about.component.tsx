@@ -10,7 +10,18 @@ export class AboutComponent extends BaseComponent {
 
   render() {
     return (
-      <>
+      <div style='position: relative; top: 150px;' class='container'>
+        <style>
+          {`nav {
+              background-color: black !important;
+            }
+            footer {
+              position: fixed;
+              width: 100%;
+              bottom: 0;
+            }
+            `}
+        </style>
         <h2>About</h2>
         <p>
           This project was started in 2019 by Joerg &lt;IsAGeek&gt; Krause as a side project for an electron app. There was no need for a full blown
@@ -25,7 +36,7 @@ export class AboutComponent extends BaseComponent {
           <addr>Germany</addr>
           <addr>T 0172/3243189</addr>
         </p>
-      </>
+      </div>
     );
   }
 }

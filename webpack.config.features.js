@@ -90,9 +90,9 @@ const webpackConfig = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: './src/demos/features/link.css',
+          from: './src/demos/features/assets/img',
           flatten: true,
-          to: './assets/css/'
+          to: './assets/img'
         }
       ]
     })
