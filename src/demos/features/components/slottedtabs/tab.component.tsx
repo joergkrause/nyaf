@@ -1,9 +1,10 @@
 
-import JSX, { BaseComponent, CustomElement, ShadowDOM, UseParentStyles, LifeCycle } from '@nyaf/lib';
+import JSX, { BaseComponent, CustomElement, ShadowDOM, Properties } from '@nyaf/lib';
 
 @CustomElement('app-slot-tab')
 @ShadowDOM(true)
-export class SlotTabComponent extends BaseComponent<{}> {
+@Properties<{ active: boolean }>({ active: false })
+export class SlotTabComponent extends BaseComponent<{ active: boolean }> {
 
   private _title: string;
 
@@ -26,6 +27,14 @@ export class SlotTabComponent extends BaseComponent<{}> {
 
   public set title(value) {
     this._title = value;
+  }
+
+  public get active() {
+    return this.data.active;
+  }
+
+  public set active(value) {
+    this.data.active = value;
   }
 
 }

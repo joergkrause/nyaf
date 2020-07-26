@@ -18,8 +18,8 @@ export class ComplexComponent extends BaseComponent<{ demo: any }> {
         <div>
           A complex value (object) will be send as attribute and rendered properly.
         </div>
-        <pre style='border: 1px solid gray;'>{this.data.demo.length}</pre>
-        <pre style='border: 1px solid gray;'>{JSON.stringify(this.data.demo)}</pre>
+        <div class='badge badge-info'>{this.data.demo.length}</div>
+        <div class='badge badge-primary'>{JSON.stringify(this.data.demo)}</div>
       </>
     );
   }

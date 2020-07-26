@@ -12,13 +12,13 @@ export class DocuComponent extends BaseComponent<{ content: string }> {
   loadDocu(): void {
     // copied into dist folder by deploy script
     fetch('demo/features/readme.html')
-    .then(data => data.text())
-    .then(data => this.data.content = data);
+      .then(data => data.text())
+      .then(data => this.data.content = data);
   }
 
   render() {
     return (
-      <div style='position: relative; top: 150px;' class='container'>
+      <div style='position: relative; top: 150px; margin-bottom: 150px;' class='container'>
         <style>
           {`nav {
               background-color: black !important;
@@ -31,6 +31,7 @@ export class DocuComponent extends BaseComponent<{ content: string }> {
             `}
         </style>
         {this.data.content}
+        <div style='height:150px'></div>
       </div>
     );
   }

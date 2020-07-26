@@ -123,7 +123,7 @@ export class Router {
             this.setRouterOutlet(activatedComponent, requestedRoute, outlet, forced);
           } else {
             console.warn(
-              '[NYAF] A router link call has been executed,' +
+              '[@nyaf] A router link call has been executed,' +
               'but requested link is not properly configured: ' +
               (<HTMLAnchorElement>e.target).href
             );

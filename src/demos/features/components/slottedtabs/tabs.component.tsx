@@ -38,7 +38,7 @@ export class SlotTabsComponent extends BaseComponent<{}> {
   async render() {
     let first = 0;
     const tabHeaders = Array.prototype.slice.call(this.children).map((child: Element) => {
-      const targetId: string = child.id ?? '_' + uuidv4();
+      const targetId: string = child.id ? child.id : '_' + uuidv4();
       child.setAttribute('id', targetId);
       this.tabChildren.push({
         node: child,

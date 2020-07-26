@@ -28,7 +28,7 @@ export class ButtonComponent extends BaseComponent<ButtonPropType> {
 
   async render() {
     return await (
-      <button type='button' n-on-click={e => this.clickMe(e)}>
+      <button type='button' class='btn btn-outline-success' n-on-click={e => this.clickMe(e)}>
         {this.data.text}
       </button>
     );

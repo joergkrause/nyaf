@@ -22,17 +22,17 @@ export class ButtonsComponent extends BaseComponent<{}> {
     return await (
       <>
         <div>
-          <button type='button' n-on-Click={e => this.clickMe(e)}>
+          <button type='button' class='btn btn-primary' n-on-Click={e => this.clickMe(e)}>
             Full expression
           </button>
-          <button type='button' n-on-Click={e => this.clickMe(e)} n-async>
+          <button type='button' class='btn btn-secondary' n-on-Click={e => this.clickMe(e)} n-async>
             Full expression
           </button>
-          <button type='button' n-on-Click='clickMe'>
+          <button type='button' class='btn btn-info' n-on-Click='clickMe'>
             No expression (Function Name)
           </button>
         </div>
-        <pre style='border: 1px solid gray;'>{JSON.stringify(this.eventData)}</pre>
+        <div class='badge badge-warning'>{JSON.stringify(this.eventData)}</div>
       </>
     );
   }

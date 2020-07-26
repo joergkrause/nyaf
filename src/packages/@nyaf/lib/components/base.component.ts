@@ -149,12 +149,16 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     if (this.constructor['useParentStyles'] && this.constructor['withShadow'] && !this.constructor['globalStyle']) {
       for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
         const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
-        if (!css.rules || css.rules.length === 0 || css.rules[0].cssText.startsWith(':ignore')) {
-          continue;
+        try {
+          if (!css.rules || css.rules.length === 0 || css.rules[0].cssText.startsWith(':ignore')) {
+            continue;
+          }
+          this.constructor['globalStyle'] += Object.keys(css.cssRules)
+            .map(k => css.cssRules[k].cssText ?? ' ')
+            .join(' ');
+        } catch {
+           console.warn('CORS violation while loading external style sheet. Adapt CORS or load from own server.')
         }
-        this.constructor['globalStyle'] += Object.keys(css.cssRules)
-          .map(k => css.cssRules[k].cssText ?? ' ')
-          .join(' ');
       }
     }
     // look for plugins that require ctor initialization, __ctor__ pattern
@@ -387,6 +391,19 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
 
   private disconnectedCallback() {
     this.lifeCycleState = LifeCycle.Disconnect;
+    // run internal disposings
+    Object.keys(this).forEach(k => {
+      if (k.startsWith('__dispose__')) {
+        try {
+          if (this[k]) {
+            this[k]();
+          }
+        } catch (err) {
+          // dispose function error
+
+        }
+      }
+    });
     this.dispose();
     this.lifeCycleState = LifeCycle.Disposed;
   }

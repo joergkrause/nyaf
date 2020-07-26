@@ -18,7 +18,7 @@ export class ComplexBoolComponent extends BaseComponent<{ demo: boolean }> {
         <div>
           A boolean value will be send as attribute and rendered properly.
         </div>
-        <pre style='border: 1px solid gray;'>{super.data.demo ? 'YES' : 'NO'}</pre>
+        <div class='badge badge-info'>{super.data.demo ? 'YES' : 'NO'}</div>
       </>
     );
   }

@@ -29,18 +29,18 @@ export class CounterComponent extends BaseComponent<CounterProps> {
     return await (
       <>
         <div>
-          <button type='button' n-on-click={e => this.clickMeAdd(e)}>
+          <button type='button' class='btn btn-success' n-on-click={e => this.clickMeAdd(e)}>
             Add 1
           </button>
-          <button type='button' n-on-click={e => this.clickMeSub(e)}>
+          <button type='button' class='btn btn-warning' n-on-click={e => this.clickMeSub(e)}>
             Sub 1
           </button>
         </div>
         <div>
-          <button type='button' n-on-click={e => this.clickMeAdd(e, 5)}>
+          <button type='button' class='btn btn-outline-success' n-on-click={e => this.clickMeAdd(e, 5)}>
             Add 5
           </button>
-          <button type='button' n-on-click={e => this.clickMeSub(e, 5)}>
+          <button type='button' class='btn btn-outline-warning'n-on-click={e => this.clickMeSub(e, 5)}>
             Sub 5
           </button>
         </div>

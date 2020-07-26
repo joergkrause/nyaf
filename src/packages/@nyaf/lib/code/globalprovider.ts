@@ -208,7 +208,7 @@ export class GlobalProvider {
             parent[evt].call(parent, ee, ...params);
           }
         } else {
-          throw new Error(`[NYAF] There is an event handler '${evt}' attached
+          throw new Error(`[@nyaf] There is an event handler '${evt}' attached
           that could not be found in the component <${target.tagName}>.`);
         }
       }
