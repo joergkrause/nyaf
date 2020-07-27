@@ -13,11 +13,17 @@
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "removeComments": false,
+    "esModuleInterop": true,
     "outDir": "out-tsc",
-    "baseUrl": "./src",
+    "baseUrl": "src",
     "typeRoots": ["node_modules/@types", "src/types"],
     "paths": {
-      "@nyaf/*": ["packages/@nyaf/*", "src/packages/@nyaf/*"]
+      "@nyaf/*": [
+        "src/packages/@nyaf/lib",
+        "src/packages/@nyaf/forms",
+        "src/packages/@nyaf/store",
+        "src/packages/@nyaf/*"
+      ]
     },
     "skipLibCheck": true
   },

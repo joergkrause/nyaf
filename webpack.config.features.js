@@ -93,6 +93,11 @@ const webpackConfig = {
           from: './src/demos/features/assets/img',
           flatten: true,
           to: './assets/img'
+        },
+        {
+          from: './node_modules/highlight.js/styles/default.css',
+          flatten: true,
+          to: './assets/css/hs.css'
         }
       ]
     })

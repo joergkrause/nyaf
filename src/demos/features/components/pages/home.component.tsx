@@ -92,10 +92,9 @@ export class HomeComponent extends BaseComponent {
                         Templates are written in JSX, and this part looks much like React. However, state and attribute management is put together and hence much
                         easier to handle than in React.
         </p>
-                      <p>
+                      <p class='text-white-50 mb-0'>
                         Components <i>can</i> use a shadow DOM. This is an option, not enforced. It's just a decorator and it's a "per component" decision.
         </p>
-                      <p class='text-white-50 mb-0'>Decorators handle all definitions, and this is looking a lot like Angular.</p>
                       <hr class='d-none d-lg-block mb-0 ml-0' />
                     </div>
                   </div>

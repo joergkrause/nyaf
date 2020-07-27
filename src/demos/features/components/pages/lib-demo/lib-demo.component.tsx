@@ -2,6 +2,7 @@ import JSX, { BaseComponent, CustomElement, LifeCycle, Select } from '@nyaf/lib'
 import { ComplexComponent } from './components/complex.component';
 import { ComplexBoolComponent } from './components/complexbool.component';
 import { ButtonComponent } from './components/button.component';
+import hljs from 'highlight.js';
 
 @CustomElement('app-lib-demo')
 export class LibDemoComponent extends BaseComponent {
@@ -13,6 +14,13 @@ export class LibDemoComponent extends BaseComponent {
     alert('Button clicked ' + e.detail.customData);
   }
 
+  escape(code: string) {
+    const htmlEncode = (c) => c.replace(/[\u00A0-\u9999<>\&]/gim, (i) => {
+      return '&#' + i.charCodeAt(0) + ';';
+    });
+    return htmlEncode(code);
+  }
+
   render() {
     const tabs = [];
     tabs.push({ content: 'test one', title: 't1' });
@@ -21,6 +29,7 @@ export class LibDemoComponent extends BaseComponent {
     tabs.push({ content: 'test four', title: 't4' });
     tabs.push({ content: 'test five', title: 't5' });
     const btnText = 'Static Button Text';
+    const simpleText = 'Provided by Code';
     return (
       <div style='position: relative; top: 30px;' class='container'>
         <style>
@@ -32,6 +41,12 @@ export class LibDemoComponent extends BaseComponent {
             width: 100%;
             bottom: 0;
           }
+          span.hljs-tag {
+            display: block;
+          }
+          td.hljs-ln-code {
+            white-space: pre-wrap;
+          }
           `}
         </style>
         <div class='row' style='position: fixed; margin-top:8px; background-color: white; z-index: 1000; width: 100%;'>
@@ -42,6 +57,31 @@ export class LibDemoComponent extends BaseComponent {
         </div>
         <div class='row' style='position: relative; margin-top: 50px; top:125px'>
           <div class='col-10' data-spy='scroll' data-target='#demonav' data-offset='100'>
+            <h3 class='display-4' id='simple'>Simple Component</h3>
+            <app-slot-tabs>
+              <app-slot-tab title='Explanation' >
+                <div class='alert alert-info m-2 m-2'>Sort of simple component with little more than 'Hello World'.</div>
+              </app-slot-tab>
+              <app-slot-tab title='Playground'>
+                <p>
+                  This has static text in the attribute:
+                </p>
+                <app-simple text='Text set from attribute'></app-simple>
+                <p>
+                  This just keeps the default:
+                </p>
+                <app-simple></app-simple>
+                <p>
+                  This has text provided by code:
+                </p>
+                <app-simple text={simpleText}></app-simple>
+              </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+            </app-slot-tabs>
+            <hr />
             <h3 class='display-4' id='tabs'>Tabs</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
@@ -54,23 +94,9 @@ export class LibDemoComponent extends BaseComponent {
               <app-slot-tab title='Playground'>
                 <app-tabs class='col-6' title='Tabs Demo Title' tabs={tabs} />
               </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
               <app-slot-tab title='Source Code'>
-                Data prepared in the component:
-            <pre>
-                  {`const tabs = [];
-tabs.push({ content: 'test one', title: 'Title 1' });
-tabs.push({ content: 'test two', title: 'Title 2' });
-tabs.push({ content: 'test three', title: 'Title 3' });
-tabs.push({ content: 'test four', title: 'Title 4' });
-tabs.push({ content: 'test five', title: 'Title 5' });
-`}
-                </pre>
-            Markup in component:
-            <pre>
-                  {`&lt;app-tabs class='col-6'
-           title='Tabs Demo Title'
-           tabs={tabs} /&gt; n-on-click={{ e => this.select(e) }} `}
-                </pre>
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
@@ -91,58 +117,9 @@ tabs.push({ content: 'test five', title: 'Title 5' });
               <app-slot-tab title='Playground'>
                 <app-counter class='col-6' />
               </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
               <app-slot-tab title='Source Code'>
-                <pre>
-                  {`import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
-
-interface CounterProps { cnt: number; }
-
-@CustomElement('app-counter')
-@Properties<CounterProps>({ cnt: 0})
-export class CounterComponent extends BaseComponent<CounterProps> {
-  eventData: any;
-
-  constructor() {
-    super();
-    super.setData('cnt',  10);
-  }
-
-  clickMeAdd(v: number, param: number = 1) {
-    console.log('Counter Element Click');
-    super.data.cnt += param;
-  }
-
-  clickMeSub(v: number, param: number = 1) {
-    console.log('Counter Element Click');
-    super.data.cnt -= param;
-  }
-
-  render() {
-    return (
-      <>
-        &lt;div>
-        &lt;button type='button' n-on-click={e => this.clickMeAdd(e)}>
-            Add 1
-        &lt;/button>
-        &lt;button type='button' n-on-click={e => this.clickMeSub(e)}>
-            Sub 1
-        &lt;/button>
-        &lt;/div>
-        &lt;div>
-        &lt;button type='button' n-on-click={e => this.clickMeAdd(e, 5)}>
-            Add 5
-        &lt;/button>
-        &lt;button type='button' n-on-click={e => this.clickMeSub(e, 5)}>
-            Sub 5
-        &lt;/button>
-        &lt;/div>
-        &lt;pre style='border: 1px solid gray;'>{ super.data.cnt }&lt;/pre>
-      </>
-    );
-  }
-}
-`}
-                </pre>
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
@@ -154,10 +131,11 @@ export class CounterComponent extends BaseComponent<CounterProps> {
               <app-slot-tab title='Playground'>
                 <app-service-counter class='col-6' />
               </app-slot-tab>
-              <app-slot-tab title='Source Code'>
-                A counter using a service class being injected as singleton. Use this to define:<br></br>
-                <pre>{'@InjectService(CounterService)'}</pre>
+              <app-slot-tab title='Demo Markup'>
               </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+
             </app-slot-tabs>
             <hr />
             <h3 class='display-4' id='button'>Button</h3>
@@ -168,9 +146,11 @@ export class CounterComponent extends BaseComponent<CounterProps> {
               <app-slot-tab title='Playground'>
                 <app-button class='col-6' text={btnText} n-on-showAlert={e => this.clickBtn(e)} />
               </app-slot-tab>
-              <app-slot-tab title='Source Code'>
-
+              <app-slot-tab title='Demo Markup'>
               </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+
             </app-slot-tabs>
             <hr />
             <h3 class='display-4' id='render'>Smart Render</h3>
@@ -183,20 +163,9 @@ export class CounterComponent extends BaseComponent<CounterProps> {
               <app-slot-tab title='Playground'>
 
               </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
               <app-slot-tab title='Source Code'>
-                <pre>
-                  &amp;lt;app-button class='col-6'
-                  text='Click to change text of next button'
-            n-on-showAlert={`e => this.changeOtherButton(e)`} /&amp;gt;
-            </pre>
-            The handler sets the attibute of another component. Use the <code>data</code> field and the attributes name:
-            <pre>
-                  {`
-changeOtherButton(e: CustomEvent) {
-  (this.querySelector('[data-demo-button]') as any).data.text = Math.round(Math.random() * 100);
-}`}
-                </pre>
-            There is no other action required, the component-renders immediately.
               </app-slot-tab>
             </app-slot-tabs>
             <div class='row'>
@@ -246,6 +215,8 @@ changeOtherButton(e: CustomEvent) {
                   </app-slot-tab>
                 </app-slot-tabs>
               </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
               <app-slot-tab title='Source Code'>
               </app-slot-tab>
             </app-slot-tabs>
@@ -270,38 +241,35 @@ changeOtherButton(e: CustomEvent) {
                 <button class='btn btn-success btn-sm' style='display: block' n-on-click={(e) => this.setYesNo(e)} data-value='yes'>Set Yes</button>
                 <button class='btn btn-danger btn-sm' style='display: block' n-on-click={(e) => this.setYesNo(e)} data-value='no'>Set No</button>
               </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
               <app-slot-tab title='Source Code'>
-
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
             <h3>Attribute Expander</h3>
-            <app-slot-tab>
+            <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>
                   Create classes that expand attributes. Tired of thing like this again and again?
-            <pre>
+                  <pre>
                     &lt; button type="button" class="btn btn-sm btn-info" &gt;
-            </pre>
-            Write this instead:
-            <pre>
+                  </pre>
+                  Write this instead:
+                  <pre>
                     &lt; button n-expand="info-button" &gt;
-            </pre>
-            Applies to any component, even custom ones. Can deliver static values only. Renders before render engine gets acvcess, so completely transparent.
-          </div>
+                  </pre>
+                  Applies to any component, even custom ones. Can deliver static values only. Renders before render engine gets acvcess, so completely transparent.
+                </div>
               </app-slot-tab>
               <app-slot-tab title='Playground'>
                 <button n-expand='danger-button'>Expanded attributes</button>
               </app-slot-tab>
-              <app-slot-tab title='Source Code'></app-slot-tab>
-            </app-slot-tab>
-            <div class='row'>
-
-              <div class='col-6'>...</div>
-              <div>
-
-              </div>
-            </div>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+            </app-slot-tabs>
           </div>
           <div class='col-2' style='position: fixed; right: 15px;'>
             <nav id='demonav'>
@@ -343,8 +311,30 @@ changeOtherButton(e: CustomEvent) {
   }
 
   lifeCycle(lc: LifeCycle) {
+    const x = `<p>
+    This has static text in the attribute:
+  </p>
+  <app-simple text='Text set from attribute'></app-simple>
+  <p>
+    This just keeps the default:
+  </p>
+  <app-simple></app-simple>
+  <p>
+    This has text provided by code:
+  </p>
+  <app-simple text={simpleText}></app-simple>
+`;
     if (lc === LifeCycle.Load) {
-      //
+      this.querySelectorAll('h3').forEach(e => {
+        if (e.id && this.querySelector(`#${e.id} + * [title = "Demo Markup"]`)) {
+          this.querySelector(`#${e.id} + * [title = "Demo Markup"]`).innerHTML =
+            <pre><code class='html'>{this.escape(x)}</code></pre>;
+        }
+      });
+      hljs.configure({ useBR: true, languages: ['html', 'tsx', 'ts', 'js'] });
+      document.querySelectorAll('pre code').forEach((block: HTMLElement) => {
+        hljs.highlightBlock(block);
+      });
     }
   }
 
@@ -371,4 +361,4 @@ changeOtherButton(e: CustomEvent) {
     this.querySelector<ButtonComponent>('app-button[data-demo-button]').setZero();
   }
 
-};;
+}

@@ -41,6 +41,10 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "devDependencies": {
+    "@nyaf/forms": "0.5.22",
+    "@nyaf/lib": "0.5.22",
+    "@nyaf/store": "0.5.22",
+    "@types/highlight.js": "^9.12.4",
     "@types/jest": "^26.0.0",
     "@types/node": "^12.12.26",
     "@types/prismjs": "^1.16.1",
@@ -77,6 +81,7 @@
     "@fortawesome/fontawesome-free": "^5.14.0",
     "bootstrap": "^4.5.0",
     "chalk": "^4.1.0",
+    "highlight.js": "^10.1.2",
     "jquery": "^3.5.1",
     "jquery-easing": "0.0.1",
     "meow": "^7.0.1",

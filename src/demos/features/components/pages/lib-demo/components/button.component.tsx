@@ -34,8 +34,8 @@ export class ButtonComponent extends BaseComponent<ButtonPropType> {
     );
   }
 
-  public async setZero() {
-    await this.setData('text', '000');
+  public setZero() {
+    this.data.text = '0 (zero)';
   }
 
 }

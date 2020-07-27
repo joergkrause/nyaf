@@ -13,6 +13,7 @@ import { TabComponent } from './components/pages/lib-demo/components/tab.compone
 import { SlotTabsComponent } from './components/slottedtabs/tabs.component';
 import { SlotTabComponent } from './components/slottedtabs/tab.component';
 import { ButtonComponent } from './components/pages/lib-demo/components/button.component';
+import { SimpleComponent } from './components/pages/lib-demo/components/simple.component';
 import { SlottedComponent } from './components/pages/lib-demo/components/slotted.component';
 import { RepeaterTestComponent } from './components/pages/lib-demo/components/repeater.component';
 import { CounterComponent } from './components/pages/lib-demo/components/counter.component';
@@ -59,7 +60,7 @@ const routes: Routes = {
 };
 
 GlobalProvider.bootstrap({
-  // register all components directly used in templates
+  // register all components
   components: [
     MainComponent,
     HomeComponent,
@@ -74,6 +75,7 @@ GlobalProvider.bootstrap({
     TabsComponent,
     SlotTabsComponent,
     SlotTabComponent,
+    SimpleComponent,
     ButtonComponent,
     SlottedComponent,
     RepeaterTestComponent,
@@ -87,9 +89,6 @@ GlobalProvider.bootstrap({
     Page2Component,
     Page3Component,
   ],
-  expanders: [
-    ButtonExpander
-  ],
-  // register for router
+  // register the routes
   routes: routes
 });

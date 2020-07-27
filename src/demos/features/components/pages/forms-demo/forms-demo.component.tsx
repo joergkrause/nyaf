@@ -62,7 +62,8 @@ export class FormsDemoComponent<T extends ContactModel> extends BaseComponent im
                 <h4>Field 3 (Smart Binding with "to" and strings)</h4>
                 <input n-bind={to<T, HTMLInputElement>(c => c.email, 'value')} />
                 <h4>Field 4 (Smart Binding with "bind" and multi attribute binding)</h4>
-                <input value={bind<T>(c => c.email)} type={bind<T>(c => c.toggleType)} n-bind /> <button type='button' n-on-click={this.changeType}>Toggle type with binding</button>
+                <input value={bind<T>(c => c.email)} type={bind<T>(c => c.toggleType)} n-bind />
+                <button type='button' n-on-click={this.changeType}>Toggle type with binding</button>
                 <p>
                   The binder falls back to the default binder, which is unidirectional, hence the values typed here do not change to object.
                   But if the object changes, it's reflected in the value.
