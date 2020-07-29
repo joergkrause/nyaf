@@ -54,6 +54,14 @@ const JSX = {
             case 'n-if':
               ifStore = !!value;
               break;
+            case 'n-iif':
+              const expression = props['n-iif'];
+              // Create a proxy from expression
+              // if proxy changes, evaluate expression
+              // if false, remove element, but keep a parent reference
+              // if true, use parent reference to re-add the element
+              return `n-bind='${value.name}'`;
+              break;
             case 'n-repeat':
               try {
                 const data: [] = JSON.parse(props['n-repeat']);
@@ -85,10 +93,7 @@ const JSX = {
               }
               break;
             case 'n-expand':
-              if (GlobalProvider.TagExpander.get(value)) {
-                return GlobalProvider.TagExpander.get(value).expand();
-              }
-              break;
+              return GlobalProvider.TagExpander.get(value)?.expand();
             default:
               if (key.startsWith('n-on-')) {
                 if (value.name === key) {

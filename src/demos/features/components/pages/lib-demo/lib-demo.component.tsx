@@ -18,7 +18,7 @@ export class LibDemoComponent extends BaseComponent {
     const htmlEncode = (c) => c.replace(/[\u00A0-\u9999<>\&]/gim, (i) => {
       return '&#' + i.charCodeAt(0) + ';';
     });
-    return htmlEncode(code);
+    return htmlEncode(code).replace(/&#60;/g, '<').replace(/&#62;/g, '>');
   }
 
   render() {
@@ -41,11 +41,11 @@ export class LibDemoComponent extends BaseComponent {
             width: 100%;
             bottom: 0;
           }
-          span.hljs-tag {
-            display: block;
+          [class^="hljs"] {
+            white-space: pre;
           }
-          td.hljs-ln-code {
-            white-space: pre-wrap;
+          .hljs {
+            white-space: pre;
           }
           `}
         </style>
@@ -57,7 +57,7 @@ export class LibDemoComponent extends BaseComponent {
         </div>
         <div class='row' style='position: relative; margin-top: 50px; top:125px'>
           <div class='col-10' data-spy='scroll' data-target='#demonav' data-offset='100'>
-            <h3 class='display-4' id='simple'>Simple Component</h3>
+            <h3 class='display-4' id='simple' source='simple'>Simple Component</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation' >
                 <div class='alert alert-info m-2 m-2'>Sort of simple component with little more than 'Hello World'.</div>
@@ -82,7 +82,7 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='tabs'>Tabs</h3>
+            <h3 class='display-4' id='tabs' source='tabs'>Tabs</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2 m-2'>Control tabs with data provides as attribute (data binding).
@@ -100,7 +100,7 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='counter'>Counter</h3>
+            <h3 class='display-4' id='counter' source='counter'>Counter</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>Simple counter using events.
@@ -123,10 +123,31 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='service'>Service Counter</h3>
+            <h3 class='display-4' id='if' source='iif'>Conditions</h3>
+            <app-slot-tabs>
+              <app-slot-tab title='Explanation'>
+                <div class='alert alert-info m-2'>Use n-if to control parts of UI statically. This is usually usefull in combinatiom
+                   with a property. Be aware that the whole component re-renders and changes to the data that control the <code>n-if</code>
+                  are not being read until a full re-render. The best usage is in smaller leaf components that have a small impact
+                  on the page.
+                </div>
+              </app-slot-tab>
+              <app-slot-tab title='Playground'>
+                <app-if />
+              </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+            </app-slot-tabs>
+            <hr />
+            <h3 class='display-4' id='service' source='servicecounter'>Service Counter</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation' active={true}>
-                <div class='alert alert-info m-2'>Simple counter using a service.</div>
+                <div class='alert alert-info m-2'>Simple counter using a service. This shows how to define a global service
+                using a decorator. Services can be singleton or use a factory to define the instance. This is not dependency
+                injection, the constructors are not monitored. There is no global definition required, the decorator will
+                create a property <code>.services</code> that holds a dictionary of all service instances.</div>
               </app-slot-tab>
               <app-slot-tab title='Playground'>
                 <app-service-counter class='col-6' />
@@ -138,7 +159,7 @@ export class LibDemoComponent extends BaseComponent {
 
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='button'>Button</h3>
+            <h3 class='display-4' id='button' source='button'>Button</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>Using a button and custom event for interaction.</div>
@@ -153,7 +174,7 @@ export class LibDemoComponent extends BaseComponent {
 
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='render'>Smart Render</h3>
+            <h3 class='display-4' id='smart' source='smart'>Smart Render</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>
@@ -161,20 +182,19 @@ export class LibDemoComponent extends BaseComponent {
           </div>
               </app-slot-tab>
               <app-slot-tab title='Playground'>
-
+                <div class='row'>
+                  <app-button class='col-3' text='Change text of next button' n-on-showAlert={e => this.changeOtherButton(e)} />
+                  <app-button class='col-3' text='Default Text' data-demo-button />
+                  <app-button class='col-3' text='Set next button to "000"' n-on-showAlert={e => this.changeOtherButtonToZeros(e)} />
+                </div>
               </app-slot-tab>
               <app-slot-tab title='Demo Markup'>
               </app-slot-tab>
               <app-slot-tab title='Source Code'>
               </app-slot-tab>
             </app-slot-tabs>
-            <div class='row'>
-              <app-button class='col-3' text='Change text of next button' n-on-showAlert={e => this.changeOtherButton(e)} />
-              <app-button class='col-3' text='Default Text' data-demo-button />
-              <app-button class='col-3' text='Set next button to "000"' n-on-showAlert={e => this.changeOtherButtonZToZeros(e)} />
-            </div>
             <hr />
-            <h3 class='display-4' id='extends'>Extends Components</h3>
+            <h3 class='display-4' id='extends' source='extends'>Extends Components</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>
@@ -189,7 +209,7 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='slot'>Slotted Components</h3>
+            <h3 class='display-4' id='slot' source='slotted'>Slotted Components</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>
@@ -221,7 +241,7 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='params'>Complex Params</h3>
+            <h3 class='display-4' id='params' source='complex'>Complex Params</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>
@@ -247,7 +267,7 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3>Attribute Expander</h3>
+            <h3 class='display-4' id='expander' source='expander'>Attribute Expander</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>
@@ -275,10 +295,16 @@ export class LibDemoComponent extends BaseComponent {
             <nav id='demonav'>
               <ul class='nav nav-pills nav-stacked'>
                 <li class='nav-item'>
+                  <a class='nav-link' href='#simple'>Simple Component</a>
+                </li>
+                <li class='nav-item'>
                   <a class='nav-link' href='#tabs'>Nested Components</a>
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#counter'>Event Handling</a>
+                </li>
+                <li class='nav-item'>
+                  <a class='nav-link' href='#if'>Conditions</a>
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#service'>Using Services</a>
@@ -287,7 +313,7 @@ export class LibDemoComponent extends BaseComponent {
                   <a class='nav-link' href='#button'>Custom Events</a>
                 </li>
                 <li class='nav-item'>
-                  <a class='nav-link' href='#render'>Smart Render</a>
+                  <a class='nav-link' href='#smart'>Smart Render</a>
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#extends'>Extend Tags</a>
@@ -297,6 +323,9 @@ export class LibDemoComponent extends BaseComponent {
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#params'>Complex Paremeters</a>
+                </li>
+                <li class='nav-item'>
+                  <a class='nav-link' href='#expander'>Expand Properties</a>
                 </li>
               </ul>
             </nav>
@@ -311,29 +340,36 @@ export class LibDemoComponent extends BaseComponent {
   }
 
   lifeCycle(lc: LifeCycle) {
-    const x = `<p>
-    This has static text in the attribute:
-  </p>
-  <app-simple text='Text set from attribute'></app-simple>
-  <p>
-    This just keeps the default:
-  </p>
-  <app-simple></app-simple>
-  <p>
-    This has text provided by code:
-  </p>
-  <app-simple text={simpleText}></app-simple>
-`;
     if (lc === LifeCycle.Load) {
-      this.querySelectorAll('h3').forEach(e => {
-        if (e.id && this.querySelector(`#${e.id} + * [title = "Demo Markup"]`)) {
-          this.querySelector(`#${e.id} + * [title = "Demo Markup"]`).innerHTML =
-            <pre><code class='html'>{this.escape(x)}</code></pre>;
-        }
-      });
       hljs.configure({ useBR: true, languages: ['html', 'tsx', 'ts', 'js'] });
-      document.querySelectorAll('pre code').forEach((block: HTMLElement) => {
-        hljs.highlightBlock(block);
+      this.querySelectorAll('h3').forEach(e => {
+        if (e.id && this.querySelector(`#${e.id} + * [title="Demo Markup"]`)) {
+          const url = this.querySelector(`h3#${e.id}`).getAttribute('source');
+          // DEMO
+          fetch(`assets/sources/${url}.html`).then(async (res) => {
+            const data = await res.text();
+            this.querySelector(`#${e.id} + * [title="Demo Markup"]`).innerHTML = <pre><code class='tsx'></code></pre>;
+            const block = this.querySelector<HTMLElement>(`#${e.id} + * [title="Demo Markup"]`).querySelector('pre code');
+            if (data.length > 0) {
+              block.textContent = this.escape(data);
+              hljs.highlightBlock(block as HTMLElement);
+            } else {
+              block.textContent = 'Cannot load ' + e.id;
+            }
+          });
+          // SC
+          fetch(`assets/sources/${url}.component.tsx`).then(async (res) => {
+            const data = await res.text();
+            this.querySelector(`#${e.id} + * [title="Source Code"]`).innerHTML = <pre><code class='tsx'></code></pre>;
+            const block = this.querySelector<HTMLElement>(`#${e.id} + * [title="Source Code"]`).querySelector('pre code');
+            if (data.startsWith('import')) {
+              block.textContent = data;
+              hljs.highlightBlock(block as HTMLElement);
+            } else {
+              block.textContent = 'Cannot load ' + e.id;
+            }
+          });
+        }
       });
     }
   }
@@ -357,7 +393,7 @@ export class LibDemoComponent extends BaseComponent {
     this.querySelector<ButtonComponent>('app-button[data-demo-button]').setData('text', Math.round(Math.random() * 100));
   }
 
-  changeOtherButtonZToZeros(e: CustomEvent) {
+  changeOtherButtonToZeros(e: CustomEvent) {
     this.querySelector<ButtonComponent>('app-button[data-demo-button]').setZero();
   }
 

@@ -98,6 +98,18 @@ const webpackConfig = {
           from: './node_modules/highlight.js/styles/default.css',
           flatten: true,
           to: './assets/css/hs.css'
+        },
+        {
+          from: '**/*.tsx',
+          flatten: true,
+          context: path.resolve(__dirname, 'src/demos/features/components/'),
+          to: './assets/sources'
+        },
+        {
+          from: '**/*.html',
+          flatten: true,
+          context: path.resolve(__dirname, 'src/demos/features/components/'),
+          to: './assets/sources'
         }
       ]
     })

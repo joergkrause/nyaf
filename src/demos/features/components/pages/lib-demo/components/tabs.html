@@ -1,0 +1,11 @@
+render() {
+  const tabs = [];
+  tabs.push({ content: 'test one', title: 't1' });
+  tabs.push({ content: 'test two', title: 't2' });
+  tabs.push({ content: 'test three', title: 't3' });
+  tabs.push({ content: 'test four', title: 't4' });
+  tabs.push({ content: 'test five', title: 't5' });
+  return (
+    <app-tabs class='col-6' title='Tabs Demo Title' tabs={tabs} />
+  )
+}

@@ -21,6 +21,7 @@ import { ComplexComponent } from './components/pages/lib-demo/components//comple
 import { ComplexBoolComponent } from './components/pages/lib-demo/components//complexbool.component';
 import { ServiceCounterComponent } from './components/pages/lib-demo/components/servicecounter.component';
 import { ButtonsComponent } from './components/pages/lib-demo/components/buttons.component';
+import { IfComponent } from './components/pages/lib-demo/components/iif.component';
 // store
 import { StoreCounterComponent } from './components/pages/store-demo/components/storecounter.component';
 import { StoreDataComponent } from './components/pages/store-demo/components/storedata.component';
@@ -80,6 +81,7 @@ GlobalProvider.bootstrap({
     SlottedComponent,
     RepeaterTestComponent,
     CounterComponent,
+    IfComponent,
     ComplexComponent,
     ComplexBoolComponent,
     ServiceCounterComponent,

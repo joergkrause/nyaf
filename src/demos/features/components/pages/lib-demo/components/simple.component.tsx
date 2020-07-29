@@ -8,6 +8,10 @@ interface SimpleProps {
 @Properties<SimpleProps>({ text: 'I am a default' })
 export class SimpleComponent extends BaseComponent<SimpleProps> {
 
+  constructor() {
+    super();
+  }
+
   async render() {
     return await (
       <div class='alert alert-success'>

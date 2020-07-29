@@ -1,6 +1,4 @@
-import { BaseComponent, Properties } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
-import { TabComponent } from './tab.component';
+import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
 
 interface MainProps {
   title: string;
@@ -16,7 +14,6 @@ export class TabsComponent extends BaseComponent<MainProps> {
   constructor() {
     super();
   }
-
 
   async select(e: Event) {
     // source is a regular click and inside the tab is anchor tag, which would excecute withoput prevention
