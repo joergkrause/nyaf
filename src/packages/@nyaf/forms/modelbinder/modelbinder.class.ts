@@ -4,6 +4,7 @@ import { CheckedBindingHandler } from './handlers/checkedbindinghandler.class';
 import { ValueBindingHandler } from './handlers/valuebindinghandler.class';
 import { TextBindingHandler } from './handlers/textbindinghandler.class';
 import { DefaultBindingHandler } from './handlers/defaultbindinghandler.class';
+import { VisibilityForValidationBindingHandler } from './handlers/visibilitybindinghandler.class';
 import { ModelState } from './modelstate.class';
 import { LifeCycle, BaseComponent } from '@nyaf/lib';
 import { isBoolean } from 'util';
@@ -95,6 +96,8 @@ export class ModelBinder<VM extends object> {
     mbInstance.handlers['innerText'] = new TextBindingHandler();
     mbInstance.handlers['checked'] = new CheckedBindingHandler();
     mbInstance.handlers['default'] = new DefaultBindingHandler();
+    // internal, not exported
+    mbInstance.handlers['visibility'] = new VisibilityForValidationBindingHandler();
     if (handler) {
       Object.assign(mbInstance.handlers, handler);
     }
@@ -115,6 +118,7 @@ export class ModelBinder<VM extends object> {
         // this is the single binder
         const elements = isShadowed ? component.shadowRoot.querySelectorAll('[n-bind]') : component.querySelectorAll('[n-bind]');
         mbInstance.scope = modelInstance;
+        // loop all elements with n-bind
         elements.forEach((el: HTMLElement) => {
           let expressionParts: string[];
           if ('true' === el.getAttribute('n-bind')) {
@@ -131,15 +135,71 @@ export class ModelBinder<VM extends object> {
           } else {
             expressionParts = el.getAttribute('n-bind').split(':');
             if (expressionParts.length >= 2) {
-              const [bindingHandler, scopeKey, decoratorKey] = expressionParts;
-              ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), bindingHandler?.trim(), decoratorKey?.trim());
+              const toVal = Array.from(el.attributes).filter(a => a.value.startsWith('n-val'));
+              if (toVal.length > 0) {
+                console.log('val ', toVal);
+                toVal.forEach(attrBind => {
+                  // `n-val:${sourceProperty}:${Deco}`
+                  expressionParts = attrBind.value.split(':');
+                  const [, scopeKey, decoratorKey] = expressionParts;
+                  const binding = new Binding(decoratorKey, 'visibility', mbInstance, el);
+                  binding.bind(scopeKey);
+                  ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `err${decoratorKey}`);
+                });
+              } else {
+                const [bindingHandler, scopeKey, decoratorKey] = expressionParts;
+                ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), bindingHandler?.trim(), decoratorKey?.trim());
+              }
             }
             if (expressionParts.length === 1) {
-              throw new Error('[n-bind] not properly formatted. Requires at least two parts: n-bind="targetProperty: sourceProperty". Alternatively leave empty and and attribute binders using {bind<T>()} instructions.');
+              throw new Error('[n-bind] is not properly formatted. Requires at least two parts: n-bind="targetProperty: sourceProperty". Alternatively leave empty and and attribute binders using {bind<T>()} instructions.');
             }
           }
-          // TODO: Look for validators and handle validation
         });
+        // register the validators for binding
+        Object.keys(modelInstance)
+          .forEach(p => {
+            const hasValidator = modelInstance[`__hasRequired__${p}`];
+            const errValidator = modelInstance[`__errRequired__${p}`];
+            if (!mbInstance.state) {
+              mbInstance.state = {
+                isValid: true,
+                state: {
+                  touched: false,
+                  pristine: false,
+                  dirty: false
+                },
+                validators: {}
+              };
+            } else {
+              if (hasValidator) {
+                if (!mbInstance.state.validators) {
+                  mbInstance.state.validators = {};
+                }
+                if (!mbInstance.state.validators[p]) {
+                  mbInstance.state.validators[p] = {
+                    type: {},
+                    error: {},
+                    isValid: {}
+                  };
+                } else {
+                  mbInstance.state.validators[p].type['required'] = hasValidator;
+                  mbInstance.state.validators[p].error['required'] = errValidator;
+                  mbInstance.state.validators[p].isValid['required'] = true;
+                }
+              }
+            }
+            // Add a binder event and check the conditions
+            mbInstance.subscribe(p, (key: string) => {
+              if (mbInstance.state.validators[p]) {
+                const value = modelInstance[key];
+                if (mbInstance.state.validators[p].type['required']) {
+                  mbInstance.state.validators[p].isValid['required'] = !!value;
+                }
+              }
+            });
+          });
+
         Object.keys(modelInstance).forEach(prop => mbInstance.notify(prop));
       }
 

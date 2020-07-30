@@ -1,5 +1,9 @@
 ## Custom Binders
 
+Custom Binders help binding to specific properties. They can be used like the embedded binders, that acts just as examples and use the same way.
+
+### Implementing a Custom Binder
+
 A custom binder handles the binding procedure when binding a viewmodel property to an element attribute. It consists of three parts:
 
 1. The binding setup (`bind`)
@@ -39,7 +43,6 @@ export class DefaultBindingHandler implements IBindingHandler {
 }
 ~~~
 
-The only difference here is that the `ModelBinder` class intercepts the access and delivers the name of the attribute as a second parameter. This is
-a special behavior and the default handler can handle this.
+The only difference here is that the `ModelBinder` class intercepts the access and delivers the name of the attribute as a second parameter. This is a special behavior and the default handler can handle this.
 
 

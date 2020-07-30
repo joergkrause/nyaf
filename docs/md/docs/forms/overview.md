@@ -1,6 +1,6 @@
 # Forms Extensions
 
-Forms provides these basic features:
+Forms provide these basic features:
 
 * UI control decorators (example: `@Hidden()` to suppress a property in a dynamic table).
 * Validation decorators (example: `@StringLength(50)` or `@Required()` to manage form validation).
@@ -19,7 +19,6 @@ For full support you need view models, the registration on top of the component,
 1. View models are plain TypeScript classed with public properties enhanced by decorators
 2. The registration is the decorator `@ViewModel()` on top of the component's class
 3. The modelbinder comes through implementing the interface `IModel<ViewModelType>`
-
 
 ### View Models in Components
 
@@ -53,7 +52,7 @@ You can assign an actual object to the model binder. That can happen at any time
 this.model.scope = new Model();
 ~~~
 
-However, the `@ViewModel` decorator is doing exactly this for you, so in case of a new black instance there is no need to call the *scope* property.
+However, the `@ViewModel` decorator is doing exactly this for you, so in case of a new blank instance there is no need to assign a new object to the *scope* property.
 
 It's no necessary to keep a reference to the instance, the model binder is doing this internally for you. The derived class is a `Proxy`. If you now bind the properties using `n-bind` as described before, the model is in sync with the user interface. If you want to programmatically access the current state, just retrieve the model:
 
@@ -68,27 +67,17 @@ private modelProxy: Model;
 
 constructor() {
   super();
-  this.model.scope = new Model();
   this.modelProxy = this.model.scope;
 }
 ~~~
 
-The setter `scope` takes an instance, wraps this into a `Proxy`, assigns the binders, and the getter returns the `Proxy`. Changes to the model will now reflect in bound HTML elements immediately.
-
-## Validation
-
-The validation state is available through `state`:
+The setter of `scope` takes an instance, wraps this into a `Proxy`, assigns the binders, and the getter returns the `Proxy`. Changes to the model will now reflect in bound HTML elements immediately.
 
 ~~~ts
-this.model.state = {
-  isValid: boolean,
-  isPresent: boolean,
-  errors: { [key: string]: string },
-  model: Model
-}
+let userName: string = 'Test';
+this.model.scope.userName = userName; // immediately invoke binders
 ~~~
 
-It's supervised. After render *this.model.state* helds the state of the model.
 
 
 

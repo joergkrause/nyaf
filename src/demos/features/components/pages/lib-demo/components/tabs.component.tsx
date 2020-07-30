@@ -6,9 +6,8 @@ interface MainProps {
   current?: string;
 }
 
-
 @CustomElement('app-tabs')
-@Properties({ title: '', tabs: [], current: '' })
+@Properties<MainProps>({ title: '', tabs: [], current: '' })
 export class TabsComponent extends BaseComponent<MainProps> {
 
   constructor() {

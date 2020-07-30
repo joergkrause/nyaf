@@ -23,9 +23,11 @@ export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implem
     this.sub = this.store.subscribe('counter', str => {
       console.log('Counter subscriber recveived a value', str);
       this.data.cnt = str.counter;
+      return true;
     });
     this.sub2 = this.store.subscribe('version', v => {
       alert(v.version);
+      return true;
     });
   }
 

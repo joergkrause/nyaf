@@ -1,11 +1,14 @@
 import { ModelBinder } from './modelbinder.class';
 import { ModelState } from './modelstate.class';
+import { VisibilityForValidationBindingHandler } from './handlers/visibilitybindinghandler.class';
+import { Binding } from './binding.class';
 
 /**
- * The binder is used to actually bind an elements property to a scope.
- * It's required if you implement your own binders.
+ * The binder is used to actually bind a validator to elements that are scoped to validation.
+ * It's used internally only.
+ * @ignore
  */
-export class Binding {
+export class ValidatorBinding extends Binding {
   /**
    * The binder assignment that connects viewmodel properties to element attributes.
    * @param modelProperty The property of the viewmodel this binder binds to
@@ -14,31 +17,38 @@ export class Binding {
    * @param el The element that the binder will assign the viewmodel to
    */
   constructor(
-    protected modelProperty: string,
-    protected handler: string,
-    protected binderInstance: ModelBinder<any>,
-    public el: HTMLElement
+    modelProperty: string,
+    handler: string,
+    binderInstance: ModelBinder<any>,
+    el: HTMLElement
   ) {
+    super(modelProperty, handler, binderInstance, el);
   }
   /**
    * Define the binder
    * @param property An options property, sued to assign to a specific proeprty in multi-attribute binding
    */
   public bind(property?: string) {
-    const bindingHandler = this.binderInstance.handlers[this.handler];
+    const bindingHandler = this.binderInstance.handlers[this.handler] as VisibilityForValidationBindingHandler;
     if (bindingHandler) {
       bindingHandler.bind(this);
-      this.binderInstance.subscribe(this.modelProperty, () => {
-        bindingHandler.react(this, property);
+      this.binderInstance.subscribe(super.modelProperty, () => {
+        bindingHandler.react(this);
       });
     } else {
       throw new Error(`The binding for ${this.handler} was not defined. Implement and assign handler before you initialize the form.`);
     }
   }
   public set value(value) {
-    this.binderInstance.scope[this.modelProperty] = value;
+    this.binderInstance.state.validators.isValid[this.modelProperty] = value;
   }
   public get value() {
-    return this.binderInstance.scope[this.modelProperty];
+    return this.binderInstance.state.validators.isValid[this.modelProperty];
+  }
+  public get validationProperty(): string {
+    return super.modelProperty;
+  }
+  public get validationState(): ModelState<any> {
+    return super.binderInstance.state;
   }
 }

@@ -1,5 +1,4 @@
-import { BaseComponent, LifeCycle } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
+import JSX, { BaseComponent, LifeCycle, CustomElement } from '@nyaf/lib';
 import { Display, Hidden, to, IModel, ModelBinder, ViewModel } from '@nyaf/forms';
 
 export class FormModel {

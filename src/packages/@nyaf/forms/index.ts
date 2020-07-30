@@ -29,3 +29,4 @@ export * from './modelbinder/handlers/defaultbindinghandler.class';
 export * from './modelbinder/handlers/checkedbindinghandler.class';
 export * from './smart/to.function';
 export * from './smart/bind.function';
+export * from './smart/val.function';

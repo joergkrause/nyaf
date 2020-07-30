@@ -32,6 +32,9 @@ export class ModelState<VM> {
    */
   validators: Record<keyof VM, ErrorState>;
 
+  /**
+   * Set of states
+   */
   state: Record<keyof VM, FieldState>;
 
 }

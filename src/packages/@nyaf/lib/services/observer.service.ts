@@ -1,4 +1,5 @@
 type func = (v: string | number | symbol | any) => void;
+type hopf = (v: string | number | symbol | any) => boolean;
 
 /**
  * Implement a simple pub/sub pattern to have components communication without attributes.
@@ -19,7 +20,7 @@ export class Observer {
   private static _instance;
 
   private topics: { [id: string]: func[] } = {};
-  private hOP: func;
+  private hOP: hopf;
 
   public static getInstance(): Observer {
     if (!Observer._instance) {

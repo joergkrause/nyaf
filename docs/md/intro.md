@@ -10,7 +10,7 @@
 * We want to use standards, no weird CLI, no vendor lock in.
 * We want to use smart decorators for controlling stuff, not code within the component, for separation of concerns style.
 
-## Approach
+## Template Approach
 
 It's based on TSX. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.
 
@@ -21,13 +21,13 @@ See this excerpt from `tsconfig.json`:
 "reactNamespace": "JSX",
 ~~~
 
-A class `JSX` is the core, it handles the element definitions and extract the template extensions.
+The class `JSX` is the core, it handles the element definitions and extract the template extensions.
 
 ## Quick Start
 
 ![](/assets/minimum_app.png)
 
-# Summary
+## Size
 
 Is it worth coding with **@nyaf** and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 

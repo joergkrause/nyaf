@@ -22,7 +22,10 @@
     "t-store": "typedoc --name \"@nyaf store\" --out dist/apidoc/store src/packages/@nyaf/store",
     "t-ui": "typedoc --name \"@nyaf ui\" --out dist/apidoc/ui src/packages/@nyaf/ui",
     "publish-doc": "mkdocs gh-deploy",
-    "all": "rimraf dist && npm run build && npm run build-demo && npm run doc"
+    "all": "rimraf dist && npm run build && npm run build-demo && npm run doc",
+    "@nyaf/forms": "0.5.22",
+    "@nyaf/lib": "0.5.22",
+    "@nyaf/store": "0.5.22"
   },
   "repository": {
     "type": "git",
@@ -42,9 +45,6 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "devDependencies": {
-    "@nyaf/forms": "0.5.22",
-    "@nyaf/lib": "0.5.22",
-    "@nyaf/store": "0.5.22",
     "@types/highlight.js": "^9.12.4",
     "@types/jest": "^26.0.0",
     "@types/node": "^12.12.26",

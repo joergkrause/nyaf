@@ -1,7 +1,7 @@
 import { BaseComponent, LifeCycle, Select } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ContactModel } from './components/models/contact.model';
-import { ViewModel, ModelBinder, IModel, to, Display, bind } from '@nyaf/forms/';
+import { ViewModel, ModelBinder, IModel, to, val, Display, bind, Required } from '@nyaf/forms/';
 import { ValueBindingHandler } from '@nyaf/forms';
 
 @CustomElement('app-forms-demo')
@@ -48,7 +48,6 @@ export class FormsDemoComponent<T extends ContactModel> extends BaseComponent im
         <div class='row' style='position: relative; margin-top: 50px; top:125px'>
           <div class='col-10' data-spy='scroll' data-target='#demonav' data-offset='100'>
             <h3 class='display-4' id='tabs'>Tabs</h3>
-
             <form >
               <div>
                 <h4>Label 1 (Text)</h4>
@@ -71,8 +70,7 @@ export class FormsDemoComponent<T extends ContactModel> extends BaseComponent im
                 <h4>Field 5 (Smart Binding with "bind" and assigned handler)</h4>
                 <input value={bind<T>(c => c.email, ValueBindingHandler)} n-bind />
                 <h4>Validiation Logic Test</h4>
-                {/* <div class='alert alert-danger' n-bind='innerText: email: errPattern' n-show={this.model.state.validators?.email.type.pattern}></div> */}
-                <div class='alert alert-danger' n-bind='innerText: email: errRequired' ></div>
+                <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, Required)} ></div>
                 <br />
                 <button type='button' id='mybtn' n-on-click={(e) => this.reset(e)}></button>
               </div>
@@ -100,6 +98,7 @@ export class FormsDemoComponent<T extends ContactModel> extends BaseComponent im
   }
 
   reset(e: Event) {
+    alert(JSON.stringify(this.model.state));
     this.model.scope.email = '';
   }
 
