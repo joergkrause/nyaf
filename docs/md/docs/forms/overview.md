@@ -3,7 +3,7 @@
 Forms provide these basic features:
 
 * UI control decorators (example: `@Hidden()` to suppress a property in a dynamic table).
-* Validation decorators (example: `@StringLength(50)` or `@Required()` to manage form validation).
+* Validation decorators (example: `@MinLength(50)` or `@Required()` to manage form validation).
 * Data Binding using a model declaration decorator called `@ViewModel` and a bind property named `n-bind`.
 
 Form validation is a key part of any project. However, CSS frameworks require different strategies to handle errors and so on. Hence, the **@nyaf/forms** library provides a simple way (just like a skeleton) to give you the direction, but the actual validation implementation logic is up to you to build.

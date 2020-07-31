@@ -37,7 +37,6 @@ Validation properties can be used together with the binding. After a binding act
 
 | Decorator | Usage |
 |-----------|-------|
-|**@StringLength**| Set the strings minimum (optional) and maximum length. It's a summary of `@MinLength` and `@MaxLength`. |
 |**@MaxLength**| The maximum length of a text input. |
 |**@MinLength**| The minimum length of a text input. |
 |**@Pattern**| A regular expression that is used to test the text or number input.|
