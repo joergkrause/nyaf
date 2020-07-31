@@ -86,16 +86,11 @@
     
         <ul>
         
-            <li><a class="toctree-l3" href="#approach">Approach</a></li>
+            <li><a class="toctree-l3" href="#template-approach">Template Approach</a></li>
         
             <li><a class="toctree-l3" href="#quick-start">Quick Start</a></li>
         
-        </ul>
-    
-
-    <li class="toctree-l2"><a href="#summary">Summary</a></li>
-    
-        <ul>
+            <li><a class="toctree-l3" href="#size">Size</a></li>
         
             <li><a class="toctree-l3" href="#tool-support">Tool Support</a></li>
         
@@ -223,6 +218,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../docs/store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../docs/store/setup/">Setup</a>
                 </li>
     </ul>
@@ -329,17 +328,17 @@
 <li>We want to use standards, no weird CLI, no vendor lock in.</li>
 <li>We want to use smart decorators for controlling stuff, not code within the component, for separation of concerns style.</li>
 </ul>
-<h2 id="approach">Approach<a class="headerlink" href="#approach" title="Permanent link">#</a></h2>
+<h2 id="template-approach">Template Approach<a class="headerlink" href="#template-approach" title="Permanent link">#</a></h2>
 <p>It's based on TSX. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.</p>
 <p>See this excerpt from <code>tsconfig.json</code>:</p>
 <pre><code>&quot;jsx&quot;: &quot;react&quot;,
 &quot;reactNamespace&quot;: &quot;JSX&quot;,
 </code></pre>
 
-<p>A class <code>JSX</code> is the core, it handles the element definitions and extract the template extensions.</p>
+<p>The class <code>JSX</code> is the core, it handles the element definitions and extract the template extensions.</p>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">#</a></h2>
 <p><img alt="" src="/assets/minimum_app.png" /></p>
-<h1 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">#</a></h1>
+<h2 id="size">Size<a class="headerlink" href="#size" title="Permanent link">#</a></h2>
 <p>Is it worth coding with <strong>@nyaf</strong> and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.</p>
 <p>Actual sizes (0.5.23):</p>
 <ul>

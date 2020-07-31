@@ -170,6 +170,12 @@
             
     <li class="toctree-l3"><a href="#custom-binders">Custom Binders</a></li>
     
+        <ul>
+        
+            <li><a class="toctree-l4" href="#implementing-a-custom-binder">Implementing a Custom Binder</a></li>
+        
+        </ul>
+    
 
     </ul>
                 </li>
@@ -195,6 +201,10 @@
                 <li class="">
                     
     <a class="" href="../../store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
                 </li>
                 <li class="">
                     
@@ -297,6 +307,8 @@
             <div class="section">
               
                 <h2 id="custom-binders">Custom Binders<a class="headerlink" href="#custom-binders" title="Permanent link">#</a></h2>
+<p>Custom Binders help binding to specific properties. They can be used like the embedded binders, that acts just as examples and use the same way.</p>
+<h3 id="implementing-a-custom-binder">Implementing a Custom Binder<a class="headerlink" href="#implementing-a-custom-binder" title="Permanent link">#</a></h3>
 <p>A custom binder handles the binding procedure when binding a viewmodel property to an element attribute. It consists of three parts:</p>
 <ol>
 <li>The binding setup (<code>bind</code>)</li>
@@ -332,8 +344,7 @@
 }
 </code></pre>
 
-<p>The only difference here is that the <code>ModelBinder</code> class intercepts the access and delivers the name of the attribute as a second parameter. This is
-a special behavior and the default handler can handle this.</p>
+<p>The only difference here is that the <code>ModelBinder</code> class intercepts the access and delivers the name of the attribute as a second parameter. This is a special behavior and the default handler can handle this.</p>
               
             </div>
           </div>
