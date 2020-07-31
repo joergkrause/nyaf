@@ -8,6 +8,7 @@ import { VisibilityForValidationBindingHandler } from './handlers/visibilitybind
 import { ModelState } from './modelstate.class';
 import { LifeCycle, BaseComponent } from '@nyaf/lib';
 import { isBoolean } from 'util';
+import { ValidatorBinding } from './validatorbinding.class';
 
 /**
  * The modelbinder serves two purposes:
@@ -141,10 +142,41 @@ export class ModelBinder<VM extends object> {
                 toVal.forEach(attrBind => {
                   // `n-val:${sourceProperty}:${Deco}`
                   expressionParts = attrBind.value.split(':');
-                  const [, scopeKey, decoratorKey] = expressionParts;
-                  const binding = new Binding(decoratorKey, 'visibility', mbInstance, el);
-                  binding.bind(scopeKey);
-                  ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `err${decoratorKey}`);
+                  const [, scopeKey, ...decoratorKeys] = expressionParts;
+                  mbInstance.subscribe(scopeKey, (key: string) => {
+                    const currentValueToValidate = modelInstance[key];
+                    decoratorKeys.forEach(decoratorKey => {
+                      switch (decoratorKey) {
+                        case 'Required':
+                          if (!currentValueToValidate) {
+                            el.style.visibility = 'visible';
+                          } else {
+                            el.style.visibility = 'hidden';
+                          }
+                          break;
+                        case 'Email':
+                          if (currentValueToValidate && currentValueToValidate.toString().indexOf('@') === -1) {
+                            el.style.visibility = 'visible';
+                          } else {
+                            el.style.visibility = 'hidden';
+                          }
+                          break;
+                        case 'StringLength':
+                          if (currentValueToValidate && currentValueToValidate.length > 10) {
+                            el.style.visibility = 'visible';
+                          } else {
+                            el.style.visibility = 'hidden';
+                          }
+                          break;
+                        default:
+                          throw new Error('Unknown validation decorator key: ' + decoratorKey);
+                      }
+                    });
+                    console.log('Validator subscriber callback', key, el);
+                  });
+                  decoratorKeys.forEach(decoratorKey => {
+                    ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `err${decoratorKey}`);
+                  });
                 });
               } else {
                 const [bindingHandler, scopeKey, decoratorKey] = expressionParts;
@@ -159,42 +191,21 @@ export class ModelBinder<VM extends object> {
         // register the validators for binding
         Object.keys(modelInstance)
           .forEach(p => {
-            const hasValidator = modelInstance[`__hasRequired__${p}`];
-            const errValidator = modelInstance[`__errRequired__${p}`];
-            if (!mbInstance.state) {
-              mbInstance.state = {
-                isValid: true,
-                state: {
-                  touched: false,
-                  pristine: false,
-                  dirty: false
-                },
-                validators: {}
-              };
-            } else {
-              if (hasValidator) {
-                if (!mbInstance.state.validators) {
-                  mbInstance.state.validators = {};
-                }
-                if (!mbInstance.state.validators[p]) {
-                  mbInstance.state.validators[p] = {
-                    type: {},
-                    error: {},
-                    isValid: {}
-                  };
-                } else {
-                  mbInstance.state.validators[p].type['required'] = hasValidator;
-                  mbInstance.state.validators[p].error['required'] = errValidator;
-                  mbInstance.state.validators[p].isValid['required'] = true;
-                }
-              }
-            }
+            this.createValidationModel(modelInstance, mbInstance, 'Required', p);
+            this.createValidationModel(modelInstance, mbInstance, 'Email', p);
+            this.createValidationModel(modelInstance, mbInstance, 'StringLength', p);
             // Add a binder event and check the conditions
             mbInstance.subscribe(p, (key: string) => {
-              if (mbInstance.state.validators[p]) {
+              if (mbInstance.state.validators && mbInstance.state.validators[p]) {
                 const value = modelInstance[key];
                 if (mbInstance.state.validators[p].type['required']) {
                   mbInstance.state.validators[p].isValid['required'] = !!value;
+                }
+                if (mbInstance.state.validators[p].type['email']) {
+                  mbInstance.state.validators[p].isValid['email'] = !!value;
+                }
+                if (mbInstance.state.validators[p].type['stringlength']) {
+                  mbInstance.state.validators[p].isValid['stringlength'] = !!value;
                 }
               }
             });
@@ -205,6 +216,36 @@ export class ModelBinder<VM extends object> {
 
     });
     return mbInstance;
+  }
+
+  private static createValidationModel(modelInstance: any, mbInstance: ModelBinder<any>, type: string, p: string): void {
+    const hasValidator = modelInstance[`__has${type}__${p}`];
+    const errValidator = modelInstance[`__err${type}__${p}`];
+    if (!hasValidator) { return; }
+    if (!mbInstance.state) {
+      mbInstance.state = {
+        isValid: true,
+        state: {},
+        validators: {}
+      };
+    } else {
+      if (hasValidator) {
+        if (!mbInstance.state.validators) {
+          mbInstance.state.validators = {};
+        }
+        if (!mbInstance.state.validators[p]) {
+          mbInstance.state.validators[p] = {
+            type: {},
+            error: {},
+            isValid: {}
+          };
+        } else {
+          mbInstance.state.validators[p].type[type.toLowerCase()] = hasValidator;
+          mbInstance.state.validators[p].error[type.toLowerCase()] = errValidator;
+          mbInstance.state.validators[p].isValid[type.toLowerCase()] = true;
+        }
+      }
+    }
   }
 
   private static setBinding(modelInstance: any, mbInstance: ModelBinder<any>, el: HTMLElement, scopeKey: string, bindingHandler: string, decoratorKey?: string, prop?: string) {

@@ -1,5 +1,5 @@
 import JSX, { BaseComponent, LifeCycle, CustomElement } from '@nyaf/lib';
-import { Display, Hidden, to, IModel, ModelBinder, ViewModel } from '@nyaf/forms';
+import { Display, Hidden, to, IModel, ModelBinder, ViewModel, ValueBindingHandler } from '@nyaf/forms';
 
 export class FormModel {
   @Hidden()
@@ -14,7 +14,9 @@ export class FormModel {
  * Simple event handling.
  */
 @CustomElement('app-form')
-@ViewModel(FormModel)
+@ViewModel(FormModel, {
+  handler: { 'value': new ValueBindingHandler() }
+})
 export class FormComponent<T extends FormModel> extends BaseComponent<{}> implements IModel<T> {
 
   readonly model: ModelBinder<T>;
@@ -23,31 +25,21 @@ export class FormComponent<T extends FormModel> extends BaseComponent<{}> implem
     super();
   }
 
-  save(e) {
-    this.querySelector<SubFormComponent>('#subForm').subValue = 'Button click in sub form';
-  }
-
-  lifeCycle(state: LifeCycle) {
-    if (state === LifeCycle.Load) {
-      console.log('Form  Load');
-      // presets
-      this.model.scope.id = 1;
-      this.model.scope.userName = 'Doris Demo';
-      this.model.scope.city = 'Denver';
-      this.querySelector<SubFormComponent>('#subForm').subValue = 'Sub form loaded';
-    }
-  }
-
   async render() {
     return await (
       <>
         <form>
-          <label n-bind={to<T>(e => e.userName, 'innerText')} for='un' />
-          <input n-bind={to<T, HTMLInputElement>(e => e.userName, 'value')} id='un' />
-          <br />
-          <label n-bind={to<T>(e => e.city, 'innerText')} />
-          <input n-bind={to<T, HTMLInputElement>(e => e.city, 'value')} id='city' />
-          <br />
+          <div class='form-group'>
+            <label for='username'>Name</label>
+            <input class='form-control' n-bind={to<T, HTMLInputElement>(e => e.userName, 'value')} id='username' />
+          </div>
+          <div class='form-group'>
+            <label for='city'>City</label>
+            <input class='form-control' n-bind={to<T, HTMLInputElement>(e => e.city, 'value')} id='city' />
+          </div>
+          <div class='alert alert-secondary'>
+            The user '<span n-bind={to<T>(e => e.userName, 'innerText')} />' comes from '<span n-bind={to<T>(e => e.city, 'innerText')} />'.
+          </div>
           <button type='button' n-on-click={e => this.save(e)}>
             Save
           </button>
@@ -58,6 +50,21 @@ export class FormComponent<T extends FormModel> extends BaseComponent<{}> implem
       </>
     );
   }
+
+  save(e) {
+    this.querySelector<SubFormComponent>('#subForm').subValue = 'Button click in sub form';
+  }
+
+  lifeCycle(state: LifeCycle) {
+    if (state === LifeCycle.Load) {
+      // presets
+      this.model.scope.id = 1;
+      this.model.scope.userName = 'Doris Demo';
+      this.model.scope.city = 'Denver';
+      this.querySelector<SubFormComponent>('#subForm').subValue = 'Sub form loaded';
+    }
+  }
+
 }
 
 export class SubFormModel {

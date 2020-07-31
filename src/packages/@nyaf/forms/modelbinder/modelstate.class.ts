@@ -5,10 +5,10 @@ import { Type } from '@nyaf/lib';
 
 export interface ErrorState {
   // TODO: siehe SVOGV deco pattern
-  type: Record<'pattern' | 'required', boolean>;
-  error: string;
+  type?: Record<any, boolean>;
+  error?: Record<any, string>;
   // any of the validators failed
-  isValid: boolean;
+  isValid: Record<any, boolean>;
 }
 
 export interface FieldState {

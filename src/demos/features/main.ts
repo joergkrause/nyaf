@@ -27,6 +27,7 @@ import { StoreCounterComponent } from './components/pages/store-demo/components/
 import { StoreDataComponent } from './components/pages/store-demo/components/storedata.component';
 // forms
 import { FormComponent, SubFormComponent } from './components/pages/forms-demo/components/form.component';
+import { ValidationDemoComponent } from './components/pages/forms-demo/components/validation.component';
 // router
 import { RouterComponent } from './components/router/router.component';
 import { Page1Component } from './components/router/page1.component';
@@ -72,6 +73,9 @@ GlobalProvider.bootstrap({
     StoreCounterComponent,
     StoreDataComponent,
     FormsDemoComponent,
+    FormComponent,
+    SubFormComponent,
+    ValidationDemoComponent,
     TabComponent,
     TabsComponent,
     SlotTabsComponent,
