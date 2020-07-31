@@ -213,7 +213,9 @@ export class ModelBinder<VM extends object> {
           .forEach(p => {
             this.createValidationModel(modelInstance, mbInstance, 'Required', p);
             this.createValidationModel(modelInstance, mbInstance, 'Email', p);
-            this.createValidationModel(modelInstance, mbInstance, 'StringLength', p);
+            this.createValidationModel(modelInstance, mbInstance, 'MinLength', p);
+            this.createValidationModel(modelInstance, mbInstance, 'MaxLength', p);
+            this.createValidationModel(modelInstance, mbInstance, 'Pattern', p);
             // Add a binder event and check the conditions
             mbInstance.subscribe(p, (key: string) => {
               if (mbInstance.state.validators && mbInstance.state.validators[p]) {
@@ -224,8 +226,14 @@ export class ModelBinder<VM extends object> {
                 if (mbInstance.state.validators[p].type['email']) {
                   mbInstance.state.validators[p].isValid['email'] = !!value;
                 }
-                if (mbInstance.state.validators[p].type['stringlength']) {
-                  mbInstance.state.validators[p].isValid['stringlength'] = !!value;
+                if (mbInstance.state.validators[p].type['minlength']) {
+                  mbInstance.state.validators[p].isValid['minlength'] = !!value;
+                }
+                if (mbInstance.state.validators[p].type['maxlength']) {
+                  mbInstance.state.validators[p].isValid['maxlength'] = !!value;
+                }
+                if (mbInstance.state.validators[p].type['pattern']) {
+                  mbInstance.state.validators[p].isValid['pattern'] = !!value;
                 }
               }
             });

@@ -14,7 +14,7 @@ This is an extension to the famous micro framework **@nyaf**. You need to build 
 Forms provides these basic features:
 
 * UI control decorators (example: `@Hidden()` to suppress a property in a dynamic table).
-* Validation decorators (example: `@StringLength(50)` or `@Required()` to manage form validation).
+* Validation decorators (example: `@MaxLength(50)` or `@Required()` to manage form validation).
 * Data Binding using a model declaration decorator called `@ViewModel` and a bind property named `n-bind`.
 
 Form validation is a key part of any project. However, CSS frameworks require different strategies to handle errors and so on. Hence, the @nyaf/forms library provides a simple way (just like a skeleton) to give you the direction, but the actual validation implementation logic is up to you to build.
@@ -60,7 +60,6 @@ The last (optional) parameter of the validation decorators is a custom error mes
 
 | Decorator | Usage |
 |-----------|-------|
-|**@StringLength**| Set the strings minimum (optional) and maximum length. It's a summary of `@MinLength` and `@MaxLength`. |
 |**@MaxLength**| The maximum length of a text input. |
 |**@MinLength**| The minimum length of a text input. |
 |**@Pattern**| A regular expression that is used to test the text or number input.|
@@ -196,7 +195,6 @@ Distinguish between different validators like this:
 
 Objects are always set (not undefined), so you don't must test first. The property names are same as the decorators, but in lower case:
 
-* `@StringLength`: `stringlength`
 * `@MaxLength`: `maximum`
 * `@MinLength`: `minimum`
 * `@Pattern`: `pattern`

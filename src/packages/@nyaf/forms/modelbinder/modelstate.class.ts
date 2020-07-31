@@ -1,4 +1,4 @@
-import { Email, Required, StringLength, MinLength } from '@nyaf/forms';
+import { Email, Required, MaxLength, MinLength, Pattern } from '@nyaf/forms';
 import { Type } from '@nyaf/lib';
 
 export interface ErrorState {
