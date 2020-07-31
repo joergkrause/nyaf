@@ -1,18 +1,15 @@
-import { ValidatorBinding } from '../validatorbinding.class';
+import { Binding } from '../binding.class';
 import { IBindingHandler } from '../ibindinghandler.interface';
 
 /**
  * This handler binds the style 'visibility' to a bool and doesn't listen to anything.
  */
-export class VisibilityForValidationBindingHandler implements IBindingHandler {
-  bind(binding: ValidatorBinding): void {
+export class VisibilityBindingHandler implements IBindingHandler {
+  bind(binding: Binding): void {
     this.react(binding);
   }
-  react(binding: ValidatorBinding): void {
-    if (binding.validationProperty && binding.validationState && binding.validationState.validators) {
-      const valid = binding.validationState.validators[binding.validationProperty]?.isValid;
-      console.log('received val binder', valid);
-      binding.el.style.visibility = valid ? 'visible' : 'hidden';
-    }
+  react(binding: Binding): void {
+    binding.el.style.visibility = binding.value ? 'visible' : 'hidden';
   }
 }
+

@@ -4,11 +4,10 @@ import { CheckedBindingHandler } from './handlers/checkedbindinghandler.class';
 import { ValueBindingHandler } from './handlers/valuebindinghandler.class';
 import { TextBindingHandler } from './handlers/textbindinghandler.class';
 import { DefaultBindingHandler } from './handlers/defaultbindinghandler.class';
-import { VisibilityForValidationBindingHandler } from './handlers/visibilitybindinghandler.class';
 import { ModelState } from './modelstate.class';
 import { LifeCycle, BaseComponent } from '@nyaf/lib';
-import { isBoolean } from 'util';
-import { ValidatorBinding } from './validatorbinding.class';
+import { VisibilityBindingHandler } from './handlers/visibilitybindinghandler.class';
+import { DisplayBindingHandler } from './handlers/displaybindinghandler.class';
 
 /**
  * The modelbinder serves two purposes:
@@ -97,8 +96,8 @@ export class ModelBinder<VM extends object> {
     mbInstance.handlers['innerText'] = new TextBindingHandler();
     mbInstance.handlers['checked'] = new CheckedBindingHandler();
     mbInstance.handlers['default'] = new DefaultBindingHandler();
-    // internal, not exported
-    mbInstance.handlers['visibility'] = new VisibilityForValidationBindingHandler();
+    mbInstance.handlers['visibility'] = new VisibilityBindingHandler();
+    mbInstance.handlers['display'] = new DisplayBindingHandler();
     if (handler) {
       Object.assign(mbInstance.handlers, handler);
     }
@@ -140,11 +139,17 @@ export class ModelBinder<VM extends object> {
               if (toVal.length > 0) {
                 console.log('val ', toVal);
                 toVal.forEach(attrBind => {
-                  // `n-val:${sourceProperty}:${Deco}`
+                  // `n-val:${sourceProperty}:${Deco}:${Deco}:${Deco}`
                   expressionParts = attrBind.value.split(':');
+                  // scopeKey is the property (email, userName, ...)
+                  // Decoratorkeys all that apply (Required, Email, MaxLength) to that application
                   const [, scopeKey, ...decoratorKeys] = expressionParts;
+                  const pattern = modelInstance[`__hasPattern__${scopeKey}`] || /./gmi;
+                  const maxLength = modelInstance[`__hasMaxLength__${scopeKey}`] || Number.MAX_SAFE_INTEGER;
+                  const minLength = modelInstance[`__hasMinLength__${scopeKey}`] || 0;
                   mbInstance.subscribe(scopeKey, (key: string) => {
                     const currentValueToValidate = modelInstance[key];
+                    // TODO:Make stretegy (display/visi) configurable
                     decoratorKeys.forEach(decoratorKey => {
                       switch (decoratorKey) {
                         case 'Required':
@@ -155,14 +160,21 @@ export class ModelBinder<VM extends object> {
                           }
                           break;
                         case 'Email':
-                          if (currentValueToValidate && currentValueToValidate.toString().indexOf('@') === -1) {
+                          if (currentValueToValidate && new RegExp(pattern).test(currentValueToValidate) === false) {
                             el.style.visibility = 'visible';
                           } else {
                             el.style.visibility = 'hidden';
                           }
                           break;
-                        case 'StringLength':
-                          if (currentValueToValidate && currentValueToValidate.length > 10) {
+                        case 'MinLength':
+                          if (currentValueToValidate && currentValueToValidate.length <= minLength) {
+                            el.style.visibility = 'visible';
+                          } else {
+                            el.style.visibility = 'hidden';
+                          }
+                          break;
+                        case 'MaxLength':
+                          if (currentValueToValidate && currentValueToValidate.length >= maxLength) {
                             el.style.visibility = 'visible';
                           } else {
                             el.style.visibility = 'hidden';
@@ -175,7 +187,15 @@ export class ModelBinder<VM extends object> {
                     console.log('Validator subscriber callback', key, el);
                   });
                   decoratorKeys.forEach(decoratorKey => {
-                    ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `err${decoratorKey}`);
+                    console.log(`set binding for ${decoratorKey} to ${el.outerHTML}`);
+                    switch (decoratorKey) {
+                      case 'Email':
+                        ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `errPattern`, 'innerText');
+                        break;
+                      default:
+                        ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `err${decoratorKey}`, 'innerText');
+                        break;
+                    }
                   });
                 });
               } else {
@@ -250,7 +270,7 @@ export class ModelBinder<VM extends object> {
 
   private static setBinding(modelInstance: any, mbInstance: ModelBinder<any>, el: HTMLElement, scopeKey: string, bindingHandler: string, decoratorKey?: string, prop?: string) {
     // decorator bindings
-    if (decoratorKey) {
+    if (decoratorKey && prop) {
       // key is: display.text or display.desc
       const decoratorProp = `__${decoratorKey}__${scopeKey}`;
       if (modelInstance.constructor.prototype[decoratorProp]) {

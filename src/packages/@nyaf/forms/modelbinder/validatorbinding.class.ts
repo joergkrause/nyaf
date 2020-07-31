@@ -1,6 +1,6 @@
 import { ModelBinder } from './modelbinder.class';
 import { ModelState } from './modelstate.class';
-import { VisibilityForValidationBindingHandler } from './handlers/visibilitybindinghandler.class';
+import { VisibilityBindingHandler } from './handlers/visibilitybindinghandler.class';
 import { Binding } from './binding.class';
 
 /**
@@ -29,7 +29,7 @@ export class ValidatorBinding extends Binding {
    * @param property An options property, sued to assign to a specific proeprty in multi-attribute binding
    */
   public bind(property?: string) {
-    const bindingHandler = this.binderInstance.handlers[this.handler] as VisibilityForValidationBindingHandler;
+    const bindingHandler = this.binderInstance.handlers[this.handler] as VisibilityBindingHandler;
     if (bindingHandler) {
       bindingHandler.bind(this);
       this.binderInstance.subscribe(super.modelProperty, () => {

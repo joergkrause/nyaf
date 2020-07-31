@@ -1,7 +1,7 @@
 import { BaseComponent, LifeCycle, Select } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ContactModel } from './models/contact.model';
-import { ViewModel, ModelBinder, IModel, to, val, Required, Email, StringLength } from '@nyaf/forms/';
+import { ViewModel, ModelBinder, IModel, to, val, Required, Email, MaxLength } from '@nyaf/forms/';
 import { ValueBindingHandler } from '@nyaf/forms';
 
 @CustomElement('app-validation')
@@ -36,7 +36,7 @@ export class ValidationDemoComponent<T extends ContactModel> extends BaseCompone
           <input n-bind={to<T, HTMLInputElement>(c => c.email, 'value')} />
           <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, Required)} ></div>
           <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, Email)} ></div>
-          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, StringLength)} ></div>
+          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, MaxLength)} ></div>
           <br />
           <button type='button' id='mybtn' n-on-click={(e) => this.show(e)}>Show Validation State Object</button>
         </div>

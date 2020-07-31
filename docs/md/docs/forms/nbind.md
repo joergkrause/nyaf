@@ -62,6 +62,21 @@ export class component extends BaseComponent<any> implements IModel<ModelType> {
 
 Forms bind data. It's bi-directional or uni-directional depending on the chosen handler.
 
+### Standard Handlers
+
+The forms module comes with a couple of pre-defined handlers:
+
+| Handler Name | key | direction | applies to | Element base class |
+|-----------------------|-----------|-----|-----------|------------|
+| DefaultBindingHandler | 'default' | uni | attribute | `HTMLElement` |
+| CheckedBindingHandler | 'checked' | bi | attribute `checked` | `HTMLElement` |
+| TextBindingHandler | 'innerText' | uni | attribute `textContent` | `HTMLElement` |
+| ValueBindingHandler | 'value' | bi | attribute `value` | `HTMLInputElement` |
+| VisibilityBindingHandler | 'visibility' | uni | style `visibility` | `HTMLElement` |
+| DisplayBindingHandler | 'display' | uni | style `display` | `HTMLElement` |
+
+If in the binding attribute the text form is being used ('innerText: userName'), the *key* value determines the used handler.
+The handler provides the active code that handles the change call and applies the changed value to the right target property. That can be any property the element type supports, directly or indirectly anywhere in the object structure. Such a deeper call happens in the style handlers, especially `VisibilityBindingHandler` and `DisplayBindingHandler`.
 
 ## Smart Binders
 
@@ -109,7 +124,7 @@ In this example two properties are bound:
 <input value={bind<T>(c => c.email)} type={bind<T>(c => c.toggleType)} n-bind />
 ~~~
 
-> The `n-bind` is still required to efficiently trigger the binder logic. It's now empty, though (default value is `true` internally).
+> The `n-bind` is still required to efficiently trigger the binder logic. It's now empty, though (default value is `true` internally). Please note that you cannot bind to deeper structures in the current version (e.g. `style.border={bind<T>()}` is not possible.) That's typically a way to bind styles in Angular, but this would violate the rule that standard @nyaf templates shall be standard TSX files that any editor can handle without additional tool support. To support such a scenario, refer to [Custom Binders](./custombinders.md).
 
 The binding handler is not provided, so it falls back to a `DefaultBindingHandler`, that binds uni-directional to the assigned attribute. That has two
 limitations. First, it's always uni-directional. Second, it can bind only to attributes of `HTMLElement`. Object properties, such as `textContent`or `innerText`

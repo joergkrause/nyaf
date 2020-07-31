@@ -1,8 +1,6 @@
 import { Email, Required, StringLength, MinLength } from '@nyaf/forms';
 import { Type } from '@nyaf/lib';
 
-// type validators = Type<Email> | Required | StringLength | MinLength;
-
 export interface ErrorState {
   // TODO: siehe SVOGV deco pattern
   type?: Record<any, boolean>;

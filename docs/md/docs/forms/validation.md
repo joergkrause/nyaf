@@ -50,7 +50,6 @@ Distinguish between different validators like this:
 
 Objects are always set (not undefined), so you don't must test first. The property names are same as the decorators, but in lower case:
 
-* `@StringLength`: `stringlength`
 * `@MaxLength`: `maximum`
 * `@MinLength`: `minimum`
 * `@Pattern`: `pattern`
