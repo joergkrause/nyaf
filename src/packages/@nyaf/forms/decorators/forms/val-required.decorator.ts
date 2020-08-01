@@ -30,6 +30,14 @@ function requiredInternalSetup(target: any, key: string, msg?: string) {
         enumerable: false,
         configurable: false
     });
+
+    Object.defineProperty(target, `__isValidRequired__${key}`, {
+      get: function () {
+        return !!target[key];
+      },
+      enumerable: false,
+      configurable: false
+  });
 }
 
 Required.required = 'errRequired';

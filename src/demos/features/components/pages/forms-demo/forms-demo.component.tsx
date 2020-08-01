@@ -60,13 +60,27 @@ export class FormsDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='validation' source='validation'>Tabs</h3>
+            <h3 class='display-4' id='validation' source='validation'>Validation I</h3>
             <app-slot-tabs>
               <app-slot-tab title='Validation'>
                 <div class='alert alert-info m-2 m-2'>Use validation decorators and bind validation to element's visibility.</div>
               </app-slot-tab>
               <app-slot-tab title='Playground'>
                 <app-validation></app-validation>
+              </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+            </app-slot-tabs>
+            <hr />
+            <h3 class='display-4' id='validation-display' source='validation-display'>Validation II</h3>
+            <app-slot-tabs>
+              <app-slot-tab title='Validation'>
+                <div class='alert alert-info m-2 m-2'>Use validation decorators and bind validation to element's display style.</div>
+              </app-slot-tab>
+              <app-slot-tab title='Playground'>
+                <app-validation-display></app-validation-display>
               </app-slot-tab>
               <app-slot-tab title='Demo Markup'>
               </app-slot-tab>
