@@ -19,6 +19,7 @@ export class Binding {
     protected binderInstance: ModelBinder<any>,
     public el: HTMLElement
   ) {
+    console.log('ctor Binding', handler, el);
   }
   /**
    * Define the binder
@@ -36,9 +37,11 @@ export class Binding {
     }
   }
   public set value(value) {
+    console.log('assign value to scope', this.modelProperty, value);
     this.binderInstance.scope[this.modelProperty] = value;
   }
   public get value() {
+    console.log('read value from scope', this.modelProperty, this.binderInstance.scope[this.modelProperty]);
     return this.binderInstance.scope[this.modelProperty];
   }
 }

@@ -1,5 +1,6 @@
 import JSX, { BaseComponent, LifeCycle, CustomElement } from '@nyaf/lib';
 import { Display, Hidden, to, IModel, ModelBinder, ViewModel, ValueBindingHandler } from '@nyaf/forms';
+import { ContactModel } from './models/contact.model';
 
 export class FormModel {
   @Hidden()
@@ -40,11 +41,10 @@ export class FormComponent<T extends FormModel> extends BaseComponent<{}> implem
           <div class='alert alert-secondary'>
             The user '<span n-bind={to<T>(e => e.userName, 'innerText')} />' comes from '<span n-bind={to<T>(e => e.city, 'innerText')} />'.
           </div>
-          <button type='button' n-on-click={e => this.save(e)}>
+          <button class='btn btn-sm btn-primary' type='button' n-on-click={e => this.save(e)}>
             Save
           </button>
-          <h5>Sub Form Binding</h5>
-          <app-sub-form id='subForm'>Not yet loaded...</app-sub-form>
+          <app-sub-form id='subForm' n-bind={to<T, SubFormComponent>(e => e.userName, 'subValue')}>Not yet loaded...</app-sub-form>
           <hr />
         </form>
       </>
@@ -84,6 +84,7 @@ export class SubFormComponent<T extends SubFormModel = SubFormModel> extends Bas
   async render() {
     return await (
       <div>
+        <h5>Sub Form Binding</h5>
         <span n-bind={to<T>(e => e.value, 'innerText')} ></span>
       </div>
     );

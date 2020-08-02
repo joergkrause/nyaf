@@ -2,7 +2,7 @@ import { BaseComponent, LifeCycle, Select } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ContactModel } from './models/contact.model';
 import { ViewModel, ModelBinder, IModel, to, val, Required, Email, MaxLength } from '@nyaf/forms/';
-import { VisibilityBindingHandler, ValueBindingHandler } from '@nyaf/forms';
+import { DisplayBindingHandler, ValueBindingHandler } from '@nyaf/forms';
 
 @CustomElement('app-validation')
 @ViewModel(ContactModel, {
@@ -31,14 +31,14 @@ export class ValidationDemoComponent<T extends ContactModel> extends BaseCompone
         <div>
           <h4>Validiation Logic Test</h4>
           <p>
-            Type a value and watch messages appear/disappear
+            Type a value and watch messages appear/disappear. Messages make visible through span elements and text decoration.
           </p>
           <input n-bind={to<T, HTMLInputElement>(c => c.email, 'value')} />
-          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, Required, VisibilityBindingHandler)} ></div>
-          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, Email, VisibilityBindingHandler)} ></div>
-          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, MaxLength, VisibilityBindingHandler)} ></div>
+          <span class='text text-danger' n-bind={val<ContactModel>(c => c.email, Required, DisplayBindingHandler)} ></span>
+          <span class='text text-danger' n-bind={val<ContactModel>(c => c.email, Email, DisplayBindingHandler)} ></span>
+          <span class='text text-danger' n-bind={val<ContactModel>(c => c.email, MaxLength, DisplayBindingHandler)} ></span>
           <br />
-          <button type='button' id='mybtn' n-on-click={(e) => this.show(e)}>Show Validation State Object</button>
+          <button class='btn btn-sm btn-secondary' type='button' id='mybtn' n-on-click={(e) => this.show(e)}>Show Validation State Object</button>
         </div>
         <h4>Control output</h4>
         <pre>

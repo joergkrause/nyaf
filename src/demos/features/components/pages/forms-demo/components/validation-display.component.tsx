@@ -2,7 +2,7 @@ import { BaseComponent, LifeCycle, Select } from '@nyaf/lib';
 import JSX, { CustomElement } from '@nyaf/lib';
 import { ContactModel } from './models/contact.model';
 import { ViewModel, ModelBinder, IModel, to, val, Required, Email, MaxLength } from '@nyaf/forms/';
-import { DisplayBindingHandler, ValueBindingHandler } from '@nyaf/forms';
+import { VisibilityBindingHandler, ValueBindingHandler } from '@nyaf/forms';
 
 @CustomElement('app-validation-display')
 @ViewModel(ContactModel, {
@@ -31,14 +31,14 @@ export class ValidationDisplayDemoComponent<T extends ContactModel> extends Base
         <div>
           <h4>Validiation Logic Test</h4>
           <p>
-            Type a value and watch messages appear/disappear
+            Type a value and watch messages appear/disappear. Messages use bootstrap alert boxes in DIV elements.
           </p>
           <input n-bind={to<T, HTMLInputElement>(c => c.email, 'value')} />
-          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, Required, DisplayBindingHandler)} ></div>
-          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, Email, DisplayBindingHandler)} ></div>
-          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, MaxLength, DisplayBindingHandler)} ></div>
+          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, Required, VisibilityBindingHandler)} ></div>
+          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, Email, VisibilityBindingHandler)} ></div>
+          <div class='alert alert-danger' n-bind={val<ContactModel>(c => c.email, MaxLength, VisibilityBindingHandler)} ></div>
           <br />
-          <button type='button' id='mybtn' n-on-click={(e) => this.show(e)}>Show Validation State Object</button>
+          <button class='btn btn-sm btn-secondary' type='button' id='mybtn' n-on-click={(e) => this.show(e)}>Show Validation State Object</button>
         </div>
         <h4>Control output</h4>
         <pre>

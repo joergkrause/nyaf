@@ -36,6 +36,15 @@ function emailInternalSetup(target: any, key: string, msg?: string) {
     enumerable: false,
     configurable: false
   });
+
+  Object.defineProperty(target, `__isValidEmail__${key}`, {
+    value: function (val: string) {
+      return new RegExp(pattern).test(val);
+    },
+    enumerable: false,
+    configurable: false
+  });
+
 }
 
-Email.pattern = 'errPattern';
+Email.internal = 'email';

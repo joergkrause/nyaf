@@ -6,38 +6,38 @@
  *
  */
 export function Required(msg?: string) {
-    // the original decorator
-    function requiredInternal(target: Object, property: string | symbol): void {
-        requiredInternalSetup(target, property.toString(), msg);
-    }
+  // the original decorator
+  function requiredInternal(target: Object, property: string | symbol): void {
+    requiredInternalSetup(target, property.toString(), msg);
+  }
 
-    // return the decorator
-    return requiredInternal;
+  // return the decorator
+  return requiredInternal;
 }
 
 /**
  * @ignore
  */
 function requiredInternalSetup(target: any, key: string, msg?: string) {
-    Object.defineProperty(target, `__hasRequired__${key}`, {
-        value: true,
-        enumerable: false,
-        configurable: false
-    });
+  Object.defineProperty(target, `__hasRequired__${key}`, {
+    value: true,
+    enumerable: false,
+    configurable: false
+  });
 
-    Object.defineProperty(target, `__errRequired__${key}`, {
-        value: msg || `The field ${key} is required`,
-        enumerable: false,
-        configurable: false
-    });
+  Object.defineProperty(target, `__errRequired__${key}`, {
+    value: msg || `The field ${key} is required`,
+    enumerable: false,
+    configurable: false
+  });
 
-    Object.defineProperty(target, `__isValidRequired__${key}`, {
-      get: function () {
-        return !!target[key];
-      },
-      enumerable: false,
-      configurable: false
+  Object.defineProperty(target, `__isValidRequired__${key}`, {
+    value: function (val: string) {
+      return !!val;
+    },
+    enumerable: false,
+    configurable: false
   });
 }
 
-Required.required = 'errRequired';
+Required.internal = 'required';

@@ -3,9 +3,10 @@ import { ValidatorBinding } from './validatorbinding.class';
 
 /**
  * The basic interface for creating custom handlers.
+ * @see bind is usesd to assign the listener.
  */
 export interface IBindingHandler {
-  bind(binding: Binding | ValidatorBinding): void;
+  bind?(binding: Binding | ValidatorBinding): void;
   react(binding: Binding | ValidatorBinding, property?: string): void;
   listener?(binding: Binding | ValidatorBinding): void;
 }

@@ -6,13 +6,13 @@
  *
  */
 export function MinLength(len: number, msg?: string) {
-    // the original decorator
-    function minLengthInternal(target: Object, property: string | symbol): void {
-        minLengthInternalSetup(target, property.toString(), len, msg);
-    }
+  // the original decorator
+  function minLengthInternal(target: Object, property: string | symbol): void {
+    minLengthInternalSetup(target, property.toString(), len, msg);
+  }
 
-    // return the decorator
-    return minLengthInternal;
+  // return the decorator
+  return minLengthInternal;
 }
 
 /**
@@ -20,17 +20,26 @@ export function MinLength(len: number, msg?: string) {
  */
 function minLengthInternalSetup(target: any, key: string, len: number, msg?: string) {
 
-    // create a helper property to transport a meta data value
-    Object.defineProperty(target, `__hasMinLength__${key}`, {
-        value: len,
-        enumerable: false,
-        configurable: false
-    });
+  // create a helper property to transport a meta data value
+  Object.defineProperty(target, `__hasMinLength__${key}`, {
+    value: len,
+    enumerable: false,
+    configurable: false
+  });
 
-    Object.defineProperty(target, `__errMinLength__${key}`, {
-        value: msg || `The field ${key} needs at least ${len} characters`,
-        enumerable: false,
-        configurable: false
-    });
+  Object.defineProperty(target, `__errMinLength__${key}`, {
+    value: msg || `The field ${key} needs at least ${len} characters`,
+    enumerable: false,
+    configurable: false
+  });
 
+  Object.defineProperty(target, `__isValidMinlength__${key}`, {
+    value: function (val: string) {
+      return val?.toString().length >= len;
+    },
+    enumerable: false,
+    configurable: false
+  });
 }
+
+MinLength.internal = 'minlength';

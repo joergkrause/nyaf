@@ -9,6 +9,9 @@ import { Binding } from './binding.class';
  * @ignore
  */
 export class ValidatorBinding extends Binding {
+
+  private validationHandler;
+
   /**
    * The binder assignment that connects viewmodel properties to element attributes.
    * @param modelProperty The property of the viewmodel this binder binds to
@@ -20,18 +23,20 @@ export class ValidatorBinding extends Binding {
     modelProperty: string,
     handler: string,
     binderInstance: ModelBinder<any>,
+    private validatorKey: string,
     el: HTMLElement
   ) {
     super(modelProperty, handler, binderInstance, el);
+    this.validationHandler = Object.values(this.binderInstance.handlers).filter(h => h.constructor.name === this.handler).shift();
   }
   /**
    * Define the binder
    * @param property An options property, sued to assign to a specific proeprty in multi-attribute binding
    */
   public bind(property?: string) {
-    const bindingHandler = this.binderInstance.handlers[this.handler] as VisibilityBindingHandler;
+    const bindingHandler = this.binderInstance.handlers[this.handler];
     if (bindingHandler) {
-      bindingHandler.bind(this);
+      // bindingHandler.bind(this);
       this.binderInstance.subscribe(super.modelProperty, () => {
         bindingHandler.react(this);
       });
@@ -40,10 +45,12 @@ export class ValidatorBinding extends Binding {
     }
   }
   public set value(value) {
-    this.binderInstance.state.validators.isValid[this.modelProperty] = value;
+    this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey] = value;
+    this.validationHandler.react(this);
+
   }
   public get value() {
-    return this.binderInstance.state.validators.isValid[this.modelProperty];
+    return this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey];
   }
   public get validationProperty(): string {
     return super.modelProperty;

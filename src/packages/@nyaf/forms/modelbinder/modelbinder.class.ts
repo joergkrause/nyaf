@@ -9,6 +9,7 @@ import { LifeCycle, BaseComponent } from '@nyaf/lib';
 import { VisibilityBindingHandler } from './handlers/visibilitybindinghandler.class';
 import { DisplayBindingHandler } from './handlers/displaybindinghandler.class';
 import { Required } from '../decorators/forms/val-required.decorator';
+import { ValidatorBinding } from './validatorbinding.class';
 
 /**
  * The modelbinder serves two purposes:
@@ -144,65 +145,22 @@ export class ModelBinder<VM extends object> {
               const toVal = Array.from(el.attributes).filter(a => a.value.startsWith('n-val'));
               if (toVal.length > 0) {
                 // handle validations
-                console.log('val ', toVal);
                 toVal.forEach(attrBind => {
                   // `n-val:${sourceProperty}:${Validator}:${BindingInstruction}`
                   expressionParts = attrBind.value.split(':');
                   // scopeKey is the property (email, userName, ...)
                   // Decoratorkeys all that apply (Required, Email, MaxLength) to that application
                   const [, scopeKey, decoratorKey, binderKey] = expressionParts;
-                  const pattern = modelInstance[`__hasPattern__${scopeKey}`] || /./gmi;
-                  const maxLength = modelInstance[`__hasMaxLength__${scopeKey}`] || Number.MAX_SAFE_INTEGER;
-                  const minLength = modelInstance[`__hasMinLength__${scopeKey}`] || 0;
                   // bind the model to validation action
-                  const binding = new Binding(scopeKey, binderKey, mbInstance, el);
+                  const binding = new ValidatorBinding(scopeKey, binderKey, mbInstance, decoratorKey.toLowerCase(), el);
                   mbInstance.subscribe(scopeKey, (key: string) => {
-                    console.log('keys::', scopeKey, key);
-                    const currentValueToValidate = modelInstance[key];
-                    if (modelInstance[`__isValid${decoratorKey}__${key}`] !== undefined) {
-                      binding.value = <boolean>modelInstance[`__isValid${decoratorKey}__${key}`];
-                      const hh = Object.values(mbInstance.handlers).filter(h => h.constructor.name === binderKey).shift();
-                      hh.react(binding);
+                    const actualValidator: (val: any) => boolean = modelInstance[`__isValid${decoratorKey}__${key}`];
+                    if (actualValidator !== undefined) {
+                      // we turn the value from true to false, because in case of a true value (valid) we mnke the error message invisible (hence false)
+                      binding.value = !actualValidator(modelInstance[key]);
                     }
-                    // switch (decoratorKey) {
-                    //   case 'Required':
-                    //     if (!currentValueToValidate) {
-                    //       el.style.visibility = 'visible';
-                    //     } else {
-                    //       el.style.visibility = 'hidden';
-                    //     }
-                    //     break;
-                    //   case 'Email':
-                    //     if (currentValueToValidate && new RegExp(pattern).test(currentValueToValidate) === false) {
-                    //       el.style.visibility = 'visible';
-                    //     } else {
-                    //       el.style.visibility = 'hidden';
-                    //     }
-                    //     break;
-                    //   case 'MinLength':
-                    //     if (currentValueToValidate && currentValueToValidate.length <= minLength) {
-                    //       el.style.visibility = 'visible';
-                    //     } else {
-                    //       el.style.visibility = 'hidden';
-                    //     }
-                    //     break;
-                    //   case 'MaxLength':
-                    //     if (currentValueToValidate && currentValueToValidate.length >= maxLength) {
-                    //       el.style.visibility = 'visible';
-                    //     } else {
-                    //       el.style.visibility = 'hidden';
-                    //     }
-                    //     break;
-                    //   default:
-                    //     throw new Error('Unknown validation decorator key: ' + decoratorKey);
-                    // }
-                    console.log(`Validator subscriber callback, key:${key}, el:${el}, dk:${decoratorKey},
-                    scopeKey:${scopeKey},
-                    currentValue: ${currentValueToValidate},
-                    decoProp:${modelInstance[`__isValid${decoratorKey}__${key}`]} `);
                   });
                   // bind the error messages to target element
-                  console.log(`set binding for ${decoratorKey} to ${el.outerHTML}`);
                   switch (decoratorKey) {
                     case 'Email':
                       ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `errPattern`, 'innerText');
@@ -230,27 +188,8 @@ export class ModelBinder<VM extends object> {
             this.createValidationModel(modelInstance, mbInstance, 'MinLength', p);
             this.createValidationModel(modelInstance, mbInstance, 'MaxLength', p);
             this.createValidationModel(modelInstance, mbInstance, 'Pattern', p);
-            // Add a binder event and check the conditions
-            mbInstance.subscribe(p, (key: string) => {
-              if (mbInstance.state.validators && mbInstance.state.validators[p]) {
-                const value = modelInstance[key];
-                if (mbInstance.state.validators[p].type['required']) {
-                  mbInstance.state.validators[p].isValid['required'] = !!value;
-                }
-                if (mbInstance.state.validators[p].type['email']) {
-                  mbInstance.state.validators[p].isValid['email'] = !!value;
-                }
-                if (mbInstance.state.validators[p].type['minlength']) {
-                  mbInstance.state.validators[p].isValid['minlength'] = !!value;
-                }
-                if (mbInstance.state.validators[p].type['maxlength']) {
-                  mbInstance.state.validators[p].isValid['maxlength'] = !!value;
-                }
-                if (mbInstance.state.validators[p].type['pattern']) {
-                  mbInstance.state.validators[p].isValid['pattern'] = !!value;
-                }
-              }
-            });
+            this.createValidationModel(modelInstance, mbInstance, 'Range', p);
+            this.createValidationModel(modelInstance, mbInstance, 'Compare', p);
           });
 
         Object.keys(modelInstance).forEach(prop => mbInstance.notify(prop));

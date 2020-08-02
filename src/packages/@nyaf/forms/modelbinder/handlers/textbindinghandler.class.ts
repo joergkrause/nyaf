@@ -5,6 +5,10 @@ import { IBindingHandler } from '../ibindinghandler.interface';
  * This handler binds the property 'textContent' and doesn't listen to anything.
  */
 export class TextBindingHandler implements IBindingHandler {
+
+  constructor() {
+  }
+
   bind(binding: Binding): void {
     this.react(binding);
   }

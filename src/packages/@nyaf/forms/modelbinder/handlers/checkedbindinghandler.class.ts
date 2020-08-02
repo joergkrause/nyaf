@@ -5,11 +5,14 @@ import { IBindingHandler } from '../ibindinghandler.interface';
  * This handler binds the property 'checked' and listens to the 'input' event.
  */
 export class CheckedBindingHandler implements IBindingHandler {
+
+  constructor() {
+  }
+
   bind(binding: Binding): void {
     binding.el.addEventListener('input', () => {
       this.listener(binding);
     });
-    // this.react(binding);
   }
   react(binding: Binding): void {
     (binding.el as HTMLInputElement).checked = binding.value;

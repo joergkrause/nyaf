@@ -42,4 +42,14 @@ function rangeInternalSetup(target: any, key: string, from: number | Date, to: n
     enumerable: false,
     configurable: false
   });
+
+  Object.defineProperty(target, `__isValidRange${key}`, {
+    get: function () {
+      return +target[key] >= from && +target[key] <= to;
+    },
+    enumerable: false,
+    configurable: false
+  });
 }
+
+Range.internal = 'range';

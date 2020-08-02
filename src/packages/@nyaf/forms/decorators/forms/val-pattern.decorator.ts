@@ -31,4 +31,14 @@ function patternInternalSetup(target: any, key: string, reg: RegExp, msg?: strin
     enumerable: false,
     configurable: false
   });
+
+  Object.defineProperty(target, `__isValidPattern__${key}`, {
+    get: function () {
+      return new RegExp(reg).test(target[key]);
+    },
+    enumerable: false,
+    configurable: false
+  });
 }
+
+Pattern.internal = 'patterm';

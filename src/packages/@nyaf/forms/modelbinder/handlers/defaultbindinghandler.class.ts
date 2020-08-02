@@ -5,8 +5,10 @@ import { IBindingHandler } from '../ibindinghandler.interface';
  * This handler binds the given property and doesn't listen to anything.
  */
 export class DefaultBindingHandler implements IBindingHandler {
-  bind(binding: Binding): void {
+
+  constructor() {
   }
+
   react(binding: Binding, property: string): void {
     binding.el[property] = binding.value;
   }
