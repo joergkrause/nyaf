@@ -114,6 +114,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../../lib/select/">Select Elements</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../../lib/smart/">Smart Components</a>
                 </li>
                 <li class="">
@@ -162,6 +166,31 @@
                 <li class="">
                     
     <a class="" href="../nbind/">Data Binding</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Validation</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#validation">Validation</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#viewmodel-decorators">ViewModel Decorators</a></li>
+        
+            <li><a class="toctree-l4" href="#state">State</a></li>
+        
+            <li><a class="toctree-l4" href="#bind-to-validators">Bind to Validators</a></li>
+        
+            <li><a class="toctree-l4" href="#handler-behavior">Handler Behavior</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#additional-information">Additional Information</a></li>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
@@ -276,6 +305,10 @@
     <li><a href="../../../..">Docs</a> &raquo;</li>
     
       
+        
+          <li>Forms Extensions &raquo;</li>
+        
+      
     
     <li>Validation</li>
     <li class="wy-breadcrumbs-aside">
@@ -291,6 +324,34 @@
             <div class="section">
               
                 <h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">#</a></h2>
+<p>Form validation is painful to programm from scratch. @nyaf provides a n integrated but flexible validation system.</p>
+<h3 id="viewmodel-decorators">ViewModel Decorators<a class="headerlink" href="#viewmodel-decorators" title="Permanent link">#</a></h3>
+<p>First, you need a viewmodel that has validation decorators. It's the same kind of model used for regular binding. Again, here is an example:</p>
+<pre><code class="ts">export class UserViewModel {
+
+  @Hidden()
+  id: Number = 0;
+
+  @Display('E-Mail', 'E-Mail address')
+  @Required()
+  @MaxLength(100)
+  @Email()
+  email: string = '';
+
+  @Display('Phone Number', 'The user\'s phone')
+  @Required('Please, the phone number is required')
+  @MaxLength(20)
+  phoneNumber: string = '';
+
+  @Display('User Name', 'The full name')
+  @Required()
+  @MaxLength(100)
+  userName: string = '';
+
+}
+</code></pre>
+
+<p>Especially the validation decorators are in control of the validation (<code>Required</code>, <code>MaxLength</code>, and so on). In binding instruction you tell the environment with what decorator a property has to be connected.</p>
 <h3 id="state">State<a class="headerlink" href="#state" title="Permanent link">#</a></h3>
 <p>The validation state is available through <code>state</code>:</p>
 <pre><code class="ts">this.model.state = {
@@ -309,8 +370,8 @@
   &lt;label n-bind=&quot;innerText: userName&quot; for=&quot;un&quot;/&gt;
   &lt;input n-bind=&quot;value: userName&quot; id=&quot;un&quot;&gt;
   &lt;div class=&quot;text text-danger&quot;
-       n-show={bind&lt;ViewModel&gt;(e =&gt; e.userName, Required, 'state')}
-       innerHTML={bind&lt;ViewModel&gt;(e =&gt; e.userName, Required, 'error'} &gt;&lt;/div&gt;
+       n-bind={val&lt;ViewModel&gt;(e =&gt; e.userName, Required, DisplayBindingHandler)}&gt;
+  &lt;/div&gt;
 &lt;/form&gt;
 </code></pre>
 
@@ -320,19 +381,61 @@ You can, however, provide any kind of message in the decorator. In case you need
 <pre><code class="tsx">&lt;form&gt;
   &lt;label n-bind=&quot;innerText: userName&quot; for=&quot;un&quot;/&gt;
   &lt;input n-bind=&quot;value: userName&quot; id=&quot;un&quot;&gt;
-  &lt;div class=&quot;text text-danger&quot;
-       n-show={bind&lt;ViewModel&gt;(e =&gt; e.userName, Required, 'state')}
-       innerHTML={bind&lt;ViewModel&gt;(e =&gt; e.userName, Required, 'error'} &gt;&lt;/div&gt;
+  &lt;span class=&quot;text text-danger&quot;
+       n-bind={val&lt;ViewModel&gt;(e =&gt; e.userName, MaxLength, DisplayBindingHandler)}&gt;
+  &lt;/span&gt;
 &lt;/form&gt;
 </code></pre>
 
+<p>The smart binder <code>val</code> is the key ingredient here. It takes three parameters:</p>
+<ol>
+<li>Expression to access the models actual value</li>
+<li>Validator for which the binding is responsible (must also be aon the view models property)</li>
+<li>Display handler, that pulls the values and assigns it to the right property</li>
+</ol>
+<p>In the above example the view model has this property:</p>
+<pre><code class="ts">@Required()
+@MaxLength(100)
+userName: string = '';
+</code></pre>
+
+<p>Now, the binding instruction looks like this:</p>
+<pre><code>val&lt;ViewModel&gt;(e =&gt; e.userName, MaxLength, DisplayBindingHandler)
+</code></pre>
+
+<p>The <code>DisplayBindingHandler</code> is smart enough to know that it's bound to an error message. It know reads the second parameter that is <code>Required</code>. It binds now to parts.
+First, it binds the error message to <code>textContent</code>. That's a static assignment. Second, it binds the <code>display</code> style to the <code>isValid</code> method of the view model. This
+method is set through the <code>Required</code> decorator and knows how to determine the state 'required'. The property is bound through the scope's Proxy dynamically and once
+the values changes, irrespectively the source of the change, it fires an event and the model binder holds a subscriber for this. Here, the value is taken and handed over to the <code>isValid</code> method.
+This method is bound to the handler, that sets the style accordingly. That setting is reversed, means that the value <code>true</code> makes the message invisible, while the value
+<code>false</code> makes the message visible (isValid ==== false tells us an error occurred).</p>
 <blockquote>
-<p>Using <code>n-show</code> is mandatory, it's able to react to state changes. <code>n-if</code> is static and will not change visibility after first render process.</p>
+<p>If you use the <code>DisplayBindingHandler</code> or <code>VisibilityBindingHandler</code> directly, without validation but in conjunction with binding operations, than they will work straight, true makes an element visible, and false invisible.</p>
 </blockquote>
+<h3 id="handler-behavior">Handler Behavior<a class="headerlink" href="#handler-behavior" title="Permanent link">#</a></h3>
+<p>The <code>DisplayBindingHandler</code> sets <code>display: none</code> or <code>display: block</code>.</p>
+<p>The <code>VisibilityBindingHandler</code> sets <code>visibility: hidden</code> or <code>visibility: visible</code>.</p>
+<p>If you need other values you must write a new handler with the desired behavior. This is, fortunately, extremely simple. Here is the source code for the handlers:</p>
+<pre><code class="ts">export class DisplayBindingHandler implements IBindingHandler {
+  react(binding: Binding): void {
+    binding.el.style.display = binding.value ? 'block' : 'none';
+  }
+}
+
+export class VisibilityBindingHandler implements IBindingHandler {
+  react(binding: Binding): void {
+    binding.el.style.visibility = binding.value ? 'visible' : 'hidden';
+  }
+}
+</code></pre>
+
+<p>The <code>Binding</code> instance, provided internally, delivers a boolean value. The element <em>el</em> is the element that has the <code>n-bind={val&lt;T&gt;()}</code> instruction. <em>T</em> is the model
+that drives the content using decorators.</p>
+<h2 id="additional-information">Additional Information<a class="headerlink" href="#additional-information" title="Permanent link">#</a></h2>
 <p>Objects are always set (not undefined), so you don't must test first. The property names are same as the decorators, but in lower case:</p>
 <ul>
-<li><code>@MaxLength</code>: <code>maximum</code></li>
-<li><code>@MinLength</code>: <code>minimum</code></li>
+<li><code>@MaxLength</code>: <code>maxlength</code></li>
+<li><code>@MinLength</code>: <code>minlength</code></li>
 <li><code>@Pattern</code>: <code>pattern</code></li>
 <li><code>@Range</code>: <code>range</code></li>
 <li><code>@Required</code>: <code>required</code></li>
@@ -343,6 +446,15 @@ You can, however, provide any kind of message in the decorator. In case you need
             </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../custombinders/" class="btn btn-neutral float-right" title="Custom Binders">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../nbind/" class="btn btn-neutral" title="Data Binding"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -368,6 +480,10 @@ You can, however, provide any kind of message in the decorator. In case you need
           <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
+        <span><a href="../nbind/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../custombinders/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
