@@ -15,7 +15,7 @@ export class HomeComponent extends BaseComponent {
           <div class='container d-flex h-100 align-items-center'>
             <div class='mx-auto text-center'>
               <h1 class='mx-auto my-0'>@nyaf</h1>
-              <h2 class='text-white-50 mx-auto mt-2 mb-5'>A free, simple, sleek and fast frontend framework.</h2>
+              <h2 class='text-white-50 mx-auto mt-2 mb-0'>A free, simple, sleek and fast frontend framework.</h2>
               <a class='btn btn-primary js-scroll-trigger' href='#down'>Get Started</a>
             </div>
           </div>
@@ -30,11 +30,11 @@ export class HomeComponent extends BaseComponent {
                   much better to extend the developer's toolchain and try to keep the result as simple as possible, using native functions wherever possible.
                   <br></br>
                   <i>
-                  It's hard to get but it's a fact, that most developers first looking for a framework, reading comparisions, and check blogs and books instead  of
-                  asking what all these framework are about. In fact, all are based on native APIs, such as HTML 5, and specific language features, such as those from
-                  TypeScript transpiler. In the beginning it was at least possible to understand the intention. Instead of working with a complex low -level API it's
-                  better to has a simplified and optimized high-level API. But after years the frameworks got fat. And now the learning curve is as steep as the native
-                  APIs would require. But those have improved, too. In the end, there is no need for a fat frontend framework, ever. @nyaf brings just the little bit
+                    It's hard to get but it's a fact, that most developers first looking for a framework, reading comparisions, and check blogs and books instead  of
+                    asking what all these framework are about. In fact, all are based on native APIs, such as HTML 5, and specific language features, such as those from
+                    TypeScript transpiler. In the beginning it was at least possible to understand the intention. Instead of working with a complex low -level API it's
+                    better to has a simplified and optimized high-level API. But after years the frameworks got fat. And now the learning curve is as steep as the native
+                    APIs would require. But those have improved, too. In the end, there is no need for a fat frontend framework, ever. @nyaf brings just the little bit
                     that makes a frontend dev happy and skips all the fat stuff. You wan't need it, I promise.
                   </i>
                   <br></br>
@@ -47,45 +47,49 @@ export class HomeComponent extends BaseComponent {
                 </ol>
                 <p class='text-white-50'>The result is outstanding. Very easy to write components, very small code, very fast execution.</p>
                 <blockquote>
-                  The core library is actually <b>36 KB</b>, zipped roughly <b>11 KB</b>. All parts together are <b>58 KB</b>, <b>23 KB</b> zipped. That'it. Period.
+                  The core library is actually <b>36 KB</b>, zipped roughly <b>11 KB</b>. All parts together are <b>58 KB</b>, <b>23 KB</b> zipped. That's it. Period.
                   </blockquote>
               </div>
             </div>
-            <img class='img-fluid' src='assets/img/ipad.png' alt='' />
           </div>
         </section>
-        <section class='projects-section bg-light' id='projects'>
+        <section class='projects-section bg-dark' id='projects'>
           <div class='container'>
-            <div class='row align-items-center no-gutters mb-4 mb-lg-5'>
-              <div class='col-xl-8 col-lg-7'><img class='img-fluid mb-3 mb-lg-0' src='assets/img/bg-masthead.jpg' alt='' /></div>
-              <div class='col-xl-4 col-lg-5'>
-                <div class='featured-text text-center text-lg-left'>
-                  <h4>Shoreline</h4>
-                  <p class='text-black-50 mb-0'>
-                    @nyaf is open source and ICS licensed. FOSS free licensing for enterprises on request.
-                    This means you can use it for any project - even commercial projects! Download it, customize it, and publish your website!
+            <div class='row align-items-center no-gutters mb-0'>
+              <div class='col-lg-6'>
+                <div class='bg-black h-100 project'>
+                  <div class='d-flex h-100'>
+                    <div class='project-text w-100 my-auto text-left'>
+                      <h4 class='text-white'>Shoreline</h4>
+                      <p class='text-white-50 mb-0'>
+                        @nyaf is open source and ICS licensed. FOSS free licensing for enterprises on request.
+                        This means you can use it for any project - even commercial projects! Download it, customize it, and publish your website!
                     </p>
-                  <p class='text-black-50 mb-0'>There is full support for</p>
-                  <ul class='text-black-50 mb-0'>
-                    <li>WebPack</li>
-                    <li>TypeScript</li>
-                    <li>HTML 5 DOM API</li>
-                  </ul>
-                  <p class='text-black-50 mb-0'>
-                    No vendor lock-in, no special tooling, no editor enhancements. Pure modern Web Technology made right, finally.
+                      <p class='text-white-50 mb-0'>There is full support for</p>
+                      <ul class='text-white-50 mb-0'>
+                        <li>WebPack</li>
+                        <li>TypeScript</li>
+                        <li>HTML 5 DOM API</li>
+                      </ul>
+                      <p class='text-white-50 mb-0'>
+                        No vendor lock-in, no special tooling, no editor enhancements. Pure modern Web Technology made right, finally.
                     </p>
-                  <p class='text-black-50 mb-0'>
-                    There is no dependency to anything, too.
+                      <p class='text-white-50 mb-0'>
+                        There is no dependency to anything, too.
                     </p>
+                    <hr class='d-none d-lg-block mb-0 ml-0' />
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class='col-lg-6'><img class='img-fluid mb-3 mb-lg-0' src='assets/img/demo-image-01.jpg' alt='' /></div>
             </div>
-            <div class='row justify-content-center no-gutters mb-5 mb-lg-0'>
-              <div class='col-lg-6'><img class='img-fluid' src='assets/img/demo-image-01.jpg' alt='' /></div>
+            <div class='row justify-content-center no-gutters mb-0'>
+              <div class='col-lg-6'><img class='img-fluid' src='assets/img/demo-image-03.jpg' alt='' /></div>
               <div class='col-lg-6'>
-                <div class='bg-black text-center h-100 project'>
+                <div class='bg-black h-100 project'>
                   <div class='d-flex h-100'>
-                    <div class='project-text w-100 my-auto text-center text-lg-left'>
+                    <div class='project-text w-100 my-auto text-left'>
                       <h4 class='text-white'>Enhanced Template Features</h4>
                       <p class='text-white-50 mb-0'>Template are powerful und can handle special instruction, it's a bit looking like Vue.</p>
                       <p class='text-white-50 mb-0'>
@@ -102,11 +106,11 @@ export class HomeComponent extends BaseComponent {
               </div>
             </div>
             <div class='row justify-content-center no-gutters'>
-              <div class='col-lg-6'><img class='img-fluid' src='assets/img/demo-image-02.jpg' alt='' /></div>
+              <div class='col-lg-6'><img class='img-fluid mt-4' src='assets/img/demo-image-02.jpg' alt='' /></div>
               <div class='col-lg-6 order-lg-first'>
-                <div class='bg-black text-center h-100 project'>
+                <div class='bg-black h-100 project'>
                   <div class='d-flex h-100'>
-                    <div class='project-text w-100 my-auto'>
+                    <div class='project-text w-100 my-auto text-left'>
                       <h4 class='text-white'>Best Bread</h4>
                       <p class='mb-0 text-white-50'>
                         <p class='text-white-50 mb-0'>

@@ -7,6 +7,8 @@ import { AboutComponent } from './components/pages/about.component';
 import { LibDemoComponent } from './components/pages/lib-demo/lib-demo.component';
 import { StoreDemoComponent } from './components/pages/store-demo/store-demo.component';
 import { FormsDemoComponent } from './components/pages/forms-demo/forms-demo.component';
+// shared
+import { PageIntroComponent } from './components/shared/pageintro.component';
 // lib
 import { TabsComponent } from './components/pages/lib-demo/components/tabs.component';
 import { TabComponent } from './components/pages/lib-demo/components/tab.component';
@@ -30,21 +32,24 @@ import { FormComponent, SubFormComponent } from './components/pages/forms-demo/c
 import { ValidationDemoComponent } from './components/pages/forms-demo/components/validation.component';
 import { ValidationDisplayDemoComponent } from './components/pages/forms-demo/components/validation-display.component';
 // router
-import { RouterComponent } from './components/router/router.component';
-import { Page1Component } from './components/router/page1.component';
-import { Page2Component } from './components/router/page2.component';
-import { Page3Component } from './components/router/page3.component';
+import { RouterDemoComponent } from './components/pages/router-demo/router-demo.component';
+import { RouterComponent } from './components/pages/router-demo/router.component';
+import { Page1Component } from './components/pages/router-demo/page1.component';
+import { Page2Component } from './components/pages/router-demo/page2.component';
+import { Page3Component } from './components/pages/router-demo/page3.component';
+import { Page4Component } from './components/pages/router-demo/page4.component';
+import { Page5Component } from './components/pages/router-demo/page5.component';
 
 
 import { ButtonExpander } from './expander/button.expander';
 
 import './main.scss';
-import './assets/css/styles.css';
 import 'jquery';
 import 'bootstrap';
 import 'jquery-easing';
 
 const routes: Routes = {
+  // this partt controls the demo itself
   '/': { component: HomeComponent },
   '/home': { component: HomeComponent },
   '/docu': { component: DocuComponent, data: { notlocal: true } },
@@ -52,14 +57,15 @@ const routes: Routes = {
   '/libdemo': { component: LibDemoComponent },
   '/storedemo': { component: StoreDemoComponent },
   '/formsdemo': { component: FormsDemoComponent },
-  '/router': { component: RouterComponent },
-  '/router/page1': { component: Page1Component, outlet: 'router' },
-  '/router/page2': { component: Page2Component, outlet: 'router' },
-  '/router/page2/other': { component: Page2Component, outlet: 'other' },
-  '/router/page3/other': { component: Page3Component, outlet: 'other' },
-  '/sc1': { component: StoreCounterComponent, outlet: 'other', forced: true },
-  '/sc2': { component: StoreCounterComponent, outlet: 'other', forced: true },
-
+  '/router': { component: RouterDemoComponent },
+  // this part is a child router to demoing the router
+  '/router/page1': { component: Page1Component, outlet: 'left' },
+  '/router/page2': { component: Page2Component, outlet: 'left' },
+  '/router/page2/right': { component: Page2Component, outlet: 'right' },
+  '/router/page3/right': { component: Page3Component, outlet: 'right' },
+  '/sc1': { component: Page4Component, outlet: 'right', forced: true },
+  '/sc2': { component: Page5Component, outlet: 'right', forced: true },
+  '**': { component: HomeComponent }
 };
 
 GlobalProvider.bootstrap({
@@ -71,6 +77,7 @@ GlobalProvider.bootstrap({
     AboutComponent,
     LibDemoComponent,
     StoreDemoComponent,
+    PageIntroComponent,
     StoreCounterComponent,
     StoreDataComponent,
     FormsDemoComponent,
@@ -92,11 +99,14 @@ GlobalProvider.bootstrap({
     ComplexBoolComponent,
     ServiceCounterComponent,
     ButtonsComponent,
+    RouterDemoComponent,
     RouterComponent,
     Page1Component,
     Page2Component,
     Page3Component,
+    Page4Component,
+    Page5Component
   ],
   // register the routes
-  routes: routes
+  routes
 });

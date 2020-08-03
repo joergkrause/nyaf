@@ -13,9 +13,12 @@ const indexConfig = {
 };
 
 const webpackConfig = {
-  mode: 'development',
+  mode: dev ? 'development' : 'production',
   // How source maps are generated : style of source mapping
   devtool: dev ? 'eval-cheap-module-source-map' : false,
+  optimization: {
+    minimize: dev ? false : true
+  },
   // Development server configuration
   devServer: {
     historyApiFallback: true,
@@ -93,11 +96,6 @@ const webpackConfig = {
           from: './src/demos/features/assets/img',
           flatten: true,
           to: './assets/img'
-        },
-        {
-          from: './node_modules/highlight.js/styles/default.css',
-          flatten: true,
-          to: './assets/css/hs.css'
         },
         {
           from: '**/*.tsx',

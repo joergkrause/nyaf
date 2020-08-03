@@ -1,0 +1,21 @@
+<app-router></app-router>
+
+const routes: Routes = {
+  // this partt controls the demo itself
+  '/': { component: HomeComponent },
+  '/home': { component: HomeComponent },
+  '/docu': { component: DocuComponent, data: { notlocal: true } },
+  '/about': { component: AboutComponent },
+  '/libdemo': { component: LibDemoComponent },
+  '/storedemo': { component: StoreDemoComponent },
+  '/formsdemo': { component: FormsDemoComponent },
+  '/router': { component: RouterDemoComponent },
+  // this part is a child router to demoing the router
+  '/router/page1': { component: Page1Component, outlet: 'left' },
+  '/router/page2': { component: Page2Component, outlet: 'left' },
+  '/router/page2/right': { component: Page2Component, outlet: 'right' },
+  '/router/page3/right': { component: Page3Component, outlet: 'right' },
+  '/sc1': { component: Page4Component, outlet: 'right', forced: true },
+  '/sc2': { component: Page5Component, outlet: 'right', forced: true },
+  '**': { component: HomeComponent }
+};

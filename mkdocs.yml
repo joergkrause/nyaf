@@ -13,6 +13,7 @@ nav:
     - Project Configuration: md/docs/lib/configuration.md
     - Template Language: md/docs/lib/template.md
     - JSX / TSX: md/docs/lib/jsx.md
+    - Select Elements: md/docs/lib/select.md
     - Smart Components: md/docs/lib/smart.md
     - Life Cycle: md/docs/lib/lifecycle.md
     - Attributes: md/docs/lib/attributes.md
@@ -25,6 +26,7 @@ nav:
     - Overview: md/docs/forms/overview.md
     - View Models: md/docs/forms/vm.md
     - Data Binding: md/docs/forms/nbind.md
+    - Validation: md/docs/forms/validation.md
     - Custom Binders: md/docs/forms/custombinders.md
     - Setup: md/docs/forms/setup.md
   - Flux Store:

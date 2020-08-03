@@ -1,4 +1,5 @@
 @import "~bootstrap";
+@import "./assets//css/styles.scss";
 
 blockquote {
   border-left: 4px solid gray;
@@ -13,4 +14,45 @@ pre {
 addr {
   display: block;
   margin-left: 10px;
+}
+
+nav {
+  background-color: black !important;
+}
+
+footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+[class^="hljs"] {
+  white-space: pre;
+}
+
+.hljs {
+  white-space: pre;
+}
+
+.main-adjust {
+  position: relative;
+  top: 88px;
+}
+
+.main-row-adjust {
+  background-color: white;
+  z-index: 1000;
+}
+
+.head-adjust {
+  box-shadow: 5px 5px 20px grey;
+  padding: 5px;
+  small {
+    padding-left: 2px;
+  }
+}
+
+.small-adjust {
+  font-size:30%;
+  display: block;
 }

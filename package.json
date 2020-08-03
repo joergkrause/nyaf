@@ -22,10 +22,7 @@
     "t-store": "typedoc --name \"@nyaf store\" --out dist/apidoc/store src/packages/@nyaf/store",
     "t-ui": "typedoc --name \"@nyaf ui\" --out dist/apidoc/ui src/packages/@nyaf/ui",
     "publish-doc": "mkdocs gh-deploy",
-    "all": "rimraf dist && npm run build && npm run build-demo && npm run doc",
-    "@nyaf/forms": "0.5.22",
-    "@nyaf/lib": "0.5.22",
-    "@nyaf/store": "0.5.22"
+    "all": "rimraf dist && npm run build && npm run build-demo && npm run doc"
   },
   "repository": {
     "type": "git",
@@ -79,6 +76,9 @@
     "yeoman-generator": "^4.10.1"
   },
   "dependencies": {
+    "@nyaf/forms": "^0.5.22",
+    "@nyaf/lib": "^0.5.22",
+    "@nyaf/store": "^0.5.22",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "bootstrap": "^4.5.0",
     "chalk": "^4.1.0",
