@@ -8,35 +8,37 @@ interface CounterProps { cnt: number; }
 @CustomElement('app-counter')
 @Properties<CounterProps>({ cnt: 0})
 export class CounterComponent extends BaseComponent<CounterProps> {
-  eventData: any;
 
   constructor() {
     super();
-    super.setData('cnt',  10);
   }
 
   clickMeAdd(v: number, param: number = 1) {
-    console.log('Counter Element Click');
-    super.data.cnt += param;
+    this.data.cnt += param;
   }
 
   clickMeSub(v: number, param: number = 1) {
-    console.log('Counter Element Click');
-    super.data.cnt -= param;
+    this.data.cnt -= param;
   }
 
   async render() {
     return await (
       <>
         <div>
-          <button type='button' class='btn btn-success' n-on-click={e => this.clickMeAdd(e)}>
+          <p>
+            This is a simple event call. The syntax allows the editor to detect the target method.
+          </p>
+          <button type='button' class='btn btn-success' n-on-click={this.clickMeAdd}>
             Add 1
           </button>
-          <button type='button' class='btn btn-warning' n-on-click={e => this.clickMeSub(e)}>
+          <button type='button' class='btn btn-warning' n-on-click={this.clickMeSub}>
             Sub 1
           </button>
         </div>
         <div>
+          <p>
+            Another syntax, used to provide a static value. Be aware, that the value is treated as 'string' internally.
+          </p>
           <button type='button' class='btn btn-outline-success' n-on-click={e => this.clickMeAdd(e, 5)}>
             Add 5
           </button>
@@ -44,7 +46,7 @@ export class CounterComponent extends BaseComponent<CounterProps> {
             Sub 5
           </button>
         </div>
-        <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>
+        <div class='badge badge-success'>The current value is: { this.data.cnt }</div>
       </>
     );
   }

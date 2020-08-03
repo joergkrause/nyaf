@@ -157,7 +157,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
             .map(k => css.cssRules[k].cssText ?? ' ')
             .join(' ');
         } catch {
-           console.warn('CORS violation while loading external style sheet. Adapt CORS or load from own server.')
+          console.warn('CORS violation while loading external style sheet. Adapt CORS or load from own server.');
         }
       }
     }

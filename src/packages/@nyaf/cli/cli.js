@@ -51,7 +51,7 @@ console.log(' \\  \__,_| |_| |_|  \\__,  | \\__, _| |_|');
 console.log('  \\____/             __/ |');
 console.log('                    |___/');
 console.log('');
-console.log('(C) JoergIsAGeek 2020');
+console.log('(C) JoergIsAGeek 2018-2020');
 
 if (!args || args.length < 1) {
   console.log('Available commands are:'.yellow.bold);

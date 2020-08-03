@@ -33,14 +33,14 @@ export class ServiceCounterComponent extends BaseComponent<{ cnt: number }> {
     return await (
       <>
         <div>
-          <button type='button' class='btn btn-success' n-on-Click={e => this.clickMeAdd(e)}>
+          <button type='button' class='btn btn-success btn-sm' n-on-Click={e => this.clickMeAdd(e)}>
             Add 1
           </button>
-          <button type='button' class='btn btn-warning' n-on-Click={e => this.clickMeSub(e)} n-async>
+          <button type='button' class='btn btn-warning btn-sm' n-on-Click={e => this.clickMeSub(e)} n-async>
             Sub 1
           </button>
         </div>
-        <pre style='border: 1px solid gray;'>{this.data.cnt}</pre>
+        <div class='badge badge-success'>The current value is: {this.data.cnt}</div>
       </>
     );
   }

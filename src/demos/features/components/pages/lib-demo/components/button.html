@@ -1,1 +1,21 @@
-<app-button class='col-6' text={btnText} n-on-showAlert={e => this.clickBtn(e)} />
+
+@CustomElement('app-lib-demo')
+export class LibDemoComponent extends BaseComponent {
+
+  constructor() {
+    super();
+  }
+
+
+  clickBtn(e: CustomEvent) {
+    alert('Button clicked ' + e.detail.customData);
+  }
+
+  render() {
+      const btnText = 'Static Button Text';
+      return (
+          <app-button class='col-6' text={btnText} n-on-showAlert={e => this.clickBtn(e)} />
+      );
+  }
+
+}

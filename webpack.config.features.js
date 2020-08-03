@@ -100,13 +100,13 @@ const webpackConfig = {
         {
           from: '**/*.tsx',
           flatten: true,
-          context: path.resolve(__dirname, 'src/demos/features/components/'),
+          context: path.resolve(__dirname, 'src/demos/features/components/pages'),
           to: './assets/sources'
         },
         {
           from: '**/*.html',
           flatten: true,
-          context: path.resolve(__dirname, 'src/demos/features/components/'),
+          context: path.resolve(__dirname, 'src/demos/features/components/pages'),
           to: './assets/sources'
         }
       ]

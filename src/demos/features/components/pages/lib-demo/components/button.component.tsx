@@ -1,5 +1,4 @@
-import { BaseComponent, Properties, Events } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
+import JSX, { CustomElement, BaseComponent, Properties, Events } from '@nyaf/lib';
 
 interface ButtonPropType  {
   text: string;
@@ -22,8 +21,7 @@ export class ButtonComponent extends BaseComponent<ButtonPropType> {
         customData: 12345
       }
     };
-    console.log('Dispatch Custom Event ', checkEvent);
-    super.dispatch('showAlert', checkEvent);
+    this.dispatch('showAlert', checkEvent);
   }
 
   async render() {

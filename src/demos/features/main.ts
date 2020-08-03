@@ -44,9 +44,7 @@ import { Page5Component } from './components/pages/router-demo/page5.component';
 import { ButtonExpander } from './expander/button.expander';
 
 import './main.scss';
-import 'jquery';
 import 'bootstrap';
-import 'jquery-easing';
 
 const routes: Routes = {
   // this partt controls the demo itself

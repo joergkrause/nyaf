@@ -29,11 +29,13 @@ export class LibDemoComponent extends BaseComponent {
       <div class='container main-adjust'>
         <app-page-intro header='Core Library Demo' small='Components, Services, Events, Smart Rendering, ...'></app-page-intro>
         <div class='row' >
-          <div class='col-10' data-spy='scroll' data-target='#demonav' data-offset='100'>
+          <div class='col-10' data-spy='scroll' data-target='#demonav' data-offset='10'>
             <h3 class='display-4' id='simple' source='simple'>Simple Component</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation' >
-                <div class='alert alert-info  mb-5'>Sort of simple component with little more than 'Hello World'.</div>
+                <div class='alert alert-info  mb-5'>A simple component with little more than 'Hello World'. The code shows how to create a
+                simple component, add properties, and handle dynamic data. Properties can also have default values.
+                </div>
               </app-slot-tab>
               <app-slot-tab title='Playground'>
                 <p>
@@ -55,14 +57,14 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='tabs' source='tabs'>Tabs</h3>
+            <h3 class='display-4' id='tabs' source='tabs'>Nested Components</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info mb-5'>Control tabs with data provides as attribute (data binding).
-                The first entry is not shown because of an 'n-if' statement in the tab component itself. The
+                The first entry is not shown because of an <code>n-if</code> statement in the tab component itself. The
                 behavior is made by catching the click event and forwarding the title to the client on re-render.
                 The event takes care of catching the next parent that has the right method. That means, a method
-                calles 'select' must exists. The event object is a Event like object build artifically.</div>
+                called 'select' must exist. The event object is a Event like object build artifically.</div>
               </app-slot-tab>
               <app-slot-tab title='Playground'>
                 <app-tabs class='col-6' title='Tabs Demo Title' tabs={tabs} />
@@ -73,22 +75,28 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='counter' source='counter'>Counter</h3>
+            <h3 class='display-4' id='counter' source='counter'>Event Handling</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
-                <div class='alert alert-info m-2'>Simple counter using events.
-                A simple counter with direct events and logic within the component. The event handler can use static,
-                primitive values like this:
-                <pre>(e) =&gt; this.functionCall(e, 5)</pre>
-            However, the values are not being evaluated until final call is being made, and then parsed for
-            string, boolean, and number. That means, "5-2" would be a string and any number evaluation 5-2 would
-            result in NaN.<br />
-            Even a predefined variable cannot resolve properly in that particular context. This is not allowed:
-            <pre>(e) =&gt; this.functionCall(e, val)</pre>
+                <div class='alert alert-info m-2'>
+                  <p>
+                    Simple counter using events.
+                    A simple counter with direct events and logic within the component. The event handler can use static,
+                    primitive values like this:
+                  </p>
+                  <pre><code>(e) =&gt; this.functionCall(e, 5)</code></pre>
+                  <p>
+                    However, the values are not being evaluated until final call is being made, and then parsed for
+                    string, boolean, and number. That means, "5-2" would be a string and any number evaluation 5-2 would
+                    result in NaN.</p>
+                  <p>
+                    Even a predefined variable cannot resolve properly in that particular context. This is not allowed:
+                    </p>
+                  <pre><code>(e) =&gt; this.functionCall(e, val)</code></pre>
                 </div>
               </app-slot-tab>
               <app-slot-tab title='Playground'>
-                <app-counter class='col-6' />
+                <app-counter cnt='100'></app-counter>
               </app-slot-tab>
               <app-slot-tab title='Demo Markup'>
               </app-slot-tab>
@@ -114,7 +122,7 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='service' source='servicecounter'>Service Counter</h3>
+            <h3 class='display-4' id='service' source='servicecounter'>Using Services</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation' active={true}>
                 <div class='alert alert-info m-2'>Simple counter using a service. This shows how to define a global service
@@ -132,10 +140,11 @@ export class LibDemoComponent extends BaseComponent {
 
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='button' source='button'>Button</h3>
+            <h3 class='display-4' id='button' source='button'>Custom Events</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
-                <div class='alert alert-info m-2'>Using a button and custom event for interaction.</div>
+                <div class='alert alert-info m-2'>Using a button and custom events for interaction. Custom events are a great way to express semantic
+                meaning. Instead of just 'click' on something, use 'saveData' or 'removeItem' and get semantically enhanced components.</div>
               </app-slot-tab>
               <app-slot-tab title='Playground'>
                 <app-button class='col-6' text={btnText} n-on-showAlert={e => this.clickBtn(e)} />
@@ -167,26 +176,11 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='extends' source='extends'>Extends Components</h3>
+            <h3 class='display-4' id='slot' source='slotted'>Use Slots</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>
-                  The component re-renders automatically if an attribute is being changed externally.
-          </div>
-              </app-slot-tab>
-              <app-slot-tab title='Playground'>
-                <p is='app-para' text='A custom para element'></p>
-              </app-slot-tab>
-              <app-slot-tab title='Source Code'>
-
-              </app-slot-tab>
-            </app-slot-tabs>
-            <hr />
-            <h3 class='display-4' id='slot' source='slotted'>Slotted Components</h3>
-            <app-slot-tabs>
-              <app-slot-tab title='Explanation'>
-                <div class='alert alert-info m-2'>
-                  Define content by adding slots instead of attributes. Is useful if content is complex and
+                  Project content by adding slots instead of attributes. Is useful if content is complex and
                   doesn't fit into an attribute. Be aware, that this is only working in shadowed components.
                   Hence, you must add the @ShadowDOM() decorator to the component containing slots.
           </div>
@@ -198,7 +192,21 @@ export class LibDemoComponent extends BaseComponent {
                     Some content projected into the <b>slottable</b> component.
             </div>
                 </app-slot>
-                <div class='test'>This is red if an outer style is loaded (link element)</div>
+              </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+            </app-slot-tabs>
+            <hr />
+            <h3 class='display-4' id='shadow' source='shadow'>Use Shadoew DOM</h3>
+            <app-slot-tabs>
+              <app-slot-tab title='Explanation'>
+                <div class='alert alert-info m-2'>
+                  Isolate components by using a shadow DOM and handle external content. This is demoed by a Tabs component.
+          </div>
+              </app-slot-tab>
+              <app-slot-tab title='Playground'>
                 <app-slot-tabs>
                   <app-slot-tab title='Slot Tab 1'>
                     <div class='test'>Content 1</div>
@@ -214,11 +222,11 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='params' source='complex'>Complex Params</h3>
+            <h3 class='display-4' id='params' source='complex'>Complex Parameters</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>
-                  Use complex objects as params.
+                  Use complex objects as parameters. See how mto deal with objects and arrays.
           </div>
 
               </app-slot-tab>
@@ -240,7 +248,7 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='expander' source='expander'>Attribute Expander</h3>
+            <h3 class='display-4' id='expander' source='expander'>Expand Properties</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>
@@ -289,10 +297,10 @@ export class LibDemoComponent extends BaseComponent {
                   <a class='nav-link' href='#smart'>Smart Render</a>
                 </li>
                 <li class='nav-item'>
-                  <a class='nav-link' href='#extends'>Extend Tags</a>
+                  <a class='nav-link' href='#slot'>Use Slots</a>
                 </li>
                 <li class='nav-item'>
-                  <a class='nav-link' href='#slot'>Use Slots and Shadow DOM</a>
+                  <a class='nav-link' href='#shadow'>Shadow DOM</a>
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#params'>Complex Parameters</a>
@@ -338,3 +346,23 @@ export class LibDemoComponent extends BaseComponent {
   }
 
 }
+
+/**
+ *             <h3 class='display-4' id='expander' source='expander'>Extends Tags</h3>
+            <app-slot-tabs>
+              <app-slot-tab title='Explanation'>
+                <div class='alert alert-info m-2'>
+                  Often you need a bunch of repeating attributes. An expander replaces a single call with all the static attributes. It's a very simple yet convenient extensions.
+          </div>
+              </app-slot-tab>
+              <app-slot-tab title='Playground'>
+                <p is='app-para' text='A custom para element'></p>
+              </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+            </app-slot-tabs>
+            <hr />
+
+ */

@@ -1,6 +1,4 @@
-import { BaseComponent, ComponentData } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
-
+import JSX, { CustomElement, BaseComponent, ComponentData, LifeCycle } from '@nyaf/lib';
 
 @CustomElement('app-home')
 export class HomeComponent extends BaseComponent {
@@ -16,7 +14,7 @@ export class HomeComponent extends BaseComponent {
             <div class='mx-auto text-center'>
               <h1 class='mx-auto my-0'>@nyaf</h1>
               <h2 class='text-white-50 mx-auto mt-2 mb-0'>A free, simple, sleek and fast frontend framework.</h2>
-              <a class='btn btn-primary js-scroll-trigger' href='#down'>Get Started</a>
+              <a class='btn btn-success js-scroll-trigger' href='#down'>Get Started</a>
             </div>
           </div>
         </header>
@@ -31,10 +29,10 @@ export class HomeComponent extends BaseComponent {
                   <br></br>
                   <i>
                     It's hard to get but it's a fact, that most developers first looking for a framework, reading comparisions, and check blogs and books instead  of
-                    asking what all these framework are about. In fact, all are based on native APIs, such as HTML 5, and specific language features, such as those from
-                    TypeScript transpiler. In the beginning it was at least possible to understand the intention. Instead of working with a complex low -level API it's
-                    better to has a simplified and optimized high-level API. But after years the frameworks got fat. And now the learning curve is as steep as the native
-                    APIs would require. But those have improved, too. In the end, there is no need for a fat frontend framework, ever. @nyaf brings just the little bit
+                    asking what all these framework are about. In fact, all are based on native APIs, such as HTML 5 API, and specific language features, such as those from
+                    the TypeScript transpiler. In the beginning it was at least possible to understand the intention. Instead of working with a complex low-level API it's
+                    better to have a simplified and optimized high-level API. But after years the frameworks got fat. And now the learning curve is as steep as the native
+                    APIs would require. But those have improved, too. In the end, there is no need for a fat frontend framework anymore. @nyaf brings just the little bit
                     that makes a frontend dev happy and skips all the fat stuff. You wan't need it, I promise.
                   </i>
                   <br></br>
@@ -48,7 +46,37 @@ export class HomeComponent extends BaseComponent {
                 <p class='text-white-50'>The result is outstanding. Very easy to write components, very small code, very fast execution.</p>
                 <blockquote>
                   The core library is actually <b>36 KB</b>, zipped roughly <b>11 KB</b>. All parts together are <b>58 KB</b>, <b>23 KB</b> zipped. That's it. Period.
-                  </blockquote>
+                </blockquote>
+                <p>
+                  @nyaf brings also an outstanding documentation, a nice CLI for quick results, and enterprise ready support options.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class='projects-section bg-dark' id='intro'>
+          <div class='container'>
+            <div class='row align-items-center no-gutters mb-0 text-white'>
+              <div class='col'>
+                <p>
+                  Installation (CLI recommended):
+              </p>
+                <pre class='text-white'>
+                  $ npm i @nyaf/lib  @nyaf/forms  @nyaf/store -S
+                  $ npm i @nyaf/cli -D
+              </pre>
+                <p>Create a project sceleton:</p>
+                <pre class='text-white'>
+                  $ npx nyaf n hello-world
+              </pre>
+                <p>
+                  This creates a simple project with all required files in a new folder <i>hello-world</i>. Now you can start it:
+              </p>
+                <pre class='text-white'>
+                  $ cd hello-world
+                  $ npm install
+                  $ npm start
+              </pre>
               </div>
             </div>
           </div>
@@ -77,7 +105,7 @@ export class HomeComponent extends BaseComponent {
                       <p class='text-white-50 mb-0'>
                         There is no dependency to anything, too.
                     </p>
-                    <hr class='d-none d-lg-block mb-0 ml-0' />
+                      <hr class='d-none d-lg-block mb-0 ml-0' />
                     </div>
                   </div>
                 </div>
@@ -190,4 +218,28 @@ export class HomeComponent extends BaseComponent {
       </>
     );
   }
+
+  lifeCycle(state: LifeCycle) {
+    if (state === LifeCycle.Load) {
+      document.querySelectorAll('a.js-scroll-trigger').forEach((a: HTMLElement) => {
+        a.addEventListener('click', (e) => {
+          const target: HTMLElement = e.target as HTMLElement;
+          if (target) {
+            document.documentElement.animate(
+              [
+                { scrollTop: '100px' },
+                { scrollTop: `${target.offsetTop}px` }
+              ],
+              {
+                duration: 1000,
+                easing: 'ease-in-out',
+                iterations: 1
+              });
+          }
+          // e.preventDefault();
+        });
+      });
+    }
+  }
+
 }

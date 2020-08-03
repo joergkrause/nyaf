@@ -1,5 +1,4 @@
-import { BaseComponent, ComponentData, Properties } from '@nyaf/lib';
-import JSX, { CustomElement } from '@nyaf/lib';
+import JSX, { CustomElement, BaseComponent, Properties } from '@nyaf/lib';
 
 export interface TabProps {
   title: string;

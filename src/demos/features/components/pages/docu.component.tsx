@@ -18,20 +18,13 @@ export class DocuComponent extends BaseComponent<{ content: string }> {
 
   render() {
     return (
-      <div style='position: relative; top: 150px; margin-bottom: 150px;' class='container'>
-        <style>
-          {`nav {
-              background-color: black !important;
-            }
-            footer {
-              position: fixed;
-              width: 100%;
-              bottom: 0;
-            }
-            `}
-        </style>
-        {this.data.content}
-        <div style='height:150px'></div>
+      <div class='container main-adjust'>
+        <div class='row'>
+          <div class='col'>
+            {this.data.content}
+            <div style='height:150px'></div>
+          </div>
+        </div>
       </div>
     );
   }

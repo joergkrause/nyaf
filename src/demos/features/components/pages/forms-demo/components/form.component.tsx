@@ -44,7 +44,7 @@ export class FormComponent<T extends FormModel> extends BaseComponent<{}> implem
           <button class='btn btn-sm btn-primary' type='button' n-on-click={e => this.save(e)}>
             Save
           </button>
-          <app-sub-form id='subForm' n-bind={to<T, SubFormComponent>(e => e.userName, 'subValue')}>Not yet loaded...</app-sub-form>
+          <app-sub-form id='subForm' n-bind={to<T, SubFormComponent>(e => e.userName, 'value')}>Not yet loaded...</app-sub-form>
           <hr />
         </form>
       </>
@@ -52,7 +52,7 @@ export class FormComponent<T extends FormModel> extends BaseComponent<{}> implem
   }
 
   save(e) {
-    this.querySelector<SubFormComponent>('#subForm').subValue = 'Button click in sub form';
+    this.querySelector<SubFormComponent>('#subForm').value = 'Button click in sub form';
   }
 
   lifeCycle(state: LifeCycle) {
@@ -61,7 +61,7 @@ export class FormComponent<T extends FormModel> extends BaseComponent<{}> implem
       this.model.scope.id = 1;
       this.model.scope.userName = 'Doris Demo';
       this.model.scope.city = 'Denver';
-      this.querySelector<SubFormComponent>('#subForm').subValue = 'Sub form loaded';
+      this.querySelector<SubFormComponent>('#subForm').value = 'Sub form loaded';
     }
   }
 
@@ -90,11 +90,11 @@ export class SubFormComponent<T extends SubFormModel = SubFormModel> extends Bas
     );
   }
 
-  public set subValue(value: string) {
+  public set value(value: string) {
     this.model.scope.value = value;
   }
 
-  public get subValue(): string {
+  public get value(): string {
     return this.model.scope.value;
   }
 

@@ -24,9 +24,9 @@ export class FormsDemoComponent extends BaseComponent {
     return (
       <div class='container main-adjust'>
         <app-page-intro header='Forms Library Demo' small='Binding and Validation'></app-page-intro>
-        <div class='row' style='position: relative; margin-top: 50px; top:125px'>
+        <div class='row' >
           <div class='col-10' data-spy='scroll' data-target='#demonav' data-offset='100'>
-            <h3 class='display-4' id='form' source='form'>Simple Form Component</h3>
+            <h3 class='display-4' id='form' source='form'>Simple Binding</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation' >
                 <div class='alert alert-info  mb-5'>Simple bi-directional binding.</div>
@@ -70,12 +70,15 @@ export class FormsDemoComponent extends BaseComponent {
           </div>
           <div class='col-2' style='position: fixed; right: 15px;'>
             <nav id='demonav'>
-              <ul class='nav nav-pills nav-stacked'>
+              <ul class='nav flex-column'>
                 <li class='nav-item'>
-                  <a class='nav-link' href='#form'>Binding</a>
+                  <a class='nav-link' href='#form'>Simple Binding</a>
                 </li>
                 <li class='nav-item'>
-                  <a class='nav-link' href='#validation'>Validation</a>
+                  <a class='nav-link' href='#validation'>Validation I</a>
+                </li>
+                <li class='nav-item'>
+                  <a class='nav-link' href='#validation-display'>Validation II</a>
                 </li>
               </ul>
             </nav>
