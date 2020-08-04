@@ -94,6 +94,12 @@
             
     <li class="toctree-l2"><a href="#getting-started">Getting Started</a></li>
     
+        <ul>
+        
+            <li><a class="toctree-l3" href="#the-command-line-interface">The Command Line Interface</a></li>
+        
+        </ul>
+    
 
     </ul>
 	    </li>
@@ -306,7 +312,7 @@
               
                 <h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">#</a></h2>
 <p>Typically, you start like this:</p>
-<pre><code class="bash">$ npm i @nyaf/lib
+<pre><code class="sh">$ npm i @nyaf/lib
 </code></pre>
 
 <p>Just start from scratch by a simple setup, which includes:</p>
@@ -320,6 +326,35 @@
 </li>
 </ul>
 <p>That's it, let the TypeScript compiler create the output and copy static files using <code>cp</code>.</p>
+<h3 id="the-command-line-interface">The Command Line Interface<a class="headerlink" href="#the-command-line-interface" title="Permanent link">#</a></h3>
+<p>@nyaf comes with a simple CLI that creates boilerplate projects.</p>
+<p>Use it like this (<em>first line for the very first time only</em>):</p>
+<pre><code class="sh">$ npm i @nyaf/cli -g
+$ npx nyaf n
+</code></pre>
+
+<blockquote>
+<p>If you have already installed <em>@nyaf/lib</em> then the installer has placed <em>@nyaf/cli</em> automatically in the global <strong>npm</strong> folder.</p>
+</blockquote>
+<p>The second of the above commands executes the CLI. The procedure is interactive:</p>
+<p><img alt="" src="/assets/cli_part_1.gif" /></p>
+<h4 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">#</a></h4>
+<p>There are currently just a few commands:</p>
+<ul>
+<li>'n' creates a new project in a new folder that has the same name. The CLI will always use lowercase letters.</li>
+<li>'x' creates a new projects with the given name in the current folder.</li>
+<li>'c' creates a new component in a project already designed to use @nyaf.</li>
+</ul>
+<h4 id="templates">Templates<a class="headerlink" href="#templates" title="Permanent link">#</a></h4>
+<p>The CLI provides four templates:</p>
+<ul>
+<li>basic: Simplest possible project</li>
+<li>full: Project with few pages</li>
+<li>router: Same as full with SPA support</li>
+<li>store: Same as basic with simple global and local store setup</li>
+</ul>
+<p>All templates can either support CSS directly or integrate a SASS transpiler.</p>
+<p>All templates come with WebPack support and the latest TypeScript compiler.</p>
               
             </div>
           </div>
