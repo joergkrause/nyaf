@@ -1,0 +1,31 @@
+{
+  "name": "your-project",
+  "version": "0.0.0",
+  "description": "A @nyaf project generated with CLI.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"no test defined\"",
+    "start": "webpack-dev-server",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.26",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.0.2",
+    "css-loader": "^3.6.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^1.2.1",
+    "ts-loader": "^7.0.5",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "typescript": "^3.9.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  },
+  "dependencies": {
+    "@nyaf/cli": "^0.5.24",
+    "@nyaf/lib": "^0.5.24"
+  }
+}

@@ -8,3 +8,4 @@ export * from './select.decorator';
 export * from './useparentstyles.decorator';
 export * from './expand.decorator';
 export * from './dispose.decorator';
+export * from './directive.decorator';

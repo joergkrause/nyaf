@@ -5,31 +5,81 @@
 
 # @nyaf is "Not Yet Another Framework"
 
-And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools. And it's 34KB zipped only, for all three parts together, of course.
+And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power.
 
 > No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!
 
 **Write frontend apps without the hassle of a complex framework, use the full power of HTML 5, keep a component based style.**
 
-**[Read the Docs](https://joergkrause.github.io/nyaf/)**
+## Documentation
 
-## Idea
+@nyaf is very well documented.
 
-* I want to use JSX/TSX syntax for quick component dev.
-* I want to have support to make a Single Page App (SPA).
-* I want to use any current HTML 5 API, such as web components, fetch, and all this with ES2015.
-* I want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
-* I want to use TypeScript from the beginning.
-* I want to get a very small package.
-* I want to use WebPack and other common tools.
-* I want to use standards, no weird CLI, no vendor lock in.
-* I want to use smart decorators for controlling stuff, not code within the component, for separation of concerns style.
+**[Home Page and Interactive Demos](http://nyaf.comzept.de/)**
+**[Read the Manual](https://nyaf.readthedocs.io/en/latest/)**
 
-> All three base parts (library, form binding, store) together have less than 100 KB; 26 KB zipped in total.
+### API Documentation
+
+**[Full API Documentation Base Library](http://nyaf.comzept.de/apidoc/lib/index.html)**
+**[Full API Documentation Forms Library](http://nyaf.comzept.de/apidoc/forms/index.html)**
+**[Full API Documentation Store Library](http://nyaf.comzept.de/apidoc/store/index.html)**
 
 ## Approach
 
-I'm using TSX. I don't use React, though. So it's just a feature of the TypeScript compiler.
+* @nyaf uses JSX/TSX syntax for quick component dev.
+* @nyaf supports Single Page App (SPA) directly.
+* @nyaf can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
+* @nyaf provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
+* @nyaf uses TypeScript from the beginning (and is written in TypeScript).
+* @nyaf creates a very small package.
+* @nyaf works well with WebPack and other common tools.
+* @nyaf uses standards, no weird or enforced CLI, no vendor lock in.
+* @nyaf uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
+
+> All three base parts (library, form binding, store) together have less than 100 KB; 26 KB zipped in total.
+
+## First Steps
+
+This section provides a quick setup instruction.
+
+### I have no time, can I get it even quicker?
+
+Yes, sure. First, assure you have NodeJs 10+ and **npm** version 6+.
+
+1. Open terminal and go to a folder where you want to create the app.
+2. Enter this:
+
+~~~sh
+npm i @nyaf/cli -g
+npx nyaf n
+~~~
+
+You'll be prompted by some questions:
+
+~~~txt
+(C) JoergIsAGeek 2020
+? What project template would you like to generate? basic
+? What style environment shall the project use? css
+? Project name: testme
+? Description (optional): no
+? Shall we execute "npm install" immediately? Yes
+Creating testme for you. Standby...
+Install modules...
+~~~
+
+After a while you'll see this:
+
+~~~
+Done. To continue:
+  cd testme
+  npm start
+~~~
+
+Do as instructed ('testme' is here the demo name, use any valid name). A browser will open and show a running app.
+
+# Learn how to make an App
+
+Components are based TSX. It has relation to React, though. It's just a feature of the TypeScript compiler.
 
 Excerpt from `tsconfig.json`:
 
@@ -49,7 +99,7 @@ Components are the core ingredients. You write components as classes, decorated 
 Web Components must be registered. To support this, we use decorators. This makes it quite easy to define a component without knowing the details of the browser's API. The name is determined by `@CustomElement('my-name')`. This is mandatory. Note the base class, which gets a generic that later controls the attributes. The name shall follow the common rules of Web Components, that means, it must have at least one dash '-' so there is no risk of a collision with common HTML element names.
 
 ~~~tsx
-import JSX, { CustomElement } from '@nyaf/lib;
+import JSX, { CustomElement } from '@nyaf/lib';
 
 @CustomElement('app-main')
 export class MainComponent extends BaseComponent<{}> {
@@ -94,16 +144,18 @@ That's it, the component works now. Use it in the HTML part:
 </body>
 ~~~
 
+## Features
+
 Once you have more components, it may look like this:
 
 ~~~tsx
-  GlobalProvider.bootstrap({
-    components: [
-      ButtonComponent,
-      TabComponent,
-      TabsComponent,
-      MainComponent]
-  });
+GlobalProvider.bootstrap({
+  components: [
+    ButtonComponent,
+    TabComponent,
+    TabsComponent,
+    MainComponent]
+});
 ~~~
 
 The main goal is to add template features to the JSX part.
@@ -877,7 +929,7 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 Is it worth coding with @nyaf and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual package sizes (0.5.24, published 31th of July 2020):
+Actual package sizes (0.6.0, published 31th of July 2020):
 
 * Lib:    36 KB --> 11 KB zipped (always needed)
 * Forms:  20 KB -->  5 KB zipped (Forms binding, validation, decorators)
@@ -889,7 +941,9 @@ However, compared with React or Angular it's a lot simpler. Compared to Vue, Sve
 
 ## Tool Support
 
-What tool support? It's Web Components - any editor will do. It's JSX/TSX, so any good editor can handle this. And there are TypeScript decorators, even this is well supported. So, you don't need to tweak your editor. It works, no red squiggles, guaranteed.
+No special tools needed? It's Web Components - any editor will do. It's JSX/TSX, so any good editor can handle this. And there are TypeScript decorators, even this is well supported. So, you don't need to tweak your editor. It works, no red squiggles, guaranteed.
+
+To simplify your life a simple CLI exists.
 
 ## Restrictions
 

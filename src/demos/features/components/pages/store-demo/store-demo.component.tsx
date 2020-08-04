@@ -32,7 +32,7 @@ export class StoreDemoComponent extends BaseComponent<any> implements IStore<glo
         <app-page-intro header='Store Library Demo' small='Flux based store'></app-page-intro>
         <div class='row' >
           <div class='col-10' data-spy='scroll' data-target='#demonav' data-offset='100'>
-            <h3 class='display-4' id='store' source='storecounter'>Preparation</h3>
+            <h3 class='display-4' >Preparation</h3>
             <p>
               All demos use the following code to define the store's active parts:
             </p>
@@ -70,7 +70,7 @@ export const actions = {'{'}@@
             <h4>Reducer</h4>
             <p>The global reducer all components can invoke.</p>
             <pre><code>
-              import {'{'} SETTAB {'}'} from '../actions/global.actions';@@
+import {'{'} SETTAB {'}'} from '../actions/global.actions';@@
 import {'{'} globalStoreType {'}'} from '../store/global.store';@@
 @@
 /**@@

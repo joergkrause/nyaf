@@ -1,3 +1,4 @@
+# Data Binding
 
 ## Template Language Enhancements
 
@@ -150,7 +151,7 @@ export class ContactComponent<T extends ContactModel>
        implements IModel<ContactModel> {
 ~~~
 
-And in that case use a shorter from to express the binding:
+And in that case use a shorter form to express the binding:
 
 ~~~tsx
 <label n-bind={to<T>(c => c.email, c => c.innerText)} />

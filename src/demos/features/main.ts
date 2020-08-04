@@ -40,8 +40,7 @@ import { Page3Component } from './components/pages/router-demo/page3.component';
 import { Page4Component } from './components/pages/router-demo/page4.component';
 import { Page5Component } from './components/pages/router-demo/page5.component';
 
-
-import { ButtonExpander } from './expander/button.expander';
+import { ButtonExpander } from './components/pages/lib-demo/expanders/button.expander';
 
 import './main.scss';
 import 'bootstrap';
@@ -105,6 +104,7 @@ GlobalProvider.bootstrap({
     Page4Component,
     Page5Component
   ],
+  expanders: [ButtonExpander],
   // register the routes
   routes
 });

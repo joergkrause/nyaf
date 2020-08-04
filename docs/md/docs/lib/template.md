@@ -4,8 +4,9 @@ Template Features avoid using creepy JavaScript for interactions and branches. Y
 
 * `n-if`, `n-else`
 * `n-hide`, `n-show`
-* `n-on-<event>` (see further down)
+* `n-on-<event>` (see section [Events](events.md))
 * `n-expand`
+* `n-repeat` (this is experimental currently)
 
 ### n-if, n-else
 

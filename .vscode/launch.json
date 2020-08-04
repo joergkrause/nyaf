@@ -5,6 +5,16 @@
   "version": "0.2.0",
   "configurations": [
   {
+    "name": "Launch Program",
+    "program": "${workspaceFolder}/src/packages/@nyaf/cli/cli.js",
+    "request": "launch",
+    "skipFiles": [
+      "<node_internals>/**"
+    ],
+    "type": "pwa-node",
+    "args": ["g",  "c", "xxx"]
+  },
+  {
     "type": "node",
     "request": "launch",
     "name": "Jest Tests",

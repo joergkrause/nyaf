@@ -4,8 +4,14 @@ const colors = require('colors');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const util = require('util');
+const { ConsoleLogger } = require('typedoc/dist/lib/utils');
 const exec = util.promisify(require('child_process').exec);
+const readline = require("readline");
 
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 const [, , ...args] = process.argv;
 
 const CURR_DIR = process.cwd();
@@ -40,31 +46,61 @@ function copy(templatePath, newProjectPath, name, desc) {
   createDirectoryContents(templatePath, newProjectPath);
 }
 
-console.log('Welcome to the command line!');
+async function install(templatePath, projectName, projectDesc) {
+  if (args[0] === 'x') {
+    console.log('Creating ' + projectName + ' in current folder for you. Standby...');
+    copy(templatePath, '.', projectName, projectDesc);
+  }
+  if (args[0] === 'n') {
+    console.log('Creating ' + projectName + ' in folder ' + projectName + ' for you. Standby...');
+    fs.mkdirSync(`${CURR_DIR}/${projectName}`);
+    copy(templatePath, projectName, projectName, projectDesc);
+  }
+
+  process.chdir(projectName);
+  console.log('Install modules...this will take a while');
+  let res = await exec('npm i');
+  if (res.stdout) {
+    console.log(`Log output: ${res.stdout}`);
+  }
+  if (res.stderr) {
+    console.error(`Errors: ${res.stderr}`);
+  }
+  console.log('Done. To continue:'.green);
+  console.log('  ' + ('cd ' + projectName + '').bgWhite.black);
+  console.log('  ' + 'npm start'.bgWhite.black);
+  console.log('This will start the project with WebPack Dev Server on port 9000. ');
+  console.log('Enjoy!'.blue);
+  process.chdir('..');
+}
+
+console.log('Welcome to the @nyaf command line tool!');
 console.log('');
 console.log('                                     __');
 console.log('    ____                            / _|');
 console.log('   / __ \\   _ __    _   _    __ _  | |_');
-console.log('  / / _` | | \'_\\  | | | |  / _` | |  _|');
-console.log(' | | (_| | | | | |  | |_| | | (_| | | |');
-console.log(' \\  \__,_| |_| |_|  \\__,  | \\__, _| |_|');
-console.log('  \\____/             __/ |');
+console.log('  / / _` | | \'_  \\ | | | |  / _` | |  _|');
+console.log(' | | (_| | | | | | | |_| | | (_| | | |');
+console.log('  \\  \__,/  |_| |_|  \\__, |  \\__,_| |_|');
+console.log('   \\____/            __/ |');
 console.log('                    |___/');
 console.log('');
 console.log('(C) JoergIsAGeek 2018-2020');
 
 if (!args || args.length < 1) {
   console.log('Available commands are:'.yellow.bold);
-  console.log('n | --new: Create a new project'.bgWhite.black);
-  console.log('g | --gen: Generate a component, service, expander, store'.bgWhite.black);
-  console.log('h | --help [x]: Explain a single command in moder detail'.bgWhite.black);
-  console.log('  For creating a new project:'.yellow);
+  console.log('n | --new: Create a new project in a new subfolder'.bgWhite.black);
+  console.log('x | --new: Create a new project in current folder'.bgWhite.black);
+  console.log('g | --gen: Generate a (c)omponent, (s)ervice, (e)xpander, (g)lobalstore, (d)irective'.bgWhite.black);
+  console.log('h | --help [x]: Explain a single command in more detail'.bgWhite.black);
+  console.log('  If you don\'t provide additional parameters, the CLI runs in interactive mode.'.green);
+  console.log('  For creating a new project using parameters:'.yellow);
   console.log('     nyaf n [template] [yourname] [options]'.bgWhite.black + ': Create in the current folder using template and name. Both parameters can be omitted, CLI will ask, then.'.white);
   console.log('  Available templates (use ONE of them): basic, store'.yellow);
   console.log('  Available options (use ANY of them): bootstrap, scss'.yellow);
   console.log('  For adding parts to an existing project:'.yellow);
   console.log('     nyaf g [template] [name]'.bgWhite.black + ': Create in the current project using template and name. Both parameters can be omitted, CLI will ask, then.');
-  console.log('  Available templates (use ONE of them): c | component, s | service, e | expander, g | globalstore'.yellow);
+  console.log('  Available templates (use ONE of them): c | component, s | service, e | expander, g | globalstore, d | directive'.yellow);
   console.log('');
   console.log('The name may contain folder information'.yellow);
   return 0;
@@ -107,39 +143,143 @@ const QUESTIONS = [
   }
 ];
 
-inquirer.prompt(QUESTIONS)
-  .then(async answers => {
-    const projectChoice = answers['project-choice'];
-    const projectName = answers['project-name'];
-    const projectDesc = answers['project-desc'];
+if (args[0] === 'x' || args[0] === 'n') {
+
+  if (args[1] && args[2] && args[3]) {
+    // arguments
+    const projectChoice = args[1];
+    const projectName = args[2];
+    const projectOptions = args[3];
     const templatePath = `${__dirname}/templates/${projectChoice}`;
+    console.log(`You create a new project with the name "${projectName}" of type "${projectChoice}" and with the option "${projectOptions}".`);
+    rl.question('Is that correct? (Y/n)', async (answer) => {
+      if (!answer || answer.toLowerCase() === 'y') {
+        await install(templatePath, projectName, '');
+      }
+      rl.close();
+    });
+  } else {
+    // interactive
+    inquirer.prompt(QUESTIONS)
+      .then(async answers => {
+        const projectChoice = answers['project-choice'];
+        const projectName = answers['project-name'].toLowerCase();
+        const projectDesc = answers['project-desc'];
+        const templatePath = `${__dirname}/templates/${projectChoice}`;
 
-    fs.mkdirSync(`${CURR_DIR}/${projectName}`);
+        await install(templatePath, projectName, projectDesc);
+      });
+  }
+}
 
-    copy(templatePath, projectName, projectName, projectDesc);
-    console.log('Creating ' + projectName + ' for you. Standby...');
+function parseStringTemplate(str, obj) {
+  let parts = str.split(/\$\{(?!\d)[\wæøåÆØÅ]*\}/g);
+  console.log(parts);
+  let args = Array.from(str.matchAll(/\$\{((?!\d)[\wæøåÆØÅ]*?)\}/g));
+  let parameters = args.map(argument => obj[argument[1]] || (obj[argument[1]] === undefined ? "" : obj[argument[1]]));
+  return String.raw({ raw: parts }, ...parameters);
+}
 
-    process.chdir(projectName);
-    console.log('Install modules...');
-    let res = await exec('npm i');
-    if (res.stdout) {
-      console.log(`Log output: ${res.stdout}`);
+function checkNyaf(type, path) {
+  if (fs.existsSync('package.json')) {
+    try {
+      const pjson = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf-8' }));
+      const check = Object.keys(pjson.dependencies).filter(k => k === '@nyaf/lib').shift();
+      if (!check) {
+        console.error('This is not a @nyaf project. Install @nyaf/lib first and setup a proper project structure.');
+      }
+      const tjson = JSON.parse(fs.readFileSync('tsconfig.json', { encoding: 'utf-8' }));
+      const src = tjson['compilerOptions']['baseUrl'];
+      if (!src) {
+        console.error('tsconfig.json shall provide a baseUrl for the project to place code at.');
+      }
+      const targetPath = `${src}/${type}s/${path}`;
+      console.log(`Ready to create the ${type} at ` + ('./' + targetPath).yellow);
+      return targetPath;
+    } catch (err) {
+      console.error('Cannot access a valid package.json. Error: ' + err);
     }
-    if (res.stderr) {
-      console.error(`Errors: ${res.stderr}`);
+  }
+}
+
+function askForName(type, name) {
+  const p = new Promise((resolve, reject) => {
+    if (name) {
+      resolve(name);
+    } else {
+      rl.question(`What name shall the ${type} have? `, async (answer) => {
+        if (answer) {
+          resolve(answer);
+        } else {
+          reject('No name provided');
+        }
+        rl.close();
+      });
     }
-    // console.log('Build first time...');
-    // res = await exec('npm run build');
-    // if (res.stdout) {
-    //   console.log(`Log output: ${res.stdout}`);
-    // }
-    // if (res.stderr) {
-    //   console.error(`Error: ${res.stderr}`);
-    // }
-    console.log('Done. To continue:'.green);
-    console.log('  ' + ('cd ' + projectName + '').bgWhite.black);
-    console.log('  ' + 'npm start'.bgWhite.black);
-    console.log('This will start the project with WebPack Dev Server on port 9000. ');
-    console.log('Enjoy!'.blue);
-    process.chdir('..');
   });
+  return p;
+}
+
+const genOptions = {
+  'c': {
+    type: 'component',
+    pattern: '${name}.component.tsx',
+    prompt: 'Creating a component',
+    template: "import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';\r\n" +
+      "\r\n" +
+      "@CustomElement('app-${name}')\r\n" +
+      "export class ${cname}Component extends BaseComponent<any> {\r\n" +
+      "\r\n" +
+      "  constructor() {\r\n" +
+      "    super();\r\n" +
+      "  }\r\n" +
+      "\r\n" +
+      "  async render() {\r\n" +
+      "    return await (\r\n" +
+      "      <div>\r\n" +
+      "        Component created successfully!\r\n" +
+      "      </div>\r\n" +
+      "    );\r\n" +
+      "  }\r\n" +
+      "}\r\n"
+  },
+  's': {
+    type: 'service',
+    pattern: '${name}.service.ts',
+    prompt: 'Creating a service'
+  },
+  'e': {
+    type: 'expander',
+    pattern: '${name}.expander.ts',
+    prompt: 'Creating an expander'
+  },
+  'g': {
+    type: 'globalstore',
+    pattern: '${name}.store.ts',
+    prompt: 'Creating a global store'
+  },
+  'd': {
+    type: 'directive',
+    pattern: '${name}.directive.ts',
+    prompt: 'Creating a directive'
+  }
+}
+
+function pascalCase(s) {
+  return s.replace(/^.{1}/g, s[0].toUpperCase());
+}
+
+if (args[0] === 'g' && args[1]) {
+  console.log(genOptions[args[1]].prompt.green);
+  askForName(genOptions[args[1]].type, args[2])
+    .then(name => {
+      const interpolated = parseStringTemplate(genOptions[args[1]].pattern, { name });
+      const targetPath = checkNyaf(genOptions[args[1]].type, interpolated);
+      const template = parseStringTemplate(genOptions[args[1]].template, { cname: pascalCase(name), name });
+      console.log(template);
+      console.log('Not yet implemented'.red);
+    })
+    .catch(err => {
+      console.log(err.red);
+    });
+}

@@ -46,7 +46,7 @@ The TypeScript configuration is typical, but two things are crucial to know:
 ~~~json
 {
   "compilerOptions": {
-    "target": "es2015",     // The target must be at least ES 2015
+    "target": "es2015",       // The target must be at least ES 2015
     "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -80,9 +80,6 @@ A typical configuration will look like this:
 const dev = process.env.NODE_ENV === 'dev';
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-const tsconfig = require('./tsconfig.json');
 
 // Main entry point
 const indexConfig = {
@@ -104,7 +101,7 @@ const webpackConfig = {
   },
   // Where webpack looks to start building the bundle
   entry: {
-    'app': './src/main.ts' // Demo app entry point
+    'app': './src/main.ts' // App entry point
   },
   // How the different types of modules within a project will be treated
   module: {
@@ -138,29 +135,12 @@ const webpackConfig = {
   },
   // How and where webpack should output bundles, assets and anything else
   output: {
-    path: path.resolve('./wwwroot'),
+    path: path.resolve('./dist'),
     filename: '[name].js'
   },
-  // What bundle information gets displayed
-  stats: {
-    warnings: false
-  },
-  // Target a specific environment (cf. doc)
-  target: 'web',
-  // Configure whether to polyfill or mock certain Node.js globals and modules
-  node: {
-    __dirname: false
-  },
-  // Customize the webpack build process with additionals plugins
+  // Customize the webpack build process with additional plugins
   plugins: [
-    new HtmlWebpackPlugin(indexConfig),
-		new CopyWebpackPlugin([
-			{
-				from: './src/assets/images',
-				flatten: true,
-				to: './assets/images/'
-      }
-    ])
+    new HtmlWebpackPlugin(indexConfig)
   ]
 };
 

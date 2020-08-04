@@ -17,7 +17,7 @@ But over time, frameworks get elder. And they can't change and involve, because 
 
 One of the most important innovations in browser development where Web Components. The API is easy to learn, the support is complete for all modern browsers, and the implementation is stable. At the same time the programming language TypeScript come to us along with a powerful toolset.
 
-It's time for the next step. Take the leading tools and create an easy to use library, that covers the hard stuff and be invisible where the native API is almost the best. That's @@nyaf.
+It's time for the next step. Take the leading tools and create an easy to use library, that covers the hard stuff and be invisible where the native API is almost the best. That's @nyaf.
 
 ## Parts
 

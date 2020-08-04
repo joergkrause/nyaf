@@ -2,7 +2,7 @@
 
 Technically there is just one store. But logically you will usually split the access into a global store (per app or module) and a local one - per component.
 
-![](assets/globloc.png)
+![](/assets/globloc.png)
 
 ### Merge Strategy
 

@@ -9,6 +9,7 @@ export * from './types/common';
 export * from './types/servicetype';
 export * from './types/type';
 export * from './components/base.component';
+export * from './code/basedirective';
 export * from './code/expander/iexpander';
 export * from './code/expander/expander';
 export * from './decorators/expand.decorator';

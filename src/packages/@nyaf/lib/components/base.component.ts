@@ -2,6 +2,8 @@ import { LifeCycle } from './lifecycle.enum';
 import { GlobalProvider } from '../code/globalprovider';
 import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../code/utils';
 import { isString } from 'util';
+import { BaseDirective } from '../code/basedirective';
+import { Type } from '../types/type';
 
 /**
  * The structure that defines the state object.
@@ -320,6 +322,15 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     } else {
       this.innerHTML = await this.render();
       $this = this;
+    }
+    // attach directives, if any
+    if (GlobalProvider.registeredDirectives) {
+      GlobalProvider.registeredDirectives.forEach((directive: Type<BaseDirective>, selector: string) => {
+        this.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
+          const d = new directive(hostElement);
+          d.setup();
+        });
+      });
     }
     // query all children and wait for load cycle, invoke own load, then
     const childLoaders = [];

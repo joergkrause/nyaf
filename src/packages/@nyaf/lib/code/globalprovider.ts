@@ -9,6 +9,8 @@ import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
 import { NRepeaterComponent } from '../components/smart/nrepeater.component';
 import { NOutletComponent } from '../components/smart/noutlet.component';
+import { BaseDirective } from './basedirective';
+import { Type } from '../types/type';
 
 /**
  * Main support class that provides all global functions. You must call at least the @see bootstrap method to register components.
@@ -16,6 +18,7 @@ import { NOutletComponent } from '../components/smart/noutlet.component';
 export class GlobalProvider {
 
   public static registeredElements: Array<string> = [];
+  public static registeredDirectives: Map<string, Type<BaseDirective>> = new Map();
   private static tagExpander: Map<string, IExpander> = new Map();
   private static bootstrapProps: BootstrapProp;
   private static router: Router = Router.instance;
@@ -61,6 +64,11 @@ export class GlobalProvider {
         } else {
           GlobalProvider.tagExpander.set(ex['__expand__'], ex);
         }
+      });
+    }
+    if (props.directives) {
+      props.directives.forEach((bd: any) => {
+        GlobalProvider.registeredDirectives.set(bd['selector'], bd);
       });
     }
     // register events
