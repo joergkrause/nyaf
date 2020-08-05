@@ -1,5 +1,4 @@
 import JSX, { BaseComponent, CustomElement, LifeCycle, Select, InjectService } from '@nyaf/lib';
-import hljs from 'highlight.js';
 import { HighlightService } from '../../../services/highlight.service';
 
 @CustomElement('app-forms-demo')

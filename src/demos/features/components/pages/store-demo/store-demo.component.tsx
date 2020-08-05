@@ -4,8 +4,6 @@ import store, { globalStoreType } from './store/global.store';
 import { SlotTabsComponent } from '../../slottedtabs/tabs.component';
 import { HighlightService } from '../../../services/highlight.service';
 
-import hljs from 'highlight.js';
-
 @CustomElement('app-store-demo')
 @ProvideStore<globalStoreType>(store)
 @InjectService('highlight', HighlightService)
@@ -214,11 +212,8 @@ export default store;
   lifeCycle(lc: LifeCycle) {
     if (lc === LifeCycle.Load) {
       this.services<HighlightService>('highlight').setup(this);
-      this.querySelectorAll('pre code').forEach((block: HTMLElement) => {
-        block.textContent = block.textContent.replace(/@@/g, '\r\n');
-        hljs.highlightBlock(block);
-      });
     }
   }
+
 
 }
