@@ -1,5 +1,5 @@
 import JSX, { BaseComponent } from '@nyaf/lib';
-import hljs from 'highlight.js/lib/highlight';
+import hljs from 'highlight.js/lib/core';
 import typescript from 'highlight.js/lib/languages/typescript';
 
 hljs.registerLanguage('typescript', typescript);
