@@ -6,7 +6,7 @@ import { Display } from '../decorators/ui/hint-display.decorator';
  * Needs a generic for the viewmodel and optional a generic for the type of element the target comes from.
  * @param nameFunction A lambda selector for the viewmodel property
  * @param prop The property to bind to. Change the second generic to allow more properties.
- * @param target A decorator key that provides the property, use somthing like display.desc for example.
+ * @param target A decorator key that provides the property, use something like 'innerText' for example.
  * @param options Additional options
  * @typeParam T A view model type
  */

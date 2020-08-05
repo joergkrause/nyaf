@@ -44,6 +44,7 @@ import { ButtonExpander } from './components/pages/lib-demo/expanders/button.exp
 
 import './main.scss';
 import 'bootstrap';
+import { DirectiveComponent, EnterDirective } from './components/pages/lib-demo/components/directive.component';
 
 const routes: Routes = {
   // this partt controls the demo itself
@@ -102,8 +103,10 @@ GlobalProvider.bootstrap({
     Page2Component,
     Page3Component,
     Page4Component,
-    Page5Component
+    Page5Component,
+    DirectiveComponent
   ],
+  directives: [EnterDirective],
   expanders: [ButtonExpander],
   // register the routes
   routes

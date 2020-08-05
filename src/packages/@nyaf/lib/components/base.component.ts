@@ -2,8 +2,9 @@ import { LifeCycle } from './lifecycle.enum';
 import { GlobalProvider } from '../code/globalprovider';
 import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../code/utils';
 import { isString } from 'util';
-import { BaseDirective } from '../code/basedirective';
+import { BaseDirective, IBaseDirective } from '../code/basedirective';
 import { Type } from '../types/type';
+import { IDirective } from '../types/common';
 
 /**
  * The structure that defines the state object.
@@ -325,7 +326,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     }
     // attach directives, if any
     if (GlobalProvider.registeredDirectives) {
-      GlobalProvider.registeredDirectives.forEach((directive: Type<BaseDirective>, selector: string) => {
+      GlobalProvider.registeredDirectives.forEach((directive: IDirective, selector: string) => {
         this.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
           const d = new directive(hostElement);
           d.setup();

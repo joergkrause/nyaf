@@ -1,5 +1,5 @@
 ﻿import { ModelBinder } from '../modelbinder/modelbinder.class';
-import { IBindingHandler } from '../modelbinder/ibindinghandler.interface';
+import { IBindingHandler } from '../modelbinder/handlers/ibindinghandler.interface';
 import { BaseComponent, Type } from '@nyaf/lib';
 
 /**

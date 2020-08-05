@@ -61,4 +61,6 @@ UI decorators control the appearance of elements. Not all have an immediate effe
 |**@TemplateHint**| What kind of field (text, number, date, ...) and additional styles or classes. |
 |**@Translate**| For i18n of components |
 
+### Providing the ViewModel
 
+To make a ViewModel accessible you use the `@ViewModel(T)` decorator. More about this in the chapter [Data Binding](nbind.md).

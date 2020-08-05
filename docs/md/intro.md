@@ -1,18 +1,18 @@
-# The Idea
+# Approach
 
-* We want to use JSX/TSX syntax for quick component dev.
-* We want to have support to make a Single Page App (SPA).
-* We want to use any current HTML 5 API, such as web components, fetch, and all this with ES2015.
-* We want to have a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
-* We want to use TypeScript from the beginning.
-* We want to get a very small package.
-* We want to use WebPack and other common tools.
-* We want to use standards, no weird CLI, no vendor lock in.
-* We want to use smart decorators for controlling stuff, not code within the component, for separation of concerns style.
+* @nyaf uses JSX/TSX syntax for quick component dev.
+* @nyaf supports Single Page App (SPA) directly.
+* @nyaf can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
+* @nyaf provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
+* @nyaf uses TypeScript from the beginning (and is written in TypeScript).
+* @nyaf creates a very small package.
+* @nyaf works well with WebPack and other common tools.
+* @nyaf uses standards, no weird or enforced CLI, no vendor lock in.
+* @nyaf uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
 
-## Template Approach
+## Templates
 
-It's based on TSX. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.
+@nyaf uses TSX for templates. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.
 
 See this excerpt from `tsconfig.json`:
 

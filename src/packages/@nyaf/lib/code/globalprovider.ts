@@ -1,4 +1,4 @@
-import { Component } from '../types/common';
+import { IComponent, IDirective } from '../types/common';
 import events from './events';
 import { Router } from './router/router';
 import { Routes } from './router/routes';
@@ -9,8 +9,7 @@ import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
 import { NRepeaterComponent } from '../components/smart/nrepeater.component';
 import { NOutletComponent } from '../components/smart/noutlet.component';
-import { BaseDirective } from './basedirective';
-import { Type } from '../types/type';
+import { IBaseDirective } from './basedirective';
 
 /**
  * Main support class that provides all global functions. You must call at least the @see bootstrap method to register components.
@@ -18,7 +17,7 @@ import { Type } from '../types/type';
 export class GlobalProvider {
 
   public static registeredElements: Array<string> = [];
-  public static registeredDirectives: Map<string, Type<BaseDirective>> = new Map();
+  public static registeredDirectives: Map<string, IDirective> = new Map();
   private static tagExpander: Map<string, IExpander> = new Map();
   private static bootstrapProps: BootstrapProp;
   private static router: Router = Router.instance;
@@ -28,7 +27,7 @@ export class GlobalProvider {
    * @param type Called to register a component. The component must have either the decorator @see CustomElement or
    * provide the tag name in a property calles *selector*. The component must inherit @see Component.
    */
-  static register(type: Component) {
+  static register(type: IComponent) {
     if ((type as any).__extends_element__) {
       customElements.define(type.selector, type, { extends: (type as any).__extends_element__ });
     } else {
@@ -67,8 +66,8 @@ export class GlobalProvider {
       });
     }
     if (props.directives) {
-      props.directives.forEach((bd: any) => {
-        GlobalProvider.registeredDirectives.set(bd['selector'], bd);
+      props.directives.forEach((bd: IBaseDirective) => {
+        GlobalProvider.registeredDirectives.set(bd['selector'], bd as unknown as IDirective);
       });
     }
     // register events

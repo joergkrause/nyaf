@@ -1,5 +1,5 @@
 import { Binding } from '../binding.class';
-import { IBindingHandler } from '../ibindinghandler.interface';
+import { IBindingHandler } from './ibindinghandler.interface';
 
 /**
  * This handler binds the given property and doesn't listen to anything.

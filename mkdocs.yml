@@ -17,6 +17,7 @@ nav:
     - Smart Components: md/docs/lib/smart.md
     - Life Cycle: md/docs/lib/lifecycle.md
     - Attributes: md/docs/lib/attributes.md
+    - Directives: md/docs/lib/directives.md
     - Events: md/docs/lib/events.md
     - Router: md/docs/lib/router.md
     - Shadow DOM: md/docs/lib/shadowdom.md

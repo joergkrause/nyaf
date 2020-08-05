@@ -1,5 +1,5 @@
 import { of, Type } from '@nyaf/lib';
-import { IBindingHandler } from '../modelbinder/ibindinghandler.interface';
+import { IBindingHandler } from '../modelbinder/handlers/ibindinghandler.interface';
 
 /**
  * A binder for any attribute, does not require a filleds `n-bind`. Instead, add an empty 'n-bind' to trigger the other attributes quickly.,

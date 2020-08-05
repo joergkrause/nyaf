@@ -1,4 +1,4 @@
-import { Component } from '../../types/common';
+import { IComponent } from '../../types/common';
 
 /**
  * Definition of a single route. Determines the behavior.
@@ -8,7 +8,7 @@ export interface Routes {
     /**
      * The component that is being lodaed into the outlet.
      */
-    component: Component;
+    component: IComponent;
     /**
      * The outlet that is choosen. Can be omitted, if there is only one outlet in the app.
      * As there is no default outlet, the name must be provided, if there a re more outlets.

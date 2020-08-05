@@ -1,9 +1,15 @@
+import { IDirective } from '../types/common';
 
-export class BaseDirective {
-  constructor() {
+export interface IBaseDirective {
+  setup: () => void;
+  host: HTMLElement;
+}
+
+export class BaseDirective implements IBaseDirective {
+  constructor(public host: HTMLElement) {
     this.setup();
   }
-  setup() {
+  setup(): void {
   }
 }
 

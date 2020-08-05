@@ -1,5 +1,5 @@
 import { Binding } from './binding.class';
-import { IBindingHandler } from './ibindinghandler.interface';
+import { IBindingHandler } from './handlers/ibindinghandler.interface';
 import { CheckedBindingHandler } from './handlers/checkedbindinghandler.class';
 import { ValueBindingHandler } from './handlers/valuebindinghandler.class';
 import { TextBindingHandler } from './handlers/textbindinghandler.class';

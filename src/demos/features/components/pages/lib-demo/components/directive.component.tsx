@@ -1,4 +1,4 @@
-import JSX, { CustomElement, BaseComponent, Properties, Events } from '@nyaf/lib';
+import JSX, { CustomElement, BaseComponent, Directive, BaseDirective } from '@nyaf/lib';
 
 /**
  * Event handling and used in up-level component.
@@ -24,8 +24,8 @@ export class DirectiveComponent extends BaseComponent<any> {
 @Directive('[directive="enter"]')
 export class EnterDirective extends BaseDirective {
 
-  constructor(private host: HTMLElement) {
-    super();
+  constructor(public host: HTMLElement) {
+    super(host);
   }
 
   setup() {
@@ -36,6 +36,9 @@ export class EnterDirective extends BaseDirective {
       if (e.keyCode === 27) {
         this.host.innerHTML = 'escaped, what a relief';
       }
+    });
+    this.host.addEventListener('click', (e: MouseEvent) => {
+      alert('ouch');
     });
   }
 

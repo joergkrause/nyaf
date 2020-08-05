@@ -77,9 +77,9 @@
     "yeoman-generator": "^4.10.1"
   },
   "dependencies": {
-    "@nyaf/forms": "^0.5.22",
-    "@nyaf/lib": "^0.5.22",
-    "@nyaf/store": "^0.5.22",
+    "@nyaf/lib": "file:./src/packages/@nyaf/forms",
+    "@nyaf/forms": "file:./src/packages/@nyaf/forms",
+    "@nyaf/store": "file:./src/packages/@nyaf/store",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "bootstrap": "^4.5.0",
     "chalk": "^4.1.0",

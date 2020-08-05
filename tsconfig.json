@@ -18,12 +18,10 @@
     "baseUrl": "src",
     "typeRoots": ["node_modules/@types", "src/types"],
     "paths": {
-      "@nyaf/*": [
-        "src/packages/@nyaf/lib",
-        "src/packages/@nyaf/forms",
-        "src/packages/@nyaf/store",
-        "src/packages/@nyaf/*"
-      ]
+      "@nyaf/lib": ["packages/@nyaf/lib"],
+      "@nyaf/forms": ["packages/@nyaf/forms"],
+      "@nyaf/store": ["packages/@nyaf/store"],
+      "@nyaf/*": ["packages/@nyaf/*"]
     },
     "skipLibCheck": true
   },
@@ -33,9 +31,5 @@
     "./src/packages/@nyaf/store/index.ts",
     "./src/packages/@nyaf/ui/index.ts"
   ],
-  "exclude": [
-    "**/*.spec.ts",
-    "./src/demos",
-    "./src/packages/@nyaf/.backed/"
-  ]
+  "exclude": ["**/*.spec.ts", "./src/demos", "./src/packages/@nyaf/.backed/"]
 }

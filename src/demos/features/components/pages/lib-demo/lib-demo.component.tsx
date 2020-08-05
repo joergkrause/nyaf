@@ -271,6 +271,23 @@ export class LibDemoComponent extends BaseComponent {
               <app-slot-tab title='Source Code'>
               </app-slot-tab>
             </app-slot-tabs>
+            <hr />
+            <h3 class='display-4' id='directive' source='directive'>Directives</h3>
+            <app-slot-tabs>
+              <app-slot-tab title='Explanation'>
+                <div class='alert alert-info m-2'>
+                  Extend components by re-usable actions.
+                </div>
+              </app-slot-tab>
+              <app-slot-tab title='Playground'>
+                <app-directive></app-directive>
+              </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+            </app-slot-tabs>
+            <br></br><br></br><br></br><br></br><br></br><br></br>
           </div>
           <div class='col-2' style='position: fixed; right: 15px;'>
             <nav id='demonav'>
@@ -307,6 +324,9 @@ export class LibDemoComponent extends BaseComponent {
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#expander'>Expand Properties</a>
+                </li>
+                <li class='nav-item'>
+                  <a class='nav-link' href='#directive'>Directives</a>
                 </li>
               </ul>
             </nav>

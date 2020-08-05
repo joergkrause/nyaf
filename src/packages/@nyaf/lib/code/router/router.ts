@@ -1,6 +1,6 @@
 import { DomOp } from '../dom-operations';
 import { Routes } from './routes';
-import { Component } from '../../types/common';
+import { IComponent } from '../../types/common';
 import { RouteEventTarget } from './navigate.event';
 
 const N_ROUTER_OUTLET_SEL = '[n-router-outlet]';
@@ -153,7 +153,7 @@ export class Router {
   public navigateRoute(requestedRoute: string, outletName?: string) {
     const routes: Routes = Router._routes;
     let outlet: HTMLElement;
-    let activatedComponent: Component = routes[requestedRoute]?.component;
+    let activatedComponent: IComponent = routes[requestedRoute]?.component;
     const forced = routes[requestedRoute]?.forced || false;
     if (!activatedComponent) {
       activatedComponent = routes['/']?.component;
@@ -173,7 +173,7 @@ export class Router {
   }
 
 
-  private setRouterOutlet(activatedComponent: Component, requestedRoute: string, outlet: Element, forced: boolean) {
+  private setRouterOutlet(activatedComponent: IComponent, requestedRoute: string, outlet: Element, forced: boolean) {
     let event = new CustomEvent('navigate', {
       bubbles: true,
       cancelable: true,
