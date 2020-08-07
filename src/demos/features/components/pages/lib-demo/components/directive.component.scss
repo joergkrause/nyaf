@@ -1,0 +1,10 @@
+
+app-directive::part(drop-zone) {
+  border: 1px solid silver;
+  width: 100px;
+  height: 100px;
+}
+app-directive::part(drag-button) {
+  background-color: green;
+  padding: 5px;
+}

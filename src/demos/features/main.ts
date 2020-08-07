@@ -40,11 +40,12 @@ import { Page3Component } from './components/pages/router-demo/page3.component';
 import { Page4Component } from './components/pages/router-demo/page4.component';
 import { Page5Component } from './components/pages/router-demo/page5.component';
 
-import { ButtonExpander } from './components/pages/lib-demo/expanders/button.expander';
+import { ButtonExpander } from './components/pages/lib-demo/components/expander.component';
 
 import './main.scss';
 import 'bootstrap';
-import { DirectiveComponent, EnterDirective } from './components/pages/lib-demo/components/directive.component';
+
+import { DirectiveComponent, DropTargetDirective, DragDirective } from './components/pages/lib-demo/components/directive.component';
 
 const routes: Routes = {
   // this partt controls the demo itself
@@ -106,7 +107,7 @@ GlobalProvider.bootstrap({
     Page5Component,
     DirectiveComponent
   ],
-  directives: [EnterDirective],
+  directives: [DropTargetDirective, DragDirective],
   expanders: [ButtonExpander],
   // register the routes
   routes

@@ -1,11 +1,11 @@
-# JSX / TSX
+## JSX / TSX
 
 Fundamentally, JSX just provides syntactic sugar for the `JSX.createElement(component, props, ...children)` function. In **@nyaf** we use only
 the TSX variant. That means, the transformation and conversion to JavaScript is made by the TypeScript transpiler.
 
 > Be aware, that while the main framework with JSX built-in is React, **@nyaf** has absolutely no relation to React, and the behavior of the code is different.
 
-## Introduction
+### Introduction
 
 The example assume that some code surrounds the snippets or is just the return value of the *render()* method.
 

@@ -7,10 +7,10 @@ nav:
   - Home: index.md
   - Introduction: md/intro.md
   - Learn: md/learn.md
+  - Project Configuration: md/configuration.md
   - Setup: md/setup.md
   - Core Library:
-    - Overview: md/docs/lib/overview.md
-    - Project Configuration: md/docs/lib/configuration.md
+    - Overview: md/docs/lib/components.md
     - Template Language: md/docs/lib/template.md
     - JSX / TSX: md/docs/lib/jsx.md
     - Select Elements: md/docs/lib/select.md

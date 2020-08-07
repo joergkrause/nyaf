@@ -1,5 +1,5 @@
 import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
-require('./container.scss');
+// require('./container.scss');
 
 @CustomElement('ui-container')
 @Properties<ContainerProps>({

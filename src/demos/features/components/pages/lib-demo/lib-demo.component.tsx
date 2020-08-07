@@ -264,7 +264,7 @@ export class LibDemoComponent extends BaseComponent {
                 </div>
               </app-slot-tab>
               <app-slot-tab title='Playground'>
-                <button n-expand='danger-button'>Expanded attributes</button>
+                <app-expander></app-expander>
               </app-slot-tab>
               <app-slot-tab title='Demo Markup'>
               </app-slot-tab>

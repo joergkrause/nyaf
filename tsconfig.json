@@ -16,7 +16,9 @@
     "esModuleInterop": true,
     "outDir": "out-tsc",
     "baseUrl": "src",
-    "typeRoots": ["node_modules/@types", "src/types"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "paths": {
       "@nyaf/lib": ["packages/@nyaf/lib"],
       "@nyaf/forms": ["packages/@nyaf/forms"],

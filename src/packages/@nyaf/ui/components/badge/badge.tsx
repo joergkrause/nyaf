@@ -1,5 +1,5 @@
 import JSX, { BaseComponent, CustomElement, Properties } from '@nyaf/lib';
-require('./badges.scss');
+// import css from './badges.scss';
 
 @CustomElement('ui-badge')
 @Properties<BadgeProps>({

@@ -227,3 +227,48 @@ The usage is quite simple. Just add as many tabs as required:
 </app-slot-tabs>
 ~~~
 
+### Shadow DOM and Styles
+
+The Shadow DOM provides full isolation. The `@UseParentStyles` decorator contradicts this. A better way is to include styles "per component". Have a look onto an example first:
+
+~~~tsx
+@CustomElement('app-directive')
+@ShadowDOM()
+export class DirectiveComponent extends BaseComponent<any> {
+
+  async render() {
+    return await (
+      <>
+        <button type='button' directive='drag' part='drag-button'>
+          Drag me around
+        </button>
+        <div directive='drop' part='drop-zone'>
+
+        </div>
+      </>
+    );
+  }
+
+}
+~~~
+
+The important part here is, despite the `@ShadowDOM` decorator, the `part` attribute. That makes the shadowed component accessible (penetrable) for special external styles using the `::part` pseudo-selector. A stylesheet could than look like this:
+
+~~~css
+app-directive::part(drop-zone) {
+  border: 1px solid silver;
+  width: 100px;
+  height: 100px;
+}
+app-directive::part(drag-button) {
+  background-color: green;
+  padding: 5px;
+}
+~~~
+
+This style is provided globally, not as part of the component, but it applies to this component only and only in shadow mode.
+
+Note, that using the regular CSS syntax, such as `app-directive[part="drop-zone"]` would not work, as this cannot penetrate the shadow DOM.
+
+> This is not a feature of @nyaf; it's default Web Component behavior. We face some issues with elder browser version that don't understand the `::part` selector properly. Consider adding a polyfill if needed.
+

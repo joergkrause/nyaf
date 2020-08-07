@@ -349,7 +349,7 @@ export class ButtonComponent extends BaseComponent {
       bubbles: true,
       cancelable: false,
     };
-    super.dispatch('showAlert', checkEvent);
+    this.dispatch('showAlert', checkEvent);
   }
 
   async render() {
@@ -493,7 +493,7 @@ There is no difference on the link side, the decision to address another outlet 
 
 > In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet.
 
-### Addition Data
+### Additional Routing Data
 
 The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.
 
@@ -596,15 +596,15 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
 
   constructor() {
     super();
-    super.setData('cnt',  10);
+    this.setData('cnt',  10);
   }
 
   clickMeAdd(v: number) {
-    super.setData('cnt', super.data.cnt + 1);
+    this.setData('cnt', this.data.cnt + 1);
   }
 
   clickMeSub(v: number) {
-    super.setData('cnt', super.data.cnt - 1);
+    this.setData('cnt', this.data.cnt - 1);
   }
 
   async render() {
@@ -618,7 +618,7 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
             Sub 1
           </button>
         </div>
-        <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>
+        <pre style='border: 1px solid gray;'>{ this.data.cnt }</pre>
       </>
     );
   }
@@ -680,9 +680,9 @@ Apparently the double double quotes work just fine. However, the content is now 
 
 > For extremely huge complex objects this technique might produce a performance penalty due to repeatedly used `JSON.parse`/`JSON.stringify` calls. Be also aware that this cannot work if the object has recursive structures, because the JSON class cannot deal with this. There is no additional error handling to keep the code small, it's just a `try/catch` block that reports the native error.
 
-### Properties and View Models
+### Properties and Models
 
-For a nice view decorators applied to class properties control the appearance.
+First, have a look on a simple model class:
 
 ~~~tsx
 export class Model {
@@ -690,19 +690,18 @@ export class Model {
   name: string = '';
 }
 
-
 @CustomElement('app-main')
-@Properties<{ data: Model }>()
-export class MainComponent extends BaseComponent {
+@Properties<{ data: Model }>({ data: new Model() })
+export class MainComponent extends BaseComponent<Model> {
   // ... omitted for brevity
 }
 ~~~
 
-Within the component, this is now present. In the above definition `super.data` contains an actual model.
+Within the component, this is now present. In the above definition `this.data` contains an actual model.
 
 ## Services
 
-Want to access an injectable service?
+If you want to access an injectable service, this is the way to do it:
 
 ~~~tsx
 @CustomElement('app-main')
@@ -941,7 +940,7 @@ However, compared with React or Angular it's a lot simpler. Compared to Vue, Sve
 
 ## Tool Support
 
-No special tools needed? It's Web Components - any editor will do. It's JSX/TSX, so any good editor can handle this. And there are TypeScript decorators, even this is well supported. So, you don't need to tweak your editor. It works, no red squiggles, guaranteed.
+No special tools needed! It's Web Components - any editor will do. It's JSX/TSX, so any good editor can handle this. And there are TypeScript decorators, even this is well supported. So, you don't need to tweak your editor. It works, no red squiggles, guaranteed.
 
 To simplify your life a simple CLI exists.
 
@@ -959,14 +958,20 @@ Inspired by:
 * Vue (thanks for showing short custom attributes)
 * TypeScript (thanks for making JS cool again)
 
-## Readings
+## Further Readings
 
 There is a book in the making covering all aspects of @nyaf: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how @nyaf handles them.
 
-Currently in the transition to the ReadTheDocs environment. Install pip first!
+Full documentation on [ReadTheDocs](https://nyaf.readthedocs.io/en/latest/) environment.
 
-## Further steps
+Homepage with interactive demo is [here](https://nyaf.comzept.de).
 
-Look out for 'nyaf-forms' (forms validation, data binding, UI control) and 'nyaf-store' (a simple flux store). Simple but powerful!
+## Related Modules
+
+Look out for '@nyaf/forms' (forms validation, data binding, UI control) and '@nyaf/store' (a simple flux store). Simple but powerful!
+
+# Need Help?
+
+Need a Pro? Need help writing a framework? Need one who knows a lot (full stack, front end, backend with NodeJS, ASP.NET / C#, SQL, noSQL, Azure, AWS)? [Hire me!](https://www.joergkrause.de/contact).
 
 

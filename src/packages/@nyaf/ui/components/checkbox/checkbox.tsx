@@ -1,8 +1,8 @@
 import JSX, { BaseComponent, CustomElement, Properties, Events } from '@nyaf/lib';
 import { IModel, ModelBinder, ViewModel, to } from '@nyaf/forms';
 
-require('./checkbox.scss');
-require('./switch.scss');
+// require('./checkbox.scss');
+// require('./switch.scss');
 
 class CheckboxModel {
   checked = false;

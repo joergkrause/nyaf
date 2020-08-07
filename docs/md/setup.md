@@ -1,4 +1,4 @@
-## Getting Started
+# Getting Started
 
 Typically, you start like this:
 
@@ -16,7 +16,7 @@ Just start from scratch by a simple setup, which includes:
 
 That's it, let the TypeScript compiler create the output and copy static files using `cp`.
 
-### The Command Line Interface
+## The Command Line Interface
 
 @nyaf comes with a simple CLI that creates boilerplate projects.
 
@@ -41,7 +41,7 @@ The second of the above commands executes the CLI. The procedure is interactive:
 
 > **Pro Tip!** Press Ctrl-C (^C) to exit the CLI at any time.
 
-#### Commands
+### Commands
 
 There are currently just a few commands:
 
@@ -49,7 +49,7 @@ There are currently just a few commands:
 * 'x' creates a new projects with the given name in the current folder.
 * 'c' creates a new component in a project already designed to use @nyaf.
 
-#### Templates
+### Templates
 
 The CLI provides four templates:
 

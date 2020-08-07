@@ -327,7 +327,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     // attach directives, if any
     if (GlobalProvider.registeredDirectives) {
       GlobalProvider.registeredDirectives.forEach((directive: IDirective, selector: string) => {
-        this.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
+        $this.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
           const d = new directive(hostElement);
           d.setup();
         });

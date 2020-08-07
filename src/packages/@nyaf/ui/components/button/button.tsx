@@ -1,5 +1,5 @@
 import JSX, { CustomElement, Properties, BaseComponent } from '@nyaf/lib';
-require('./button.scss');
+// require('./button.scss');
 
 @CustomElement('ui-button')
 @Properties<ButtonProps>({
