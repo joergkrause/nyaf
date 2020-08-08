@@ -1,14 +1,14 @@
 ﻿/**
  * The UseParentStyles decorator.
  *
- * If decorated, the component uses or not uses shadow DOM according the parameter.
+ * Applies external styles to an element. This works with shadowed elements, even if there is no penetrating pseudo selector.
  *
- * @param useShadow     set to true
+ * @param useStyles  if emopty the element copies all parent styles in the document. If filled with styles, only these are applied to the component.
  */
-export function UseParentStyles(useParentStyles: boolean = true) {
+export function UseParentStyles(useStyles?: StyleSheet) {
     // the original decorator
     function useParentStylesInternal(target: Object): void {
-      useParentStylesInternalSetup(target, useParentStyles);
+      useParentStylesInternalSetup(target, useStyles);
     }
 
     // return the decorator
@@ -16,10 +16,10 @@ export function UseParentStyles(useParentStyles: boolean = true) {
 }
 
 /** @ignore */
-function useParentStylesInternalSetup(target: any, useParentStyles: boolean) {
+function useParentStylesInternalSetup(target: any, useStyles: StyleSheet) {
 
     Object.defineProperty(target, 'useParentStyles', {
-        value: useParentStyles,
+        value: useStyles ?? true,
         enumerable: false,
         configurable: false
     });

@@ -14,11 +14,21 @@
     "type": "git",
     "url": "git+https://github.com/joergkrause/nyaf.git"
   },
-  "keywords": ["vanilla JS", "framework", "web components", "es2015", "jsx", "tsx"],
+  "keywords": [
+    "vanilla JS",
+    "framework",
+    "web components",
+    "es2015",
+    "jsx",
+    "tsx"
+  ],
   "author": "Joerg <isageek> Krause",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/joergkrause/nyaf/issues"
   },
-  "homepage": "https://github.com/joergkrause/nyaf#readme"
+  "homepage": "https://github.com/joergkrause/nyaf#readme",
+  "devDependencies": {
+    "@nyaf/cli": "^0.6.0"
+  }
 }

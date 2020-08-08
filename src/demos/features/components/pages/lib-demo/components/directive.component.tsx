@@ -1,4 +1,4 @@
-import JSX, { CustomElement, BaseComponent, Directive, BaseDirective, ShadowDOM } from '@nyaf/lib';
+import JSX, { CustomElement, BaseComponent, Directive, BaseDirective, ShadowDOM, UseParentStyles } from '@nyaf/lib';
 
 import './directive.component.scss';
 
@@ -7,11 +7,13 @@ import './directive.component.scss';
  */
 @CustomElement('app-directive')
 @ShadowDOM()
+@UseParentStyles()
 export class DirectiveComponent extends BaseComponent<any> {
 
   async render() {
     return await (
       <>
+        <h1 class='directive-aware'></h1>
         <button type='button' directive='drag' part='drag-button'>
           Drag me around
         </button>

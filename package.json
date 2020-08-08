@@ -82,7 +82,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@nyaf/forms": "file:./src/packages/@nyaf/forms",
-    "@nyaf/lib": "file:./src/packages/@nyaf/forms",
+    "@nyaf/lib": "file:./src/packages/@nyaf/lib",
     "@nyaf/store": "file:./src/packages/@nyaf/store",
     "bootstrap": "^4.5.0",
     "chalk": "^4.1.0",

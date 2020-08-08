@@ -83,14 +83,7 @@ const webpackConfig = {
       options: {
         concurrency: 100
       }
-    }),
-    //   new TypedocWebpackPlugin({
-    //     name: '@nyaf',
-    //     mode: 'file',
-    //     theme: './typedoc-theme/',
-    //     includeDeclarations: false,
-    //     ignoreCompilerErrors: true,
-    // })
+    })
   ]
 };
 
