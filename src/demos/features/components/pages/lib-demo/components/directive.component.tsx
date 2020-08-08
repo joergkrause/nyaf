@@ -2,18 +2,20 @@ import JSX, { CustomElement, BaseComponent, Directive, BaseDirective, ShadowDOM,
 
 import './directive.component.scss';
 
+import * as css from './directive.styles.scss';
+
 /**
  * Event handling and used in up-level component.
  */
 @CustomElement('app-directive')
 @ShadowDOM()
-@UseParentStyles()
+@UseParentStyles(css.cssExports)
 export class DirectiveComponent extends BaseComponent<any> {
 
   async render() {
     return await (
       <>
-        <h1 class='directive-aware'></h1>
+        <h1 class='directive-aware'>A styled header</h1>
         <button type='button' directive='drag' part='drag-button'>
           Drag me around
         </button>

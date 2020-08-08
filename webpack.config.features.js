@@ -39,7 +39,16 @@ const webpackConfig = {
         test: /\.(scss)$/,
         use: [
           'style-loader',
-          'css-loader',
+          'css-modules-typescript-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                auto: true,
+                exportGlobals: true
+              }
+            }
+          },
           'sass-loader'
         ]
         // })
@@ -47,7 +56,19 @@ const webpackConfig = {
       // CSS loader
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [
+          'style-loader',
+          'css-modules-typescript-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                auto: true,
+                exportGlobals: true
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|svg|eot|ttf)$/,
@@ -67,10 +88,10 @@ const webpackConfig = {
       path.resolve('./src/packages'),
       path.resolve('./node_modules')
     ],
-    alias: Object.keys(tsconfig.compilerOptions.paths).reduce((aliases, aliasName) => {
-      aliases[aliasName] = path.resolve(__dirname, `src/${tsconfig.compilerOptions.paths[aliasName][0]}`);
-      return aliases;
-    }, {})
+    // alias: Object.keys(tsconfig.compilerOptions.paths).reduce((aliases, aliasName) => {
+    //   aliases[aliasName] = path.resolve(__dirname, `src/${tsconfig.compilerOptions.paths[aliasName][0]}`);
+    //   return aliases;
+    // }, {})
   },
   // How and where webpack should output bundles, assets and anything else
   output: {

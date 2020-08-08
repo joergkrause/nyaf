@@ -2,8 +2,6 @@ import { LifeCycle } from './lifecycle.enum';
 import { GlobalProvider } from '../code/globalprovider';
 import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../code/utils';
 import { isString } from 'util';
-import { BaseDirective, IBaseDirective } from '../code/basedirective';
-import { Type } from '../types/type';
 import { IDirective } from '../types/common';
 
 /**
@@ -150,18 +148,25 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
     if (this.constructor['useParentStyles'] && this.constructor['withShadow'] && !this.constructor['globalStyle']) {
-      for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
-        const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
-        try {
-          if (!css.rules || css.rules.length === 0 || css.rules[0].cssText.startsWith(':ignore')) {
-            continue;
+      if (isBoolean(this.constructor['useParentStyles']) && this.constructor['useParentStyles'] === true) {
+        for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
+          const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
+          try {
+            if (!css.rules || css.rules.length === 0 || css.rules[0].cssText.startsWith(':ignore')) {
+              continue;
+            }
+            this.constructor['globalStyle'] += Object.keys(css.cssRules)
+              .map(k => css.cssRules[k].cssText ?? ' ')
+              .join(' ');
+          } catch {
+            console.warn('CORS violation while loading external style sheet. Adapt CORS or load from own server.');
           }
-          this.constructor['globalStyle'] += Object.keys(css.cssRules)
-            .map(k => css.cssRules[k].cssText ?? ' ')
-            .join(' ');
-        } catch {
-          console.warn('CORS violation while loading external style sheet. Adapt CORS or load from own server.');
         }
+      } else {
+        const css: StyleSheet = this.constructor['useParentStyles'] as StyleSheet;
+        this.constructor['globalStyle'] += Object.keys(css)
+              .map(k => css[k])
+              .join(' ');
       }
     }
     // look for plugins that require ctor initialization, __ctor__ pattern

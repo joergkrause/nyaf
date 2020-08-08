@@ -26,7 +26,7 @@ interface IMaterialTabsDefaultConfig {
 @CustomElement('app-slot-tabs')
 @Events(['all'])
 @ShadowDOM(true)
-@UseParentStyles(true)
+@UseParentStyles()
 export class SlotTabsComponent extends BaseComponent<{}> {
 
   private tabChildren: TabStore[] = [];
