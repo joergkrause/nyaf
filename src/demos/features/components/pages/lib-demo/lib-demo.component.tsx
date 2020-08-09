@@ -199,7 +199,7 @@ export class LibDemoComponent extends BaseComponent {
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
-            <h3 class='display-4' id='shadow' source='shadow'>Use Shadoew DOM</h3>
+            <h3 class='display-4' id='shadow' source='shadow'>Use Shadow DOM</h3>
             <app-slot-tabs>
               <app-slot-tab title='Explanation'>
                 <div class='alert alert-info m-2'>

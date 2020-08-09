@@ -1,9 +1,17 @@
+// this is for creating the demo and not intendet for using as a template for @nyaf apps
+// especially the plugin configuration is not a requierement
 const dev = process.env.NODE_ENV === 'dev';
 const path = require('path');
+const glob = require('glob');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// const PurgecssPlugin = require('purgecss-webpack-plugin')
 
 const tsconfig = require('./tsconfig.json');
+const PATHS = {
+  src: path.join(__dirname, 'src')
+}
 
 // Main entry point
 const indexConfig = {
@@ -17,13 +25,23 @@ const webpackConfig = {
   // How source maps are generated : style of source mapping
   devtool: dev ? 'eval-cheap-module-source-map' : false,
   optimization: {
-    minimize: dev ? false : true
+    minimize: dev ? false : true,
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
+    }
   },
   // Development server configuration
   devServer: {
     historyApiFallback: true,
     contentBase: path.join(__dirname, 'dist'),
-    compress: true,
+    compress: false,
     port: 9000
   },
   // Where webpack looks to start building the bundle
@@ -39,16 +57,8 @@ const webpackConfig = {
         test: /\.(scss)$/,
         use: [
           'style-loader',
-          'css-modules-typescript-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                auto: true,
-                exportGlobals: true
-              }
-            }
-          },
+          // MiniCssExtractPlugin.loader,
+          'css-loader',
           'sass-loader'
         ]
         // })
@@ -99,9 +109,7 @@ const webpackConfig = {
     filename: '[name].bundle.js'
   },
   // What bundle information gets displayed
-  stats: {
-    warnings: false
-  },
+  stats: 'errors-only',
   // Target a specific environment (cf. doc)
   target: 'web',
   // Configure whether to polyfill or mock certain Node.js globals and modules
@@ -110,6 +118,12 @@ const webpackConfig = {
   },
   // Customize the webpack build process with additionals plugins
   plugins: [
+    // new MiniCssExtractPlugin({
+    //   filename: "[name].css",
+    // }),
+    // new PurgecssPlugin({
+    //   paths: glob.sync(`${PATHS.src}/**/*`,  { nodir: true }),
+    // }),
     new HtmlWebpackPlugin(indexConfig),
     new CopyWebpackPlugin({
       patterns: [

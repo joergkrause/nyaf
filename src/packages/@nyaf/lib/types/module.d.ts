@@ -1,8 +1,3 @@
-
-// declare module '*.scss' {
-//   export = StyleSheet;
-// }
-
-// declare module '*.css' {
-//   export = StyleSheet;
-// }
+declare module '*.scss' {
+  export const content: {[className: string]: string};
+}

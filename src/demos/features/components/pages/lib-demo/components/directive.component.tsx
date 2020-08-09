@@ -2,14 +2,14 @@ import JSX, { CustomElement, BaseComponent, Directive, BaseDirective, ShadowDOM,
 
 import './directive.component.scss';
 
-import * as css from './directive.styles.scss';
+// import * as module from './directive.module.scss';
 
 /**
  * Event handling and used in up-level component.
  */
 @CustomElement('app-directive')
 @ShadowDOM()
-@UseParentStyles(css.cssExports)
+// @UseParentStyles(module.default)
 export class DirectiveComponent extends BaseComponent<any> {
 
   async render() {
@@ -25,8 +25,6 @@ export class DirectiveComponent extends BaseComponent<any> {
       </>
     );
   }
-
-
 }
 
 
