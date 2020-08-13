@@ -1,4 +1,4 @@
-# Configuration
+## Configuration
 
 A @nyaf application consists of:
 
@@ -11,7 +11,7 @@ A @nyaf application consists of:
 
 > To get a new project quickly you can use Yeoman and the various generators explained [here](yeoman)
 
-## Entry File
+### Entry File
 
 The browser starts here and the basics structure looks like this:
 
@@ -34,7 +34,7 @@ The recommended folder structure looks like this:
 |-- tsconfig.json
 ~~~
 
-## TypeScript Configuration
+### TypeScript Configuration
 
 The TypeScript configuration is typical, but two things are crucial to know:
 
@@ -70,7 +70,7 @@ The TypeScript configuration is typical, but two things are crucial to know:
 }
 ~~~
 
-## WebPack Configuration
+### WebPack Configuration
 
 WebPack is the recommended packer tool,  but you can use any other if you like. There is no dependency.
 

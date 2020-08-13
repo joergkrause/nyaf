@@ -1,4 +1,4 @@
-# Installation
+## Installation of Forms Module
 
 Install the package:
 
@@ -6,7 +6,7 @@ Install the package:
 npm i @nyaf/forms -S
 ~~~
 
-## Dependencies
+### Dependencies
 
 Depends on *@nyaf/lib*.
 

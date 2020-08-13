@@ -1,4 +1,4 @@
-### Life Cycle
+## The Life Cycle
 
 Components have a life cycle. Instead of several events, there is just one method you must override (or ignore if not needed):
 

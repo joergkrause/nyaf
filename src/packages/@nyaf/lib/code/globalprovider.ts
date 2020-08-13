@@ -9,6 +9,7 @@ import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
 import { NRepeaterComponent } from '../components/smart/nrepeater.component';
 import { NOutletComponent } from '../components/smart/noutlet.component';
+import { NFinishedComponent } from '../components/smart/nfinished.component';
 import { IBaseDirective } from './basedirective';
 
 /**
@@ -45,18 +46,33 @@ export class GlobalProvider {
    */
   public static bootstrap(props: BootstrapProp) {
     GlobalProvider.bootstrapProps = props;
+    // wait for document ready before doing anything useful
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      // is already ready
+      GlobalProvider.registerInternal();
+    } else {
+      // otherwise attach event
+      document.addEventListener('DOMContentLoaded', _ => {
+        GlobalProvider.registerInternal();
+      });
+    }
+  }
+
+  /** @ignore */
+  private static registerInternal() {
     // register smart components
     customElements.define('n-repeat', NRepeaterComponent);
     customElements.define('n-outlet', NOutletComponent);
+    customElements.define('n-finished', NFinishedComponent);
     // register custom components
     GlobalProvider.bootstrapProps.components.forEach(c => {
       // add to browsers web component registry
       GlobalProvider.register(c);
     });
     // expanders
-    if (props.expanders) {
+    if (GlobalProvider.bootstrapProps.expanders) {
       // expand and execute decorator
-      const expanders = props.expanders.map(e => new e());
+      const expanders = GlobalProvider.bootstrapProps.expanders.map(e => new e());
       expanders.forEach(ex => {
         if (!ex['__expand__']) {
           console.error('Illegal expander, you must set the @Expand decorator to name the expander');
@@ -65,46 +81,43 @@ export class GlobalProvider {
         }
       });
     }
-    if (props.directives) {
-      props.directives.forEach((bd: IBaseDirective) => {
+    if (GlobalProvider.bootstrapProps.directives) {
+      GlobalProvider.bootstrapProps.directives.forEach((bd: IBaseDirective) => {
         GlobalProvider.registeredDirectives.set(bd['selector'], bd as unknown as IDirective);
       });
     }
     // register events
     events.map(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
-    // register routes
-    document.onreadystatechange = () => {
-      // wait for document
-      if (document.readyState === 'complete') {
-        // that's not enough, we need to wait for all components' async render process
-        const customComponents: Promise<void>[] = [];
-        // loop through all alread statically set components
-        GlobalProvider.bootstrapProps.components.forEach(c => {
-          // get all appearances
-          [].slice.call(document.getElementsByTagName(c.selector)).forEach((e: IBaseComponent) => {
-            // make a promise to wait for the async renderer
-            const p = new Promise<void>((resolve) => {
-              // if already done it's okay for us (mostly, that's just the main component)
-              if (e.isInitalized) {
+
+    // that's not enough, we need to wait for all components' async render process
+    const customComponents: Promise<void>[] = [];
+    // loop through all alread statically set components
+    GlobalProvider.bootstrapProps.components.forEach(c => {
+      // get all appearances
+      [].slice.call(document.getElementsByTagName(c.selector)).forEach((e: IBaseComponent) => {
+        // make a promise to wait for the async renderer
+        const p = new Promise<void>((resolve) => {
+          // if already done it's okay for us (mostly, that's just the main component)
+          if (e.isInitalized) {
+            resolve();
+          } else {
+            // all others are being registered and we wait
+            e.addEventListener('lifecycle', (lc: CustomEvent) => {
+              if (lc.detail === LifeCycle.Load) {
                 resolve();
-              } else {
-                // all others are being registered and we wait
-                e.addEventListener('lifecycle', (lc: CustomEvent) => {
-                  if (lc.detail === LifeCycle.Load) {
-                    resolve();
-                  }
-                });
               }
             });
-            customComponents.push(p);
-          });
+          }
         });
-        Promise.all(customComponents).then(() => {
-          // prepare route, we can't route if the component is not ready yet
-          GlobalProvider.router.registerRouter(props.routes);
-        });
+        customComponents.push(p);
+      });
+    });
+    Promise.all(customComponents).then(() => {
+      // prepare route, we can't route if the component is not ready yet
+      if (GlobalProvider.bootstrapProps.routes) {
+        GlobalProvider.router.registerRouter(GlobalProvider.bootstrapProps.routes);
       }
-    };
+    });
   }
 
   /**

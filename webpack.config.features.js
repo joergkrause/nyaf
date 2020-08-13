@@ -57,7 +57,7 @@ const webpackConfig = {
         test: /\.(scss)$/,
         use: [
           'style-loader',
-          // MiniCssExtractPlugin.loader,
+          // 'css-modules-typescript-loader',
           'css-loader',
           'sass-loader'
         ]

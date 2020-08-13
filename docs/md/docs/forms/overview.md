@@ -1,4 +1,4 @@
-# Forms Extensions
+## Forms Module
 
 Forms provide these basic features:
 
@@ -12,7 +12,7 @@ Same for the UI decorators. It's a convenient way to add hidden properties to vi
 
 The binding logic is almost complete and once you have a decorated model it's syncing the UI automagically.
 
-## How it Works
+### How it Works
 
 For full support you need view models, the registration on top of the component, and access to the model binder.
 

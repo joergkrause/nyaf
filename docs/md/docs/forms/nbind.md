@@ -1,10 +1,10 @@
-# Data Binding
+## Data Binding
 
 Data Binding is one of the most important features in component development. It brings an immediate effect in simplifying
 the data presentation layer. Instead of the chain "select" --> "set" --> "listen" --> "change" you simply bind an object's
 properties to an element's attributes. That could go in both directions.
 
-## Template Language Enhancements
+### Template Language Enhancements
 
 **@nyaf** has a simple template language extension for binding. For forms it's just one more command for any input element, `n-bind`. See the following excerpt from a component.
 
@@ -93,14 +93,14 @@ The forms module comes with a couple of pre-defined bindeing handlers:
 
 | Handler Name | Key | Direction | Applies to | Element base class |
 |-----------------------|-----------|-----|-----------|------------|
-| DefaultBindingHandler | 'default' | uni | attribute | `HTMLElement` |
-| CheckedBindingHandler | 'checked' | bi | attribute `checked` | `HTMLInputElement` |
-| TextBindingHandler | 'innerText' | uni | attribute `textContent` | `HTMLElement` |
-| ValueBindingHandler | 'value' | bi | attribute `value` | `HTMLInputElement` |
-| VisibilityBindingHandler | 'visibility' | uni | style `visibility` | `HTMLElement` |
-| DisplayBindingHandler | 'display' | uni | style `display` | `HTMLElement` |
+| Default... | 'default' | uni | attribute | `HTMLElement` |
+| Checked... | 'checked' | bi | attribute `checked` | `HTMLInputElement` |
+| Text... | 'innerText' | uni | property `textContent` | `HTMLElement` |
+| Value... | 'value' | bi | attribute `value` | `HTMLInputElement` |
+| Visibility... | 'visibility' | uni | style `visibility` | `HTMLElement` |
+| Display... | 'display' | uni | style `display` | `HTMLElement` |
 
-If in the binding attribute the text form is being used ('innerText: userName'), the *key* value determines the used handler.
+The actual handler names are *XXXBindingHandler* (*Default...* is actually *DefaultBindingHandler*). If in the binding attribute the text form is being used ('innerText: userName'), the *key* value determines the used handler.
 The handler provides the active code that handles the change call and applies the changed value to the right target property. That can be any property the element type supports, directly or indirectly anywhere in the object structure. Such a deeper call happens in the style handlers, especially `VisibilityBindingHandler` and `DisplayBindingHandler`.
 
 ## Smart Binders
@@ -108,7 +108,9 @@ The handler provides the active code that handles the change call and applies th
 There is an alternative syntax that provides full type support:
 
 ~~~tsx
-<label n-bind={to<ContactModel>(c => c.email, 'innerText', Display)}></label>
+<label
+   n-bind={to<ContactModel>(c => c.email, 'innerText', Display)}>
+</label>
 ~~~
 
 The function `to<Type>` from *@nyaf/forms* has these syntax variations:

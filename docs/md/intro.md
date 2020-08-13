@@ -10,7 +10,7 @@
 * @nyaf uses standards, no weird or enforced CLI, no vendor lock in.
 * @nyaf uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
 
-## Templates
+### Templates
 
 @nyaf uses TSX for templates. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.
 
@@ -23,11 +23,7 @@ See this excerpt from `tsconfig.json`:
 
 The class `JSX` is the core, it handles the element definitions and extract the template extensions.
 
-## Quick Start
-
-![](/assets/minimum_app.png)
-
-## Size
+### Size
 
 Is it worth coding with **@nyaf** and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
@@ -41,15 +37,15 @@ Actual sizes (0.6.0):
 
 However, compared with React or Angular it's a lot simpler. Compared to Vue, Svelte or Polymer it's simpler and even smaller, but the delta is not that thrilling.
 
-## Tool Support
+### Tool Support
 
 What tool support? It's Web Components - any editor will do. It's JSX/TSX, so any good editor can handle this. And there are TypeScript decorators, even this is well supported. So, you don't need to tweak your editor. It works, no red squiggles, guaranteed.
 
-## Restrictions
+### Restrictions
 
 The package runs, if there are no polyfills, only with ES2015. This limits the usage to any modern browser. It's pretty bold in Electron projects.
 
-## Credits
+### Credits
 
 Inspired by:
 
@@ -59,14 +55,4 @@ Inspired by:
 * [Vue](comparision/vue) (thanks for showing short custom attributes)
 * [Svelte](comparision/svelte) (thanks for showing short custom attributes)
 * TypeScript (thanks for making JS cool again)
-
-## Readings
-
-There is a book in the making covering all aspects of **@nyaf**: https://leanpub.com/webcomponentsnyaf. Read everything about Web Components, why they are smart and how **@nyaf** handles them.
-
-## Further steps
-
-Look out for '@nyaf/forms' (forms validation, data binding, UI control) and '@nyaf/store' (a simple flux store). Simple but powerful!
-
-
 

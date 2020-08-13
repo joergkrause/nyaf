@@ -7,7 +7,7 @@ override in the component.
 
 This is how it looks like:
 
-~~~ts
+```ts
 constructor() {
   super();
   this.tabSubscriber = this.store.subscribe('tab', (data: globalStoreType) => {
@@ -28,14 +28,14 @@ dispose() {
     this.tabSubscriberCheckRemoving.remove();
   }
 }
-~~~
+```
 
 Even easier is usage of the `Dispose` decorator like this:
 
-~~~ts
+```ts
 @Dispose(s => s.remove()) private readonly tabSubscriber;
 @Dispose(s => s.remove()) private readonly tabSubscriberCheckRemoving;
-~~~
+```
 
 You can now remove the `dispose` method entirely.
 

@@ -1,10 +1,10 @@
-# Setup
+## Setup
 
 Now, because it's based on TypeScript, it's very recommended to use WebPack and TypeScript's configuration file *tsconfig.json*.
 
 The *tsconfig.json* looks like this:
 
-~~~~~
+~~~~~json
 {
   "compilerOptions": {
     "target": "es2015",
@@ -36,7 +36,7 @@ The *tsconfig.json* looks like this:
 
 The *webpack.config.json* looks like this (with SCSS support and dev server):
 
-~~~
+~~~js
 const dev = process.env.NODE_ENV === 'dev';
 const path = require('path');
 const webpack = require('webpack');
@@ -112,17 +112,17 @@ module.exports = webpackConfig;
 
 The *package.json* gets an entry in `scripts` section:
 
-~~~
+~~~js
 build: "webpack",
 ~~~
 
-## Build
+### The Build Process
 
 Now, on command line, just type `npm run build`.
 
 To start WebPack's dev server type:
 
-~~~
+~~~sh
 npm start
 ~~~
 

@@ -2,24 +2,23 @@ import JSX, { CustomElement, BaseComponent, Directive, BaseDirective, ShadowDOM,
 
 import './directive.component.scss';
 
-// import * as module from './directive.module.scss';
-
 /**
  * Event handling and used in up-level component.
  */
 @CustomElement('app-directive')
 @ShadowDOM()
-// @UseParentStyles(module.default)
 export class DirectiveComponent extends BaseComponent<any> {
 
   async render() {
     return await (
       <>
-        <h1 class='directive-aware'>A styled header</h1>
         <button type='button' directive='drag' part='drag-button'>
           Drag me around
         </button>
-        <div directive='drop' part='drop-zone'>
+        <button type='button' directive='drag' part='drag-button'>
+          I don't want
+        </button>
+        <div directive='drop' part='drop-zone' >
 
         </div>
       </>
@@ -36,10 +35,26 @@ export class DropTargetDirective extends BaseDirective {
   }
 
   setup() {
+    console.log('dir setup');
+    this.host.addEventListener('dragover', (e: DragEvent) => {
+      e.dataTransfer.dropEffect = 'move';
+      e.preventDefault(); // default is "no drop", so we need to prevent this
+    });
+    this.host.addEventListener('dragenter', (e: DragEvent) => {
+      const bg = this.host.style.backgroundColor;
+      this.host.style.backgroundColor = 'red';
+      setTimeout(() => {
+        this.host.style.backgroundColor = bg;
+      }, 50);
+    });
     this.host.addEventListener('drop', (e: DragEvent) => {
-      if (e.dataTransfer.getData('text') !== 'from button') {
-        e.preventDefault();
+      e.stopPropagation();
+      if (e.dataTransfer.getData('text/plain') !== 'Drag me around') {
+        this.host.innerHTML = 'Oops';
+      } else {
+        this.host.innerHTML = 'Received: ' + e.dataTransfer.getData('text/plain');
       }
+      return false;
     });
   }
 
@@ -56,10 +71,12 @@ export class DragDirective extends BaseDirective {
 
   setup() {
     this.host.addEventListener('dragstart', (e: DragEvent) => {
-      e.dataTransfer.setData('text', 'from button');
+      e.dataTransfer.setData('text/plain', this.host.innerText);
+      e.dataTransfer.effectAllowed = 'move';
+      this.host.style.opacity = '0.4';
     });
-    this.host.addEventListener('dragover', (e: DragEvent) => {
-      e.preventDefault();
+    this.host.addEventListener('dragend', (e: DragEvent) => {
+      this.host.style.opacity = '1';
     });
   }
 

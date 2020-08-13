@@ -1,10 +1,10 @@
-# The Flux Store
+## The Flux Store
 
 This module is the store implementation, a simple flux variant without the burden of Redux. It strictly follows the flux pattern and brings, ones fully understood, a great amount of strict programming style to your application. It brings state to your single page app (SPA). Outside of a SPA it's not useful.
 
 ![](/assets/flux.png)
 
-## How it works
+### How it works
 
 It's very much like Redux, but makes use of decorators to write less code. It's a good strategy to create one global store in your app. Leave it empty if there are no global actions, but make it global.
 
@@ -31,7 +31,9 @@ export const DEC = 'DEC';
 export const SET = 'SET';
 
 export default {
-  [INC]: () => 1, // initial value of payload, this can be omitted if you don't care
+  // initial value of payload,
+  // this can be omitted if you don't care
+  [INC]: () => 1,
   [DEC]: () => -1,
   SET
 };
@@ -122,12 +124,15 @@ Now make the *store* constant available in the component, if it's not yet define
 ~~~tsx
 @CustomElement('app-store-counter')
 @ProvideStore<storeStateType>(store)
-export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implements IStore<storeStateType> {
+export class StoreCounterComponent
+       extends BaseComponent<{ cnt: number }>
+       implements IStore<storeStateType> {
 
   constructor() {
     super();
     this.setData('cnt', 0);
-    // fire if a value changes in the store, takes name of the store value
+    // fire if a value changes in the store,
+    // takes name of the store value
     this.store.subscribe('counter', str => {
       // write to a observed property to force re-render
       this.data.cnt = str.counter;
@@ -170,4 +175,5 @@ export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implem
 }
 ~~~
 
-> **Tip!** Combine this example with the forms module (*@nyaf/forms*) and get binding on element level using the `n-bind` template feature.
+> **Pro Tip!** Combine this example with the forms module (*@nyaf/forms*) and get binding on element level using the `n-bind` template feature.
+

@@ -1,4 +1,3 @@
-
 ## Router
 
 Usually we create SPAs (Single Page Apps). Hence we need a router. The included router is very simple.

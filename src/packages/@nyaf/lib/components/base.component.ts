@@ -335,7 +335,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       GlobalProvider.registeredDirectives.forEach((directive: IDirective, selector: string) => {
         $this.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
           const d = new directive(hostElement);
-          d.setup();
         });
       });
     }

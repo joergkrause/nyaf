@@ -1,4 +1,3 @@
-
 ## State and Properties
 
 There is no explicit difference between State and Property. Compared with React it's much more simpler. A state still exists and it supports smart rendering.
@@ -51,7 +50,7 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
             Sub 1
           </button>
         </div>
-        <pre style='border: 1px solid gray;'>{ super.data.cnt }</pre>
+        <pre style='border: 1px solid gray;'>{ this.data.cnt }</pre>
       </>
     );
   }
@@ -60,7 +59,21 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
 
 ### Properties
 
-To use properties, you can define those. Each property is automatically part of the state and once it changes, the component re-renders.
+Property names in JavaScript are in camel case while HTML attribute names are in kebab case (dash-separated) to match HTML standards. For example, a JavaScript property named itemName maps to an HTML attribute named item-name.
+
+Don’t start a property name with these characters:
+
+* `on` (for example, *onClick*)
+* `aria` (for example, *ariaDescribedby*)
+* `data` (for example, *dataProperty*)
+
+Don’t use these reserved words for property names.
+
+* `slot`
+* `part`
+* `is`
+
+To use properties, you must define those. Each property is automatically part of the state and once it changes, the component re-renders.
 
 ~~~ts
 @CustomElement('app-btn')

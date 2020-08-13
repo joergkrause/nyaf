@@ -1,4 +1,3 @@
-
 ## Shadow DOM
 
 By default the shadow DOM is ____not____ used. If it would, it would mean, that styles are isolated. No global styles are available, then.
@@ -39,11 +38,11 @@ export class ContactComponent extends BaseComponent {
 
 Shadow DOM goes well along with the usage of slots. A typical example is a Tabs Component, that could look like this:
 
-## Example with Shadow DOM
+### Example with Shadow DOM
 
 First, the definition of a single tab.
 
-### Tab
+#### Single Tab
 
 ~~~tsx
 import JSX, { BaseComponent, CustomElement, ShadowDOM, UseParentStyles, LifeCycle } from '@nyaf/lib';
@@ -84,7 +83,7 @@ The `<slot>` element is the content target. The id is used to address the tab (t
 
 Now the container that handles multiple tabs.
 
-~~~
+~~~ts
 import JSX, { BaseComponent, CustomElement, LifeCycle, Events, ShadowDOM, UseParentStyles, uuidv4 } from '@nyaf/lib';
 
 interface TabStore {
