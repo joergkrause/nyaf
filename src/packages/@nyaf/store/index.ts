@@ -4,3 +4,5 @@ export * from './store/effectsbinder.class';
 export * from './decorators/providestore.decorator';
 export * from './decorators/effects.decorator';
 export * from './interfaces/store.interface';
+export * from './interfaces/effect.interface';
+export * from './interfaces/update.interface';

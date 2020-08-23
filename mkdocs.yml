@@ -35,6 +35,7 @@ nav:
     - Store Example: md/docs/store/example.md
     - Global and Local Stores: md/docs/store/globloc.md
     - Disposing Subscriptions: md/docs/store/dispose.md
+    - Disposing Subscriptions: md/docs/store/effects.md
     - Setup: md/docs/store/setup.md
   - Comparision of @nyaf with...:
     - ...Angular: md/docs/comparision/angular.md

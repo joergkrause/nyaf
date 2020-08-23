@@ -1,9 +1,10 @@
 import { LifeCycle, BaseComponent } from '@nyaf/lib';
-import { Effect } from '../decorators/effects.decorator';
+import { Effect } from "../interfaces/effect.interface.ts";
 import { IStore } from '../interfaces/store.interface';
 
 /**
- * Holds the effects defined for a component and executes the assignment.
+ * Holds the effects defined for a component and executes the assignment. This class is used
+ * internally and shall not be called from user code.
  */
 export class EffectsBinder {
   static _instanceStore = new Map<HTMLElement, EffectsBinder>();

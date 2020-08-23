@@ -1,30 +1,6 @@
-import { Store } from '../store/store';
-import eventList from '@nyaf/lib/code/events';
 import { BaseComponent } from '@nyaf/lib';
 import { EffectsBinder } from '../store/effectsbinder.class';
-
-const asLiterals = <T extends string>(arr: T[]): T => arr[0];
-const s = asLiterals(eventList);
-
-export interface Effect {
-  /**
-   * Any selector that's valid for `querySelector`. Must return a single element.
-   */
-  selector: string;
-  /**
-   * An event, such as 'click', that the selected element is able to fire.
-   */
-  trigger: 'click' | 'dblclick';
-  /**
-   * A selector function that retrieves a value from the derived event object. This value is the action's payload.
-   * This function can be omitted if the action doesn't require any payload.
-   */
-  parameter?: (e: Event) => any;
-  /**
-   * The action that's being dispatched when the event occurs.
-   */
-  action: string;
-}
+import { Effect } from '../interfaces/effect.interface';
 
 /**
  * Alloes an event driven mechanism to dispatch actions. The decorator takes an array of effect definitions,
