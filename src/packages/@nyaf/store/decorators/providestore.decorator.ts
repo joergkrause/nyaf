@@ -47,7 +47,9 @@ export function ProvideStore<T>(storeType: Store<Partial<T>>) {
     Object.defineProperty(target.prototype, 'store', {
       get: function () {
         return storeType;
-      }
+      },
+      enumerable: false,
+      configurable: false
     });
   };
 }

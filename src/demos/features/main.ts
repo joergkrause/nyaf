@@ -27,6 +27,7 @@ import { IfComponent } from './components/pages/lib-demo/components/iif.componen
 // store
 import { StoreCounterComponent } from './components/pages/store-demo/components/storecounter.component';
 import { StoreDataComponent } from './components/pages/store-demo/components/storedata.component';
+import { StoreEffectsComponent } from './components/pages/store-demo/components/storeeffects.component';
 // forms
 import { FormComponent, SubFormComponent } from './components/pages/forms-demo/components/form.component';
 import { ValidationDemoComponent } from './components/pages/forms-demo/components/validation.component';
@@ -79,6 +80,7 @@ GlobalProvider.bootstrap({
     PageIntroComponent,
     StoreCounterComponent,
     StoreDataComponent,
+    StoreEffectsComponent,
     FormsDemoComponent,
     FormComponent,
     SubFormComponent,

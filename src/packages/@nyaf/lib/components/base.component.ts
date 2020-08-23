@@ -173,7 +173,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     // look for plugins that require ctor initialization, __ctor__ pattern
     if ('__ctor__' in Object.getPrototypeOf(this)) {
       // currently only one decorator has the opportunity to set the value and enforce an init
-      const dummy = this[this['__ctor__']];
+      this[this['__ctor__']] = this;
     }
   }
 

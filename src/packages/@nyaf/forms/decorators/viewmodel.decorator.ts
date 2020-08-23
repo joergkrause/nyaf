@@ -136,6 +136,7 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, o
   });
   // make an instance on first request, this prop will become public through IModel interface
   Object.defineProperty(targetPrototype, 'model', {
+    set: function(c) {},
     get: function () {
       if (!target.__modelbinder__) {
         target.__modelbinder__ = {};

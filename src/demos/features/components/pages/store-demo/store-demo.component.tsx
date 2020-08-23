@@ -191,6 +191,24 @@ export default store;
               </app-slot-tab>
             </app-slot-tabs>
             <hr />
+            <h3 class='display-4' id='effects' source='storeeffects'>Component with Effects</h3>
+            <app-slot-tabs>
+              <app-slot-tab title='Explanation'>
+                <div class='alert alert-info mb-5'>
+                  This component uses the <code>@Effects</code> decorator to enforce a better seperation of concern style for the component.
+                  All the store actions that are triggerd by user action are now moved outside the component and simplify parameter access.
+                </div>
+              </app-slot-tab>
+              <app-slot-tab title='Playground'>
+                <app-store-effects id='s2'></app-store-effects>
+              </app-slot-tab>
+              <app-slot-tab title='Demo Markup'>
+              </app-slot-tab>
+              <app-slot-tab title='Source Code'>
+              </app-slot-tab>
+            </app-slot-tabs>
+            <hr />
+            <br></br><br></br><br></br><br></br><br></br><br></br>
           </div>
           <div class='col-2' style='position: fixed; right: 15px;'>
             <nav id='demonav'>
@@ -200,6 +218,9 @@ export default store;
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#data'>Store with Data</a>
+                </li>
+                <li class='nav-item'>
+                  <a class='nav-link' href='#effects'>Component with Effects</a>
                 </li>
               </ul>
             </nav>
