@@ -124,9 +124,9 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, o
   }
   // the base component has a setup procedure that calls the property
   Object.defineProperty(targetPrototype, `__ctor__`, {
-    value: 'model',
+    value: ['model', ...targetPrototype.__ctor__],
     enumerable: false,
-    configurable: false
+    configurable: true
   });
   // store the binder instance itself
   Object.defineProperty(targetPrototype, `__modelbinder__`, {
@@ -136,7 +136,7 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, o
   });
   // make an instance on first request, this prop will become public through IModel interface
   Object.defineProperty(targetPrototype, 'model', {
-    set: function(c) {},
+    set: function (c) { },
     get: function () {
       if (!target.__modelbinder__) {
         target.__modelbinder__ = {};

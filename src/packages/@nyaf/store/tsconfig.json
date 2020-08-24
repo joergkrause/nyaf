@@ -1,5 +1,5 @@
 {
   "extends": "../../../../tsconfig.json",
   "include": ["index.ts"],
-  "files": ["index.ts", "./decorators/Effect.ts"]
+  "files": ["index.ts"]
 }

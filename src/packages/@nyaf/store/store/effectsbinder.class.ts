@@ -1,5 +1,5 @@
 import { LifeCycle, BaseComponent } from '@nyaf/lib';
-import { Effect } from "../interfaces/effect.interface.ts";
+import { Effect } from '../interfaces/effect.interface';
 import { IStore } from '../interfaces/store.interface';
 
 /**

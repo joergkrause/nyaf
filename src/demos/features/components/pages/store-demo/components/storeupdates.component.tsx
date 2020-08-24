@@ -1,5 +1,5 @@
 import JSX, { CustomElement, Properties, BaseComponent } from '@nyaf/lib';
-import { ProvideStore, Store, IStore } from '@nyaf/store';
+import { ProvideStore, Store, IStore, Updates } from '@nyaf/store';
 import { INC, DEC, SET } from './actions/counter.actions';
 import store, { allStoreTypes } from './store/counter.store';
 import { Effects } from '@nyaf/store/decorators/effects.decorator';
@@ -7,9 +7,8 @@ import { Effects } from '@nyaf/store/decorators/effects.decorator';
 /**
  * Shows a component that's using the store to handle the business logic outside the component.
  */
-@CustomElement('app-store-effects')
+@CustomElement('app-store-updates')
 @ProvideStore<allStoreTypes>(store)
-@Properties<{ cnt: number }>({ cnt: 0 })
 @Effects([
   {
     selector: 'button[data-action="ADD"]',
@@ -30,31 +29,20 @@ import { Effects } from '@nyaf/store/decorators/effects.decorator';
     action: SET
   }
 ])
-export class StoreEffectsComponent extends BaseComponent<{ cnt: number }> implements IStore<allStoreTypes> {
+@Updates<allStoreTypes>([
+  {
+    store: 'counter',
+    selector: '[data-store-counter]',
+    target: 'textContent'
+  }
+])
+export class StoreUpdatesComponent extends BaseComponent<any> implements IStore<allStoreTypes> {
 
   store: Store<allStoreTypes>;
-  private sub: { remove: () => void; };
-  private sub2: { remove: () => void; };
 
   constructor() {
     super();
-    console.log('Store Effects Ctor called');
-    this.store.dispatch(SET, this.data.cnt);
-    // fire if a value changes in the store, takes name of the store value
-    this.sub = this.store.subscribe('counter', str => {
-      console.log('Counter subscriber recveived a value', str);
-      this.data.cnt = str.counter;
-      return true;
-    });
-  }
-
-  dispose() {
-    if (this.sub) {
-      this.sub.remove();
-    }
-    if (this.sub2) {
-      this.sub2.remove();
-    }
+    console.log('Store Updates Ctor called');
   }
 
   async render() {
@@ -83,7 +71,7 @@ export class StoreEffectsComponent extends BaseComponent<{ cnt: number }> implem
         </div>
         <div class='row m-5'>
           <p>The value is changed in a reducer and component re-renders automatically:</p>
-          <div class='badge badge-info'>{c}</div>
+          <div class='badge badge-info' data-store-counter>{c}</div>
         </div>
       </>
     );

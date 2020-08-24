@@ -3,6 +3,7 @@ import { GlobalProvider } from '../code/globalprovider';
 import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../code/utils';
 import { isString } from 'util';
 import { IDirective } from '../types/common';
+import { CTOR } from '../consts/decorator.props';
 
 /**
  * The structure that defines the state object.
@@ -171,9 +172,11 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       }
     }
     // look for plugins that require ctor initialization, __ctor__ pattern
-    if ('__ctor__' in Object.getPrototypeOf(this)) {
-      // currently only one decorator has the opportunity to set the value and enforce an init
-      this[this['__ctor__']] = this;
+    if (CTOR in Object.getPrototypeOf(this) && isArray(this[CTOR])) {
+      // this is an array in case multiple decorators which to be called
+      (this[CTOR] as any[]).forEach((propName: string) => {
+        this[propName] = this;
+      });
     }
   }
 
