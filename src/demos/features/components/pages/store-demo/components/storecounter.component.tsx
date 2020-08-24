@@ -1,4 +1,4 @@
-import JSX, { CustomElement, Properties, BaseComponent } from '@nyaf/lib';
+import JSX, { CustomElement, Properties, BaseComponent, Dispose } from '@nyaf/lib';
 import { ProvideStore, Store, IStore } from '@nyaf/store';
 import { INC, DEC, SET } from './actions/counter.actions';
 import store, { allStoreTypes } from './store/counter.store';
@@ -12,8 +12,8 @@ import store, { allStoreTypes } from './store/counter.store';
 export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implements IStore<allStoreTypes> {
 
   store: Store<allStoreTypes>;
-  private sub: { remove: () => void; };
-  private sub2: { remove: () => void; };
+  @Dispose((o) => o.remove()) private sub: { remove: any; };
+  @Dispose((o) => o.remove()) private sub2: { remove: any; };
 
   constructor() {
     super();
@@ -29,15 +29,6 @@ export class StoreCounterComponent extends BaseComponent<{ cnt: number }> implem
       alert(v.version);
       return true;
     });
-  }
-
-  dispose() {
-    if (this.sub) {
-      this.sub.remove();
-    }
-    if (this.sub2) {
-      this.sub2.remove();
-    }
   }
 
   clickMeAdd(e) {

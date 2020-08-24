@@ -32,7 +32,7 @@ export class UpdatesBinder {
             }
             (component as unknown as IStore<T>).store.subscribe(update.store, (result) => {
               // the change in store occured and we write the result to all corresponding targets
-              queries.forEach(targetElement => targetElement[update.target] = result);
+              queries.forEach(targetElement => targetElement[update.target] = result[update.store]);
             });
           });
         }

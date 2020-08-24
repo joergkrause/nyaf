@@ -26,7 +26,7 @@ export function Effects(effectsMap: Effect[]) {
     }
     // trigger the call in the basecomponent ctor to get a valid this instance
     Object.defineProperty(targetPrototype, `__ctor__`, {
-      value: ['__effects_ctor__', ...targetPrototype.__ctor__],
+      value: targetPrototype.__ctor__ ? ['__effects_ctor__', ...targetPrototype.__ctor__] : ['__effects_ctor__'],
       enumerable: false,
       configurable: true
     });

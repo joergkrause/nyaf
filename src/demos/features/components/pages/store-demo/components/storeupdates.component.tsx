@@ -46,7 +46,6 @@ export class StoreUpdatesComponent extends BaseComponent<any> implements IStore<
   }
 
   async render() {
-    const c = this.data.cnt;
     return await (
       <>
         <div class='row m-5'>
@@ -71,7 +70,7 @@ export class StoreUpdatesComponent extends BaseComponent<any> implements IStore<
         </div>
         <div class='row m-5'>
           <p>The value is changed in a reducer and component re-renders automatically:</p>
-          <div class='badge badge-info' data-store-counter>{c}</div>
+          <div class='badge badge-info' data-store-counter>n/a</div>
         </div>
       </>
     );

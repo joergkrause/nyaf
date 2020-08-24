@@ -124,7 +124,7 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, o
   }
   // the base component has a setup procedure that calls the property
   Object.defineProperty(targetPrototype, `__ctor__`, {
-    value: ['model', ...targetPrototype.__ctor__],
+    value: targetPrototype.__ctor__ ? ['model', ...targetPrototype.__ctor__] : ['model'],
     enumerable: false,
     configurable: true
   });

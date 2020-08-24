@@ -1,6 +1,6 @@
 import { BaseComponent } from '@nyaf/lib';
-import { EffectsBinder } from '../store/effectsbinder.class';
 import { Update } from '../interfaces/update.interface';
+import { UpdatesBinder } from '../store/updatesbinder.class';
 
 /**
  * Alloes an event driven mechanism to dispatch actions. The decorator takes an array of effect definitions,
@@ -26,12 +26,12 @@ export function Updates<T>(updatesMap: Update<T>[]) {
     }
     // trigger the call in the basecomponent ctor to get a valid this instance
     Object.defineProperty(targetPrototype, `__ctor__`, {
-      value: ['__updates_ctor__', ...targetPrototype.__ctor__],
+      value: targetPrototype.__ctor__ ? ['__updates_ctor__', ...targetPrototype.__ctor__] : ['__updates_ctor__'],
       enumerable: false,
       configurable: true
     });
     Object.defineProperty(targetPrototype, `__updates_ctor__`, {
-      set: (c: BaseComponent) => EffectsBinder.initialize(c),
+      set: (c: BaseComponent) => UpdatesBinder.initialize(c),
       enumerable: false,
       configurable: false
     });
