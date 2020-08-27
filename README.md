@@ -5,7 +5,7 @@
 
 # @nyaf is "Not Yet Another Framework"
 
-And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power.
+And it is, well, an entirely new concept of Web development support libraries, a so called "thin library". It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.
 
 > No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!
 
@@ -108,8 +108,8 @@ export class MainComponent extends BaseComponent<{}> {
     super();
   }
 
-  async render() {
-    return await (
+  render() {
+    return (
       <>
         <h1>Demo</h1>
       </>
