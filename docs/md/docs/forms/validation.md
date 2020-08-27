@@ -1,6 +1,6 @@
 ## Validation
 
-Form validation is painful to programm from scratch. @nyaf provides a n integrated but flexible validation system.
+Form validation is painful to programm from scratch. **@nyaf** provides a n integrated but flexible validation system.
 
 ### ViewModel Decorators
 
@@ -62,8 +62,7 @@ The error message is just regular output (class example from Bootstrap, not need
 </form>
 ```
 
-Validators can provide the error text, too. This is driven by decorators. The decorators fall back to a simple plain english error message in case you don't provide anything.
-You can, however, provide any kind of message in the decorator. In case you need i18n messages, just add the `@Translate` decorator as a parameter decorator to the message parameter.
+Validators can provide the error text, too. This is driven by decorators. The decorators fall back to a simple plain english error message in case you don't provide anything. You can, however, provide any kind of message in the decorator. In case you need i18n messages, just add the `@Translate` decorator as a parameter decorator to the message parameter.
 
 Distinguish between different validators like this:
 
@@ -98,11 +97,8 @@ val<ViewModel>(e => e.userName, MaxLength, DisplayBindingHandler)
 ```
 
 The `DisplayBindingHandler` is smart enough to know that it's bound to an error message. It know reads the second parameter that is `Required`. It binds now to parts.
-First, it binds the error message to `textContent`. That's a static assignment. Second, it binds the `display` style to the `isValid` method of the view model. This
-method is set through the `Required` decorator and knows how to determine the state 'required'. The property is bound through the scope's Proxy dynamically and once
-the values changes, irrespectively the source of the change, it fires an event and the model binder holds a subscriber for this. Here, the value is taken and handed over to the `isValid` method.
-This method is bound to the handler, that sets the style accordingly. That setting is reversed, means that the value `true` makes the message invisible, while the value
-`false` makes the message visible (isValid ==== false tells us an error occurred).
+
+First, it binds the error message to `textContent`. That's a static assignment. Second, it binds the `display` style to the `isValid` method of the view model. This method is set through the `Required` decorator and knows how to determine the state 'required'. The property is bound through the scope's Proxy dynamically and once the values changes, irrespectively the source of the change, it fires an event and the model binder holds a subscriber for this. Here, the value is taken and handed over to the `isValid` method. This method is bound to the handler, that sets the style accordingly. That setting is reversed, means that the value `true` makes the message invisible, while the value `false` makes the message visible (isValid ==== false tells us an error occurred).
 
 > If you use the `DisplayBindingHandler` or `VisibilityBindingHandler` directly, without validation but in conjunction with binding operations, than they will work straight, true makes an element visible, and false invisible.
 
@@ -128,8 +124,7 @@ export class VisibilityBindingHandler implements IBindingHandler {
 }
 ```
 
-The `Binding` instance, provided internally, delivers a boolean value. The element _el_ is the element that has the `n-bind={val<T>()}` instruction. _T_ is the model
-that drives the content using decorators.
+The `Binding` instance, provided internally, delivers a boolean value. The element _el_ is the element that has the `n-bind={val<T>()}` instruction. _T_ is the model that drives the content using decorators.
 
 ## Additional Information
 

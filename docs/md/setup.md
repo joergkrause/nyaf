@@ -6,6 +6,8 @@ Typically, you start like this:
 $ npm i @nyaf/lib
 ~~~
 
+The type definitions required for TypeScript are part of the packages and no additional type libraries are required.
+
 Just start from scratch by a simple setup, which includes:
 
 * A *package.json* and a *tsconfig.json*
@@ -18,7 +20,7 @@ That's it, let the TypeScript compiler create the output and copy static files u
 
 ### The Command Line Interface
 
-@nyaf comes with a simple CLI that creates boilerplate projects.
+**@nyaf** comes with a simple CLI that creates boilerplate projects.
 
 Use it like this (*first line for the very first time only*):
 
@@ -27,7 +29,7 @@ $ npm i @nyaf/cli -g
 $ npx nyaf n
 ~~~
 
-Also a quicker method of downloading and executing is available:
+Also a quicker method of downloading and executing immediately is available:
 
 ~~~sh
 npx -p @nyaf/cli nyaf n
