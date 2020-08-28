@@ -6,7 +6,7 @@
  */
 export interface Update<T> {
   /**
-   * Any selector that's valid for `querySelector`. Must return a single element.
+   * Any selector that's valid for `querySelectorAll`.
    */
   selector: string;
   /**

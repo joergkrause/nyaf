@@ -82,7 +82,9 @@ export interface IViewDecoratorOptions<T> {
  * @param model The model used to bind the component. It's one model per component.
  * @param options An optional set of handlers that handle custom data types while transferring values from elements to model and vice versa. Also option constructor support.
  */
-export function ViewModel<T extends {}>(model: Type<T>, options?: IViewDecoratorOptions<T>) {
+export function ViewModel<T extends {}>(
+  model: Type<T>,
+  options?: IViewDecoratorOptions<T>) {
 
   function viewModelInternal(target: Object): void {
     viewModelInternalSetup<T>(target, model, options);

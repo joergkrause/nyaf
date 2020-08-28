@@ -8,8 +8,8 @@ import { ModelState } from './modelstate.class';
 import { LifeCycle, BaseComponent } from '@nyaf/lib';
 import { VisibilityBindingHandler } from './handlers/visibilitybindinghandler.class';
 import { DisplayBindingHandler } from './handlers/displaybindinghandler.class';
-import { Required } from '../decorators/forms/val-required.decorator';
 import { ValidatorBinding } from './validatorbinding.class';
+import { ViewUpdate } from '../interfaces/viewupdate.interface';
 
 /**
  * The modelbinder serves two purposes:
@@ -227,6 +227,35 @@ export class ModelBinder<VM extends object> {
         }
       }
     }
+  }
+
+  public static initupdates(component: BaseComponent, updatesMap: ViewUpdate<any, HTMLElement>[]): void {
+    let mbInstance = ModelBinder._instanceStore.get(component);
+    if (!mbInstance) {
+      mbInstance = ModelBinder.initialize(component);
+    }
+
+    // Look for @Viewmodel decorator
+    const model = component['model'];
+    if (!model) {
+      throw new Error('@ViewModel decorator missing or not before @ViewUpdates decorator.');
+    }
+    const isShadowed = !!component.constructor['withShadow'];
+    component.addEventListener('lifecycle', async (e: CustomEvent) => {
+      updatesMap.forEach((update) => {
+        const { selector, property, binder, target } = update;
+        const bindElement = component.querySelector(selector);
+        const decoratorKey = '';
+        ModelBinder.setBinding(
+          model,
+          mbInstance,
+          component,
+          target,
+          binder.constructor.name,
+          decoratorKey,
+          property.toString());
+      });
+    });
   }
 
   private static setBinding(modelInstance: any, mbInstance: ModelBinder<any>, el: HTMLElement, scopeKey: string, bindingHandler: string, decoratorKey?: string, prop?: string) {

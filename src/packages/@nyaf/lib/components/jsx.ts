@@ -18,7 +18,7 @@ import { isNumber, isBoolean, isArray, isObject, isFunction } from '../code/util
 const JSX = {
   createElement(name: string, props: { [id: string]: any }, ...content: string[]): string {
     content = [].concat.apply([], content);
-    const flat = function (arr1: string[]) {
+    const flat = function (arr1: string[]): string[] {
       return arr1.reduce((acc, val) => (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);
     };
 

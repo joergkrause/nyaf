@@ -3,7 +3,7 @@ import { Update } from '../interfaces/update.interface';
 import { UpdatesBinder } from '../store/updatesbinder.class';
 
 /**
- * Alloes an event driven mechanism to dispatch actions. The decorator takes an array of effect definitions,
+ * Allows an event driven mechanism to dispatch actions. The decorator takes an array of effect definitions,
  * that add events to elements and forward properties to actions. That way one cna define a whole range of
  * actions outside of the view code and simplify the appearance of compnents.
  */
