@@ -1,6 +1,6 @@
 {
   "name": "@nyaf/lib",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "lib.umd.js",
   "private": false,
@@ -29,6 +29,6 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "devDependencies": {
-    "@nyaf/cli": "^0.6.0"
+    "@nyaf/cli": "^0.6.1"
   }
 }
