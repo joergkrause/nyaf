@@ -7,8 +7,7 @@
   "typings": "index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "webpack",
-    "postinstall": "npm i @nyaf/cli -D"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -27,8 +26,5 @@
   "bugs": {
     "url": "https://github.com/joergkrause/nyaf/issues"
   },
-  "homepage": "https://github.com/joergkrause/nyaf#readme",
-  "devDependencies": {
-    "@nyaf/cli": "^0.6.2"
-  }
+  "homepage": "https://github.com/joergkrause/nyaf#readme"
 }
