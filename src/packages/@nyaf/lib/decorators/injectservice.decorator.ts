@@ -13,7 +13,7 @@ type Constructor<T> = new (...args: any[]) => T;
  *
  * @param name local name (within component) of service
  * @param type Type of service class. Any type that can make an instance will do (`function`, `class`) if you instantiate the service implicitly.
- *             If you use a singleton, the type @see ServiceType<T> is being used. The singleton variant is recommended.
+ *             If you use a singleton, the type {@link ServiceType<T>} is being used. The singleton variant is recommended.
  * @param singleton If set to @true the type must be an instance, that will be re-used accross calls,
  *                  if @false or omitted an instance will be created using new operator.
  */

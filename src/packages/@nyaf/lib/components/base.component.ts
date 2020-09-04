@@ -25,13 +25,13 @@ export interface IBaseComponent extends HTMLElement {
  *
  * If the component shall show nothing or has temporarily nothing to render just return `null`.
  *
- * Components must be decorated with at least the @see {CustomElement} decorator. That defines the name is required to render properly.
+ * Components must be decorated with at least the {@link {CustomElement}} decorator. That defines the name is required to render properly.
  * Additional class decorators are available:
  *
- * * @see InjectService:  Injects a service class und a singleton instance becomes avaiable through the property `services`.
+ * * {@link InjectService:}  Injects a service class und a singleton instance becomes avaiable through the property `services`.
  *
  * After the render method has been called the first time the property `initialized` becomes `true`.
- * All properties can be bound, so any change will re-render the content. See @see {Properties} decorator.
+ * All properties can be bound, so any change will re-render the content. See {@link {Properties}} decorator.
  * If you use *jsx* in the render method you must import JSX function. This is same behavior as in React. It isn't React, though.
  *
  * https://www.mikedoesweb.com/2017/dynamic-super-classes-extends-in-es6/
@@ -39,8 +39,8 @@ export interface IBaseComponent extends HTMLElement {
 export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLElement implements IBaseComponent {
 
   /**
-   * Set by decorator @see {UseParentStyles}. If set, it copies styles to a shadowed component.
-   * If not shadowed, it's being ignored. See @see {UseShadowDOM} decorator, too.
+   * Set by decorator {@link {UseParentStyles}}. If set, it copies styles to a shadowed component.
+   * If not shadowed, it's being ignored. See {@link {UseShadowDOM}} decorator, too.
    */
   public static readonly useParentStyles: boolean;
 
@@ -50,17 +50,17 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   private static globalStyle: string;
   private static linkedStyles: HTMLLinkElement[] = [];
   /**
-   * Set by decorator @see {UseShadowDOM}. A shadowed component is technically isolated.
+   * Set by decorator {@link {UseShadowDOM}}. A shadowed component is technically isolated.
    */
   public static readonly withShadow: boolean;
 
   /**
-   * Set by decorator @see {CustomElement}. It's the element's name in CSS selector style.
+   * Set by decorator {@link {CustomElement}}. It's the element's name in CSS selector style.
    */
   public static readonly selector: string;
 
   /**
-   * Observe all registered attributes. The source field is set by the @see {Properties} decorator.
+   * Observe all registered attributes. The source field is set by the {@link {Properties}} decorator.
    */
   protected static get observedAttributes(): string[] {
     if (isArray((this as any).__observedAttributes__)) {
@@ -72,7 +72,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
 
   /**
    * Promote the lifecycle changes:
-   * * first by a sync call of the @see LifeCycle method
+   * * first by a sync call of the {@link LifeCycle} method
    * * second by dispatching the 'onlifecycle' event. Use addEventListener('lifecycle', ...) to catch the event.
    * * third a property 'onLifecycle' is being called if a handler function is attached.
    */
@@ -265,7 +265,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   protected lifeCycle(cycle: LifeCycle): void { }
 
   /**
-   * Return the last state the life cycle has reached. This is being set immediately before the event @see {lifeCycle} is fired.
+   * Return the last state the life cycle has reached. This is being set immediately before the event {@link {lifeCycle}} is fired.
    */
   protected get currentLifeCycle() {
     return this._lifeCycleState;
@@ -290,7 +290,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   }
 
   /**
-   * Returns the service's instance. Defined using the @see InjectService decorator. The decorator uses a local name for the custom service.
+   * Returns the service's instance. Defined using the {@link InjectService} decorator. The decorator uses a local name for the custom service.
    * @param service The name of a registered service
    */
   protected services<S = any>(serviceId: string): S {
@@ -309,8 +309,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
 
   /**
    * Refresh the content after changes. Called automatically after changes of observed attributes.
-   * Fires the @see LifeCycle.PreRender before and the @see LifeCycle.Load event after the content is being written.
-   * The @see lifeCycle hook is called accordingly.
+   * Fires the {@link LifeCycle}.PreRender before and the {@link LifeCycle}.Load event after the content is being written.
+   * The {@link lifeCycle} hook is called accordingly.
    */
   protected async setup(): Promise<void> {
     this.lifeCycleState = LifeCycle.PreRender;

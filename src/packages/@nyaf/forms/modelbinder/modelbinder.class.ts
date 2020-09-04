@@ -16,9 +16,9 @@ import { ViewUpdate } from '../interfaces/viewupdate.interface';
  * First, the bi-directional data binding. Second, the converting of validation decorators into validation instructions.
  *
  * The bi-directional binding is uni-directional if the element doesn't support user input. That means, you can bind
- * any element. The binding is based on a @see Proxy class and requires ES2015 natively.
+ * any element. The binding is based on a {@link Proxy} class and requires ES2015 natively.
  *
- * The binding two a model requires the decorator @see Viewmodel. Here you define the type for binding.
+ * The binding two a model requires the decorator {@link Viewmodel}. Here you define the type for binding.
  *
  * ```
  * @ViewModel(UserModel)
@@ -43,26 +43,26 @@ import { ViewUpdate } from '../interfaces/viewupdate.interface';
  * 2. The model property which is connected (in the example: *Name*).
  *
  * The @nyaf/forms library provides few binder functions, that consists of a name (the property name) and a binder logic.
- * For example, the * @see ValueBindingHandler has the name "value" and reads a value from @see HTMLInputElement 's `value` property.
+ * For example, the * {@link ValueBindingHandler} has the name "value" and reads a value from {@link HTMLInputElement} 's `value` property.
  * It also contains an event listener, that supervises the `input` event. Binders for text may not have an event listener and hence bind
  * just uni-directional.
  *
- * If you need specific binders for custom elements, just create one by implementing the @see IBindingHandler interface.
+ * If you need specific binders for custom elements, just create one by implementing the {@link IBindingHandler} interface.
  *
  * ```
  * class MyHandler implements IBindingHandler {
  *   // your code here
  * }
  * ```
- * This definition must be added to the local modelbinder instance. The decorator @see @ViewModel creates a property `model`,
- * that provides an instance of @see ModelBinder, initialized and bound to the current component. In the component, it's recommended
+ * This definition must be added to the local modelbinder instance. The decorator {@link @ViewModel} creates a property `model`,
+ * that provides an instance of {@link ModelBinder,} initialized and bound to the current component. In the component, it's recommended
  * to do this in the Lifecycle.Load step, you can add your custom handler:
  *
  * ```
  * @ViewModel(UserModel, { handlers: { 'custom': new CustomHandler() } })
  * ```
  *
- * The `model` property is enforced by the @see IModel<VM> interface. That's for typing, the actual value is created at
+ * The `model` property is enforced by the {@link IModel<VM>} interface. That's for typing, the actual value is created at
  * runtime from the decorator code.
  *
  * In the form you can now bind to your custom property of your custom web component.

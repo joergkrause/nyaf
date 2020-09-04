@@ -10,7 +10,7 @@ const N_LINK_SEL = `[${N_LINK}]`;
 /**
  * The router implementation. Usually, there is no need to call this class directly.
  *
- * The only method one need is the @see navigateRoute method to call a route path programmaticially.
+ * The only method one need is the {@link navigateRoute} method to call a route path programmaticially.
  */
 export class Router {
 

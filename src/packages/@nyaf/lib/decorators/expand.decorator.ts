@@ -1,7 +1,7 @@
 /**
- * Name the @see Expander by using this decorator.
+ * Name the {@link Expander} by using this decorator.
  * @param prop value of expandable property
- * @typeParam T The @see HTMLElement derived type to expand. This is optional.
+ * @typeParam T The {@link HTMLElement} derived type to expand. This is optional.
  */
 export function Expand<T>(prop: string) {
   return function(target: any) {

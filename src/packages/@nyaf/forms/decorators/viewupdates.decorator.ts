@@ -7,7 +7,7 @@ import { ModelBinder } from '../modelbinder/modelbinder.class';
  * This is syntactic sugar only and shall move a hard to maintain number of
  * binding instruction to one central location.
  *
- * This decorator must be added **after** the @see ViewModel decorator.
+ * This decorator must be added **after** the {@link ViewModel} decorator.
  *
  * @example
  * ~~~

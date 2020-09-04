@@ -15,7 +15,7 @@ export class ValidatorBinding extends Binding {
   /**
    * The binder assignment that connects viewmodel properties to element attributes.
    * @param modelProperty The property of the viewmodel this binder binds to
-   * @param handler The handler that handles the binding. For attribute binders this is 'default' @see DefaultBindingHandler
+   * @param handler The handler that handles the binding. For attribute binders this is 'default' {@link DefaultBindingHandler}
    * @param binderInstance The binder instance that provides access to the actual binder objects
    * @param el The element that the binder will assign the viewmodel to
    */

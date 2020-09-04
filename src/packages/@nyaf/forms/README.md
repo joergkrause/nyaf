@@ -1,9 +1,11 @@
 [![Version](https://img.shields.io/npm/v/%40nyaf%2Fforms.svg?style=flat-square)](https://npmjs.com/package/@nyaf/forms)
 [![License](https://img.shields.io/npm/l/%40nyaf%2Fforms.svg?style=flat-square)](https://npmjs.com/package/@nyaf/forms)
 
-# @nyaf is "Not Yet Another Framework"
+# Introducing @nyaf
 
-And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools.
+The name @nyaf is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".
+
+It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.
 
 ## Preface
 

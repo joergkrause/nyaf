@@ -194,7 +194,7 @@ export class Store<ST> {
   }
 
   /**
-   * The state of the store. If not in a dispatch call, its usually Resting. @see StoreState.
+   * The state of the store. If not in a dispatch call, its usually Resting. {@link StoreState}.
    */
   get status(): Map<string, StoreState> {
     return this._status;

@@ -10,7 +10,7 @@ nav:
   - Project Configuration: md/configuration.md
   - Setup: md/setup.md
   - Core Library:
-    - Overview: md/docs/lib/components.md
+    - Overview: md/docs/lib/overview.md
     - Template Language: md/docs/lib/template.md
     - JSX / TSX: md/docs/lib/jsx.md
     - Select Elements: md/docs/lib/select.md
@@ -23,7 +23,7 @@ nav:
     - Shadow DOM: md/docs/lib/shadowdom.md
     - Services: md/docs/lib/services.md
     - Setup: md/docs/lib/setup.md
-  - Forms Extensions:
+  - Forms Extension:
     - Overview: md/docs/forms/overview.md
     - View Models: md/docs/forms/vm.md
     - Data Binding: md/docs/forms/nbind.md

@@ -16,13 +16,13 @@ export enum LifeCycle {
   SetData,
   /**
    * The render process is done and the component has been loaded. If subsequent changes require rendering the content, the
-   * component fires @see PreRender before and @Load after each such cycle. That means, especially for adding subscribers,
+   * component fires {@link PreRender} before and @Load after each such cycle. That means, especially for adding subscribers,
    * both events are not suitable, as they could fire multiple times.
    */
   Load,
   /**
    * The render method has been called and content is ready to be written to `innerHTML`. It's not yet written, actually.
-   * Between this event and @see Load the templates and slots for shadowing are being created.
+   * Between this event and {@link Load} the templates and slots for shadowing are being created.
    */
   PreRender,
   /**

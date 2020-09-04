@@ -73,11 +73,11 @@ If you want to test out how some specific JSX is converted into JavaScript, you 
 
 The first part of a TSX tag determines the type of the element. It's the name of a registered Web Component.
 
-### User-Defined Components Must Be in Kebap Style
+### User-Defined Components Must Be in Kebab Style
 
 When an element type starts with a lowercase letter, it refers to a built-in component like `<div>` or `<span>` and results in a string 'div' or 'span' passed to JSX.createElement. Types that have a dashed name like <my-foo /> compile to JSX.createElement('my-foo') and correspond to a component defined globally through `GlobalProvider`.
 
-We recommend naming components always with kebap style.
+We recommend naming components always with kebab style.
 
 ### Props in TSX
 

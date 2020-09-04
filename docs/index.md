@@ -1,9 +1,11 @@
 [![Version](https://img.shields.io/npm/v/%40nyaf%2Flib.svg?style=flat-square)](https://npmjs.com/package/@nyaf/lib)
 [![License](https://img.shields.io/npm/l/%40nyaf%2Flib.svg?style=flat-square)](https://npmjs.com/package/@nyaf/lib)
 
-# @nyaf is "Not Yet Another Framework"
+# Introducing @nyaf
 
-And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools. And it's 34KB zipped only, for all three parts together, of course.
+The name @nyaf is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".
+
+It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.
 
 > No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!
 
@@ -28,4 +30,6 @@ The library comes in three parts:
 * A Store library that gives your app a state engine using the common flux architecture style
 
 Everything else is simple HTML 5 API, without any restrictions. You can add CSS, other libraries, or your own stuff at almost any position.
+
+Additionally, there is small CLI for easy setup and component creation.
 

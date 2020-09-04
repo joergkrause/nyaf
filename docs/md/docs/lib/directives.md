@@ -79,4 +79,3 @@ After the constructor call the infrastructure calls a method *setup*. It has no 
 
 The host element is aware of a shadow DOM, so it might be the host's element object or a shadowed element. This depends on the usage of the `@ShadowDOM` directive. There is nothing special here, you can use it directly. The type cast is `HTMLElement`. That means in TypeScript the properties specific to shadow DOM are not available in the API. In JavaScript they are still present, though, that means you could enforce a cast like `this.host as unknown as ShadowRoot`. Usually, that's a very rare situation anyway. The idea behind this behavior is that we want to make the shadow DOM as transparent as possible, without forcing the developer to think about it.
 
-

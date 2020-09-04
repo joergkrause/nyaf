@@ -1,7 +1,7 @@
 import { Routes } from './routes';
 
 /**
- * After the router has navigated, this event target is being fired on the method @see GlobalProvider.navigateRoute
+ * After the router has navigated, this event target is being fired on the method {@link GlobalProvider}.navigateRoute
  */
 export class RouteEventTarget extends EventTarget {
 

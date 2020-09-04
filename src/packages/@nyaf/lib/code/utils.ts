@@ -203,7 +203,7 @@ export function from<T extends Object>(data: T[]): string {
 }
 
 /**
- * Select a property from the data defined by @see from
+ * Select a property from the data defined by {@link from}
  * @param nameFunction Select expressionl like c => c.name
  * @typeParam T The view model type
  */

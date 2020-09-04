@@ -7,7 +7,7 @@ import { ModelBinder } from './modelbinder.class';
  */
 export interface IModel<VM extends object> {
   /**
-   * The actual model instance. This requires the @see ViewModel decorator on the component, which provides an actual instance.
+   * The actual model instance. This requires the {@link ViewModel} decorator on the component, which provides an actual instance.
    *
    * @typeParam VM A view model type. That's a regular class (not an interface), optionally with decorators on properties.
    */

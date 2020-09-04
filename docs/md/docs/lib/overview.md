@@ -66,24 +66,13 @@ Once you have more components, it may look like this:
 
 The main goal is to add template features to the JSX part.
 
+## The First Component
 
-
-
-# How to use
-
-This section describes setup and first steps.
-
-## Prepare a project
-
-Install the package:
-
-~~~
-npm i @nyaf/lib -S
-~~~
+This section describes how to bring the component to live. I assume that you have already a typical TypeScript setup with *tsconfig.json*, *package.json*, and your favorite packer.
 
 Create a file `main.ts` in the *src* folder that looks like this:
 
-~~~
+~~~ts
 import { GlobalProvider } from '@nyaf/lib';
 
 import { MainComponent } from './main.component';
@@ -95,7 +84,7 @@ GlobalProvider.bootstrap({
 
 Create file *main.component.tsx* in the same folder (It must be _*.tsx_!). Fill this content in:
 
-~~~
+~~~tsx
 import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
 
 @CustomElement('app-main')
@@ -117,7 +106,7 @@ export class MainComponent extends BaseComponent {
 }
 ~~~
 
-> Watch the default import for *JSX* - this IS required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files. It's always `JSX`, even if we use _*.tsx_-files.
+> Watch the default import for *JSX* - this *is* required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files. It's always `JSX`, even if we use _*.tsx_-files.
 
 Create a file named *index.html* in the very same folder and fill it like this:
 
@@ -137,7 +126,6 @@ Create a file named *index.html* in the very same folder and fill it like this:
 </html>
 ~~~
 
-Your app starts in line 11.
+Your app starts in line 10.
 
-
-
+Using the packer configuration you get the *index.html* file in the *./dist* folder, a bundle, and a reference to this bundle to load the script.

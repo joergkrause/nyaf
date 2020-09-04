@@ -3,9 +3,11 @@
 [![License](https://img.shields.io/npm/l/%40nyaf%2Flib.svg?style=flat-square)](https://npmjs.com/package/@nyaf/lib)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/joergisageek)
 
-# @nyaf is "Not Yet Another Framework"
+# Introducing @nyaf
 
-And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power.
+The name @nyaf is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".
+
+It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.
 
 > No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!
 
@@ -108,8 +110,8 @@ export class MainComponent extends BaseComponent<{}> {
     super();
   }
 
-  async render() {
-    return await (
+  render() {
+    return (
       <>
         <h1>Demo</h1>
       </>
@@ -928,7 +930,7 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 Is it worth coding with @nyaf and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual package sizes (0.6.1, published 10th of August 2020):
+Actual package sizes (0.6.0, published 10th of August 2020):
 
 * Lib:    36 KB --> 11 KB zipped (always needed)
 * Forms:  20 KB -->  5 KB zipped (Forms binding, validation, decorators)

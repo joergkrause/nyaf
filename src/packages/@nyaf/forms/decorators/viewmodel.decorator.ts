@@ -11,11 +11,11 @@ import { BaseComponent, Type } from '@nyaf/lib';
  * 2. If the viewmodel has an initialization function ofr nothing at all, use @param factory to create a factory. You get the current object and apply your changes.
  *
  * The thirs option is regarding handlers. Handlers define, which property is bound in which way. In case you need a special treatment for Date values,
- * create a Handler through implementing the @see IBindingHandler interface. It has two features: Listen for events and change value if the bound object changes.
+ * create a Handler through implementing the {@link IBindingHandler} interface. It has two features: Listen for events and change value if the bound object changes.
  * You can skip the listener part to have an unidirectional binding. Internally there are three pre-defined handlers:
  *
- * 1. innerText: An unidirectional binder that writes text in any @see HTMLElement
- * 2. value: A binder that handles any kind of @see IHTMLInputElement ; this is bi-directional
+ * 1. innerText: An unidirectional binder that writes text in any {@link HTMLElement}
+ * 2. value: A binder that handles any kind of {@link IHTMLInputElement} ; this is bi-directional
  * 3. checkbox: Handles a value by accepting a `boolean` value and supports the `checked` property instead of `value`.
  *
  * @typeParam T The view model
@@ -32,12 +32,12 @@ export interface IViewDecoratorOptions<T> {
    * ```typescript
    * @ViewModel<Model>(Model, { handler: { 'special': new SpecialBinder() }})
    * ```
-   * In this scenario, the class *SpecialBinder* must implement @see IBindingHandler.
+   * In this scenario, the class *SpecialBinder* must implement {@link IBindingHandler}.
    * Any bindings that apply to 'special' are now being re-routed through this custom binder code (exclusively, bypassing the default binders).
    */
   handler?: { [property: string]: IBindingHandler };
   /**
-   * If the @see ctor option is not flexible enough and you need a very constructed object, this is the right way to setup.
+   * If the {@link ctor} option is not flexible enough and you need a very constructed object, this is the right way to setup.
    *
    * In the following example the factory sets just one property to a distinct value (a pre-fill).
    *
@@ -72,11 +72,11 @@ export interface IViewDecoratorOptions<T> {
 }
 
 /**
- * The ViewModel decorator. Defines the `model` value in the component. Goes together with the @see IModel interface.
+ * The ViewModel decorator. Defines the `model` value in the component. Goes together with the {@link IModel} interface.
  *
  * This decorator defines the model for a component. It's a class decorator.
  *
- * For more information see @see IViewDecoratorOptions
+ * For more information see {@link IViewDecoratorOptions}
  *
  *
  * @param model The model used to bind the component. It's one model per component.

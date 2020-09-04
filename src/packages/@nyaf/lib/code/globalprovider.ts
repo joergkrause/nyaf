@@ -13,7 +13,7 @@ import { NFinishedComponent } from '../components/smart/nfinished.component';
 import { IBaseDirective } from './basedirective';
 
 /**
- * Main support class that provides all global functions. You must call at least the @see bootstrap method to register components.
+ * Main support class that provides all global functions. You must call at least the {@link bootstrap} method to register components.
  */
 export class GlobalProvider {
 
@@ -25,8 +25,8 @@ export class GlobalProvider {
 
   /**
    *
-   * @param type Called to register a component. The component must have either the decorator @see CustomElement or
-   * provide the tag name in a property calles *selector*. The component must inherit @see Component.
+   * @param type Called to register a component. The component must have either the decorator {@link CustomElement} or
+   * provide the tag name in a property calles *selector*. The component must inherit {@link Component}.
    */
   static register(type: IComponent) {
     if ((type as any).__extends_element__) {

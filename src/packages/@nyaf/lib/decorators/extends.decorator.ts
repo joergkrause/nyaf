@@ -2,11 +2,11 @@
  * The Extends decorator. Experimental.
  *
  * If decorated, the component will register itself as an extension of the given element.
- * If omitted, @see {HTMLElement} is being used. Usage:
+ * If omitted, {@link {HTMLElement}} is being used. Usage:
  *
  * `@extends('a')`
  *
- * That extends an @see @{HTMLAnchorElement} and hence inherits all given properties and behaviors.
+ * That extends an {@link @{HTMLAnchorElement}} and hence inherits all given properties and behaviors.
  *
  * @param elementName The tag name of the element that now forms the base element.
  */

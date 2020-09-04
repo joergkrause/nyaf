@@ -1,6 +1,6 @@
-## Configuration
+## Project Configuration
 
-A @nyaf application consists of:
+An **@nyaf** application consists of:
 
 1. An entry file for registering components, typically called *main.ts*
 2. At least one root component
@@ -147,4 +147,3 @@ const webpackConfig = {
 // Export the config
 module.exports = webpackConfig;
 ~~~
-

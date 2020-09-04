@@ -3,7 +3,7 @@ import { ValidatorBinding } from '../validatorbinding.class';
 
 /**
  * The basic interface for creating custom handlers.
- * @see bind is usesd to assign the listener.
+ * {@link bind} is usesd to assign the listener.
  */
 export interface IBindingHandler {
   bind?(binding: Binding | ValidatorBinding): void;

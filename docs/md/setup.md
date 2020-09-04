@@ -63,3 +63,4 @@ The CLI provides four templates:
 All templates can either support CSS directly or integrate a SASS transpiler.
 
 All templates come with WebPack support and the latest TypeScript compiler.
+
