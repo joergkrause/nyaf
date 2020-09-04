@@ -1,17 +1,17 @@
 {
-  "name": "@nyaf API Documentation",
+  "name": "@nyaf Flux Store API Documentation",
   "ignoreCompilerErrors": false,
   "moduleResolution": "node",
   "includeDeclarations": false,
   "mode": "file",
-  "out": "dist/apidoc",
+  "out": "dist/apidoc/store",
   "theme": "default",
   "preserveConstEnums": "true",
   "excludePrivate": true,
   "excludeNotExported": true,
   "excludeExternals": true,
+  "inputFiles": ["./src/packages/@nyaf/store"],
   "exclude": [
-    "./src/demos",
-    "./src/packages/@nyaf/.backed/"
+    "./src/_experimental"
   ]
 }

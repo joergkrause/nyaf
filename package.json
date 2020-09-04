@@ -1,6 +1,6 @@
 {
   "name": "nyaf",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",
   "scripts": {
@@ -10,15 +10,14 @@
     "nyaf-debug": "export NODE_ENV=dev && webpack --config webpack.config.lib.js --env.NODE_ENV=dev --env.development",
     "build": "rimraf dist/@nyaf && cp README.md ./src/packages/@nyaf/lib && rimraf out-tsc && tsc && npm run nyaf",
     "build-debug": "rimraf dist/@nyaf && rimraf out-tsc && tsc && npm run nyaf-debug",
-    "start-ui": "webpack-dev-server --config webpack.config.ui.js --open",
     "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public && cd ../../../ && cd dist/@nyaf/cli && npm publish --access public",
-    "doc": "rimraf dist/manual && rimraf dist/apidoc && npm run t-lib && npm run t-forms && npm run t-store && npm run t-ui && mkdocs build && showdown makehtml -i README.md -o dist/demo/features/readme.html ",
-    "t-lib": "typedoc --name \"@nyaf library\" --out dist/apidoc/lib src/packages/@nyaf/lib",
-    "t-forms": "typedoc --name \"@nyaf forms\" --out dist/apidoc/forms src/packages/@nyaf/forms",
-    "t-store": "typedoc --name \"@nyaf store\" --out dist/apidoc/store src/packages/@nyaf/store",
-    "t-ui": "typedoc --name \"@nyaf ui\" --out dist/apidoc/ui src/packages/@nyaf/ui",
+    "doc": "rimraf dist/manual && rimraf dist/apidoc && npm run t-lib && npm run t-forms && npm run t-store && mkdocs build && showdown makehtml -i README.md -o dist/readme.html && cp -r dist/manual ../nyaf-homepage/dist/manual && cp -r dist/apidoc ../nyaf-homepage/dist/apidoc && cp -r dist/readme.html ../nyaf-homepage/dist/readme.html",
+    "t-lib": "typedoc --options typedoc.lib.json",
+    "t-forms": "typedoc --options typedoc.forms.json",
+    "t-store": "typedoc --options typedoc.store.json",
     "publish-doc": "mkdocs gh-deploy",
-    "all": "rimraf dist && npm run build && npm run build-demo && npm run doc"
+    "all": "rimraf dist && npm run build && npm run doc",
+    "postinstall": "sudo apt install mkdocs"
   },
   "repository": {
     "type": "git",

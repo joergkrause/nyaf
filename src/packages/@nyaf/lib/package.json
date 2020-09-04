@@ -1,6 +1,6 @@
 {
   "name": "@nyaf/lib",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "lib.umd.js",
   "private": false,
@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
-    "postinstall": "npm i @nyaf/cli -g && npm i @nyaf/cli -D"
+    "postinstall": "npm i @nyaf/cli -D"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,6 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "devDependencies": {
-    "@nyaf/cli": "^0.6.1"
+    "@nyaf/cli": "^0.6.2"
   }
 }

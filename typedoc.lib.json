@@ -1,0 +1,19 @@
+{
+  "name": "@nyaf Library API Documentation",
+  "ignoreCompilerErrors": true,
+  "moduleResolution": "node",
+  "includeDeclarations": false,
+  "mode": "file",
+  "out": "dist/apidoc/lib",
+  "theme": "default",
+  "preserveConstEnums": true,
+  "jsx": "react",
+  "target": "ES2015",
+  "excludePrivate": true,
+  "excludeNotExported": true,
+  "excludeExternals": true,
+  "inputFiles": ["./src/packages/@nyaf/lib"],
+  "exclude": [
+    "./src/_experimental"
+  ]
+}

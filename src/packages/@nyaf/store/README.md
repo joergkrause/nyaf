@@ -107,7 +107,7 @@ const store = new Store<storeStateType>({
 
 Now make the *store* constant available in the component, if it's not yet defined there. This store can handle just on single component or spread multiple components and form eventually a single source of truth for the whole application.
 
-~~~tsx
+~~~ts
 @CustomElement('app-store-counter')
 @ProvideStore<storeStateType>(store)
 export class StoreCounterComponent extends StoreComponent<storeStateType, { cnt: number }> {
@@ -367,7 +367,7 @@ export default store;
 
 Now, the component can dispatch actions with payloads and receive store changes.
 
-~~~tsx
+~~~ts
 @CustomElement("tab-archive-search")
 @ProvideStore<archiveStoreType>(store)
 export class ArchiveSearchComponent extends StoreComponent<archiveStoreType, {}> {

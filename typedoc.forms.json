@@ -1,0 +1,17 @@
+{
+  "name": "@nyaf Forms API Documentation",
+  "ignoreCompilerErrors": false,
+  "moduleResolution": "node",
+  "includeDeclarations": false,
+  "mode": "file",
+  "out": "dist/apidoc/forms",
+  "theme": "default",
+  "preserveConstEnums": "true",
+  "excludePrivate": true,
+  "excludeNotExported": true,
+  "excludeExternals": true,
+  "inputFiles": ["./src/packages/@nyaf/forms"],
+  "exclude": [
+    "./src/_experimental"
+  ]
+}

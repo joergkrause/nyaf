@@ -125,7 +125,7 @@ For a good UI you need a label usually:
 
 The model is provided by a decorator
 
-~~~tsx
+~~~ts
 @ViewModel(ModelType)
 export class component extends BaseComponent<any> implements IModel<ModelType> {
 
@@ -173,7 +173,7 @@ Again, note the *@* signs preceding the property names.
 
 Validators can provide the error text, too:
 
-~~~tsx
+~~~ts
 <form>
   <label n-bind="innerText: userName" for="un"/>
   <input n-bind="value: userName" id="un">
@@ -185,7 +185,7 @@ Validators can provide the error text, too:
 
 Distinguish between different validators like this:
 
-~~~tsx
+~~~ts
 <form>
   <label n-bind="innerText: userName" for="un"/>
   <input n-bind="value: userName" id="un">
@@ -244,7 +244,7 @@ It's supervised. After render *this.modelState* helds the state of the model.
 
 There is an alternative syntax that provides full type support:
 
-~~~tsx
+~~~ts
 <label n-bind={to<ContactModel>(c => c.email, 'innerText', Display)}></label>
 ~~~
 
@@ -256,19 +256,19 @@ Use the function `to<Type>` from *@nyaf/forms*. The parameters are as follows:
 
 Obviously you could think about writing this:
 
-~~~tsx
+~~~ts
 <input n-bind={to<ContactModel>(c => c.email, 'value')} />
 ~~~
 
 This is rejected by the compiler, because the property *value* doesn't exists in `HTMLElement`. To provide another type, just use a second generic type parameter:
 
-~~~tsx
+~~~ts
 <input n-bind={to<ContactModel, HTMLInputElement>(c => c.email, 'value')} />
 ~~~
 
 Here you tell the compiler, that it's safe to use `HTMLInputElement` and so the editor allows *value* as the second parameter. An even smarter way is to use the lambda here, too:
 
-~~~tsx
+~~~ts
 <input n-bind={to<ContactModel, HTMLInputElement>(c => c.email, c => c.value)} />
 ~~~
 
@@ -285,7 +285,7 @@ export class ContactComponent<T extends ContactModel> extends BaseComponent impl
 
 And in that case use a shorter from to express the binding:
 
-~~~tsx
+~~~ts
 <label n-bind={to<T>(c => c.email, c => c.innerText)} />
 ~~~
 
