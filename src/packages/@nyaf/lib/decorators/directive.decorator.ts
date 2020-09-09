@@ -1,6 +1,6 @@
 export function Directive(selector: string) {
   return function (target: any) {
-    Object.defineProperty(target, 'selector', {
+    Object.defineProperty(target, Symbol.for('DirectiveSelector'), {
       get: () => {
         return selector;
       },

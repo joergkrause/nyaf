@@ -184,9 +184,9 @@ export class Router {
     if (!(outlet as any)['__activatedComponent__']) {
       Object.defineProperty(outlet, '__activatedComponent__', { enumerable: false, writable: true, configurable: false, value: '' });
     }
-    if (forced || (outlet as any)['__activatedComponent__'] !== activatedComponent.selector) {
-      (outlet as any)['__activatedComponent__'] = activatedComponent.selector;
-      outlet.innerHTML = `<${activatedComponent.selector}></${activatedComponent.selector}>`;
+    if (forced || (outlet as any)['__activatedComponent__'] !== activatedComponent[Symbol.for('CustomElementSelector')]) {
+      (outlet as any)['__activatedComponent__'] = activatedComponent[Symbol.for('CustomElementSelector')];
+      outlet.innerHTML = `<${activatedComponent[Symbol.for('CustomElementSelector')]}></${activatedComponent[Symbol.for('CustomElementSelector')]}>`;
       event = new CustomEvent('navigated', {
         bubbles: true,
         cancelable: false,

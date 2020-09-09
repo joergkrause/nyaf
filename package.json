@@ -79,17 +79,9 @@
     "yeoman-generator": "^4.11.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.14.0",
     "@nyaf/forms": "file:./src/packages/@nyaf/forms",
     "@nyaf/lib": "file:./src/packages/@nyaf/lib",
     "@nyaf/store": "file:./src/packages/@nyaf/store",
-    "bootstrap": "^4.5.2",
-    "chalk": "^4.1.0",
-    "highlight.js": "^10.1.2",
-    "jquery": "^3.5.1",
-    "jquery-easing": "0.0.1",
-    "meow": "^7.0.1",
-    "popper.js": "^1.16.1",
     "uuid": "^8.3.0",
     "yargs": "^15.4.1"
   }

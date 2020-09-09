@@ -100,7 +100,7 @@ Components are the core ingredients. You write components as classes, decorated 
 
 Web Components must be registered. To support this, we use decorators. This makes it quite easy to define a component without knowing the details of the browser's API. The name is determined by `@CustomElement('my-name')`. This is mandatory. Note the base class, which gets a generic that later controls the attributes. The name shall follow the common rules of Web Components, that means, it must have at least one dash '-' so there is no risk of a collision with common HTML element names.
 
-~~~ts
+~~~tsx
 import JSX, { CustomElement } from '@nyaf/lib';
 
 @CustomElement('app-main')
@@ -129,7 +129,7 @@ Second, the component has a base class. All @nyaf components are derived from `H
 
 Now, that the component is defined, it must be registered. In a file called *main.ts* (or wherever your app is bootstrapped) call this:
 
-~~~ts
+~~~tsx
 import { GlobalProvider } from '@nyaf/lib;
 import { MainComponent } from './components/main.component';
 
@@ -140,7 +140,7 @@ GlobalProvider.bootstrap({
 
 That's it, the component works now. Use it in the HTML part:
 
-~~~ts
+~~~tsx
 <body class="container">
   <app-main></app-main>
 </body>
@@ -150,7 +150,7 @@ That's it, the component works now. Use it in the HTML part:
 
 Once you have more components, it may look like this:
 
-~~~ts
+~~~tsx
 GlobalProvider.bootstrap({
   components: [
     ButtonComponent,
@@ -166,7 +166,7 @@ The main goal is to add template features to the JSX part.
 
 Components have a life cycle. Instead of several events, there is just one method you must override (or ignore if not needed):
 
-~~~ts
+~~~tsx
 lifeCycle(cycle: LifeCycle){
   if (cycle === LifeCycle.Load){
     // it's ready to go
@@ -199,7 +199,7 @@ Template Features avoid using creepy JavaScript for branches and interaction. Yo
 
 The value will be evaluated and the element does or does not render, then:
 
-~~~ts
+~~~tsx
 <div class="main-header"
      n-if={this.props.title !== 't1'}>
   <span>Any content will not render if container doesn't render</span>
@@ -208,7 +208,7 @@ The value will be evaluated and the element does or does not render, then:
 
 If there is an else-branch it can direct to a slot template. `<slot>` elements are native web component parts.
 
-~~~ts
+~~~tsx
 <div class="main-header"
      n-if={this.props.title !== 't1'}
      n-else="noShow">
@@ -227,7 +227,7 @@ Works same as `n-if`, but just adds an inline style `display: none` (or remove o
 
 Expand a group of attributes. Imagine this:
 
-~~~ts
+~~~tsx
 <input type="text" placeholder="Name" role="search" class="materialinput" id="a1" />
 <input type="text" placeholder="Name" role="search" class="materialinput" id="a2" />
 <input type="text" placeholder="Name" role="search" class="materialinput" id="a3" />
@@ -235,7 +235,7 @@ Expand a group of attributes. Imagine this:
 
 You need this several times, each with different id. It's easier doing it with an expander:
 
-~~~ts
+~~~tsx
 <input n-expand="search" id="a1" />
 <input n-expand="search" id="a2" />
 <input n-expand="search" id="a3" />
@@ -243,7 +243,7 @@ You need this several times, each with different id. It's easier doing it with a
 
 To define it, just create a class like this:
 
-~~~ts
+~~~tsx
 @Expand("search")
 export class SearchExpander extends Expander {
   constructor(){
@@ -258,7 +258,7 @@ export class SearchExpander extends Expander {
 
 And yes, these are equal signs in the class. The quoted 'xxx' names are only required if the attribute name contains dashes. Finally, add the definition to the global provider:
 
-~~~ts
+~~~tsx
 Globalprovider.bootstrap({
   components: [...components], // as usual
   expanders: [SearchExpander]  // expanders must ne registered
@@ -271,7 +271,7 @@ That's it, a lot less to write without the effort to create components. It's jus
 
 This is even easier, but more for local expanding:
 
-~~~ts
+~~~tsx
 const d = {
   'type': "text";
   'placeholder': "Name";
@@ -291,7 +291,7 @@ Events are defined by a special instruction. They are attached to `document` obj
 
 Events are easy to add directly using it like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
 
-~~~ts
+~~~tsx
   <button n-on-click={() => this.clickMe()}>OK</button>
 ~~~
 
@@ -299,19 +299,19 @@ Events are easy to add directly using it like `n-on-click`. All JavaScript event
 
 You can get the (original HTML 5 API) event using a parameter, like *e* in the example below:
 
-~~~ts
+~~~tsx
   <button n-on-click={(e) => this.clickMe(e)}>OK</button>
 ~~~
 
 There is an alternative syntax that takes the method name directly (note that here are single quotes being used instead of curly braces):
 
-~~~ts
+~~~tsx
   <button n-on-click='clickMe'>OK</button>
 ~~~
 
 The method is bound with the event object as a parameter, hence the method can have a parameter like this:
 
-~~~ts
+~~~tsx
 clickMe(e: Event) {
 
 }
@@ -324,7 +324,7 @@ The `Event` type conforms to HTML 5 DOM. Replace according the attached event (`
 
 You can combine any event with the attribute `n-async` to make the call to the event's handler function async. This attribute does not take any parameters. The handler method must not be decorated with `async`.
 
-~~~ts
+~~~tsx
 <button n-on-click={(e) => this.clickMe(e)} n-async>OK</button>
 ~~~
 
@@ -338,7 +338,7 @@ Sometimes the JavaScript events are not flexible enough. So you can define your 
 
 Imagine a button component like this:
 
-~~~ts
+~~~tsx
 @CustomElement('app-button')
 @Events(['showAlert'])
 export class ButtonComponent extends BaseComponent {
@@ -411,7 +411,7 @@ Any kind of parent element will do. The router code sets the property `innerHTML
 
 The following code shows how to register routes:
 
-~~~ts
+~~~tsx
 let routes = {
   '/': { component: DemoComponent },
   '/about': { component: AboutComponent },
@@ -433,7 +433,7 @@ The entry `'**': { component: DemoComponent }` is optional and defines a fallbac
 
 To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
 
-~~~ts
+~~~tsx
 <a href="#/" n-link>Home</a>
 <a href="#/about" n-link>About</a>
 <a href="#/demo" n-link>Demo</a>
@@ -449,7 +449,7 @@ Please note the hash sign (#). It's required. No code or strategies here, write 
 
 If you have some sort of CSS framework running, that provides support for menu navigation by classes, just add the class for the currently active element to the `n-link` attribute like this:
 
-~~~ts
+~~~tsx
 <a href="#/" n-link="active">Home</a>
 <a href="#/about" n-link="active">About</a>
 <a href="#/demo" n-link="active">Demo</a>
@@ -463,7 +463,7 @@ After this, by clicking the hyperlink, the class "active" will be added to the a
 
 The underlying Route definition, the type `Routes`, allows two additional fields (`outlet` and `data`):
 
-~~~ts
+~~~tsx
 const routes: Routes = {
   '/': { component: HomeComponent, outlet: 'main' },
   '/docu': { component: DocuComponent, outlet: 'main', data: { notlocal: true} },
@@ -480,13 +480,13 @@ const routes: Routes = {
 
 With `outlet` one can define a named outlet. If you use this, you must name all routes as there is no fallback currently. The route outlet might reside everywhere. It may look like this:
 
-~~~ts
+~~~tsx
 <div n-router-outlet="other"></div>
 ~~~
 
 If the route's components deliver `<li>` elements, you can also use something like this to build well formatted HTML:
 
-~~~ts
+~~~tsx
 <ul n-router-outlet="other"></div>
 ~~~
 
@@ -505,7 +505,7 @@ If you use `data: { title: 'Some Title' } ` the value in the field *title* is be
 
 You can navigate by code:
 
-~~~ts
+~~~tsx
 GlobalProvider.navigateRoute('/my-route');
 ~~~
 
@@ -517,7 +517,7 @@ The outlet is pulled from configuration, but if provided as second parameter it 
 
 The router fires two events, available through the static `GlobalProvider` class like this:
 
-~~~ts
+~~~tsx
 GlobalProvider.routerAction.addEventListener('navigate', (evt) => {
   const route = evt.detail;
   // optionally cancel before execution
@@ -525,7 +525,7 @@ GlobalProvider.routerAction.addEventListener('navigate', (evt) => {
 }
 ~~~
 
-~~~ts
+~~~tsx
 GlobalProvider.routerAction.addEventListener('navigated', (evt) => {
   const route = evt.detail;
   // this event can't be cancelled
@@ -538,19 +538,19 @@ By default the shadow DOM is ____not____ used. If it would, it would mean, that 
 
 One option to activate the Shadow DOM:
 
-~~~ts
+~~~tsx
 @ShadowDOM()
 ~~~
 
 The property can be set explicitly. The default is `false`, hence if the decorator is being omitted, the component is ____not____ shadowed.
 
-~~~ts
+~~~tsx
 @ShadowDOM(true | false)
 ~~~
 
 Another interesting option controls the style behavior:
 
-~~~ts
+~~~tsx
 @UseParentStyles()
 ~~~
 
@@ -561,7 +561,7 @@ Another interesting option controls the style behavior:
 
 Example:
 
-~~~ts
+~~~tsx
 @CustomElement('app-contact')
 @ShadowDOM()
 @UseParentStyles()
@@ -578,7 +578,7 @@ There is no explicit difference between State and Property. Compared with React 
 
 To declare a state object use a generic like this:
 
-~~~ts
+~~~tsx
 export class MainComponent extends BaseComponent<{ cnt: number}> {
   // ... omitted for brevity
 }
@@ -593,7 +593,7 @@ Now two functions are available:
 
 A simple counter shows how to use:
 
-~~~ts
+~~~tsx
 export class CounterComponent extends BaseComponent<{ cnt: number }> {
 
   constructor() {
@@ -631,7 +631,7 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
 
 To use properties, you can define those. Each property is automatically part of the state and once it changes, the component re-renders.
 
-~~~ts
+~~~tsx
 @CustomElement('app-btn')
 @Properties<{ title: string }>({ title: 'Default' })
 export class ButtonComponent extends BaseComponent<{ title: string, cnt: number }> {
@@ -643,7 +643,7 @@ The initializer with default's is ____not____ optional, you must provide an obje
 
 This is how you use such a component (part of the render method):
 
-~~~ts
+~~~tsx
 const someTitle='Demo';
 return (<app-btn title={someTitle} />);
 ~~~
@@ -654,7 +654,7 @@ The `@Properties` decorator defines all properties, that are now monitored (obse
 
 The access with `data` is internally and externally available. That means, you can retrieve a component and set values like this:
 
-~~~ts
+~~~tsx
 (this.querySelector('[data-demo-button]') as any).data.text = 'Some demo data';
 ~~~
 
@@ -668,13 +668,13 @@ Web Components have the restriction that an attribute can transport string value
 
 That means the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\_\_name__" is written. Assume your values is written like shown below:
 
-~~~ts
+~~~tsx
 <app-comp test={[{"obj": 1}, {"obj": 2}]}></app-comp>
 ~~~
 
 The rendered component would look like this:
 
-~~~ts
+~~~tsx
 <app-comp test="[{"obj": 1}, {"obj": 2}]" __test__></app-comp>
 ~~~
 
@@ -686,7 +686,7 @@ Apparently the double double quotes work just fine. However, the content is now 
 
 First, have a look on a simple model class:
 
-~~~ts
+~~~tsx
 export class Model {
   id: number = 0;
   name: string = '';
@@ -705,7 +705,7 @@ Within the component, this is now present. In the above definition `this.data` c
 
 If you want to access an injectable service, this is the way to do it:
 
-~~~ts
+~~~tsx
 @CustomElement('app-main')
 @InjectService('localNameA', ServiceClass1)
 @InjectService('localNameB', ServiceClass2, true)
@@ -740,7 +740,7 @@ npm i @nyaf/lib -S
 
 Create a file `main.ts` in the *src* folder that looks like this:
 
-~~~ts
+~~~tsx
 import { GlobalProvider } from '@nyaf/lib';
 
 import { MainComponent } from './main.component';
@@ -752,7 +752,7 @@ GlobalProvider.bootstrap({
 
 Create file *main.component.tsx* in the same folder (It must be _*.tsx_!). Fill this content in:
 
-~~~ts
+~~~tsx
 import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
 
 @CustomElement('app-main')
@@ -778,7 +778,7 @@ export class MainComponent extends BaseComponent {
 
 Create a file named *index.html* in the very same folder and fill it like this:
 
-~~~ts
+~~~tsx
 <!DOCTYPE html>
 <html lang="en">
 <head>

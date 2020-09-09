@@ -8,9 +8,11 @@ export type ComponentType<T extends HTMLElement | HTMLParagraphElement> = new (.
 
 export type DirectiveType<T extends BaseDirective> = new (...args: any[]) => T;
 
+const customElementSelector = Symbol.for('CustomElementSelector');
+
 /** @internal */
 export interface IComponent extends ComponentType<IBaseComponent> {
-  readonly selector?: string;
+  readonly [customElementSelector]?: string;
   readonly customEvents?: string[];
 }
 

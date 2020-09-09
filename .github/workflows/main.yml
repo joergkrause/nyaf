@@ -21,8 +21,3 @@ jobs:
 
       - name: Build
         run: npm run build
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        run: npm run publish

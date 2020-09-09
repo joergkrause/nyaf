@@ -30,11 +30,11 @@ export class GlobalProvider {
    */
   static register(type: IComponent) {
     if ((type as any).__extends_element__) {
-      customElements.define(type.selector, type, { extends: (type as any).__extends_element__ });
+      customElements.define(type[Symbol.for('CustomElementSelector')], type, { extends: (type as any).__extends_element__ });
     } else {
-      customElements.define(type.selector, type);
+      customElements.define(type[Symbol.for('CustomElementSelector')], type);
     }
-    GlobalProvider.registeredElements.push(type.selector.toUpperCase());
+    GlobalProvider.registeredElements.push(type[Symbol.for('CustomElementSelector')].toUpperCase());
     if (type.customEvents) {
       type.customEvents.forEach(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     }
@@ -83,7 +83,7 @@ export class GlobalProvider {
     }
     if (GlobalProvider.bootstrapProps.directives) {
       GlobalProvider.bootstrapProps.directives.forEach((bd: IBaseDirective) => {
-        GlobalProvider.registeredDirectives.set(bd['selector'], bd as unknown as IDirective);
+        GlobalProvider.registeredDirectives.set(bd[Symbol.for('DirectiveSelector')], bd as unknown as IDirective);
       });
     }
     // register events
@@ -94,7 +94,7 @@ export class GlobalProvider {
     // loop through all alread statically set components
     GlobalProvider.bootstrapProps.components.forEach(c => {
       // get all appearances
-      [].slice.call(document.getElementsByTagName(c.selector)).forEach((e: IBaseComponent) => {
+      [].slice.call(document.getElementsByTagName(c[Symbol.for('CustomElementSelector')])).forEach((e: IBaseComponent) => {
         // make a promise to wait for the async renderer
         const p = new Promise<void>((resolve) => {
           // if already done it's okay for us (mostly, that's just the main component)

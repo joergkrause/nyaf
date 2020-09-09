@@ -1,4 +1,4 @@
-## Project Configuration
+## Project Configuration with TypeScript
 
 An **@nyaf** application consists of:
 

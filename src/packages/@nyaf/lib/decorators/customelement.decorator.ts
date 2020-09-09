@@ -5,7 +5,7 @@
  **/
 export function CustomElement(name: string) {
   return function (target: any) {
-    Object.defineProperty(target, 'selector', {
+    Object.defineProperty(target, Symbol.for('CustomElementSelector'), {
       get: function () {
         return name;
       },
