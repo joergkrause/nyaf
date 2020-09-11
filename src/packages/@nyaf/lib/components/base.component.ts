@@ -79,7 +79,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   protected set lifeCycleState(lc: LifeCycle) {
     // TODO: make the lifecycle chain correct by collecting children first
     // <a><b></b></a>: Init A, Init B, Load B, Load A, Dispose B, Dispose A
-    const parentWalk = (el: HTMLElement, evt: string) => {
+    const parentWalk = (el: HTMLElement, evt: string): any => {
       if (!el.parentElement) {
         return null;
       }
@@ -222,7 +222,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
               const val = target[innerProp];
               if (typeof val === 'function') {
                 if (['push', 'unshift'].includes(innerProp)) {
-                  return function (el) {
+                  return function () {
                     return Array.prototype[innerProp].apply(target, arguments);
                   };
                 }
@@ -251,7 +251,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   };
 
   // ability to send data to elements from main window (for Electron only)
-  private receiveMessage(event) {
+  private receiveMessage(event: any) {
     if (event.data.type === 'setData' && (event.data.target === this.readAttribute('id', '') || this.localName === event.data.target)) {
       this.setData.apply(this, event.data.args);
     }
@@ -342,7 +342,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       });
     }
     // query all children and wait for load cycle, invoke own load, then
-    const childLoaders = [];
+    const childLoaders: Array<any> = [];
     Array.from($this.querySelectorAll('*')).forEach(wc => {
       if (wc instanceof BaseComponent) {
         const p = new Promise<void>(resolve => {

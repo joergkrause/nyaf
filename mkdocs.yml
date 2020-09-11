@@ -7,9 +7,9 @@ nav:
   - Home: index.md
   - Introduction: md/intro.md
   - Learn: md/learn.md
-  - Project Configuration (TS): md/configuration.md
+  - Project Configuration (TS): md/ts.md
   - Project Configuration (JS): md/babel.md
-  - Setup: md/setup.md
+  - Configuration Files: md/config.md
   - Core Library:
     - Overview: md/docs/lib/overview.md
     - Template Language: md/docs/lib/template.md
@@ -23,7 +23,6 @@ nav:
     - Router: md/docs/lib/router.md
     - Shadow DOM: md/docs/lib/shadowdom.md
     - Services: md/docs/lib/services.md
-    - Setup: md/docs/lib/setup.md
   - Forms Extension:
     - Overview: md/docs/forms/overview.md
     - View Models: md/docs/forms/vm.md

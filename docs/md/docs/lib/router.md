@@ -1,3 +1,4 @@
+
 ## Router
 
 Usually we create SPAs (Single Page Apps). Hence we need a router. The included router is very simple.
@@ -12,7 +13,7 @@ Any kind of parent element will do. The router code sets the property `innerHTML
 
 > There is just one default outlet. See further below for using named outlets.
 
-![](/assets/routerparts.png)
+![Figure A-6: The router parts](/assets/routerparts.png)
 
 ### Register Routes
 
@@ -28,7 +29,12 @@ let routes = {
 };
 
 GlobalProvider.bootstrap({
-  components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
+  components: [
+    DemoComponent,
+    AboutComponent,
+    ContactComponent,
+    MainComponent
+  ],
   routes: routes
 });
 ~~~
@@ -36,10 +42,15 @@ GlobalProvider.bootstrap({
 The first entry `'/': { component: DemoComponent },` shall always exist, it's the default route loaded on start. It's being recognized by the `'/'` key (the position in the array doesn't matter).
 The entry `'**': { component: DemoComponent }` is optional and defines a fallback in case an invalid path is being used.
 
-You can shorten the property here, too:
+You can shorten the property in the bootstrap script, too:
 
 ~~~ts
-const components = [DemoComponent, AboutComponent, ContactComponent, MainComponent];
+const components = [
+  DemoComponent,
+  AboutComponent,
+  ContactComponent,
+  MainComponent
+];
 
 GlobalProvider.bootstrap({
   components,
@@ -47,7 +58,7 @@ GlobalProvider.bootstrap({
 });
 ~~~
 
-### Use Routes
+### Using Routes
 
 To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
 
@@ -65,7 +76,7 @@ Please note the hash sign (#). It's required. No code or strategies here, write 
 
 > **Pro Tip!** Import the router definition and use additional fields to create a menu directly from router configuration.
 
-If you have some sort of CSS framework running, that provides support for menu navigation by classes, just add the class for the currently active element to the `n-link` attribute like this:
+If you have some sort of CSS framework running that provides support for menu navigation by classes, just add the class for the currently active element to the `n-link` attribute like this:
 
 ~~~html
 <a href="#/" n-link="active">Home</a>
@@ -79,12 +90,16 @@ After this, by clicking the hyperlink, the class "active" will be added to the a
 
 ### Named Routes
 
-The underlying Route definition, the type `Routes`, allows two additional fields (`outlet` and `data`):
+The underlying route definition, the type `Routes`, allows two additional fields (`outlet` and `data`):
 
 ~~~ts
 const routes: Routes = {
   '/': { component: HomeComponent, outlet: 'main' },
-  '/docu': { component: DocuComponent, outlet: 'main', data: { notlocal: true} },
+  '/docu': {
+    component: DocuComponent,
+    outlet: 'main',
+    data: { notlocal: true}
+    },
   '/about': { component: AboutComponent, outlet: 'main' },
   '/demo': { component: DemoComponent, outlet: 'main',
   '/router': { component: RouterComponent, outlet: 'main' },
@@ -96,7 +111,7 @@ const routes: Routes = {
 };
 ~~~
 
-With `outlet` one can define a named outlet. If you use this, you must name all routes as there is no fallback currently. The route outlet might reside everywhere. It may look like this:
+With `outlet` you can define a named outlet. If you use this, you must name all routes as there is no fallback currently. The route outlet might reside everywhere. It may look like this:
 
 ~~~html
 <div n-router-outlet="other"></div>
@@ -109,13 +124,15 @@ If the route's components deliver `<li>` elements, you can also use something li
 ~~~
 
 
-There is no difference on the link side, the decision to address another outlet is made in the configuration only. If the outlet doesn't exists nothing happens and a warning appears on the console (in DEBUG mode).
+There is no difference on the link side, the decision to address another outlet is made in the configuration only. If the outlet doesn't exist nothing happens and a warning appears on the console (in DEBUG mode).
 
 > In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet.
 
 ### Additional Data
 
-The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.
+The last example showed another field `data`. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, there is no code intercepting these data, it's the task of the implementer to do something useful here.
+
+#### Special Values
 
 If you use `data: { title: 'Some Title' } ` the value in the field *title* is being copied to the websites `title` field. That way it appears on the tab (or header bar in Electron). If it's omitted, it's not being set at all.
 

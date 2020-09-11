@@ -1,8 +1,9 @@
+
 ## State and Properties
 
 There is no explicit difference between State and Property. Compared with React it's much more simpler. A state still exists and it supports smart rendering.
 
-![](/assets/smartprops.png)
+![Figure A-3: Smart Properties](/assets/smartprops.png)
 
 ### State
 
@@ -59,7 +60,7 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
 
 ### Properties
 
-Property names in JavaScript are in camel case while HTML attribute names are in kebab case (dash-separated) to match HTML standards. For example, a JavaScript property named itemName maps to an HTML attribute named item-name.
+Property names in JavaScript are in camel case while HTML attribute names are in kebab case (dash-separated) to match HTML standards. For example, a JavaScript property named *itemName* maps to an HTML attribute named *item-name*.
 
 Don’t start a property name with these characters:
 
@@ -83,7 +84,7 @@ export class ButtonComponent extends BaseComponent<{ title: string, cnt: number 
 }
 ~~~
 
-![](/assets/smartprops2.png)
+![Figure A-4: Smart Property Declaration](/assets/smartprops2.png)
 
 The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
 
@@ -98,21 +99,23 @@ The `@Properties` decorator defines all properties, that are now monitored (obse
 
 ### Accessing Properties
 
-The access with `data` is internally and externally available. That means, you can retrieve a component and set values like this:
+The access using the property with `data` is internally and externally available. That means, you can retrieve a component and set values like this:
 
 ~~~ts
-(this.querySelector('[data-demo-button]') as any).data.text = 'Some demo data';
+(this.querySelector('[data-demo-button]') as any)
+    .data
+    .text = 'Some demo data';
 ~~~
 
-As like with `setData` internally this will trigger the renderer to re-render the content with the new attribute, but in this case from another component.
+As with `setData` internally this will trigger the renderer to re-render the content with the new values, but in this case the trigger is outside the component.
 
-### Data Type
+### Data Types
 
 Web Components have the restriction that an attribute can transport string values only. This would lead to "[Object object]" for other types.
 
 > **@nyaf**** overcomes this restriction with a smart attribute handling.
 
-That means the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\_\_name__" is written. Assume your values is written like shown below:
+That means the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\_\_name__" is written. Assume your value is written like shown below:
 
 ~~~tsx
 <app-comp test={[{"obj": 1}, {"obj": 2}]}></app-comp>
@@ -126,11 +129,11 @@ The rendered component would look like this:
 
 Apparently the double double quotes work just fine. However, the content is now a string. If you do operations on this it will not resolve as the array it was before. Here the second attribute will trigger a different behavior. The hook for the data Proxy used internally is now applying a `JSON.parse` and returns the former object. Also, once set again, the incoming value is checked for being an object and stringified, then. The technique currently works for `string` (default Web Component behavior), `number`, `boolean`, `array`, and `object`.
 
-> For extremely huge complex objects this technique might produce a performance penalty due to repeatedly used `JSON.parse`/`JSON.stringify` calls. Be also aware that this cannot work if the object has recursive structures, because the JSON class cannot deal with this. There is no additional error handling to keep the code small, it's just a `try/catch` block that reports the native error.
+> For extremely huge complex objects this technique might produce a performance penalty due to repeatedly used `JSON.parse` / `JSON.stringify` calls. Be also aware that this cannot work if the object has recursive structures, because the JSON class cannot deal with this. There is no additional error handling to keep the code small, it's just a `try/catch` block that reports the native error.
 
-### Properties and View Models
+### Properties and Models
 
-For a nice view decorators applied to class properties control the appearance.
+For a nice looking view some decorators applied to class properties control the appearance.
 
 ~~~ts
 export class Model {
@@ -138,12 +141,11 @@ export class Model {
   name: string = '';
 }
 
-
 @CustomElement('app-main')
-@Properties<{ data: Model }>()
+@Properties<{ data: Model }>({ id: 0, name: '' })
 export class MainComponent extends BaseComponent {
   // ... omitted for brevity
 }
 ~~~
 
-Within the component, this is now present. In the above definition `super.data` contains an actual model.
+Within the component, this model now present. In the above definition `this.data` contains an actual model. The forms module contains a more sophisticated way to handle a view model with bi-directional data binding. the properties discussed here are for access from a parent component, while the form's module view models handle this internal binding.

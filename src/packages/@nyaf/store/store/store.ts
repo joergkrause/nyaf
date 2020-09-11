@@ -161,7 +161,7 @@ export class Store<ST> {
     if (specific) {
       [...this._subscribers.keys()]
         .filter(s => s === specific)
-        .forEach(s => this._subscribers[s].forEach(a => a.remove()));
+        .forEach(s => this._subscribers[s].forEach((a: any) => a.remove()));
     } else {
       this._subscribers.forEach(s => s.forEach(a => a.remove()));
       this._subscribers = new Map();

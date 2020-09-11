@@ -1,6 +1,5 @@
 import { ModelBinder } from './modelbinder.class';
 import { ModelState } from './modelstate.class';
-import { VisibilityBindingHandler } from './handlers/visibilitybindinghandler.class';
 import { Binding } from './binding.class';
 
 /**
@@ -10,7 +9,7 @@ import { Binding } from './binding.class';
  */
 export class ValidatorBinding extends Binding {
 
-  private validationHandler;
+  private validationHandler: any;
 
   /**
    * The binder assignment that connects viewmodel properties to element attributes.

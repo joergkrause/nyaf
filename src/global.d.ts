@@ -8,3 +8,9 @@
 // declare module '*.css' {
 //   export = StyleSheet;
 // }
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    [tag: string]: any;
+  }
+}

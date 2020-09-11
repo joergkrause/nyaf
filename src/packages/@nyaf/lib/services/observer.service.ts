@@ -17,7 +17,7 @@ export class Observer {
 
   public static Id: Readonly<string> = 'observer';
 
-  private static _instance;
+  private static _instance: Observer;
 
   private topics: { [id: string]: func[] } = {};
   private hOP: hopf;

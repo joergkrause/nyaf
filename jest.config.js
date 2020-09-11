@@ -20,5 +20,5 @@ module.exports = {
   ],
   "moduleNameMapper": {
     "^@nyaf/lib$": "<rootDir>/src/packages/@nyaf/lib"
-}
+  }
 }

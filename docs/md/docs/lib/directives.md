@@ -1,3 +1,4 @@
+
 ## Directives
 
 Directives are extensions to host components that are bound to attributes. Think of it like smart handling for data, events, or actions.
@@ -52,7 +53,7 @@ GlobalProvider.bootstrap({
 
 #### Activation
 
-The directive applies ones a component renders. That means, the directive must be part of a **@nyaf** component. But the actual assignment can be placed on any HTML element. If you have just one global component and pure HTML in it, then the directive will still work.
+The directive applies ones a component renders. That means, the directive must be part of an **@nyaf** web component. But the actual assignment can be placed on any HTML element. If you have just one global component and pure HTML in it, then the directive will still work.
 
 To activate the directive just add the selector to an element:
 
@@ -62,11 +63,11 @@ Drag me around
 </button>
 ~~~
 
-The element becomes now a host element for the directive. One directive can be applied to many elements. The are isolated instances. For each occurrence of the selector a new instance of the directive class is created.
+The element becomes now a host element for the directive. One directive can be applied to many elements. They are isolated instances. For each occurrence of the selector a new instance of the directive class is created.
 
 ### Working with Host Elements
 
-To get access to the host the directive shall modify a property *host* is provided by the base class. It's available immediately after the `super` call of the constructor and injected as a constructor parameter. That's mandatory.
+To get access to the host the directive shall modify a property *host* that is provided by the base class. It's available immediately after the `super` call of the constructor and injected as a constructor parameter. That's mandatory.
 
 ~~~ts
 constructor(public host: HTMLElement) {

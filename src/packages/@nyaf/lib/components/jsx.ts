@@ -15,11 +15,12 @@ import { isNumber, isBoolean, isArray, isObject, isFunction } from '../code/util
  * Also, don't forget to setup *tsconfig.json* properly to support *jsx* and use the namespace JSX (in uppercase letters).
  *
  * */
-const JSX = {
-  createElement(name: string, props: { [id: string]: any }, ...content: string[]): string {
+const JSX: any = {
+  Fragment: null,
+  createElement(name: string | null, props: { [id: string]: any }, ...content: string[]): string {
     content = [].concat.apply([], content);
     const flat = function (arr1: string[]): string[] {
-      return arr1.reduce((acc, val) => (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);
+      return arr1.reduce((acc: string[], val: string[] | string) => (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);
     };
 
     props = props || {};
@@ -71,7 +72,7 @@ const JSX = {
                   Object.keys(props).forEach(prop => {
                     resolvedProps[prop] = dataItem[props[prop].split('.')[1]];
                   });
-                  const resolvedContent = [];
+                  const resolvedContent: string[] = [];
                   if (content) {
                     content.forEach(c => {
                       const parts = c.match(/(.+)\s+=>\s+(.+)\.(.+)/);

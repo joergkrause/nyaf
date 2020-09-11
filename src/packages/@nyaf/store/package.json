@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/joergkrause/nyaf#readme",
   "dependencies": {
-    "@nyaf/lib": "0.6.2"
+    "@nyaf/lib": "~0.6.0"
   }
 }

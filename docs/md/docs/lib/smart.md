@@ -1,3 +1,4 @@
+
 ## Smart Components
 
 Some features do not require additional code, they just need a clever usage of the power of TypeScript and Web Components. To simplify your life, a few of these are predefined as integrated components - the Smart Components.
@@ -85,7 +86,5 @@ render() {
 }
 ~~~
 
-In that example the component waits for the lifecycle events of *some-component* but will render everything else immediately. If *some-component* exposes `<li>` tags too, the could appear after the static ones. If the order matters, the `<n-finish>` element helps enforcing the execution order.
-
-
+In that example the component waits for the lifecycle events of *some-component* but will render everything else immediately. If *some-component* exposes `<li>` tags too, they could appear after the static ones. If the order matters, the `<n-finish>` element helps enforcing the execution order.
 

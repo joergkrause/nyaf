@@ -30,7 +30,7 @@ export class NFinishedComponent extends BaseComponent<any> {
     super();
   }
 
-  render() {
+  render(): any {
     return null;
   }
 

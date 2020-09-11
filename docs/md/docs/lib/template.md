@@ -1,16 +1,16 @@
+
 ## Template Features
 
-Template Features avoid using creepy JavaScript for interactions and branches. You can use:
+Template Features avoid using creepy JavaScript for interactions and branches. You can use any of the following:
 
 * `n-if`, `n-else`
 * `n-hide`, `n-show`
-* `n-on-<event>` (see section [Events](events.md))
+* `n-on-<event>` (see section *Events*)
 * `n-expand`
-* `n-repeat` (this is experimental currently)
 
 ### n-if, n-else
 
-The value will be evaluated and the element does or does not render, then:
+The value will be evaluated and the element using this attribute does or does not render.
 
 ~~~tsx
 <div class="main-header"
@@ -34,17 +34,18 @@ If there is an else-branch it can direct to a slot template. `<slot>` elements a
 
 ### n-hide, n-show
 
-Works same as `n-if`, but just adds an inline style `display: none` (or remove one) if `true` (`n-hide`) or `false` (`n-show`).
+These attributes work the same as `n-if`, but just add an inline style `display: none` (or remove one) if `true` (`n-hide`) or `false` (`n-show`).
 
 ### n-expand
 
-Expand a group of attributes. Imagine this:
+This attribute expands a group of HTML attributes. Imagine an element like this:
 
 ~~~html
-<input type="text" placeholder="Name" role="search" class="materialinput" id="a1 />
+<input type="text" placeholder="Name"
+       role="search" class="materialinput" id="a1 />
 ~~~
 
-You need this several times, each with different id.
+You may need this several times, each with different id. Instead of repeating the whole set of attributes, an expander can be used to add the static parts.
 
 ~~~html
 <input n-expand="search" id="a1" />
@@ -52,7 +53,7 @@ You need this several times, each with different id.
 <input n-expand="search" id="a3" />
 ~~~
 
-To define it, just create a class like this:
+To define the expander shown above you create a class like this:
 
 ~~~ts
 @Expand("search")
@@ -67,7 +68,7 @@ export class SearchExpander extends Expander {
 }
 ~~~
 
-Any yes, these are equal signs in the class. The named 'xxx' names are only required if the attribute name contains dashes. Finally, add the definition to the global provider:
+And yes, these are equal signs in the class. The named 'quoted' properties are only required if the attribute name contains dashes. Finally, add the definition to the global provider:
 
 ~~~ts
 Globalprovider.bootstrap({
@@ -76,11 +77,11 @@ Globalprovider.bootstrap({
 })
 ~~~
 
-That's it, a lot less to write without the effort to create components. It's just text-replacement before the render grabs the content, so NO performance impact at runtime.
+That's it, a lot less to write without the effort to create components. It's just text-replacement before the renderer grabs the content, so **no** performance impact at runtime. The expander logic does not perform any kebab-pascal conversion as some other tools do (that means, the name *myProp* does not appear as *my-prop* automatically).
 
 #### Quick Expanders
 
-This is even easier, but more for local expanding:
+Quick expanders are even easier, but more for local expanding.
 
 ~~~tsx
 const d = {
@@ -98,7 +99,7 @@ It's just pure ECMAScript magic, no code from **@nyaf** required.
 
 The basic idea of TSX is to write traditional code using `map` or `forEach` on array to create loops. In most cases this is the best solution. It provides editor support and you can add the full range of JavaScript API features to adjust the result. But sometimes a simple loop is required and the creation of a complete expression creates a lot boilerplate code. In that case two variations of loops are provided, both with full editor support, too.
 
-### Syntax I - n-repeat component
+### The n-repeat Component
 
 This is a smart component that acts as a helper for common tasks. It's supported by one functions for binding:
 
@@ -111,6 +112,8 @@ This is a smart component that acts as a helper for common tasks. It's supported
   </n-repeat>
 </ul>
 ~~~
+
+### The n-repeat Attribute
 
 Also, a **@nyaf** template function with the same name exists. This is supported by two other function for same reason:
 

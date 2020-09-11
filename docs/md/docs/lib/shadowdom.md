@@ -1,14 +1,15 @@
+
 ## Shadow DOM
 
 By default the shadow DOM is ____not____ used. If it would, it would mean, that styles are isolated. No global styles are available, then.
 
-One option to activate the Shadow DOM:
+One option to activate the Shadow DOM is using this decorator:
 
 ~~~ts
 @ShadowDOM()
 ~~~
 
-The property can be set explicitly. The default is `false`, hence if the decorator is being omitted, the component is ____not____ shadowed.
+A parameter can be set explicitly. This is some kind of coding style, a more expressive form.
 
 ~~~ts
 @ShadowDOM(true | false)
@@ -23,9 +24,9 @@ Another interesting option controls the style behavior:
 * The decorator *ShadowDOM* must be set, otherwise the decorator *@UseParentStyle* does nothing
 * If active, it copies all global styles into component so they work as expected even in Shadow DOM
 
-> It's a trade-off. Shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.
+> It's a trade-off. The shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.
 
-Example:
+See the following example for a common usage scenario:
 
 ~~~ts
 @CustomElement('app-contact')
@@ -36,16 +37,21 @@ export class ContactComponent extends BaseComponent {
 }
 ~~~
 
-Shadow DOM goes well along with the usage of slots. A typical example is a Tabs Component, that could look like this:
+The shadow DOM goes well along with the usage of slots. A typical example is a Tabs Component that's shown next. Tabs are a form of navigation for web sites, similar to the browser's tabs.
 
 ### Example with Shadow DOM
 
-First, the definition of a single tab.
+First, we start with the definition of a single tab.
 
 #### Single Tab
 
 ~~~tsx
-import JSX, { BaseComponent, CustomElement, ShadowDOM, UseParentStyles, LifeCycle } from '@nyaf/lib';
+import JSX, {
+  BaseComponent,
+  CustomElement,
+  ShadowDOM,
+  UseParentStyles,
+  LifeCycle } from '@nyaf/lib';
 
 @CustomElement('app-slot-tab')
 @ShadowDOM(true)
@@ -79,12 +85,19 @@ export class SlotTabComponent extends BaseComponent<{}> {
 
 The `<slot>` element is the content target. The id is used to address the tab (to open it, actually).
 
-### Tabs
+### Tabs Container
 
-Now the container that handles multiple tabs.
+Second, look at the container that handles multiple tabs.
 
-~~~ts
-import JSX, { BaseComponent, CustomElement, LifeCycle, Events, ShadowDOM, UseParentStyles, uuidv4 } from '@nyaf/lib';
+~~~tsx
+import JSX, {
+  BaseComponent,
+  CustomElement,
+  LifeCycle,
+  Events,
+  ShadowDOM,
+  UseParentStyles,
+  uuidv4 } from '@nyaf/lib';
 
 interface TabStore {
   node: Node;
@@ -123,7 +136,10 @@ export class SlotTabsComponent extends BaseComponent<{}> {
 
   async render() {
     let first = 0;
-    const tabHeaders = Array.prototype.slice.call(this.children).map((child: Element) => {
+    const tabHeaders = Array.prototype
+              .slice
+              .call(this.children)
+              .map((child: Element) => {
       const targetId: string = child.id ?? '_' + uuidv4();
       child.setAttribute('id', targetId);
       this.tabChildren.push({
@@ -133,7 +149,9 @@ export class SlotTabsComponent extends BaseComponent<{}> {
       });
       return (
         <li class='nav-item'>
-          <a class={'nav-link ' + (0 === first++ ? 'active' : '')} href={`#${targetId}`} >{child.getAttribute('title')}</a>
+          <a class={'nav-link ' + (0 === first++ ? 'active' : '')}
+             href={`#${targetId}`} >{child.getAttribute('title')}
+          </a>
         </li>
       );
     });
@@ -156,7 +174,8 @@ export class SlotTabsComponent extends BaseComponent<{}> {
       let first = 0;
       this.shadowRoot.querySelectorAll('li')
         .forEach(li => {
-          li.addEventListener('click', (e: Event) => this.selectTab(e));
+          li.addEventListener('click',
+                 (e: Event) => this.selectTab(e));
           if (first === 0) {
             this.openTab(li.querySelector('a').getAttribute('href'));
           }
@@ -180,13 +199,17 @@ export class SlotTabsComponent extends BaseComponent<{}> {
   }
 
   async setTab(id: string): Promise<void> {
-    const targetId = this.tabChildren.filter((child) => child.id === id).shift().targetId;
+    const targetId = this.tabChildren
+        .filter((child) => child.id === id)
+        .shift()
+        .targetId;
     // use shadowRoot because it is shadowed
     this.openTab(`#${targetId}`);
     return Promise.resolve();
   }
 
-  // the visible tabs are in the shadow-root, the content is outside in the document
+  // the visible tabs are in the shadow-root,
+  // the content is outside in the document
   private openTab(targetId: string) {
     const tabs = this.shadowRoot.querySelectorAll('li > a');
     // const tab = this.querySelector<HTMLElement>(targetId);
@@ -211,7 +234,7 @@ export class SlotTabsComponent extends BaseComponent<{}> {
 }
 ~~~
 
-### Usage
+### Usage of the Tabs
 
 The usage is quite simple. Just add as many tabs as required:
 
@@ -269,5 +292,5 @@ This style is provided globally, not as part of the component, but it applies to
 
 Note, that using the regular CSS syntax, such as `app-directive[part="drop-zone"]` would not work, as this cannot penetrate the shadow DOM.
 
-> This is not a feature of @nyaf; it's default Web Component behavior. We face some issues with elder browser version that don't understand the `::part` selector properly. Consider adding a polyfill if needed.
+> This is not a feature of **@nyaf**; it's default Web Component behavior. We face some issues with elder browser version that don't understand the `::part` selector properly. Consider adding a polyfill if needed.
 

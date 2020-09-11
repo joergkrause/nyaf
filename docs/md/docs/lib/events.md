@@ -1,15 +1,16 @@
+
 ## Events
 
 Events are defined by a special instruction. They are attached to `document` object, regardless the usage.
 
-![](/assets/eventlistener.png)
+![Figure A-5: Define an event source](/assets/eventlistener.png)
 
-### n-on-[event]
+### n-on-event
 
 Events are easy to add directly using it like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
 
-~~~
-  <button n-on-click={() => this.clickMe()}>OK</button>
+~~~html
+<button n-on-click={() => this.clickMe()}>OK</button>
 ~~~
 
 > There is no `bind` necessary, events are bound to components anyway.
@@ -20,13 +21,7 @@ You can get the (original HTML 5 API) event using a parameter, like *e* in the e
 <button n-on-click={(e) => this.clickMe(e)}>OK</button>
 ~~~
 
-There is an alternative syntax that takes the method name directly (note that here are single quotes being used instead of curly braces):
-
-~~~
-<button n-on-click={this.clickMe}>OK</button>
-~~~
-
-The method is bound with or without the event object as a parameter, hence the method can have a parameter like this:
+Because the method can be bound with or without the event object as a parameter, the method can have an optional parameter like this:
 
 ~~~
 clickMe(e?: Event) {
@@ -34,13 +29,15 @@ clickMe(e?: Event) {
 }
 ~~~
 
-The `Event` type conforms to HTML 5 DOM. Replace according the attached event (`MouseEvent` etc., see [here](https://developer.mozilla.org/en-US/docs/Web/API/Event) for details).
+The `Event` type conforms to HTML 5 DOM. Replace the type according the attached event (`MouseEvent` etc., see [here](https://developer.mozilla.org/en-US/docs/Web/API/Event) for details).
 
 ### Syntax Enhancements
 
+This section shows some variations of the event syntax that might better suit your needs.
+
 #### Short Form
 
-If you don't need access to the parameter of the event (example: a click, which just happens), the a short form is possible:
+If you don't need access to the parameters of the event (example: a click, which just happens), a short form is possible:
 
 ~~~tsx
 <button type="button" n-on-click={this.clickMe}>
@@ -80,19 +77,25 @@ Usually, it doesn't make sense to have calculation on constant values. So in rea
 
 ### Async
 
-You can combine any event with the attribute `n-async` to make the call to the event's handler function async. This attribute does not take any parameters. The handler method must not be decorated with `async`.
+You can combine any event with the attribute `n-async` to make the call to the event's handler function async. This attribute does not take any parameters. The handler method can be decorated with `async`.
 
-~~~
+~~~html
 <button n-on-click={this.clickMe} n-async>OK</button>
+~~~
+
+~~~ts
+async clickMe(e?: Event) {
+  // handle asynchronously
+}
 ~~~
 
 ### Custom Events
 
 Sometimes the JavaScript events are not flexible enough. So you can define your own ones. That's done by three simple steps:
 
-* Add a decorator `@Events` to declare the events (it's an array to declare multiple in one step). Mandatory.
-* Create `CustomEventInit` object and dispatch (that's [native Web Component behavior](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent))
-* use the `n-on-<myCustomEventName>` attribute to attach the event.
+* Add a decorator `@Events` to declare the events (it's an array to declare multiple in one step). This is mandatory.
+* Create a `CustomEventInit` object and dispatch it (this is [native Web Component behavior](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent))
+* Use the `n-on-<myCustomEventName>` attribute to attach the event in the parent component.
 
 Imagine a button component like this:
 
@@ -131,7 +134,7 @@ The custom event in this example is called *showAlert*. It's invoked by a click.
 The argument *e* contains an `CustomEvent` object. It can carry any number of custom data. The `click`-invoker is just an example, any action can call a custom event, even a web socket callback, a timer, or an HTTP request result. Both `CustomEvent` and `CustomEventInit` have a field `detail` that can carry any object or scalar and is the proposed way to transport custom data with the event. The event handler could look like this:
 
 ~~~ts
-private showAlert(e: CustomEvent) {
+private someHandler(e: CustomEvent) {
   const data = e.detail;
   // Your code that handles the event
 }
