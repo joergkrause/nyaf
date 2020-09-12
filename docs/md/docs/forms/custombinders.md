@@ -13,6 +13,7 @@ A custom binder handles the binding procedure when binding a viewmodel property 
 Step 2 and 3 are both optional, leading to a uni-directional binding in one or another direction.
 
 ~~~ts
+@BindName('VisibilityBinder')
 export class VisibilityBinder<T extends ConfirmSuccessErrorComponent> implements IBindingHandler
 {
   bind(binding: Binding): void {
@@ -30,6 +31,8 @@ export class VisibilityBinder<T extends ConfirmSuccessErrorComponent> imple
   }
 }
 ~~~
+
+Note here, that despite the base class the decorator *@BindName* is required. The argument is the name of the class. In the views' code the binder class' name can be used to determine the behavior. But in case the project is packed by an aggressive packer, the names of the classes might be minified. The code compares the names and due to different minification steps it could happen that the comparison fails. The decorator writes the name into an internal property and the compare code can retrieve this properly. If the view code uses strings instead of types, using this decorator is not necessary.
 
 #### How it Works
 

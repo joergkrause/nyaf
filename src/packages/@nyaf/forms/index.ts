@@ -23,6 +23,7 @@ export * from './components/containers/container.component';
 export * from './modelbinder/modelbinder.class';
 export * from './modelbinder/imodel.interface';
 export * from './modelbinder/binding.class';
+export * from './modelbinder/decorators/bindname.decorator';
 export * from './modelbinder/handlers/ibindinghandler.interface';
 export * from './modelbinder/handlers/valuebindinghandler.class';
 export * from './modelbinder/handlers/textbindinghandler.class';
