@@ -125,8 +125,8 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, o
     throw new Error('Decorator must be run on an instanciable component.');
   }
   // the base component has a setup procedure that calls the property
-  Object.defineProperty(targetPrototype, `__ctor__`, {
-    value: targetPrototype.__ctor__ ? ['model', ...targetPrototype.__ctor__] : ['model'],
+  Object.defineProperty(targetPrototype, Symbol.for('__ctor__'), {
+    value: targetPrototype[Symbol.for('__ctor__')] ? ['model', ...targetPrototype[Symbol.for('__ctor__')]] : ['model'],
     enumerable: false,
     configurable: true
   });

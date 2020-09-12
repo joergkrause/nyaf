@@ -23,26 +23,26 @@ export function Compare(withProperty: string, msg?: string) {
 function compareInternalSetup(target: any, key: string, withProperty: string, msg?: string) {
 
   // create a helper property to transport a meta data value
-  Object.defineProperty(target, `__hasCompareProperty__${key}`, {
+  Object.defineProperty(target, `__has__${Compare.internal}__${key}`, {
     value: true,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__withCompare__${key}`, {
+  Object.defineProperty(target, `__with__${Compare.internal}__${key}`, {
     value: withProperty,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__errCompareProperty__${key}`, {
+  Object.defineProperty(target, `__err__${Compare.internal}__${key}`, {
     value: msg
       || `The field ${key} must have the same value as field ${withProperty}`,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__isValidCompare${key}`, {
+  Object.defineProperty(target, `__isValid__${Compare.internal}${key}`, {
     get: function () {
       return target[key] === target[withProperty];
     },

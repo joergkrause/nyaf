@@ -26,7 +26,7 @@ export class ValidatorBinding extends Binding {
     el: HTMLElement
   ) {
     super(modelProperty, handler, binderInstance, el);
-    this.validationHandler = Object.values(this.binderInstance.handlers).filter(h => h.constructor.name === this.handler).shift();
+    this.validationHandler = Object.values(this.binderInstance.handlers).filter(h => h.constructor[Symbol.for('bindingname')] === this.handler).shift();
   }
   /**
    * Define the binder

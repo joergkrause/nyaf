@@ -1,9 +1,11 @@
 import { Binding } from '../binding.class';
 import { IBindingHandler } from './ibindinghandler.interface';
+import { BindName } from '../decorators/bindname.decorator';
 
 /**
  * This handler binds the property 'checked' and listens to the 'input' event.
  */
+@BindName('CheckedBindingHandler')
 export class CheckedBindingHandler implements IBindingHandler {
 
   constructor() {
@@ -22,3 +24,4 @@ export class CheckedBindingHandler implements IBindingHandler {
     binding.value = value;
   }
 }
+

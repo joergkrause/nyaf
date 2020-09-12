@@ -10,6 +10,7 @@ import { VisibilityBindingHandler } from './handlers/visibilitybindinghandler.cl
 import { DisplayBindingHandler } from './handlers/displaybindinghandler.class';
 import { ValidatorBinding } from './validatorbinding.class';
 import { ViewUpdate } from '../interfaces/viewupdate.interface';
+import { MinLength, MaxLength, Pattern, Compare, Range, Email, Required } from '..';
 
 /**
  * The modelbinder serves two purposes:
@@ -117,19 +118,20 @@ export class ModelBinder<VM extends object> {
       modelInstanceConstructorFactory(modelInstance);
     }
     const isShadowed = !!component.constructor['withShadow'];
+    mbInstance.scope = modelInstance;
+    console.log('** Init ModelBinder for: ', component.tagName);
     component.addEventListener('lifecycle', async (e: CustomEvent) => {
       // prevent other components in the render body from bubbling their lifeCycle state to their parent
       // that happens if the binder binds to both, the parent and the children.
       if (e.detail === LifeCycle.Load && component.__uniqueId__ === (e.target as BaseComponent).__uniqueId__) {
         // this is the single binder
         const elements = isShadowed ? component.shadowRoot.querySelectorAll('[n-bind]') : component.querySelectorAll('[n-bind]');
-        mbInstance.scope = modelInstance;
         // loop all elements with n-bind
         elements.forEach((el: HTMLElement) => {
           let expressionParts: string[];
           if ('true' === el.getAttribute('n-bind')) {
             // an empty n-bind is an indicator that we use attribute binding for multiple bindings
-            // the bind<>() function creates something like "n-bind:...." while the rest is as usualy
+            // the bind<>() function creates something like "n-bind:...." while the rest is as usually
             const toBind = Array.from(el.attributes).filter(a => a.value.startsWith('n-bind'));
             toBind.forEach(attrBind => {
               // `n-bind:${sourceProperty}:${realTarget}:`
@@ -152,23 +154,17 @@ export class ModelBinder<VM extends object> {
                   // Decoratorkeys all that apply (Required, Email, MaxLength) to that application
                   const [, scopeKey, decoratorKey, binderKey] = expressionParts;
                   // bind the model to validation action
+                  console.log(`const binding = new ValidatorBinding(${scopeKey}, ${binderKey}, ${ mbInstance}, ${decoratorKey.toLowerCase()}, ${el.tagName});`);
                   const binding = new ValidatorBinding(scopeKey, binderKey, mbInstance, decoratorKey.toLowerCase(), el);
                   mbInstance.subscribe(scopeKey, (key: string) => {
-                    const actualValidator: (val: any) => boolean = modelInstance[`__isValid${decoratorKey}__${key}`];
+                    const actualValidator: (val: any) => boolean = modelInstance[`__isValid__${decoratorKey}__${key}`];
                     if (actualValidator !== undefined) {
                       // we turn the value from true to false, because in case of a true value (valid) we mnke the error message invisible (hence false)
                       binding.value = !actualValidator(modelInstance[key]);
                     }
                   });
                   // bind the error messages to target element
-                  switch (decoratorKey) {
-                    case 'Email':
-                      ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `errPattern`, 'innerText');
-                      break;
-                    default:
-                      ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `err${decoratorKey}`, 'innerText');
-                      break;
-                  }
+                  ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `err__${decoratorKey}`, 'innerText');
                 });
               } else {
                 const [bindingHandler, scopeKey, decoratorKey] = expressionParts;
@@ -183,13 +179,13 @@ export class ModelBinder<VM extends object> {
         // register the validators for binding
         Object.keys(modelInstance)
           .forEach(p => {
-            this.createValidationModel(modelInstance, mbInstance, 'Required', p);
-            this.createValidationModel(modelInstance, mbInstance, 'Email', p);
-            this.createValidationModel(modelInstance, mbInstance, 'MinLength', p);
-            this.createValidationModel(modelInstance, mbInstance, 'MaxLength', p);
-            this.createValidationModel(modelInstance, mbInstance, 'Pattern', p);
-            this.createValidationModel(modelInstance, mbInstance, 'Range', p);
-            this.createValidationModel(modelInstance, mbInstance, 'Compare', p);
+            this.createValidationModel(modelInstance, mbInstance, Required.internal, p);
+            this.createValidationModel(modelInstance, mbInstance, Email.internal, p);
+            this.createValidationModel(modelInstance, mbInstance, MinLength.internal, p);
+            this.createValidationModel(modelInstance, mbInstance, MaxLength.internal, p);
+            this.createValidationModel(modelInstance, mbInstance, Pattern.internal, p);
+            this.createValidationModel(modelInstance, mbInstance, Range.internal, p);
+            this.createValidationModel(modelInstance, mbInstance, Compare.internal, p);
           });
 
         Object.keys(modelInstance).forEach(prop => mbInstance.notify(prop));
@@ -200,8 +196,8 @@ export class ModelBinder<VM extends object> {
   }
 
   private static createValidationModel(modelInstance: any, mbInstance: ModelBinder<any>, type: string, p: string): void {
-    const hasValidator = modelInstance[`__has${type}__${p}`];
-    const errValidator = modelInstance[`__err${type}__${p}`];
+    const hasValidator = modelInstance[`__has__${type}__${p}`];
+    const errValidator = modelInstance[`__err__${type}__${p}`];
     if (!hasValidator) { return; }
     if (!mbInstance.state) {
       mbInstance.state = {

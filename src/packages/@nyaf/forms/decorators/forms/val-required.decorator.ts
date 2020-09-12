@@ -19,19 +19,19 @@ export function Required(msg?: string) {
  * @ignore
  */
 function requiredInternalSetup(target: any, key: string, msg?: string) {
-  Object.defineProperty(target, `__hasRequired__${key}`, {
+  Object.defineProperty(target, `__has__${Required.internal}__${key}`, {
     value: true,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__errRequired__${key}`, {
+  Object.defineProperty(target, `__err__${Required.internal}__${key}`, {
     value: msg || `The field ${key} is required`,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__isValidRequired__${key}`, {
+  Object.defineProperty(target, `__isValid__${Required.internal}__${key}`, {
     value: function (val: string) {
       return !!val;
     },

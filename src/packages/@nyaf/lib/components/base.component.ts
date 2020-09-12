@@ -77,7 +77,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * * third a property 'onLifecycle' is being called if a handler function is attached.
    */
   protected set lifeCycleState(lc: LifeCycle) {
-    // TODO: make the lifecycle chain correct by collecting children first
+    console.log('Lifecycle for ' + this.tagName, lc);
     // <a><b></b></a>: Init A, Init B, Load B, Load A, Dispose B, Dispose A
     const parentWalk = (el: HTMLElement, evt: string): any => {
       if (!el.parentElement) {
@@ -176,6 +176,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       // this is an array in case multiple decorators which to be called
       (this[CTOR] as any[]).forEach((propName: string) => {
         this[propName] = this;
+        // tslint:disable-next-line: no-unused-expression
+        void this[propName];
       });
     }
   }

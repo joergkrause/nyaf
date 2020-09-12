@@ -25,19 +25,19 @@ function emailInternalSetup(target: any, key: string, msg?: string) {
   const pattern: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   // create a helper property to transport a meta data value
-  Object.defineProperty(target, `__hasPattern__${key}`, {
+  Object.defineProperty(target, `__has__${Email.internal}__${key}`, {
     value: pattern,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__errPattern__${key}`, {
+  Object.defineProperty(target, `__err__${Email.internal}__${key}`, {
     value: msg || `The field ${key} must contain a valid e-mail address.`,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__isValidEmail__${key}`, {
+  Object.defineProperty(target, `__isValid__${Email.internal}__${key}`, {
     value: function (val: string) {
       return new RegExp(pattern).test(val);
     },

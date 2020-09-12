@@ -1,9 +1,11 @@
 import { Binding } from '../binding.class';
 import { IBindingHandler } from './ibindinghandler.interface';
+import { BindName } from '../decorators/bindname.decorator';
 
 /**
  * This handler binds the property 'value' and listens to the 'input' event.
  */
+@BindName('ValueBindingHandler')
 export class ValueBindingHandler implements IBindingHandler {
 
   constructor() {

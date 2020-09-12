@@ -25,25 +25,25 @@ function rangeInternalSetup(target: any, key: string, from: number | Date, to: n
   // property value
 
   // create a helper property to transport a meta data value
-  Object.defineProperty(target, `__hasRangeFrom__${key}`, {
+  Object.defineProperty(target, `__has__${Range.internal}__from__${key}`, {
     value: from,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__hasRangeTo__${key}`, {
+  Object.defineProperty(target, `__has__${Range.internal}__to__${key}`, {
     value: to,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__errRange__${key}`, {
+  Object.defineProperty(target, `__err__${Range.internal}__${key}`, {
     value: msg || `The field ${key} does not fall into the range from ${from} to ${to}`,
     enumerable: false,
     configurable: false
   });
 
-  Object.defineProperty(target, `__isValidRange${key}`, {
+  Object.defineProperty(target, `__isValid__${Range.internal}__${key}`, {
     get: function () {
       return +target[key] >= from && +target[key] <= to;
     },

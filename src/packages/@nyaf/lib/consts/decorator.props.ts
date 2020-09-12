@@ -1,1 +1,1 @@
-export const CTOR = '__ctor__';
+export const CTOR = Symbol.for('__ctor__');

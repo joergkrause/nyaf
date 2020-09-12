@@ -33,6 +33,6 @@ test('ViewModel decorator', () => {
   expect(mockObj.__model__).not.toBeUndefined();
   expect(mockObj.__model__.name).toEqual('MockModel');
   expect(mockObj.prototype).not.toBeUndefined();
-  expect(mockObj.prototype.__ctor__).toEqual('model');
+  expect(mockObj.prototype[Symbol.for('__ctor__')]).toEqual('model');
   expect(mockObj.prototype.model).not.toBeUndefined();
 });
