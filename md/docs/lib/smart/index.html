@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Smart Components - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -129,6 +133,8 @@
         
             <li><a class="toctree-l4" href="#transparent-outlet-n-outlet">Transparent Outlet n-outlet</a></li>
         
+            <li><a class="toctree-l4" href="#render-finisher-n-finish">Render Finisher n-finish</a></li>
+        
         </ul>
     
 
@@ -141,6 +147,10 @@
                 <li class="">
                     
     <a class="" href="../attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../directives/">Directives</a>
                 </li>
                 <li class="">
                     
@@ -158,16 +168,12 @@
                     
     <a class="" href="../services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -215,6 +221,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -316,9 +330,9 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="smart-components">Smart Components<a class="headerlink" href="#smart-components" title="Permanent link">#</a></h1>
+                <h2 id="smart-components">Smart Components<a class="headerlink" href="#smart-components" title="Permanent link">#</a></h2>
 <p>Some features do not require additional code, they just need a clever usage of the power of TypeScript and Web Components. To simplify your life, a few of these are predefined as integrated components - the Smart Components.</p>
-<h2 id="repeater-n-repeat">Repeater - n-repeat<a class="headerlink" href="#repeater-n-repeat" title="Permanent link">#</a></h2>
+<h3 id="repeater-n-repeat">Repeater - n-repeat<a class="headerlink" href="#repeater-n-repeat" title="Permanent link">#</a></h3>
 <p>The repeater component creates a loop. In the following example and interface defines a single item. An array with items of this type is provided.</p>
 <pre><code class="jsx">import JSX, { CustomElement, BaseComponent, of } from '@nyaf/lib';
 
@@ -359,7 +373,7 @@ export class RepeaterTestComponent extends BaseComponent&lt;{}&gt; {
 </code></pre>
 
 <p>The repeater repeats the array's elements. Each element provides properties you can place anywhere in the body using the <code>of&lt;Type&gt;</code> operator. It's type safe, the editor will help you selecting the right properties from the given type.</p>
-<h2 id="transparent-outlet-n-outlet">Transparent Outlet n-outlet<a class="headerlink" href="#transparent-outlet-n-outlet" title="Permanent link">#</a></h2>
+<h3 id="transparent-outlet-n-outlet">Transparent Outlet n-outlet<a class="headerlink" href="#transparent-outlet-n-outlet" title="Permanent link">#</a></h3>
 <p>This is another outlet that renders into nothing. Normally you would do this:</p>
 <pre><code class="html">&lt;div n-router-outlet&gt;&lt;/div&gt;
 </code></pre>
@@ -371,6 +385,23 @@ export class RepeaterTestComponent extends BaseComponent&lt;{}&gt; {
 <p>Also, a named variety is available:</p>
 <pre><code class="html">&lt;n-outlet name=&quot;main&quot;&gt;&lt;/n-outlet&gt;
 </code></pre>
+
+<h3 id="render-finisher-n-finish">Render Finisher n-finish<a class="headerlink" href="#render-finisher-n-finish" title="Permanent link">#</a></h3>
+<p>Web Components render according their lifecycle. However, if you have a mix of components and regular HTML elements, the behavior can be weird, because the regular elements doesn't have a lifetime. The best solution is to have a pure tree of web components. But if that is not possible and a predictable execution path is necessary, you need to tell the render engine when it's really safe to render the parent element. To do so, add the element <code>&lt;n-finish /&gt;</code> like this:</p>
+<pre><code class="ts">render() {
+  return (
+    &lt;ul&gt;
+      &lt;some-component&gt;&lt;/some-component&gt;
+      &lt;li&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;/li&gt;
+      &lt;n-finish /&gt;
+    &lt;/ul&gt;
+  )
+}
+</code></pre>
+
+<p>In that example the component waits for the lifecycle events of <em>some-component</em> but will render everything else immediately. If <em>some-component</em> exposes <code>&lt;li&gt;</code> tags too, they could appear after the static ones. If the order matters, the <code>&lt;n-finish&gt;</code> element helps enforcing the execution order.</p>
               
             </div>
           </div>

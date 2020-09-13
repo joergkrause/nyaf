@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Data Binding - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../../lib/overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -130,6 +134,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../../lib/directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../../lib/events/">Events</a>
                 </li>
                 <li class="">
@@ -144,16 +152,12 @@
                     
     <a class="" href="../../lib/services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -168,18 +172,27 @@
     <a class="current" href="./">Data Binding</a>
     <ul class="subnav">
             
-    <li class="toctree-l3"><a href="#template-language-enhancements">Template Language Enhancements</a></li>
+    <li class="toctree-l3"><a href="#data-binding">Data Binding</a></li>
     
         <ul>
         
-            <li><a class="toctree-l4" href="#forms">Forms</a></li>
+            <li><a class="toctree-l4" href="#template-language-enhancements">Template Language Enhancements</a></li>
         
-            <li><a class="toctree-l4" href="#standard-handlers">Standard Handlers</a></li>
+            <li><a class="toctree-l4" href="#terms-and-parts">Terms and Parts</a></li>
         
         </ul>
     
 
-    <li class="toctree-l3"><a href="#smart-binders">Smart Binders</a></li>
+    <li class="toctree-l3"><a href="#creating-forms">Creating Forms</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#standard-binding-handlers">Standard Binding Handlers</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#smart-binders_1">Smart Binders</a></li>
     
         <ul>
         
@@ -226,6 +239,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -310,7 +331,7 @@
     
       
         
-          <li>Forms Extensions &raquo;</li>
+          <li>Forms Extension &raquo;</li>
         
       
     
@@ -327,8 +348,10 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="template-language-enhancements">Template Language Enhancements<a class="headerlink" href="#template-language-enhancements" title="Permanent link">#</a></h2>
-<p><strong>@nyaf</strong> has a simple template language. For forms it's just one more command for any input element, <code>n-bind</code>:</p>
+                <h2 id="data-binding">Data Binding<a class="headerlink" href="#data-binding" title="Permanent link">#</a></h2>
+<p>Data Binding is one of the most important features in component development. It brings an immediate effect in simplifying the data presentation layer. Instead of the chain "select" --&gt; "set" --&gt; "listen" --&gt; "change" you simply bind an object's properties to an element's attributes. That could go in both directions.</p>
+<h3 id="template-language-enhancements">Template Language Enhancements<a class="headerlink" href="#template-language-enhancements" title="Permanent link">#</a></h3>
+<p><strong>@nyaf</strong> has a simple template language extension for binding. For forms it's just one more command for any input element, <code>n-bind</code>. See the following excerpt from a component.</p>
 <pre><code class="tsx">model: ModelBinder&lt;UserViewModel&gt;; // instance created by decorator
 
 async render() {
@@ -343,22 +366,34 @@ async render() {
 </code></pre>
 
 <p>Now the field knows everything about how to render and how to validate. The first item ("value")  is the HTML element's property you bind to. The second is the model's property name ("Name").</p>
-<p>Once you retrieve the DOM object, you get access to validation:</p>
-<pre><code class="ts">const username = this.querySelector('[name=&quot;userName&quot;]');
-if (username.valid){
-  // call server
-}
-if (username.touched){
-  // show help
-}
-</code></pre>
-
 <p>For a good UI you need a label usually:</p>
 <pre><code class="html">&lt;label n-bind=&quot;innerText: userName&quot; /&gt;
 </code></pre>
 
-<h3 id="forms">Forms<a class="headerlink" href="#forms" title="Permanent link">#</a></h3>
-<p>The model is provided by a decorator</p>
+<h3 id="terms-and-parts">Terms and Parts<a class="headerlink" href="#terms-and-parts" title="Permanent link">#</a></h3>
+<p>To understand the binding you must know what a view model is and what role the model plays inside the form.</p>
+<h4 id="view-model">View Model<a class="headerlink" href="#view-model" title="Permanent link">#</a></h4>
+<p>The actual definition of the model that is bindable is provided through the decorator <code>@ViewModel(T)</code>. <em>T</em> is a type (class) that has properties decorated with validation and UI decorators. More about this can be found in chapter <em>View Models</em>.</p>
+<h4 id="imodel-interface">IModel<T> interface<a class="headerlink" href="#imodel-interface" title="Permanent link">#</a></h4>
+<p>The <code>@ViewModel</code> decorator creates an instance of the model class. The interface enforces the visibility of the model in the component. The definition is quite easy:</p>
+<pre><code class="ts">export interface IModel&lt;VM extends object&gt; {
+    model: ModelBinder&lt;VM&gt;;
+}
+</code></pre>
+
+<p>The instance of the modelbinder gives access to all binding features.</p>
+<h4 id="binding-handlers">Binding Handlers<a class="headerlink" href="#binding-handlers" title="Permanent link">#</a></h4>
+<p>Binding Handlers are small function calls that handle the data flow between viewmodel property and element attribute. There a few default binding handlers available.</p>
+<h4 id="smart-binders">Smart Binders<a class="headerlink" href="#smart-binders" title="Permanent link">#</a></h4>
+<p>Instead of using the string form you can use the TSX syntax and binding functions:</p>
+<ul>
+<li><code>to</code>: Generic function to bind a property to the default attribute using a custom binder optionally.</li>
+<li><code>bind</code>: Generic function to bind a property to any attribute.</li>
+<li><code>val</code>: Bind validation decorators to an attribute. See <a href="../validation/">validation</a>.</li>
+</ul>
+<p>See in Section <em>Smart Binders</em> for details.</p>
+<h2 id="creating-forms">Creating Forms<a class="headerlink" href="#creating-forms" title="Permanent link">#</a></h2>
+<p>The model is provided by the <code>@ViewModel</code> decorator and the <code>IModel&lt;T&gt;</code> interface like this:</p>
 <pre><code class="tsx">@ViewModel(ModelType)
 export class component extends BaseComponent&lt;any&gt; implements IModel&lt;ModelType&gt; {
 
@@ -377,57 +412,57 @@ export class component extends BaseComponent&lt;any&gt; implements IModel&lt;Mod
 }
 </code></pre>
 
-<p>Forms bind data. It's bi-directional or uni-directional depending on the chosen handler.</p>
-<h3 id="standard-handlers">Standard Handlers<a class="headerlink" href="#standard-handlers" title="Permanent link">#</a></h3>
-<p>The forms module comes with a couple of pre-defined handlers:</p>
+<p>The form now binds the data. It's bi-directional or uni-directional depending on the chosen binding handler.</p>
+<h3 id="standard-binding-handlers">Standard Binding Handlers<a class="headerlink" href="#standard-binding-handlers" title="Permanent link">#</a></h3>
+<p>The forms module comes with a couple of pre-defined binding handlers:</p>
 <table>
 <thead>
 <tr>
-<th>Handler Name</th>
-<th>key</th>
-<th>direction</th>
-<th>applies to</th>
-<th>Element base class</th>
+<th>Name</th>
+<th>Key</th>
+<th>Direction</th>
+<th>Applies to</th>
+<th>Base Element</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>DefaultBindingHandler</td>
+<td>Default...</td>
 <td>'default'</td>
 <td>uni</td>
 <td>attribute</td>
 <td><code>HTMLElement</code></td>
 </tr>
 <tr>
-<td>CheckedBindingHandler</td>
+<td>Checked...</td>
 <td>'checked'</td>
 <td>bi</td>
 <td>attribute <code>checked</code></td>
-<td><code>HTMLElement</code></td>
+<td><code>HTMLInputElement</code></td>
 </tr>
 <tr>
-<td>TextBindingHandler</td>
+<td>Text...</td>
 <td>'innerText'</td>
 <td>uni</td>
-<td>attribute <code>textContent</code></td>
+<td>property <code>textContent</code></td>
 <td><code>HTMLElement</code></td>
 </tr>
 <tr>
-<td>ValueBindingHandler</td>
+<td>Value...</td>
 <td>'value'</td>
 <td>bi</td>
 <td>attribute <code>value</code></td>
 <td><code>HTMLInputElement</code></td>
 </tr>
 <tr>
-<td>VisibilityBindingHandler</td>
+<td>Visibility...</td>
 <td>'visibility'</td>
 <td>uni</td>
 <td>style <code>visibility</code></td>
 <td><code>HTMLElement</code></td>
 </tr>
 <tr>
-<td>DisplayBindingHandler</td>
+<td>Display...</td>
 <td>'display'</td>
 <td>uni</td>
 <td>style <code>display</code></td>
@@ -435,66 +470,91 @@ export class component extends BaseComponent&lt;any&gt; implements IModel&lt;Mod
 </tr>
 </tbody>
 </table>
-<p>If in the binding attribute the text form is being used ('innerText: userName'), the <em>key</em> value determines the used handler.
+<p>The actual handler names are <em>XXXBindingHandler</em> (<em>Default...</em> is actually <em>DefaultBindingHandler</em>). If in the binding attribute the text form is being used ('innerText: userName'), the <em>key</em> value determines the used handler.
 The handler provides the active code that handles the change call and applies the changed value to the right target property. That can be any property the element type supports, directly or indirectly anywhere in the object structure. Such a deeper call happens in the style handlers, especially <code>VisibilityBindingHandler</code> and <code>DisplayBindingHandler</code>.</p>
-<h2 id="smart-binders">Smart Binders<a class="headerlink" href="#smart-binders" title="Permanent link">#</a></h2>
+<h2 id="smart-binders_1">Smart Binders<a class="headerlink" href="#smart-binders_1" title="Permanent link">#</a></h2>
 <p>There is an alternative syntax that provides full type support:</p>
-<pre><code class="tsx">&lt;label n-bind={to&lt;ContactModel&gt;(c =&gt; c.email, 'innerText', Display)}&gt;&lt;/label&gt;
+<pre><code class="tsx">&lt;label
+  n-bind={to&lt;ContactModel&gt;(c =&gt; c.email, 'innerText', Display)}&gt;
+&lt;/label&gt;
 </code></pre>
 
-<p>Use the function <code>to&lt;Type&gt;</code> from <em>@nyaf/forms</em>. The parameters are as follows:</p>
+<p>The function <code>to&lt;Type&gt;</code> from <strong>@nyaf/forms</strong> module has these syntax variations:</p>
+<pre><code class="ts">to&lt;ViewModel&gt;(propertyExpression, handlerKey)
+to&lt;ViewModel&gt;(propertyExpression, BindingHandlerType)
+to&lt;ViewModel, ElementType&gt;(propertyExpression, handlerKey)
+to&lt;ViewModel, ElementType&gt;(propertyExpression, BindingHandlerType)
+to&lt;ViewModel&gt;(propertyExpression, handlerKey, UIDecoratorType)
+to&lt;ViewModel&gt;(propertyExpression, BindingHandlerType, UIDecoratorType)
+to&lt;ViewModel, ElementType&gt;(propertyExpression, handlerKey, UIDecoratorType)
+to&lt;ViewModel, ElementType&gt;(propertyExpression, BindingHandlerType, UIDecoratorType)
+</code></pre>
+
+<p>The generic parameters are as follows:</p>
 <ol>
-<li>An expression to select a property type safe</li>
-<li>The property of the element. Any property available in <code>HTMLElement</code> is allowed (and it's restricted to these).</li>
+<li>The view model type.  This is mandatory.</li>
+<li>The element type. This is optional, if omitted it falls back to <code>HTMLElement</code>.</li>
+</ol>
+<p>The parameters are as follows:</p>
+<ol>
+<li>A lambda expression to select a property type safe (<code>c =&gt; c.name</code>). This is mandatory.</li>
+<li>The key of a binding handler. Any property available in <code>HTMLElement</code> is allowed (and it's restricted to these).</li>
 <li>The (optional) type of decorator that's used to pull data from. If it's omitted, the actual data appear.</li>
 </ol>
 <p>Obviously you could think about writing this:</p>
-<pre><code class="tsx">&lt;input n-bind={to&lt;ContactModel&gt;(c =&gt; c.email, 'value')} /&gt;
+<pre><code class="tsx">&lt;input
+  n-bind={to&lt;ContactModel&gt;(c =&gt; c.email, 'value')} /&gt;
 </code></pre>
 
 <p>This is rejected by the compiler, because the property <em>value</em> doesn't exists in <code>HTMLElement</code>. To provide another type, just use a second generic type parameter:</p>
-<pre><code class="tsx">&lt;input n-bind={to&lt;ContactModel, HTMLInputElement&gt;(c =&gt; c.email, 'value')} /&gt;
+<pre><code class="tsx">&lt;input
+  n-bind={to&lt;ContactModel, HTMLInputElement&gt;(c =&gt; c.email, 'value')} /&gt;
 </code></pre>
 
 <p>Here you tell the compiler, that it's safe to use <code>HTMLInputElement</code> and so the editor allows <em>value</em> as the second parameter. An even smarter way is to use the lambda here, too:</p>
-<pre><code class="tsx">&lt;input n-bind={to&lt;ContactModel, HTMLInputElement&gt;(c =&gt; c.email, c =&gt; c.value)} /&gt;
+<pre><code class="tsx">&lt;input
+  n-bind={to&lt;ContactModel, HTMLInputElement&gt;(c =&gt; c.email, c =&gt; c.value)} /&gt;
 </code></pre>
 
 <p>But, both ways are type safe, even the string is following a constrain. The string is usually shorter, the lambda might use an earlier suggestion from Intellisense.</p>
+<blockquote>
+<p>The binding behavior is tricky but powerful. The intention is to provide rock solid type safety. You must provide an element attribute that really exists to make a successful binding. Everything else wouldn't make any sense. But to actually bind properly, you must provide a Binding Handler that can handle this particular binding.</p>
+</blockquote>
 <h3 id="multi-attribute-binding">Multi Attribute Binding<a class="headerlink" href="#multi-attribute-binding" title="Permanent link">#</a></h3>
-<p>The <code>n-bind</code> attribute is exclusive, so you can bind only one attribute. That's fine for most cases, but sometimes you'll need multiple bindings. In Angular
-this is easy through the binding syntax around any element (<code>&lt;input [type]="source" [value]="model"&gt;</code>). However, this would require a template compiler and
-additional editor support. To overcome a limitation here, a <code>bind</code> function available:</p>
-<p>In this example two properties are bound:</p>
-<pre><code class="tsx">&lt;input value={bind&lt;T&gt;(c =&gt; c.email)} type={bind&lt;T&gt;(c =&gt; c.toggleType)} n-bind /&gt;
+<p>The <code>n-bind</code> attribute is exclusive, so you can bind only one attribute. That's fine for most cases, but sometimes you'll need multiple bindings. In Angular this is easy through the binding syntax around any element (<code>&lt;input [type]="source" [value]="model"&gt;</code>). However, this would require a template compiler and additional editor support. To overcome the limitations here, the <code>bind</code> function is available.</p>
+<p>In the next example two properties are bound:</p>
+<pre><code class="tsx">&lt;input
+  value={bind&lt;T&gt;(c =&gt; c.email)}
+  type={bind&lt;T&gt;(c =&gt; c.toggleType)}
+  n-bind /&gt;
 </code></pre>
 
 <blockquote>
-<p>The <code>n-bind</code> is still required to efficiently trigger the binder logic. It's now empty, though (default value is <code>true</code> internally). Please note that you cannot bind to deeper structures in the current version (e.g. <code>style.border={bind&lt;T&gt;()}</code> is not possible.) That's typically a way to bind styles in Angular, but this would violate the rule that standard @nyaf templates shall be standard TSX files that any editor can handle without additional tool support. To support such a scenario, refer to <a href="../custombinders/">Custom Binders</a>.</p>
+<p>The <code>n-bind</code> is still required to efficiently trigger the binder logic. It's now empty, though (default value is <code>true</code> internally). Please note that you cannot bind to deeper structures in the current version (e.g. <code>style.border={bind&lt;T&gt;()}</code> is not possible.) That's typically a way to bind styles in Angular, but this would violate the rule that standard <strong>@nyaf</strong> templates shall be standard TSX files that any editor can handle without additional tool support. To support a scenario with style binding, refer to section <em>Custom Binders</em>.</p>
 </blockquote>
-<p>The binding handler is not provided, so it falls back to a <code>DefaultBindingHandler</code>, that binds uni-directional to the assigned attribute. That has two
-limitations. First, it's always uni-directional. Second, it can bind only to attributes of <code>HTMLElement</code>. Object properties, such as <code>textContent</code>or <code>innerText</code>
-cannot be reached that way. That's indeed the same with Angular, where you need to encapsulate elements in custom components to reach hidden properties,
-but in <strong>@nyaf</strong> there is a much smarter way.</p>
+<p>If the binding handler is not provided, it falls back to a <code>DefaultBindingHandler</code>, that binds uni-directional to the assigned attribute. That has two limitations. First, it's always uni-directional. Second, it can bind only to attributes of <code>HTMLElement</code>. Object properties, such as <code>textContent</code>or <code>innerText</code> cannot be reached that way. That's indeed the same with Angular, where you need to encapsulate elements in custom components to reach hidden properties, but in <strong>@nyaf</strong> there is a much smarter way.</p>
 <p>Imagine you'll bind to whatever, just assign another binding handler.</p>
 <pre><code class="tsx">&lt;input value={bind&lt;T&gt;(c =&gt; c.email, ValueBindingHandler)} n-bind /&gt;
 </code></pre>
 
-<p>The binding handler may write into whatever property you like, even those not available as attributes. See (Custom Binders)[custombinders.md] for more details.</p>
+<p>The binding handler may write into whatever property you like, even those not available as attributes. See section <em>Custom Binders</em> for more details.</p>
 <h3 id="even-more-smartness">Even More Smartness<a class="headerlink" href="#even-more-smartness" title="Permanent link">#</a></h3>
-<p>You may also define your component as a generic:</p>
+<p>You may also define your component as a generic. That avoids repeating the model name over and over again. Imagine this:</p>
 <pre><code class="ts">// ContactModel defined elsewhere
 export class ContactComponent&lt;T extends ContactModel&gt;
        extends BaseComponent&lt;any&gt;
        implements IModel&lt;ContactModel&gt; {
 </code></pre>
 
-<p>And in that case use a shorter from to express the binding:</p>
+<p>And in that case use a shorter form to express the binding:</p>
 <pre><code class="tsx">&lt;label n-bind={to&lt;T&gt;(c =&gt; c.email, c =&gt; c.innerText)} /&gt;
 </code></pre>
 
-<p>That's cool, isn't it? Now we have a fully type save binding definition in the middle of the TSX part without any additions to regular HTML.</p>
-<p>Any in case you have special properties beyond <code>HTMLElement</code>, than just provide the proper type:</p>
+<blockquote>
+<p><em>T</em> is a placeholder here. Use any name you like to define a "type".</p>
+</blockquote>
+<p>That's cool, isn't it? Now we have a fully type safe binding definition in the middle of the TSX part without any additions to regular HTML.</p>
+<p>And in case you have special properties beyond <code>HTMLElement</code>, than just provide the proper type like you did before:</p>
 <pre><code class="tsx">&lt;input n-bind={to&lt;T, HTMLInputElement&gt;(c =&gt; c.email, c =&gt; c.value)} /&gt;
 </code></pre>
 

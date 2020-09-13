@@ -8,15 +8,15 @@
   
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
-  <title>Events - nyaf Documentation</title>
+  <title>Automatic Updates - nyaf Documentation</title>
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Events";
-    var mkdocs_page_input_path = "md/docs/lib/events.md";
+    var mkdocs_page_name = "Automatic Updates";
+    var mkdocs_page_input_path = "md/docs/store/updates.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -106,69 +106,51 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../overview/">Overview</a>
+    <a class="" href="../../lib/overview/">Overview</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../template/">Template Language</a>
+    <a class="" href="../../lib/template/">Template Language</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../jsx/">JSX / TSX</a>
+    <a class="" href="../../lib/jsx/">JSX / TSX</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../select/">Select Elements</a>
+    <a class="" href="../../lib/select/">Select Elements</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../smart/">Smart Components</a>
+    <a class="" href="../../lib/smart/">Smart Components</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../lifecycle/">Life Cycle</a>
+    <a class="" href="../../lib/lifecycle/">Life Cycle</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../attributes/">Attributes</a>
+    <a class="" href="../../lib/attributes/">Attributes</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../directives/">Directives</a>
-                </li>
-                <li class=" current">
-                    
-    <a class="current" href="./">Events</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#events">Events</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#n-on-event">n-on-event</a></li>
-        
-            <li><a class="toctree-l4" href="#syntax-enhancements">Syntax Enhancements</a></li>
-        
-            <li><a class="toctree-l4" href="#async">Async</a></li>
-        
-            <li><a class="toctree-l4" href="#custom-events">Custom Events</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../../lib/directives/">Directives</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../router/">Router</a>
+    <a class="" href="../../lib/events/">Events</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../shadowdom/">Shadow DOM</a>
+    <a class="" href="../../lib/router/">Router</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../services/">Services</a>
+    <a class="" href="../../lib/shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../lib/services/">Services</a>
                 </li>
     </ul>
 	    </li>
@@ -210,31 +192,45 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../../store/overview/">Overview</a>
+    <a class="" href="../overview/">Overview</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/example/">Store Example</a>
+    <a class="" href="../example/">Store Example</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+    <a class="" href="../globloc/">Global and Local Stores</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+    <a class="" href="../dispose/">Disposing Subscriptions</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/effects/">Effects Mapping</a>
+    <a class="" href="../effects/">Effects Mapping</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Automatic Updates</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#automatic-updates">Automatic Updates</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#the-updates-decorator">The Updates Decorator</a></li>
+        
+            <li><a class="toctree-l4" href="#using-the-updates-decorator">Using the Updates Decorator</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/updates/">Automatic Updates</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../../store/setup/">Setup</a>
+    <a class="" href="../setup/">Setup</a>
                 </li>
     </ul>
 	    </li>
@@ -315,14 +311,14 @@
     
       
         
-          <li>Core Library &raquo;</li>
+          <li>Flux Store &raquo;</li>
         
       
     
-    <li>Events</li>
+    <li>Automatic Updates</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/lib/events.md"
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/store/updates.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -332,116 +328,63 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="events">Events<a class="headerlink" href="#events" title="Permanent link">#</a></h2>
-<p>Events are defined by a special instruction. They are attached to <code>document</code> object, regardless the usage.</p>
-<p><img alt="Figure A-5: Define an event source" src="/assets/eventlistener.png" /></p>
-<h3 id="n-on-event">n-on-event<a class="headerlink" href="#n-on-event" title="Permanent link">#</a></h3>
-<p>Events are easy to add directly using it like <code>n-on-click</code>. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.</p>
-<pre><code class="html">&lt;button n-on-click={() =&gt; this.clickMe()}&gt;OK&lt;/button&gt;
+                <h2 id="automatic-updates">Automatic Updates<a class="headerlink" href="#automatic-updates" title="Permanent link">#</a></h2>
+<p>The <code>@Updates</code> decorator complements the <code>@Effects</code> decorator. The schema is similar. However, both decorators work independently of each other and you can use any or both.</p>
+<h3 id="the-updates-decorator">The Updates Decorator<a class="headerlink" href="#the-updates-decorator" title="Permanent link">#</a></h3>
+<p>The decorator exists once on a component. The API looks like this:</p>
+<pre><code class="ts">@Updates(Update[])
 </code></pre>
 
-<blockquote>
-<p>There is no <code>bind</code> necessary, events are bound to components anyway.</p>
-</blockquote>
-<p>You can get the (original HTML 5 API) event using a parameter, like <em>e</em> in the example below:</p>
-<pre><code>&lt;button n-on-click={(e) =&gt; this.clickMe(e)}&gt;OK&lt;/button&gt;
-</code></pre>
-
-<p>Because the method can be bound with or without the event object as a parameter, the method can have an optional parameter like this:</p>
-<pre><code>clickMe(e?: Event) {
-
+<p>It makes only sense in conjunction with the store itself (a missing store will throw an exception). This is how it goes with a real component:</p>
+<pre><code class="ts">@CustomElement('app-store-effects')
+@ProvideStore&lt;allStoreTypes&gt;(store)
+@Updates&lt;allStoreTypes&gt;([
+  {
+    store: 'counter',
+    selector: '[data-store-counter]',
+    target: 'textContent'
+  }
+])
+export class StoreUpdateComponent extends BaseComponent&lt;{ cnt: number }&gt; implements IStore&lt;allStoreTypes&gt; {
 }
 </code></pre>
 
-<p>The <code>Event</code> type conforms to HTML 5 DOM. Replace the type according the attached event (<code>MouseEvent</code> etc., see <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event">here</a> for details).</p>
-<h3 id="syntax-enhancements">Syntax Enhancements<a class="headerlink" href="#syntax-enhancements" title="Permanent link">#</a></h3>
-<p>This section shows some variations of the event syntax that might better suit your needs.</p>
-<h4 id="short-form">Short Form<a class="headerlink" href="#short-form" title="Permanent link">#</a></h4>
-<p>If you don't need access to the parameters of the event (example: a click, which just happens), a short form is possible:</p>
-<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={this.clickMe}&gt;
+<p>The piece of HTML that this <code>@Update</code> decorator setting addresses is shown below:</p>
+<pre><code class="tsx">&lt;div class='badge badge-info' data-store-counter&gt;n/a&lt;/div&gt;
 </code></pre>
 
-<h4 id="additional-parameters">Additional Parameters<a class="headerlink" href="#additional-parameters" title="Permanent link">#</a></h4>
-<p>You can add constant values like this:</p>
-<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={(e) =&gt; this.clickMe(e, 'PROP')}&gt;
+<p>There is no additional code required to update the HTML. Once a change in the store ocurred the value is pulled from the store and written into the selected property. In the example the store's value 'counter' is monitored by a subscription. The elements are being selected once in the lifecycle state <code>Load</code>. Further changes of the component's DOM are not being processed. The access works with or without shadow DOM. The element's selector in the example is '[data-store-counter]'. You can use any selector <code>querySelectorAll</code> would accept. If there are multiple elements indeed, the assignment will happen multiple times. The target property is 'textContent'. You can use any property that the selected element or component supports. Be aware that the access is property access on code level. That means, a virtual attribute of a component will not work, because it's not change in markup. If you have a component as the target, and wish to write a value to an observed attribute, you must introduce getter and setter methods to support the <code>@Update</code> decorator.</p>
+<p>In the example the store definition (using <code>@ProvideStore</code>) and the update configuration (using <code>@Updates</code>) use the very same store type. That's not necessary. If the store type is a combined type (as in the example code you can find on Github), consider using one of its partial types for the update to shrink the selection to the part you really need. This avoids errors and improves the readability of your code.</p>
+<h3 id="using-the-updates-decorator">Using the Updates Decorator<a class="headerlink" href="#using-the-updates-decorator" title="Permanent link">#</a></h3>
+<p>The following code shows the typical store subscription, usually assigned in the constructor:</p>
+<pre><code class="ts">this.sub = this.store.subscribe('counter', str =&gt; {
+  this.querySelector('[data-store-counter]').textContent = str.counter;
+});
 </code></pre>
 
-<blockquote>
-<p><strong>Warning!</strong> Regardless the type, the received value will be a <code>string</code> type at runtime.</p>
-</blockquote>
-<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={(e) =&gt; this.clickMe(e, 100)}&gt;
+<p>The value is written in a freshly selected element. The very same result can be achieved with the following code:</p>
+<pre><code class="ts">@Updates&lt;allStoreTypes&gt;([ {
+    store: 'counter',
+    selector: '[data-store-counter]',
+    target: 'textContent'
+}])
 </code></pre>
 
-<p>This works, but the function will receive "100".</p>
-<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={(e) =&gt; this.clickMe(e, 1 + 2)}&gt;
-</code></pre>
-
-<p>This works, too, but the function will receive "1 + 2". The expression is not being executed! So, this is somehow limited in the current version. You can add multiple parameters, though.</p>
-<pre><code class="tsx">&lt;button type=&quot;button&quot; n-on-click={(e) =&gt; this.clickMe(e, 1, 2)}&gt;
-
-clickMe(e: Event, a: string, b: string) {
-  const r = +a + +b;
-}
-</code></pre>
-
-<p>Usually, it doesn't make sense to have calculation on constant values. So in reality this isn't a serious limitation.</p>
-<h3 id="async">Async<a class="headerlink" href="#async" title="Permanent link">#</a></h3>
-<p>You can combine any event with the attribute <code>n-async</code> to make the call to the event's handler function async. This attribute does not take any parameters. The handler method can be decorated with <code>async</code>.</p>
-<pre><code class="html">&lt;button n-on-click={this.clickMe} n-async&gt;OK&lt;/button&gt;
-</code></pre>
-
-<pre><code class="ts">async clickMe(e?: Event) {
-  // handle asynchronously
-}
-</code></pre>
-
-<h3 id="custom-events">Custom Events<a class="headerlink" href="#custom-events" title="Permanent link">#</a></h3>
-<p>Sometimes the JavaScript events are not flexible enough. So you can define your own ones. That's done by three simple steps:</p>
+<p>While this not seem to be a big advantage (in fact, 2 lines more), the real reason is to avoid <strong>any</strong> code in the component directly, making it pure view. On the long term this creates clean code and helps to make a  ore systematic structure.</p>
+<p>The decorator accepts an array of objects of type <code>Update</code>. This type is an interface that has the following API:</p>
 <ul>
-<li>Add a decorator <code>@Events</code> to declare the events (it's an array to declare multiple in one step). This is mandatory.</li>
-<li>Create a <code>CustomEventInit</code> object and dispatch it (this is <a href="https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent">native Web Component behavior</a>)</li>
-<li>Use the <code>n-on-&lt;myCustomEventName&gt;</code> attribute to attach the event in the parent component.</li>
+<li><code>selector</code>: A string that can be handled by <code>querySelectorAll</code>.</li>
+<li><code>store</code>: A string that is one of the properties of the store type. This is managed by the generic.</li>
+<li><code>target</code>: A string that's the name of a property the selected element or component supports. This is not being checked by TypeScript.</li>
 </ul>
-<p>Imagine a button component like this:</p>
-<pre><code class="tsx">@CustomElement('app-button')
-@Events(['showAlert'])
-export class ButtonComponent extends BaseComponent {
-  constructor() {
-    super();
-  }
-
-  clickMe() {
-    const checkEvent: CustomEventInit = {
-      bubbles: true,
-      cancelable: false,
-    };
-    super.dispatch('showAlert', checkEvent);
-  }
-
-  async render() {
-    return await (
-      &lt;button type=&quot;button&quot; n-on-click={this.clickMe}&gt;
-        Demo
-      &lt;/button&gt;
-    );
-  }
-}
-</code></pre>
-
-<p>The custom event in this example is called <em>showAlert</em>. It's invoked by a click. The element's host component has code like this:</p>
-<pre><code class="tsx">&lt;app-button n-on-showAlert={(e) =&gt; this.someHandler(e)} /&gt;
-</code></pre>
-
-<p>The argument <em>e</em> contains an <code>CustomEvent</code> object. It can carry any number of custom data. The <code>click</code>-invoker is just an example, any action can call a custom event, even a web socket callback, a timer, or an HTTP request result. Both <code>CustomEvent</code> and <code>CustomEventInit</code> have a field <code>detail</code> that can carry any object or scalar and is the proposed way to transport custom data with the event. The event handler could look like this:</p>
-<pre><code class="ts">private someHandler(e: CustomEvent) {
-  const data = e.detail;
-  // Your code that handles the event
-}
-</code></pre>
-
-<blockquote>
-<p>Custom events can be async, too. Just add <code>n-async</code> to the element that fires the event and add the <code>async</code> modifier to the handler.</p>
-</blockquote>
+<h4 id="the-selector">The Selector<a class="headerlink" href="#the-selector" title="Permanent link">#</a></h4>
+<p>The selector is a string that can be handled by <code>querySelectorAll</code>. This is mandatory and the selector must return at least one element. The selector is executed after the life cycle event state <code>Load</code>. That means, that the <code>render</code> function is executed. The selector will not get any elements you add later dynamically.</p>
+<p>To avoid any conflicts it's strongly recommended to use <em>data-</em> attributes and avoid any CSS stuff to select elements, especially not the <code>class</code> attribute.</p>
+<h4 id="the-store">The Store<a class="headerlink" href="#the-store" title="Permanent link">#</a></h4>
+<p>The store has usually a type definition to define the fundamental structure. Usually it's just an interface. The generic provides this type definition and you can choose any of these properties. Internally it's a <code>keyof T</code> definition.</p>
+<h4 id="the-target">The Target<a class="headerlink" href="#the-target" title="Permanent link">#</a></h4>
+<p>Because you can't write a value straight into an element or into a component you must define a specific property. The type is either any of the properties supported by <code>HTMLElement</code>or just a string. This is weak from standpoint of Intellisense (in fact, there is actually no check at all), but flexible enough to support all common scenarios.</p>
+<p>It's a trade-off between convenience and security. A more rigid approach would require a generic on the level of the <code>Update</code> interface. But with an anonymous type definition you can't provide a generic. That means you need to add an additional type information. In the end it's a lot more boilerplate code for a little safety. That's the reason while the definition can be made so simple.</p>
               
             </div>
           </div>
@@ -449,10 +392,10 @@ export class ButtonComponent extends BaseComponent {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../router/" class="btn btn-neutral float-right" title="Router">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../setup/" class="btn btn-neutral float-right" title="Setup">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../directives/" class="btn btn-neutral" title="Directives"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../effects/" class="btn btn-neutral" title="Effects Mapping"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -480,10 +423,10 @@ export class ButtonComponent extends BaseComponent {
           <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../directives/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../effects/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../router/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../setup/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

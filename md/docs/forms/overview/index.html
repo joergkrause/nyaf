@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Overview - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../../lib/overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -130,6 +134,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../../lib/directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../../lib/events/">Events</a>
                 </li>
                 <li class="">
@@ -144,27 +152,25 @@
                     
     <a class="" href="../../lib/services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class=" current">
                     
     <a class="current" href="./">Overview</a>
     <ul class="subnav">
             
-    <li class="toctree-l3"><a href="#forms-extensions">Forms Extensions</a></li>
+    <li class="toctree-l3"><a href="#forms-module">Forms Module</a></li>
     
         <ul>
         
             <li><a class="toctree-l4" href="#how-it-works">How it Works</a></li>
+        
+            <li><a class="toctree-l4" href="#view-models-in-components">View Models in Components</a></li>
         
         </ul>
     
@@ -213,6 +219,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -297,7 +311,7 @@
     
       
         
-          <li>Forms Extensions &raquo;</li>
+          <li>Forms Extension &raquo;</li>
         
       
     
@@ -314,25 +328,25 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="forms-extensions">Forms Extensions<a class="headerlink" href="#forms-extensions" title="Permanent link">#</a></h1>
+                <h2 id="forms-module">Forms Module<a class="headerlink" href="#forms-module" title="Permanent link">#</a></h2>
 <p>Forms provide these basic features:</p>
 <ul>
 <li>UI control decorators (example: <code>@Hidden()</code> to suppress a property in a dynamic table).</li>
 <li>Validation decorators (example: <code>@MinLength(50)</code> or <code>@Required()</code> to manage form validation).</li>
-<li>Data Binding using a model declaration decorator called <code>@ViewModel</code> and a bind property named <code>n-bind</code>.</li>
+<li>Data Binding using a model declaration decorator called <code>@ViewModel</code> and a bind attribute named <code>n-bind</code>.</li>
 </ul>
 <p>Form validation is a key part of any project. However, CSS frameworks require different strategies to handle errors and so on. Hence, the <strong>@nyaf/forms</strong> library provides a simple way (just like a skeleton) to give you the direction, but the actual validation implementation logic is up to you to build.</p>
 <p>Same for the UI decorators. It's a convenient way to add hidden properties to viewmodels. There is no logic to read these values, this is up to you to implement this. However, the decorators makes your life a lot easier.</p>
 <p>The binding logic is almost complete and once you have a decorated model it's syncing the UI automagically.</p>
-<h2 id="how-it-works">How it Works<a class="headerlink" href="#how-it-works" title="Permanent link">#</a></h2>
+<h3 id="how-it-works">How it Works<a class="headerlink" href="#how-it-works" title="Permanent link">#</a></h3>
 <p>For full support you need view models, the registration on top of the component, and access to the model binder.</p>
 <ol>
-<li>View models are plain TypeScript classed with public properties enhanced by decorators</li>
-<li>The registration is the decorator <code>@ViewModel()</code> on top of the component's class</li>
-<li>The modelbinder comes through implementing the interface <code>IModel&lt;ViewModelType&gt;</code></li>
+<li>View models are plain TypeScript classes with public properties enhanced by decorators.</li>
+<li>The registration with the decorator <code>@ViewModel()</code> on top of the component's class.</li>
+<li>The modelbinder comes through implementing the interface <code>IModel&lt;ViewModelType&gt;</code>.</li>
 </ol>
 <h3 id="view-models-in-components">View Models in Components<a class="headerlink" href="#view-models-in-components" title="Permanent link">#</a></h3>
-<p>For a nice view decorators applied to class properties control the appearance. Use the decorator <code>@ViewModel&lt;T&gt;(T)</code> to define the model. The generic is the type, the constructor parameter defines the default values (it's <strong>mandatory</strong>). To get access to the model binder, just implement the interface <code>IModel</code> as show below:</p>
+<p>For a nice looking view some decorators applied to class properties control the appearance. Use the decorator <code>@ViewModel&lt;T&gt;(T)</code> to define the model. The generic is the type, the constructor parameter defines the default values (it's <strong>mandatory</strong>). To get access to the model binder, just implement the interface <code>IModel</code> as show below:</p>
 <pre><code class="ts">export class Model {
   @Hidden()
   id: number = 0;
@@ -343,21 +357,23 @@
 
 @CustomElement('app-main')
 @ViewModel&lt;Model&gt;(Model)
-export class MainComponent extends BaseComponent&lt;{}&gt; implements IModel&lt;Model&gt; {
+export class MainComponent
+        extends BaseComponent&lt;{}&gt;
+        implements IModel&lt;Model&gt; {
   // ... omitted for brevity
 }
 </code></pre>
 
-<p>Within the component, the model binder is present through the property <code>this.model</code>. That's the only property.</p>
-<pre><code class="ts">this.model. ...// do some stuff here
+<p>Within the component, the model binder is present through the property <code>this.model</code>. That's the only property and it's added automatically by the decorator. The interface just helps the TypeScript transpiler to understand tha property exists.</p>
+<pre><code class="ts">this.model. ...// do something with it
 </code></pre>
 
-<p>You can assign an actual object to the model binder. That can happen at any time, in the constructor, in load life cycle, or anytime later on user action. Use this code:</p>
+<p>An actual object is already assigned to the property by a so called model binder. At any time, in the constructor, in load life cycle, or anytime later on user action you can add a new model if you need. That's a rare condition, though. Use this code, then:</p>
 <pre><code class="ts">this.model.scope = new Model();
 </code></pre>
 
 <p>However, the <code>@ViewModel</code> decorator is doing exactly this for you, so in case of a new blank instance there is no need to assign a new object to the <em>scope</em> property.</p>
-<p>It's no necessary to keep a reference to the instance, the model binder is doing this internally for you. The derived class is a <code>Proxy</code>. If you now bind the properties using <code>n-bind</code> as described before, the model is in sync with the user interface. If you want to programmatically access the current state, just retrieve the model:</p>
+<p>It's not necessary to keep a reference to the instance, the model binder is doing this internally for you. The derived class is a <code>Proxy</code>. If you now bind the properties using <code>n-bind</code> as described below, the model is in sync with the user interface. If you want to programmatically access the current state, just retrieve the model:</p>
 <pre><code class="ts">let userName: string = this.model.scope.userName;
 </code></pre>
 
@@ -384,7 +400,7 @@ this.model.scope.userName = userName; // immediately invoke binders
         <a href="../vm/" class="btn btn-neutral float-right" title="View Models">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../../lib/setup/" class="btn btn-neutral" title="Setup"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../lib/services/" class="btn btn-neutral" title="Services"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -412,7 +428,7 @@ this.model.scope.userName = userName; // immediately invoke binders
           <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../../lib/setup/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../../lib/services/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../vm/" style="color: #fcfcfc">Next &raquo;</a></span>

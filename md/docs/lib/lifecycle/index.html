@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Life Cycle - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -125,7 +129,7 @@
     <a class="current" href="./">Life Cycle</a>
     <ul class="subnav">
             
-    <li class="toctree-l3"><a href="#life-cycle">Life Cycle</a></li>
+    <li class="toctree-l3"><a href="#the-life-cycle">The Life Cycle</a></li>
     
 
     </ul>
@@ -133,6 +137,10 @@
                 <li class="">
                     
     <a class="" href="../attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../directives/">Directives</a>
                 </li>
                 <li class="">
                     
@@ -150,16 +158,12 @@
                     
     <a class="" href="../services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -207,6 +211,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -308,7 +320,7 @@
           <div role="main">
             <div class="section">
               
-                <h3 id="life-cycle">Life Cycle<a class="headerlink" href="#life-cycle" title="Permanent link">#</a></h3>
+                <h2 id="the-life-cycle">The Life Cycle<a class="headerlink" href="#the-life-cycle" title="Permanent link">#</a></h2>
 <p>Components have a life cycle. Instead of several events, there is just one method you must override (or ignore if not needed):</p>
 <pre><code class="ts">lifeCycle(cycle: LifeCycle){
   if (cycle === LifeCycle.Load){
@@ -319,15 +331,15 @@
 
 <p>Note, that the method has lower case "l". The <code>LifeCycle</code>-enum (upper case "L") has these fields:</p>
 <ul>
-<li><code>Init</code>: Start, ctor is being called.</li>
+<li><code>Init</code>: Start, the constructor is called.</li>
 <li><code>Connect</code>: Component connects to backend</li>
 <li><code>SetData</code>: A change in the data object occurred.</li>
 <li><code>Load</code>: The render process is done and the component has been loaded</li>
-<li><code>PreRender</code>: The render method has been called and content is written to <code>innerHTML</code>.</li>
+<li><code>PreRender</code>: The render method has been called and content is not yet written to <code>innerHTML</code>.</li>
 <li><code>Disconnect</code>: Component is going to be unloaded.</li>
 <li><code>Disposed</code>: After calling the <code>dispose</code> method.</li>
 </ul>
-<p>The life cycle is available through an event <code>lifecycle</code>. It's exposed via a property called <code>onlifecycle</code> on the element level, too. The events are fired after the internal hook has been called.</p>
+<p>The life cycle is also available through an event <code>lifecycle</code>. It's exposed via a property called <code>onlifecycle</code> on the element level, too. The events are fired after the internal hook has been called.</p>
               
             </div>
           </div>

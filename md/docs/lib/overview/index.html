@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Overview - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -110,20 +118,10 @@
         </ul>
     
 
-    <li class="toctree-l3"><a href="#how-to-use">How to use</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#prepare-a-project">Prepare a project</a></li>
-        
-        </ul>
+    <li class="toctree-l3"><a href="#the-first-component">The First Component</a></li>
     
 
     </ul>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -151,6 +149,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../events/">Events</a>
                 </li>
                 <li class="">
@@ -165,16 +167,12 @@
                     
     <a class="" href="../services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -222,6 +220,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -324,9 +330,9 @@
             <div class="section">
               
                 <h2 id="components">Components<a class="headerlink" href="#components" title="Permanent link">#</a></h2>
-<p>Components are the core ingredients. You write components as classes, decorated with the decorator <code>CustomElement</code>. This defines a <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web Component</a>. The Component must be registered, then. This is done by calling the static method <code>GlobalProvider.bootstrap</code>.</p>
+<p>Components are the core ingredients. You write components as classes, decorated with the decorator <code>CustomElement</code>. This defines a <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web Component</a>. The component must be registered, then. This is done by calling the static method <code>GlobalProvider.bootstrap</code>.</p>
 <h3 id="registration-support">Registration Support<a class="headerlink" href="#registration-support" title="Permanent link">#</a></h3>
-<p>Web Components must be registered. To support this, we use decorators. This makes it quite easy to define a component without knowing the details of the browser's API. The name is determined by <code>@CustomElement('my-name')</code>. This is mandatory. Note the base class, which gets a generic that later controls the attributes. The name shall follow the common rules of Web Components, that means, it must have at least one dash '-' so there is no risk of a collision with common HTML element names.</p>
+<p>To support the registration as mentioned before we use decorators. This makes it quite easy to define a component without knowing the details of the browser's API. The name is determined by <code>@CustomElement('my-name')</code>. This is mandatory. The name shall follow the common rules of Web Components, that means, it must have at least one dash '-' so there is no risk of a collision with common HTML element names.</p>
 <pre><code class="tsx">import JSX, { CustomElement } from '@nyaf/lib';
 
 @CustomElement('app-main')
@@ -336,8 +342,8 @@ export class MainComponent extends BaseComponent&lt;{}&gt; {
     super();
   }
 
-  async render() {
-    return await (
+  render() {
+    return (
       &lt;&gt;
         &lt;h1&gt;Demo&lt;/h1&gt;
       &lt;/&gt;
@@ -348,8 +354,9 @@ export class MainComponent extends BaseComponent&lt;{}&gt; {
 </code></pre>
 
 <p>Let's go step by step through this simple component.</p>
-<p>First, the import includes not only the decorator, but the type <code>JSX</code> too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from <strong>@nyaf/lib</strong> and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLInt know about this and will not complain.</p>
+<p>First, the import includes not only the decorator, but the type <code>JSX</code> too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from <strong>@nyaf/lib</strong> and has absolutely no relation to React. It has, in some details, a different behavior compared with the JSX used in React. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter (such as <em>TSLint</em>) know about this and will not complain.</p>
 <p>Second, the component has a base class. All <strong>@nyaf</strong> components are derived from <code>HTMLElement</code>. Currently we don't support inheriting from other element types.</p>
+<p>Note also the usage of a base class, which gets a generic that later controls the access to the attributes.</p>
 <p>Now, that the component is defined, it must be registered. In a file called <em>main.ts</em> (or wherever your app is bootstrapped) call this:</p>
 <pre><code class="ts">import { GlobalProvider } from '@nyaf/lib';
 import { MainComponent } from './components/main.component';
@@ -359,32 +366,27 @@ GlobalProvider.bootstrap({
 });
 </code></pre>
 
-<p>That's it, the component works now. Use it in the HTML part:</p>
+<p>That's it, the component works now. Use it in the HTML part, usually called <em>.index.html</em>:</p>
 <pre><code class="html">&lt;body class=&quot;container&quot;&gt;
   &lt;app-main&gt;&lt;/app-main&gt;
 &lt;/body&gt;
 </code></pre>
 
 <p>Once you have more components, it may look like this:</p>
-<pre><code class="ts">  GlobalProvider.bootstrap({
-    components: [
-      ButtonComponent,
-      TabComponent,
-      TabsComponent,
-      MainComponent]
-  });
+<pre><code class="js">GlobalProvider.bootstrap({
+  components: [
+    ButtonComponent,
+    TabComponent,
+    TabsComponent,
+    MainComponent
+  ]
+});
 </code></pre>
 
-<p>The main goal is to add template features to the JSX part.</p>
-<h1 id="how-to-use">How to use<a class="headerlink" href="#how-to-use" title="Permanent link">#</a></h1>
-<p>This section describes setup and first steps.</p>
-<h2 id="prepare-a-project">Prepare a project<a class="headerlink" href="#prepare-a-project" title="Permanent link">#</a></h2>
-<p>Install the package:</p>
-<pre><code>npm i @nyaf/lib -S
-</code></pre>
-
+<h2 id="the-first-component">The First Component<a class="headerlink" href="#the-first-component" title="Permanent link">#</a></h2>
+<p>This section describes how to bring the component to live. I assume that you have already a typical TypeScript setup with <em>tsconfig.json</em>, <em>package.json</em>, and your favorite packer.</p>
 <p>Create a file <code>main.ts</code> in the <em>src</em> folder that looks like this:</p>
-<pre><code>import { GlobalProvider } from '@nyaf/lib';
+<pre><code class="ts">import { GlobalProvider } from '@nyaf/lib';
 
 import { MainComponent } from './main.component';
 
@@ -393,8 +395,8 @@ GlobalProvider.bootstrap({
 });
 </code></pre>
 
-<p>Create file <em>main.component.tsx</em> in the same folder (It must be <em>*.tsx</em>!). Fill this content in:</p>
-<pre><code>import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
+<p>Create file <em>main.component.tsx</em> in the same folder (It must be <em>*.tsx</em> if you use JSX). Fill this content in:</p>
+<pre><code class="tsx">import JSX, { BaseComponent, CustomElement } from '@nyaf/lib';
 
 @CustomElement('app-main')
 export class MainComponent extends BaseComponent {
@@ -416,7 +418,7 @@ export class MainComponent extends BaseComponent {
 </code></pre>
 
 <blockquote>
-<p>Watch the default import for <em>JSX</em> - this IS required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files. It's always <code>JSX</code>, even if we use <em>*.tsx</em>-files.</p>
+<p>Watch the default import for <em>JSX</em> - this <em>is</em> required, even if there is no explicit call. The TypeScript transpiler needs this when handling JSX files. It's always <code>JSX</code>, even if we use <em>*.tsx</em>-files.</p>
 </blockquote>
 <p>Create a file named <em>index.html</em> in the very same folder and fill it like this:</p>
 <pre><code class="html">&lt;!DOCTYPE html&gt;
@@ -430,11 +432,13 @@ export class MainComponent extends BaseComponent {
 &lt;body&gt;
   &lt;h1&gt;Hello nyaf&lt;/h1&gt;
   &lt;app-main&gt;&lt;/app-main&gt;
+  &lt;!-- script goes here, either by packer or manually --&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
 
-<p>Your app starts in line 11.</p>
+<p>Your app starts in line 10.</p>
+<p>Using the packer configuration you get the <em>index.html</em> file in the <em>./dist</em> folder, a bundle, and a reference to this bundle to load the script. If you pack manually or keep the scripts separately add the script tags before the closing <code>&lt;body&gt;</code> element.</p>
               
             </div>
           </div>
@@ -442,10 +446,10 @@ export class MainComponent extends BaseComponent {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../configuration/" class="btn btn-neutral float-right" title="Project Configuration">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../template/" class="btn btn-neutral float-right" title="Template Language">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../../../setup/" class="btn btn-neutral" title="Setup"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../../config/" class="btn btn-neutral" title="Configuration Files"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -473,10 +477,10 @@ export class MainComponent extends BaseComponent {
           <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../../../setup/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../../../config/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../configuration/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../template/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

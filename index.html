@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="img/favicon.ico">
   <title>Home - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="css/theme.css" type="text/css" />
   <link rel="stylesheet" href="css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -77,7 +75,7 @@
     <a class="current" href=".">Home</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#nyaf-is-not-yet-another-framework">@nyaf is "Not Yet Another Framework"</a></li>
+    <li class="toctree-l2"><a href="#introducing-nyaf">Introducing @nyaf</a></li>
     
         <ul>
         
@@ -103,7 +101,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="md/setup/">Setup</a>
+    <a class="" href="md/ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="md/babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="md/config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -113,10 +121,6 @@
                 <li class="">
                     
     <a class="" href="md/docs/lib/overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="md/docs/lib/configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -144,6 +148,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="md/docs/lib/directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="md/docs/lib/events/">Events</a>
                 </li>
                 <li class="">
@@ -158,16 +166,12 @@
                     
     <a class="" href="md/docs/lib/services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="md/docs/lib/setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -215,6 +219,14 @@
                 <li class="">
                     
     <a class="" href="md/docs/store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="md/docs/store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="md/docs/store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -314,25 +326,27 @@
               
                 <p><a href="https://npmjs.com/package/@nyaf/lib"><img alt="Version" src="https://img.shields.io/npm/v/%40nyaf%2Flib.svg?style=flat-square" /></a>
 <a href="https://npmjs.com/package/@nyaf/lib"><img alt="License" src="https://img.shields.io/npm/l/%40nyaf%2Flib.svg?style=flat-square" /></a></p>
-<h1 id="nyaf-is-not-yet-another-framework">@nyaf is "Not Yet Another Framework"<a class="headerlink" href="#nyaf-is-not-yet-another-framework" title="Permanent link">#</a></h1>
-<p>And it is, well, just another framework. It's simple, has a flat learning curve, doesn't need any special tools. And it's 34KB zipped only, for all three parts together, of course.</p>
+<h1 id="introducing-nyaf">Introducing @nyaf<a class="headerlink" href="#introducing-nyaf" title="Permanent link">#</a></h1>
+<p>The name <strong>@nyaf</strong> is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".</p>
+<p>It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.</p>
 <blockquote>
 <p>No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!</p>
 </blockquote>
 <p><strong>Write frontend apps without the hassle of a complex framework, use the full power of HTML 5, keep a component based style.</strong></p>
 <h2 id="elevator-pitch">Elevator Pitch<a class="headerlink" href="#elevator-pitch" title="Permanent link">#</a></h2>
-<p>Since the amazing impact of jQuery in 2006 we have seen an uncountable number of JavaScript frameworks. Some good, some nice, a few excellent. Each time has it's leading frameworks and an audience that loves it. The comes from simple properties. It should save time compared with programming on a basic level. It should give stability and reliability to your apps where things in the browser's internal parts get messy. And it adds another layer of indirection to make things smooth and good looking, nicely maintainable, and well architectured.</p>
+<p>Since the amazing impact of jQuery in 2006 we have seen an uncountable number of JavaScript frameworks. Some good, some nice, a few excellent. Each time has it's leading frameworks and an audience that loves it. This comes from simple properties. It should save time compared with programming on a more basic level. It should give stability and reliability to your apps where things in the browser's internal parts get messy. And it adds another layer of indirection to make things smooth and good looking, nicely maintainable, and well architectured.</p>
 <p>But over time, frameworks get elder. And they can't change and involve, because they already have a broad audience and hundreds or thousands of projects rely on them. The manufacturer can't break everything to go the next step. The programmers get stuck. And the world of browser programming has evolved dramatically. Meanwhile, we have an amazingly powerful native API in HTML 5.</p>
-<p>One of the most important innovations in browser development where Web Components. The API is easy to learn, the support is complete for all modern browsers, and the implementation is stable. At the same time the programming language TypeScript come to us along with a powerful toolset.</p>
-<p>It's time for the next step. Take the leading tools and create an easy to use library, that covers the hard stuff and be invisible where the native API is almost the best. That's @nyaf.</p>
+<p>One of the most important innovations in browser development where Web Components. The API is easy to learn, the support is complete for all modern browsers, and the implementation is stable. At the same time the programming language TypeScript came to us along with a powerful toolset.</p>
+<p>It's time for the next step. Take the leading tools and create an easy to use library, that covers the hard stuff and be invisible where the native API is almost the best. That's the core idea behind <strong>@nyaf</strong>.</p>
 <h2 id="parts">Parts<a class="headerlink" href="#parts" title="Permanent link">#</a></h2>
 <p>The library comes in three parts:</p>
 <ul>
-<li>A Core library that handles Web Components the easy way, provide a router for Single Page Apps, and adds a nice template language</li>
-<li>A Forms library that handles data binding and decorator based validation</li>
-<li>A Store library that gives your app a state engine using the common flux architecture style</li>
+<li>A core library that handles Web Components the easy way, provide a router for Single Page Apps, and adds a nice template language.</li>
+<li>A forms library that handles data binding and decorator based validation.</li>
+<li>A store library that gives your app a state engine using the common flux architecture style.</li>
 </ul>
 <p>Everything else is simple HTML 5 API, without any restrictions. You can add CSS, other libraries, or your own stuff at almost any position.</p>
+<p>Additionally, there is small CLI for easy setup and component creation.</p>
               
             </div>
           </div>
@@ -383,5 +397,5 @@
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2020-08-04 17:48:27
+Build Date UTC : 2020-09-13 18:57:24
 -->

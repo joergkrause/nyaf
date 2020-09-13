@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Router - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -130,6 +134,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../events/">Events</a>
                 </li>
                 <li class=" current">
@@ -143,7 +151,7 @@
         
             <li><a class="toctree-l4" href="#register-routes">Register Routes</a></li>
         
-            <li><a class="toctree-l4" href="#use-routes">Use Routes</a></li>
+            <li><a class="toctree-l4" href="#using-routes">Using Routes</a></li>
         
             <li><a class="toctree-l4" href="#named-routes">Named Routes</a></li>
         
@@ -166,16 +174,12 @@
                     
     <a class="" href="../services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -223,6 +227,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -334,7 +346,7 @@
 <blockquote>
 <p>There is just one default outlet. See further below for using named outlets.</p>
 </blockquote>
-<p><img alt="" src="/assets/routerparts.png" /></p>
+<p><img alt="Figure A-6: The router parts" src="/assets/routerparts.png" /></p>
 <h3 id="register-routes">Register Routes<a class="headerlink" href="#register-routes" title="Permanent link">#</a></h3>
 <p>The following code shows how to register routes:</p>
 <pre><code class="ts">let routes = {
@@ -346,15 +358,25 @@
 };
 
 GlobalProvider.bootstrap({
-  components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
+  components: [
+    DemoComponent,
+    AboutComponent,
+    ContactComponent,
+    MainComponent
+  ],
   routes: routes
 });
 </code></pre>
 
 <p>The first entry <code>'/': { component: DemoComponent },</code> shall always exist, it's the default route loaded on start. It's being recognized by the <code>'/'</code> key (the position in the array doesn't matter).
 The entry <code>'**': { component: DemoComponent }</code> is optional and defines a fallback in case an invalid path is being used.</p>
-<p>You can shorten the property here, too:</p>
-<pre><code class="ts">const components = [DemoComponent, AboutComponent, ContactComponent, MainComponent];
+<p>You can shorten the property in the bootstrap script, too:</p>
+<pre><code class="ts">const components = [
+  DemoComponent,
+  AboutComponent,
+  ContactComponent,
+  MainComponent
+];
 
 GlobalProvider.bootstrap({
   components,
@@ -362,7 +384,7 @@ GlobalProvider.bootstrap({
 });
 </code></pre>
 
-<h3 id="use-routes">Use Routes<a class="headerlink" href="#use-routes" title="Permanent link">#</a></h3>
+<h3 id="using-routes">Using Routes<a class="headerlink" href="#using-routes" title="Permanent link">#</a></h3>
 <p>To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:</p>
 <pre><code class="html">&lt;a href=&quot;#/&quot; n-link&gt;Home&lt;/a&gt;
 &lt;a href=&quot;#/about&quot; n-link&gt;About&lt;/a&gt;
@@ -376,7 +398,7 @@ GlobalProvider.bootstrap({
 <blockquote>
 <p><strong>Pro Tip!</strong> Import the router definition and use additional fields to create a menu directly from router configuration.</p>
 </blockquote>
-<p>If you have some sort of CSS framework running, that provides support for menu navigation by classes, just add the class for the currently active element to the <code>n-link</code> attribute like this:</p>
+<p>If you have some sort of CSS framework running that provides support for menu navigation by classes, just add the class for the currently active element to the <code>n-link</code> attribute like this:</p>
 <pre><code class="html">&lt;a href=&quot;#/&quot; n-link=&quot;active&quot;&gt;Home&lt;/a&gt;
 &lt;a href=&quot;#/about&quot; n-link=&quot;active&quot;&gt;About&lt;/a&gt;
 &lt;a href=&quot;#/demo&quot; n-link=&quot;active&quot;&gt;Demo&lt;/a&gt;
@@ -386,10 +408,14 @@ GlobalProvider.bootstrap({
 
 <p>After this, by clicking the hyperlink, the class "active" will be added to the anchor tag. Any click on any <code>n-link</code> decorated tag will remove all these classes from all these elements, first. The class' name can differ and you can add multiple classes. It's treated as string internally.</p>
 <h3 id="named-routes">Named Routes<a class="headerlink" href="#named-routes" title="Permanent link">#</a></h3>
-<p>The underlying Route definition, the type <code>Routes</code>, allows two additional fields (<code>outlet</code> and <code>data</code>):</p>
+<p>The underlying route definition, the type <code>Routes</code>, allows two additional fields (<code>outlet</code> and <code>data</code>):</p>
 <pre><code class="ts">const routes: Routes = {
   '/': { component: HomeComponent, outlet: 'main' },
-  '/docu': { component: DocuComponent, outlet: 'main', data: { notlocal: true} },
+  '/docu': {
+    component: DocuComponent,
+    outlet: 'main',
+    data: { notlocal: true}
+    },
   '/about': { component: AboutComponent, outlet: 'main' },
   '/demo': { component: DemoComponent, outlet: 'main',
   '/router': { component: RouterComponent, outlet: 'main' },
@@ -401,7 +427,7 @@ GlobalProvider.bootstrap({
 };
 </code></pre>
 
-<p>With <code>outlet</code> one can define a named outlet. If you use this, you must name all routes as there is no fallback currently. The route outlet might reside everywhere. It may look like this:</p>
+<p>With <code>outlet</code> you can define a named outlet. If you use this, you must name all routes as there is no fallback currently. The route outlet might reside everywhere. It may look like this:</p>
 <pre><code class="html">&lt;div n-router-outlet=&quot;other&quot;&gt;&lt;/div&gt;
 </code></pre>
 
@@ -409,12 +435,13 @@ GlobalProvider.bootstrap({
 <pre><code class="html">&lt;ul n-router-outlet=&quot;other&quot;&gt;&lt;/div&gt;
 </code></pre>
 
-<p>There is no difference on the link side, the decision to address another outlet is made in the configuration only. If the outlet doesn't exists nothing happens and a warning appears on the console (in DEBUG mode).</p>
+<p>There is no difference on the link side, the decision to address another outlet is made in the configuration only. If the outlet doesn't exist nothing happens and a warning appears on the console (in DEBUG mode).</p>
 <blockquote>
 <p>In the example I use routes that look like child routes. That's a hint for the intended behavior, but it's technically not necessary doing so. The resolver is very simple and doesn't care about routes, it's just matching the string and seeking the outlet.</p>
 </blockquote>
 <h3 id="additional-data">Additional Data<a class="headerlink" href="#additional-data" title="Permanent link">#</a></h3>
-<p>The last example showed another field <code>data</code>. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, There is no code intercepting these data, it's task of the implementer to do something useful here.</p>
+<p>The last example showed another field <code>data</code>. This is a dictionary with arbitrary data just stored here. If you setup a navigation dynamically based on the configuration data you can control the behavior in a well defined way. However, there is no code intercepting these data, it's the task of the implementer to do something useful here.</p>
+<h4 id="special-values">Special Values<a class="headerlink" href="#special-values" title="Permanent link">#</a></h4>
 <p>If you use <code>data: { title: 'Some Title' }</code> the value in the field <em>title</em> is being copied to the websites <code>title</code> field. That way it appears on the tab (or header bar in Electron). If it's omitted, it's not being set at all.</p>
 <h3 id="navigate-to-route">Navigate to Route<a class="headerlink" href="#navigate-to-route" title="Permanent link">#</a></h3>
 <p>You can navigate by code:</p>

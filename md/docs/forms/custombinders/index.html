@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Custom Binders - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../../lib/overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -130,6 +134,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../../lib/directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../../lib/events/">Events</a>
                 </li>
                 <li class="">
@@ -144,16 +152,12 @@
                     
     <a class="" href="../../lib/services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -181,6 +185,8 @@
         <ul>
         
             <li><a class="toctree-l4" href="#implementing-a-custom-binder">Implementing a Custom Binder</a></li>
+        
+            <li><a class="toctree-l4" href="#a-simple-binder">A Simple Binder</a></li>
         
         </ul>
     
@@ -213,6 +219,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -297,7 +311,7 @@
     
       
         
-          <li>Forms Extensions &raquo;</li>
+          <li>Forms Extension &raquo;</li>
         
       
     
@@ -315,20 +329,22 @@
             <div class="section">
               
                 <h2 id="custom-binders">Custom Binders<a class="headerlink" href="#custom-binders" title="Permanent link">#</a></h2>
-<p>Custom Binders help binding to specific properties. They can be used like the embedded binders, that acts just as examples and use the same way.</p>
+<p>Custom Binders help binding to specific properties. They can be used like the embedded binders, that act just as examples and use the same way.</p>
 <h3 id="implementing-a-custom-binder">Implementing a Custom Binder<a class="headerlink" href="#implementing-a-custom-binder" title="Permanent link">#</a></h3>
 <p>A custom binder handles the binding procedure when binding a viewmodel property to an element attribute. It consists of three parts:</p>
 <ol>
 <li>The binding setup (<code>bind</code>)</li>
 <li>The binder into the element (a property change leads to an attribute change)</li>
-<li>The listener (a attribute change event leads to a updated model property)</li>
+<li>The listener (an attribute change event leads to an updated model property)</li>
 </ol>
-<p>Step 2 and 3 are both optional, leading to a uni-directional binding in one or another direction.</p>
-<pre><code class="ts">export class VisibilityBinder&lt;T extends ConfirmSuccessErrorComponent&gt; implements IBindingHandler
+<p>Step 2 and 3 are both optional, omitting them is leading to a uni-directional binding in one or another direction.</p>
+<pre><code class="ts">@BindName('VisibilityBinder')
+export class VisibilityBinder&lt;T extends ConfirmSuccessErrorComponent&gt; 
+       implements IBindingHandler
 {
   bind(binding: Binding): void {
-    (binding.el as T).addEventListener('done', () =&gt; {
-      this.listener(binding);
+    (binding.el as T).addEventListener('done', (e) =&gt; {
+      this.listener(binding, e);
     })
     this.react(binding);
   }
@@ -342,10 +358,29 @@
 }
 </code></pre>
 
+<p>Note here, that despite the base class the decorator <em>@BindName</em> is required. The argument is the name of the class. In the views' code the binder class' name can be used to determine the behavior. But in case the project is packed by an aggressive packer, the names of the classes might be minified. The code compares the names and due to different minification steps it could happen that the comparison fails. The decorator writes the name into an internal property and the compare code can retrieve this properly. If the view code uses strings instead of types, using this decorator is not necessary.</p>
+<h4 id="how-it-works">How it Works<a class="headerlink" href="#how-it-works" title="Permanent link">#</a></h4>
+<p>First, you need to implement <code>IBindingHandler</code>.</p>
+<pre><code class="ts">export interface IBindingHandler {
+  bind?(binding: Binding | ValidatorBinding): void;
+  react(binding: Binding | ValidatorBinding, property?: string): void;
+  listener?(binding: Binding | ValidatorBinding, e?: Event): void;
+}
+</code></pre>
+
+<p>A handler must react to something, but everything else is optional. See this line:</p>
+<pre><code class="ts">export class VisibilityHandler&lt;T extends ConfirmComponent&gt; 
+       implements IBindingHandler
+</code></pre>
+
+<p>The generic is optional. It allows the definition of the target element. If it's omitted, it falls back to <code>HTMLElement</code>. You can use any HTML 5 element type or any custom web component type (as in the example).</p>
+<p>The <code>bind</code> method is called implicitly by the infrastructure. If it doesn't exist it's being ignored. The only reason to use it is attaching an event listener. You may also consider calling <code>react</code> immediately to sync the data, but it depends on the actual behavior of the element and may result in an additional binding process while loading the form.</p>
+<p>The method <code>react</code> is called from the view model proxy instance each time the value changes. Write code here to assign the data to any property of the target element.</p>
+<p>The method <code>listener</code> is optional and is called once the target element raises an event. You can access the original event if provided.</p>
+<h3 id="a-simple-binder">A Simple Binder<a class="headerlink" href="#a-simple-binder" title="Permanent link">#</a></h3>
 <p>How simple a binder can be is shown next with the already embedded uni-directional default binder:</p>
-<pre><code class="ts">export class DefaultBindingHandler implements IBindingHandler {
-  bind(binding: Binding): void {
-  }
+<pre><code class="ts">@BindName('DefaultBindingHandler')
+export class DefaultBindingHandler implements IBindingHandler {
   react(binding: Binding, property: string): void {
     binding.el[property] = binding.value;
   }
@@ -353,6 +388,9 @@
 </code></pre>
 
 <p>The only difference here is that the <code>ModelBinder</code> class intercepts the access and delivers the name of the attribute as a second parameter. This is a special behavior and the default handler can handle this.</p>
+<blockquote>
+<p>Note that all examples have almost no error and exception handling. Add this if you want a more robust application.</p>
+</blockquote>
               
             </div>
           </div>

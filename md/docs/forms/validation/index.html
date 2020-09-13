@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Validation - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../../lib/overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -130,6 +134,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../../lib/directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../../lib/events/">Events</a>
                 </li>
                 <li class="">
@@ -144,16 +152,12 @@
                     
     <a class="" href="../../lib/services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -176,7 +180,7 @@
     
         <ul>
         
-            <li><a class="toctree-l4" href="#viewmodel-decorators">ViewModel Decorators</a></li>
+            <li><a class="toctree-l4" href="#view-model-decorators">View Model Decorators</a></li>
         
             <li><a class="toctree-l4" href="#state">State</a></li>
         
@@ -222,6 +226,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -306,7 +318,7 @@
     
       
         
-          <li>Forms Extensions &raquo;</li>
+          <li>Forms Extension &raquo;</li>
         
       
     
@@ -324,11 +336,10 @@
             <div class="section">
               
                 <h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">#</a></h2>
-<p>Form validation is painful to programm from scratch. @nyaf provides a n integrated but flexible validation system.</p>
-<h3 id="viewmodel-decorators">ViewModel Decorators<a class="headerlink" href="#viewmodel-decorators" title="Permanent link">#</a></h3>
+<p>Form validation is painful to programm from scratch. <strong>@nyaf/forms</strong> provides a n integrated but flexible validation system.</p>
+<h3 id="view-model-decorators">View Model Decorators<a class="headerlink" href="#view-model-decorators" title="Permanent link">#</a></h3>
 <p>First, you need a viewmodel that has validation decorators. It's the same kind of model used for regular binding. Again, here is an example:</p>
 <pre><code class="ts">export class UserViewModel {
-
   @Hidden()
   id: Number = 0;
 
@@ -338,7 +349,7 @@
   @Email()
   email: string = '';
 
-  @Display('Phone Number', 'The user\'s phone')
+  @Display('Phone Number', &quot;The user's phone&quot;)
   @Required('Please, the phone number is required')
   @MaxLength(20)
   phoneNumber: string = '';
@@ -347,7 +358,6 @@
   @Required()
   @MaxLength(100)
   userName: string = '';
-
 }
 </code></pre>
 
@@ -362,36 +372,39 @@
 }
 </code></pre>
 
-<p>It's supervised. After render <em>this.model.state</em> helds the state of the model.</p>
-<p>After a binding happens the validators are being executed and the instance values change. You can retrieve the values in a method, or an event handler. To set UI element interactively, immediately, you again use the <code>n-bind</code> attribute and the appropriate binding function like <code>to</code> and <code>bind</code>.</p>
+<p>It's supervised. After the component is rendered the property <em>this.model.state</em> helds the state of the model.</p>
+<p>After a binding happens the validators are being executed and the instance values change. You can retrieve the values in a method, or an event handler. To set UI elements interactively, immediately, you again use the <code>n-bind</code> attribute and the appropriate binding function like <code>to</code> and <code>bind</code>.</p>
 <h3 id="bind-to-validators">Bind to Validators<a class="headerlink" href="#bind-to-validators" title="Permanent link">#</a></h3>
-<p>The error message is just regular output (class example from Bootstrap, not needed by <strong>@nyaf</strong> forms):</p>
+<p>An error message is just regular output (the class values are taken from Bootstrap and they're not needed by the <strong>@nyaf/forms</strong> module):</p>
 <pre><code class="tsx">&lt;form&gt;
   &lt;label n-bind=&quot;innerText: userName&quot; for=&quot;un&quot;/&gt;
   &lt;input n-bind=&quot;value: userName&quot; id=&quot;un&quot;&gt;
   &lt;div class=&quot;text text-danger&quot;
-       n-bind={val&lt;ViewModel&gt;(e =&gt; e.userName, Required, DisplayBindingHandler)}&gt;
+       n-bind={val&lt;ViewModel&gt;(e =&gt; e.userName,
+                                   Required,
+                                   DisplayBindingHandler)}&gt;
   &lt;/div&gt;
 &lt;/form&gt;
 </code></pre>
 
-<p>Validators can provide the error text, too. This is driven by decorators. The decorators fall back to a simple plain english error message in case you don't provide anything.
-You can, however, provide any kind of message in the decorator. In case you need i18n messages, just add the <code>@Translate</code> decorator as a parameter decorator to the message parameter.</p>
+<p>Validators can provide the error text, too. This is driven by decorators. The decorators fall back to a simple plain english error message in case you don't provide anything. You can, however, provide any kind of message in the decorator. In case you need i18n messages, just add the <code>@Translate</code> decorator as a parameter decorator to the message parameter.</p>
 <p>Distinguish between different validators like this:</p>
 <pre><code class="tsx">&lt;form&gt;
   &lt;label n-bind=&quot;innerText: userName&quot; for=&quot;un&quot;/&gt;
   &lt;input n-bind=&quot;value: userName&quot; id=&quot;un&quot;&gt;
   &lt;span class=&quot;text text-danger&quot;
-       n-bind={val&lt;ViewModel&gt;(e =&gt; e.userName, MaxLength, DisplayBindingHandler)}&gt;
+       n-bind={val&lt;ViewModel&gt;(e =&gt; e.userName,
+                                   MaxLength,
+                                   DisplayBindingHandler)}&gt;
   &lt;/span&gt;
 &lt;/form&gt;
 </code></pre>
 
 <p>The smart binder <code>val</code> is the key ingredient here. It takes three parameters:</p>
 <ol>
-<li>Expression to access the models actual value</li>
-<li>Validator for which the binding is responsible (must also be aon the view models property)</li>
-<li>Display handler, that pulls the values and assigns it to the right property</li>
+<li>An expression to access the models actual value.</li>
+<li>A validator for which the binding is responsible (must also be aon the view models property).</li>
+<li>A display handler, that pulls the values and assigns it to the right property.</li>
 </ol>
 <p>In the above example the view model has this property:</p>
 <pre><code class="ts">@Required()
@@ -400,21 +413,16 @@ userName: string = '';
 </code></pre>
 
 <p>Now, the binding instruction looks like this:</p>
-<pre><code>val&lt;ViewModel&gt;(e =&gt; e.userName, MaxLength, DisplayBindingHandler)
+<pre><code class="ts">val&lt;ViewModel&gt;(e =&gt; e.userName, MaxLength, DisplayBindingHandler)
 </code></pre>
 
-<p>The <code>DisplayBindingHandler</code> is smart enough to know that it's bound to an error message. It know reads the second parameter that is <code>Required</code>. It binds now to parts.
-First, it binds the error message to <code>textContent</code>. That's a static assignment. Second, it binds the <code>display</code> style to the <code>isValid</code> method of the view model. This
-method is set through the <code>Required</code> decorator and knows how to determine the state 'required'. The property is bound through the scope's Proxy dynamically and once
-the values changes, irrespectively the source of the change, it fires an event and the model binder holds a subscriber for this. Here, the value is taken and handed over to the <code>isValid</code> method.
-This method is bound to the handler, that sets the style accordingly. That setting is reversed, means that the value <code>true</code> makes the message invisible, while the value
-<code>false</code> makes the message visible (isValid ==== false tells us an error occurred).</p>
+<p>The <code>DisplayBindingHandler</code> is smart enough to know that it's bound to an error message. It now reads the second parameter that is <code>MaxLength</code>. It binds now these two parts.</p>
+<p>First, it binds the error message to <code>textContent</code>. That's a static assignment. Second, it binds the <code>display</code> style to the <code>isValid</code> method of the view model. This method is set through the <code>MaxLength</code> decorator and knows how to determine the state 'maxlength'. The property is bound through the scope's Proxy dynamically and once the values changes, irrespectively the source of the change, it fires an event and the model binder holds a subscriber for this. Here, the value is taken and handed over to the <code>isValid</code> method. This method is bound to the handler, that sets the style accordingly. That setting is reversed, means that the value <code>true</code> makes the message invisible, while the value <code>false</code> makes the message visible (<code>isValid === false</code> tells you an error occurred).</p>
 <blockquote>
 <p>If you use the <code>DisplayBindingHandler</code> or <code>VisibilityBindingHandler</code> directly, without validation but in conjunction with binding operations, than they will work straight, true makes an element visible, and false invisible.</p>
 </blockquote>
 <h3 id="handler-behavior">Handler Behavior<a class="headerlink" href="#handler-behavior" title="Permanent link">#</a></h3>
-<p>The <code>DisplayBindingHandler</code> sets <code>display: none</code> or <code>display: block</code>.</p>
-<p>The <code>VisibilityBindingHandler</code> sets <code>visibility: hidden</code> or <code>visibility: visible</code>.</p>
+<p>The <code>DisplayBindingHandler</code> sets <code>display: none</code> or <code>display: block</code>. The <code>VisibilityBindingHandler</code> sets <code>visibility: hidden</code> or <code>visibility: visible</code>. These are the most basic handlers and available out-of-the-box.</p>
 <p>If you need other values you must write a new handler with the desired behavior. This is, fortunately, extremely simple. Here is the source code for the handlers:</p>
 <pre><code class="ts">export class DisplayBindingHandler implements IBindingHandler {
   react(binding: Binding): void {
@@ -429,8 +437,7 @@ export class VisibilityBindingHandler implements IBindingHandler {
 }
 </code></pre>
 
-<p>The <code>Binding</code> instance, provided internally, delivers a boolean value. The element <em>el</em> is the element that has the <code>n-bind={val&lt;T&gt;()}</code> instruction. <em>T</em> is the model
-that drives the content using decorators.</p>
+<p>The <code>Binding</code> instance, provided internally, delivers a boolean value. The element <em>el</em> is the element that has the <code>n-bind={val&lt;T&gt;()}</code> instruction. <em>T</em> is the model that drives the content using decorators.</p>
 <h2 id="additional-information">Additional Information<a class="headerlink" href="#additional-information" title="Permanent link">#</a></h2>
 <p>Objects are always set (not undefined), so you don't must test first. The property names are same as the decorators, but in lower case:</p>
 <ul>

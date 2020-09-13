@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Project Configuration (JS) - nyaf Documentation</title>
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Project Configuration (JS)";
+    var mkdocs_page_input_path = "md/babel.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+<style>
+  body, p, pre > code {
+    font-size: 1.1em;
+  }
+  li code {
+    font-size: 1.0em;
+  }
+  code {
+    font-size: 1.0em;
+    border: none;
+    background-color: transparent;
+  }
+  .wy-nav-content { max-width: none; }
+  a.toctree-l4 {
+    margin-left: 10px;
+  }
+  blockquote {
+    border-left: 5px gray solid;
+    background-color: lightgray;
+    padding: 10px 10px 1px 10px;
+  }
+</style>
+
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> nyaf Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../intro/">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../learn/">Learn</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Project Configuration (JS)</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#project-configuration-with-babel">Project Configuration with Babel</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#setup-the-environment">Setup the Environment</a></li>
+        
+            <li><a class="toctree-l3" href="#project-dependencies">Project Dependencies</a></li>
+        
+            <li><a class="toctree-l3" href="#configuring-babel">Configuring Babel</a></li>
+        
+            <li><a class="toctree-l3" href="#configure-webpack">Configure WebPack</a></li>
+        
+            <li><a class="toctree-l3" href="#writing-components">Writing Components</a></li>
+        
+            <li><a class="toctree-l3" href="#improvements">Improvements</a></li>
+        
+            <li><a class="toctree-l3" href="#bundle-size">Bundle Size</a></li>
+        
+            <li><a class="toctree-l3" href="#the-nyaf-cli">The @nyaf CLI</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../config/">Configuration Files</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Core Library</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/lib/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/template/">Template Language</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/jsx/">JSX / TSX</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/select/">Select Elements</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/smart/">Smart Components</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/lifecycle/">Life Cycle</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/attributes/">Attributes</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/directives/">Directives</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/events/">Events</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/router/">Router</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/shadowdom/">Shadow DOM</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/lib/services/">Services</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Forms Extension</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/forms/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/forms/vm/">View Models</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/forms/nbind/">Data Binding</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/forms/validation/">Validation</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/forms/custombinders/">Custom Binders</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/forms/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Flux Store</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/store/overview/">Overview</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/store/example/">Store Example</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/store/globloc/">Global and Local Stores</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/store/updates/">Automatic Updates</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/store/setup/">Setup</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Comparision of @nyaf with...</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/angular/">...Angular</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/polymer/">...Polymer</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/preact/">...Preact</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/react/">...React</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/stencil/">...Stencil</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/comparision/vue/">...Vue</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Internals</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../docs/internals/about/">About</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/internals/lic/">Licence</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../docs/internals/start/">How it's being made</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">nyaf Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Project Configuration (JS)</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/babel.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="project-configuration-with-babel">Project Configuration with Babel<a class="headerlink" href="#project-configuration-with-babel" title="Permanent link">#</a></h2>
+<p>If you don't want to use TypeScript, you can still get the full power of <strong>@nyaf</strong>. All features that the package requires are provided by ES2017 and above. The recommended tool to setup a package for ES2015 any modern browser supports is <em>Babel</em>.</p>
+<blockquote>
+<p>This section describes the setup and usage with pure ECMAScript.</p>
+</blockquote>
+<h3 id="setup-the-environment">Setup the Environment<a class="headerlink" href="#setup-the-environment" title="Permanent link">#</a></h3>
+<p>If you use Visual Studio Code it's recommended to tell the editor the specific features you use, especially decorators. To do so, add a file <em>jsconfig.json</em> in the project root and add this content:</p>
+<pre><code class="json">{
+  &quot;compilerOptions&quot;: {
+    &quot;baseUrl&quot;: &quot;./src&quot;,
+    &quot;target&quot;: &quot;es6&quot;,
+    &quot;module&quot;: &quot;commonjs&quot;,
+    &quot;experimentalDecorators&quot;: true
+  },
+  &quot;include&quot;: [&quot;src/**/*&quot;]
+}
+</code></pre>
+
+<p>This assumes you sources are in the folder <em>./src</em>. Adjust the settings according your needs.</p>
+<h3 id="project-dependencies">Project Dependencies<a class="headerlink" href="#project-dependencies" title="Permanent link">#</a></h3>
+<p>Next add the following dependencies to your project's <em>package.json</em>. This is the current Babel 7 setup.</p>
+<pre><code class="json">&quot;dependencies&quot;: {
+    &quot;@nyaf/forms&quot;: &quot;^0.6.1&quot;,
+    &quot;@nyaf/lib&quot;: &quot;^0.6.1&quot;,
+    &quot;@nyaf/store&quot;: &quot;^0.6.1&quot;,
+    &quot;babel-loader&quot;: &quot;^8.1.0&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@babel/core&quot;: &quot;^7.11.6&quot;,
+    &quot;@babel/plugin-proposal-decorators&quot;: &quot;^7.10.5&quot;,
+    &quot;@babel/preset-env&quot;: &quot;^7.11.5&quot;,
+    &quot;@babel/preset-react&quot;: &quot;^7.10.4&quot;,
+    &quot;html-webpack-plugin&quot;: &quot;^4.4.1&quot;,
+    &quot;webpack-cli&quot;: &quot;^3.3.12&quot;,
+    &quot;webpack&quot;: &quot;^4.44.1&quot;,
+    &quot;webpack-dev-server&quot;: &quot;^3.11.0&quot;
+  }
+</code></pre>
+
+<p>This setup allows the compilation and packaging with WebPack, but the transformation invoked from WebPack is based in the Babel plug-ins.</p>
+<h3 id="configuring-babel">Configuring Babel<a class="headerlink" href="#configuring-babel" title="Permanent link">#</a></h3>
+<p>Next, configure Babel to support the features <strong>@nyaf</strong> needs. This is primarily the JSX namespaces, that are different from React. It's similar to the procedure described for TypeScript. However, the settings look a bit different.</p>
+<p>You can use either <em>.babelrc</em> or the settings in <em>package.json</em>. The following example shows the settings in <em>package.json</em> (on root level).</p>
+<pre><code class="json">&quot;babel&quot;: {
+    &quot;presets&quot;: [
+      &quot;@babel/preset-env&quot;,
+      [
+        &quot;@babel/preset-react&quot;, {
+          &quot;runtime&quot;: &quot;classic&quot;,
+          &quot;pragma&quot;: &quot;JSX.createElement&quot;,
+          &quot;pragmaFrag&quot;: &quot;null&quot;
+        }
+      ]
+    ],
+    &quot;plugins&quot;: [
+      [
+        &quot;@babel/plugin-proposal-decorators&quot;,
+        {
+          &quot;legacy&quot;: true
+        }
+      ]
+    ]
+  }
+</code></pre>
+
+<p>The core settings you'll need are <em>preset-react</em> and <em>plugin-proposal-decorators</em>. The first activates the compilation for the <em>JSX</em> namespace <code>JSX.createElement</code>. This is the exact and complete call to the <strong>@nyaf</strong> JSX module. The second parameter <em>pragmaFrag</em> is the support for the <code>&lt;&gt;&lt;/&gt;</code> fragment syntax. In React it's <em>React.fragment</em>. In <strong>@nyaf</strong> it's just nothing, as the <em>JSX</em> module treats a missing element information as fragment. To enforce this, we provide <code>null</code>.</p>
+<p>The decorator support is provided by a plugin. Babel takes care to compile this using a polyfill so it runs on the selected ECMAScript version.</p>
+<h3 id="configure-webpack">Configure WebPack<a class="headerlink" href="#configure-webpack" title="Permanent link">#</a></h3>
+<p>The Babel transpiler can create a bundle, but putting it all together requires additional steps. The most powerful way (not always the easiest) is WebPack. The following <em>webpack.config.js</em> file is all you need to setup WebPack to create a bundle using Babel:</p>
+<pre><code class="js">const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  entry: './src/main.js',
+  module: {
+    rules: [
+      {
+        test: /\.(jsx?)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+  },
+  output: {
+    path: __dirname + '/dist',
+    publicPath: '/',
+    filename: 'bundle.js',
+  },
+  devServer: {
+    contentBase: './dist',
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: './src/index.html',
+    }),
+  ],
+};
+</code></pre>
+
+<p>The entry point is the file <em>main.js</em>. All component files have the extension <em>.jsx</em>, so we need to resolve that extension, too. Apart from this the <em>babel-loader</em> invokes the Babel transpiler and that settings, described above, apply here. The bundle is copied to the distribution folder <em>dist</em> and the bundle is added to the HTML file using the appropriate plug-in.</p>
+<h3 id="writing-components">Writing Components<a class="headerlink" href="#writing-components" title="Permanent link">#</a></h3>
+<p>The components look exactly like the ones using TypeScript, apart from missing types and generics. Let's assume you have this <em>index.html</em>:</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;JS Demo&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;app-main&gt;&lt;/app-main&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>This requires to load and upgrade one component. To do this, you need the start procedure in <em>main.js</em>:</p>
+<pre><code class="js">import JSX, { GlobalProvider } from '@nyaf/lib';
+import { MessageComponent } from './components/message.component';
+import { MainComponent } from './components/main.component';
+
+GlobalProvider.bootstrap({
+  components: [MainComponent, MessageComponent],
+});
+</code></pre>
+
+<p>The two demo components are shown below.</p>
+<pre><code class="js">import JSX, { GlobalProvider, BaseComponent, CustomElement } from '@nyaf/lib';
+
+@CustomElement('app-main')
+export class MainComponent extends BaseComponent {
+  render() {
+    return (
+      &lt;&gt;
+        &lt;h1&gt;Hello NYAF&lt;/h1&gt;
+        &lt;app-message&gt;&lt;/app-message&gt;
+      &lt;/&gt;
+    );
+  }
+}
+</code></pre>
+
+<pre><code class="js">import JSX, { GlobalProvider, BaseComponent, CustomElement } from '@nyaf/lib';
+
+@CustomElement('app-message')
+export class MessageComponent extends BaseComponent {
+  render() {
+    return &lt;div&gt;Hallo @nyaf&lt;/div&gt;;
+  }
+}
+</code></pre>
+
+<p>As you can see you use JSX and decorators along with ES2018 import/export instructions.</p>
+<h3 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">#</a></h3>
+<p>Imagine a main file like this:</p>
+<pre><code class="js">import JSX, { GlobalProvider } from '@nyaf/lib';
+
+import * as cmp from '@components';
+
+GlobalProvider.bootstrap({
+    components: [
+        cmp.MainComponent,
+        cmp.MessageComponent
+    ]
+});
+</code></pre>
+
+<p>The import from <em>@components</em> makes it so much more convenient. To setup this local path resolution you need to create an index file for your components:</p>
+<pre><code class="js">export * from './main.component';
+export * from './message.component';
+</code></pre>
+
+<p>Then, set an alias in <em>webpack.config.js</em> to resolve this file:</p>
+<pre><code class="js">resolve: {
+    extensions: [&quot;*&quot;, &quot;.js&quot;, &quot;.jsx&quot;],
+    alias: {
+      &quot;@components&quot;: path.join(__dirname, &quot;src/components&quot;),
+    },
+  }
+</code></pre>
+
+<p>To let Visual Studio Code accept this, too, add this <em>jsconfig.json</em> (look for the key <em>paths</em>):</p>
+<pre><code class="json">{
+  &quot;compilerOptions&quot;: {
+    &quot;baseUrl&quot;: &quot;./src&quot;,
+    &quot;target&quot;: &quot;es6&quot;,
+    &quot;module&quot;: &quot;commonjs&quot;,
+    &quot;experimentalDecorators&quot;: true,
+    &quot;paths&quot;: {
+      &quot;@components/*&quot;: [&quot;./src/components/*&quot;]
+    }
+  },
+  &quot;include&quot;: [&quot;src/**/*&quot;]
+}
+</code></pre>
+
+<p>Both, the alias' for WebPack as well as the <em>paths</em> key can handle multiple entries for more complex setups.</p>
+<h3 id="bundle-size">Bundle Size<a class="headerlink" href="#bundle-size" title="Permanent link">#</a></h3>
+<p>For the demo files shown in the code above the whole bundle is 43.7 KB (11.6 KB zipped). The HTML remains with 230 Bytes (squeezed).</p>
+<p>With all the loader and polyfill stuff this is an extremely small footprint for a client app. Forms and Flux Store would add another 10 KBytes roughly.</p>
+<h3 id="the-nyaf-cli">The @nyaf CLI<a class="headerlink" href="#the-nyaf-cli" title="Permanent link">#</a></h3>
+<p>The @nyaf CLI currently creates TypeScript projects only. To use Babel and pure JS refer to the documentation in this section.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../config/" class="btn btn-neutral float-right" title="Configuration Files">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../ts/" class="btn btn-neutral" title="Project Configuration (TS)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../ts/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../config/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

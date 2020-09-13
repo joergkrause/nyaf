@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Template Language - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../configuration/">Project Configuration</a>
                 </li>
                 <li class=" current">
                     
@@ -126,7 +130,9 @@
     
         <ul>
         
-            <li><a class="toctree-l4" href="#syntax-i-n-repeat-component">Syntax I - n-repeat component</a></li>
+            <li><a class="toctree-l4" href="#the-n-repeat-component">The n-repeat Component</a></li>
+        
+            <li><a class="toctree-l4" href="#the-n-repeat-attribute">The n-repeat Attribute</a></li>
         
         </ul>
     
@@ -155,6 +161,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../events/">Events</a>
                 </li>
                 <li class="">
@@ -169,16 +179,12 @@
                     
     <a class="" href="../services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -226,6 +232,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -328,15 +342,15 @@
             <div class="section">
               
                 <h2 id="template-features">Template Features<a class="headerlink" href="#template-features" title="Permanent link">#</a></h2>
-<p>Template Features avoid using creepy JavaScript for interactions and branches. You can use:</p>
+<p>Template Features avoid using creepy JavaScript for interactions and branches. You can use any of the following:</p>
 <ul>
 <li><code>n-if</code>, <code>n-else</code></li>
 <li><code>n-hide</code>, <code>n-show</code></li>
-<li><code>n-on-&lt;event&gt;</code> (see further down)</li>
+<li><code>n-on-&lt;event&gt;</code> (see section <em>Events</em>)</li>
 <li><code>n-expand</code></li>
 </ul>
 <h3 id="n-if-n-else">n-if, n-else<a class="headerlink" href="#n-if-n-else" title="Permanent link">#</a></h3>
-<p>The value will be evaluated and the element does or does not render, then:</p>
+<p>The value will be evaluated and the element using this attribute does or does not render.</p>
 <pre><code class="tsx">&lt;div class=&quot;main-header&quot;
      n-if={this.props.title !== 't1'}&gt;
   &lt;span&gt;Any content will not render if container doesn't render&lt;/span&gt;
@@ -355,19 +369,20 @@
 </code></pre>
 
 <h3 id="n-hide-n-show">n-hide, n-show<a class="headerlink" href="#n-hide-n-show" title="Permanent link">#</a></h3>
-<p>Works same as <code>n-if</code>, but just adds an inline style <code>display: none</code> (or remove one) if <code>true</code> (<code>n-hide</code>) or <code>false</code> (<code>n-show</code>).</p>
+<p>These attributes work the same as <code>n-if</code>, but just add an inline style <code>display: none</code> (or remove one) if <code>true</code> (<code>n-hide</code>) or <code>false</code> (<code>n-show</code>).</p>
 <h3 id="n-expand">n-expand<a class="headerlink" href="#n-expand" title="Permanent link">#</a></h3>
-<p>Expand a group of attributes. Imagine this:</p>
-<pre><code class="html">&lt;input type=&quot;text&quot; placeholder=&quot;Name&quot; role=&quot;search&quot; class=&quot;materialinput&quot; id=&quot;a1 /&gt;
+<p>This attribute expands a group of HTML attributes. Imagine an element like this:</p>
+<pre><code class="html">&lt;input type=&quot;text&quot; placeholder=&quot;Name&quot;
+       role=&quot;search&quot; class=&quot;materialinput&quot; id=&quot;a1 /&gt;
 </code></pre>
 
-<p>You need this several times, each with different id.</p>
+<p>You may need this several times, each with different id. Instead of repeating the whole set of attributes, an expander can be used to add the static parts.</p>
 <pre><code class="html">&lt;input n-expand=&quot;search&quot; id=&quot;a1&quot; /&gt;
 &lt;input n-expand=&quot;search&quot; id=&quot;a2&quot; /&gt;
 &lt;input n-expand=&quot;search&quot; id=&quot;a3&quot; /&gt;
 </code></pre>
 
-<p>To define it, just create a class like this:</p>
+<p>To define the expander shown above you create a class like this:</p>
 <pre><code class="ts">@Expand(&quot;search&quot;)
 export class SearchExpander extends Expander {
   constructor(){
@@ -380,16 +395,16 @@ export class SearchExpander extends Expander {
 }
 </code></pre>
 
-<p>Any yes, these are equal signs in the class. The named 'xxx' names are only required if the attribute name contains dashes. Finally, add the definition to the global provider:</p>
+<p>And yes, these are equal signs in the class. The named 'quoted' properties are only required if the attribute name contains dashes. Finally, add the definition to the global provider:</p>
 <pre><code class="ts">Globalprovider.bootstrap({
   components: [...components], // as usual
   expanders: [SearchExpander]
 })
 </code></pre>
 
-<p>That's it, a lot less to write without the effort to create components. It's just text-replacement before the render grabs the content, so NO performance impact at runtime.</p>
+<p>That's it, a lot less to write without the effort to create components. It's just text-replacement before the renderer grabs the content, so <strong>no</strong> performance impact at runtime. The expander logic does not perform any kebab-pascal conversion as some other tools do (that means, the name <em>myProp</em> does not appear as <em>my-prop</em> automatically).</p>
 <h4 id="quick-expanders">Quick Expanders<a class="headerlink" href="#quick-expanders" title="Permanent link">#</a></h4>
-<p>This is even easier, but more for local expanding:</p>
+<p>Quick expanders are even easier, but more for local expanding.</p>
 <pre><code class="tsx">const d = {
   'type': &quot;text&quot;;
   'placeholder': &quot;Name&quot;;
@@ -402,7 +417,7 @@ export class SearchExpander extends Expander {
 <p>It's just pure ECMAScript magic, no code from <strong>@nyaf</strong> required.</p>
 <h2 id="n-repeat">n-repeat<a class="headerlink" href="#n-repeat" title="Permanent link">#</a></h2>
 <p>The basic idea of TSX is to write traditional code using <code>map</code> or <code>forEach</code> on array to create loops. In most cases this is the best solution. It provides editor support and you can add the full range of JavaScript API features to adjust the result. But sometimes a simple loop is required and the creation of a complete expression creates a lot boilerplate code. In that case two variations of loops are provided, both with full editor support, too.</p>
-<h3 id="syntax-i-n-repeat-component">Syntax I - n-repeat component<a class="headerlink" href="#syntax-i-n-repeat-component" title="Permanent link">#</a></h3>
+<h3 id="the-n-repeat-component">The n-repeat Component<a class="headerlink" href="#the-n-repeat-component" title="Permanent link">#</a></h3>
 <p>This is a smart component that acts as a helper for common tasks. It's supported by one functions for binding:</p>
 <ul>
 <li><code>of</code>: Creates an expression to select a property from a model. The only reason is to have editor support (IntelliSense) without additional tools.</li>
@@ -414,6 +429,7 @@ export class SearchExpander extends Expander {
 &lt;/ul&gt;
 </code></pre>
 
+<h3 id="the-n-repeat-attribute">The n-repeat Attribute<a class="headerlink" href="#the-n-repeat-attribute" title="Permanent link">#</a></h3>
 <p>Also, a <strong>@nyaf</strong> template function with the same name exists. This is supported by two other function for same reason:</p>
 <ul>
 <li><code>from</code>: Define a data source for repeating; must be an array of objects.</li>
@@ -453,7 +469,7 @@ export class SearchExpander extends Expander {
         <a href="../jsx/" class="btn btn-neutral float-right" title="JSX / TSX">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../configuration/" class="btn btn-neutral" title="Project Configuration"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../overview/" class="btn btn-neutral" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -481,7 +497,7 @@ export class SearchExpander extends Expander {
           <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../configuration/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../overview/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../jsx/" style="color: #fcfcfc">Next &raquo;</a></span>

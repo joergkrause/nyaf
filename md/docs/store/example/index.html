@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Store Example - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../../lib/overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -130,6 +134,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../../lib/directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../../lib/events/">Events</a>
                 </li>
                 <li class="">
@@ -144,16 +152,12 @@
                     
     <a class="" href="../../lib/services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -213,6 +217,14 @@
                 <li class="">
                     
     <a class="" href="../dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -330,51 +342,49 @@
 <p>You dispatch an Action along with a payload. So, the types are <code>string</code> and <code>any</code>.</p>
 <p>When you receive a store event from a subscribe this subscription watches for changes of a part of the Store Type. The event handler receives the whole store, then.</p>
 <h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">#</a></h3>
-<p>Assume we deal with a CRUD component using a custom model like this:</p>
-<pre><code class="ts">import { Display } from &quot;@nyaf/forms&quot;;
-import { TemplateHint } from &quot;@nyaf/forms&quot;;
-import { Sortable } from &quot;@nyaf/forms&quot;;
-import { Hidden } from &quot;@nyaf/forms&quot;;
+<p>Assume we deal with a CRUD (Create, Read, Update, Delete) component using a custom model like this:</p>
+<pre><code class="ts">import { Display } from '@nyaf/forms';
+import { TemplateHint } from '@nyaf/forms';
+import { Sortable } from '@nyaf/forms';
+import { Hidden } from '@nyaf/forms';
 
 export class ArchivModel {
+  @Hidden()
+  id: number = 0;
 
-    @Hidden()
-    id: number = 0;
+  @Display('Closet')
+  @Sortable()
+  @TemplateHint('table-column', { width: 50 })
+  Closet: string = '';
 
-    @Display('Closet')
-    @Sortable()
-    @TemplateHint('table-column', { 'width': 50 })
-    Closet: string = '';
+  @Display('Name')
+  @Sortable()
+  @TemplateHint('table-column', { width: 100 })
+  Name: string = '';
 
-    @Display('Name')
-    @Sortable()
-    @TemplateHint('table-column', { 'width': 100 })
-    Name: string= '';
+  @Display('Surname')
+  @Sortable()
+  @TemplateHint('table-column', { width: 100 })
+  Surname: string = '';
 
-    @Display('Surname')
-    @Sortable()
-    @TemplateHint('table-column', { 'width': 100 })
-    Surname: string = '';
-
-    @Display('Birthday')
-    @TemplateHint('table-column', { 'width': 100 })
+  @Display('Birthday')
+  @TemplateHint('table-column', { width: 100 })
   Birthday: string = '';
 
   @Display('Number of Files')
-    @TemplateHint('table-column', { 'width': 30 })
+  @TemplateHint('table-column', { width: 30 })
   NoFiles: number = 1;
 
-    @Display('Archived')
-    @Sortable()
-    @TemplateHint('table-column', { 'width': 50 })
-    ArchivedYear: number = 2010;
-
+  @Display('Archived')
+  @Sortable()
+  @TemplateHint('table-column', { width: 50 })
+  ArchivedYear: number = 2010;
 }
 </code></pre>
 
 <p>The decorators are from the <em>@nyaf/forms</em> project.</p>
 <p>Now, some actions are required:</p>
-<pre><code class="ts">import { ArchivModel } from &quot;../model/archiv.model&quot;;
+<pre><code class="ts">import { ArchivModel } from '../model/archiv.model';
 
 export const ALL = 'ALL';
 export const EDIT = 'EDIT';
@@ -386,11 +396,11 @@ export const REMOVE = 'REMOVE';
  * The defaults that we use as long as the code hasn't sent anything.
  */
 export default {
-    [ALL]: () =&gt; '',
-    [EDIT]: () =&gt; new ArchivModel(),
-    [ADD]: () =&gt; new ArchivModel(),
-    [SAVE]: () =&gt; new ArchivModel(),
-    [REMOVE]: () =&gt; 0
+  [ALL]: () =&gt; '',
+  [EDIT]: () =&gt; new ArchivModel(),
+  [ADD]: () =&gt; new ArchivModel(),
+  [SAVE]: () =&gt; new ArchivModel(),
+  [REMOVE]: () =&gt; 0,
 };
 </code></pre>
 
@@ -407,53 +417,53 @@ import * as $sql from 'app/resources/sql.json';
  * The reducer functions are the executing logic. They &quot;do&quot; what the action is asking for.
  */
 export default {
-    [ALL]: async (state: archiveStoreType, payload: string) =&gt; {
-        const data: any = await DatabaseService.instance.instance.exec($sql.ArchivAnzeigen);
-        const modelData = new DataGridModel&lt;ArchivModel&gt;(data, ArchivModel);
-        state.gridResult = modelData;
-        return state;
-    },
-    [EDIT]: async (state: archiveStoreType, payload: number) =&gt; {
-        const [current]: any = await DatabaseService.instance.instance.exec($sql.ArchivAnzeigenAktuelles, payload);
-        state.current = current;
-        return state;
-    },
-    [ADD]: (state: archiveStoreType, payload: ArchivModel) =&gt; {
-        state.current = null;
-        return state;
-    },
-    [SAVE]: async (state: archiveStoreType, payload: ArchivModel) =&gt; {
-        const data: any = await DatabaseService.instance.instance.exec(
-            payload.id ? $sql.ArchivUpdate : $sql.ArchivInsert,
-            payload.Schrank,
-            payload.Vorname,
-            payload.Nachname,
-            payload.Geburtsdatum,
-            payload.AnzahlAkten,
-            payload.ArchivJahr,
-            payload.id
-        );
-        const modelData = new DataGridModel&lt;ArchivModel&gt;(data, ArchivModel);
-        state.gridResult = modelData;
-        return state;
-    },
-    [REMOVE]: async (state: archiveStoreType, payload: number) =&gt; {
-        const data: any = await DatabaseService.instance.instance.exec($sql.ArchivEntfernenFinal, payload);
-        const modelData = new DataGridModel&lt;ArchivModel&gt;(data, ArchivModel);
-        state.gridResult = modelData;
-        return state;
-    }
+  [ALL]: async (state: archiveStoreType, payload: string) =&gt; {
+    const data: any = await DatabaseService.instance.instance.exec($sql.ArchivAnzeigen);
+    const modelData = new DataGridModel&lt;ArchivModel&gt;(data, ArchivModel);
+    state.gridResult = modelData;
+    return state;
+  },
+  [EDIT]: async (state: archiveStoreType, payload: number) =&gt; {
+    const [current]: any = await DatabaseService.instance.instance.exec($sql.ArchivAnzeigenAktuelles, payload);
+    state.current = current;
+    return state;
+  },
+  [ADD]: (state: archiveStoreType, payload: ArchivModel) =&gt; {
+    state.current = null;
+    return state;
+  },
+  [SAVE]: async (state: archiveStoreType, payload: ArchivModel) =&gt; {
+    const data: any = await DatabaseService.instance.instance.exec(
+      payload.id ? $sql.ArchivUpdate : $sql.ArchivInsert,
+      payload.Schrank,
+      payload.Vorname,
+      payload.Nachname,
+      payload.Geburtsdatum,
+      payload.AnzahlAkten,
+      payload.ArchivJahr,
+      payload.id
+    );
+    const modelData = new DataGridModel&lt;ArchivModel&gt;(data, ArchivModel);
+    state.gridResult = modelData;
+    return state;
+  },
+  [REMOVE]: async (state: archiveStoreType, payload: number) =&gt; {
+    const data: any = await DatabaseService.instance.instance.exec($sql.ArchivEntfernenFinal, payload);
+    const modelData = new DataGridModel&lt;ArchivModel&gt;(data, ArchivModel);
+    state.gridResult = modelData;
+    return state;
+  },
 };
 </code></pre>
 
-<p><em>DatabaseService.instance.instance</em> is a service class with singleton pattern. It executes SQL. <em>$sql</em> provides the statements from a resource file.</p>
-<p>THe store summarizes all this for easy processing:</p>
-<pre><code class="ts">import { ArchivModel } from &quot;../model/archiv.model&quot;;
-import { DataGridModel } from &quot;app/components/shared/grid/models/datagrid.model&quot;;
+<p><em>DatabaseService.instance.instance</em> is a service class with singleton pattern. It executes SQL. <em>\$sql</em> provides the statements from a resource file.</p>
+<p>The store summarizes all this for easy processing:</p>
+<pre><code class="ts">import { ArchivModel } from '../model/archiv.model';
+import { DataGridModel } from 'app/components/shared/grid/models/datagrid.model';
 
 export interface ArchiveStore {
-    current: ArchivModel;
-    gridResult: DataGridModel&lt;ArchivModel&gt;;
+  current: ArchivModel;
+  gridResult: DataGridModel&lt;ArchivModel&gt;;
 }
 
 /**
@@ -471,32 +481,31 @@ export type archiveStoreType = ActionStore &amp; ArchiveStore;
 
 import archiveReducer from '../reducer/archive.reducer';
 import archiveActions, { SEARCH, ADD, REMOVE, ALL, ARCHIVED, EDIT } from '../actions/archive.actions';
-import { Store } from &quot;@nyaf/store&quot;;
+import { Store } from '@nyaf/store';
 
 const store = new Store&lt;archiveStoreType&gt;({
   actions: archiveActions,
   reducer: { ...archiveReducer },
-  state: { search: '', current: null, gridResult: null }
+  state: { search: '', current: null, gridResult: null },
 });
 
 export default store;
 </code></pre>
 
 <p>Now, the component can dispatch actions with payloads and receive store changes.</p>
-<pre><code class="ts">@CustomElement(&quot;tab-archive-search&quot;)
+<pre><code class="ts">@CustomElement('tab-archive-search')
 @ProvideStore&lt;archiveStoreType&gt;(store)
 export class ArchiveSearchComponent extends StoreComponent&lt;archiveStoreType, {}&gt; {
-
-    constructor() {
-        super();
-        this.store.subscribe('gridResult', (data: archiveStoreType) =&gt; {
+  constructor() {
+    super();
+    this.store.subscribe('gridResult', (data: archiveStoreType) =&gt; {
       // Do something with the data
-        });
-    }
+    });
+  }
 
-    private async showAll(e?: Event) {
-        this.store.dispatch(ALL, null);
-    }
+  private async showAll(e?: Event) {
+    this.store.dispatch(ALL, null);
+  }
 
   // render omitted for brevity
 }
@@ -504,7 +513,7 @@ export class ArchiveSearchComponent extends StoreComponent&lt;archiveStoreType, 
 
 <p>The reducer receives the <em>ALL</em> action. It pulls all the data and sets the <em>gridResult</em> object. The subscriber listens for this and can handle the data (re-render, for example).</p>
 <p>The essential part is here that the return value of the subscriber is always the Store Type (here <em>archiveStoreType</em>). So you don't need to think about the current type and TypeScript resolves the types within properly. However, the subscriber is for just one property of the store and only changes of this property will trigger the handler. To get the data, access it like this:</p>
-<pre><code class="ts">archiveStoreType.gridResult
+<pre><code class="ts">archiveStoreType.gridResult;
 </code></pre>
 
 <p>The underlying object is <code>Proxy</code>, not your actual type.</p>

@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>Shadow DOM - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -130,6 +134,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../events/">Events</a>
                 </li>
                 <li class="">
@@ -143,16 +151,15 @@
             
     <li class="toctree-l3"><a href="#shadow-dom">Shadow DOM</a></li>
     
-
-    <li class="toctree-l3"><a href="#example-with-shadow-dom">Example with Shadow DOM</a></li>
-    
         <ul>
         
-            <li><a class="toctree-l4" href="#tab">Tab</a></li>
+            <li><a class="toctree-l4" href="#example-with-shadow-dom">Example with Shadow DOM</a></li>
         
-            <li><a class="toctree-l4" href="#tabs">Tabs</a></li>
+            <li><a class="toctree-l4" href="#tabs-container">Tabs Container</a></li>
         
-            <li><a class="toctree-l4" href="#usage">Usage</a></li>
+            <li><a class="toctree-l4" href="#usage-of-the-tabs">Usage of the Tabs</a></li>
+        
+            <li><a class="toctree-l4" href="#shadow-dom-and-styles">Shadow DOM and Styles</a></li>
         
         </ul>
     
@@ -163,16 +170,12 @@
                     
     <a class="" href="../services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -220,6 +223,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -323,11 +334,11 @@
               
                 <h2 id="shadow-dom">Shadow DOM<a class="headerlink" href="#shadow-dom" title="Permanent link">#</a></h2>
 <p>By default the shadow DOM is <strong><em>_not</em></strong>_ used. If it would, it would mean, that styles are isolated. No global styles are available, then.</p>
-<p>One option to activate the Shadow DOM:</p>
+<p>One option to activate the Shadow DOM is using this decorator:</p>
 <pre><code class="ts">@ShadowDOM()
 </code></pre>
 
-<p>The property can be set explicitly. The default is <code>false</code>, hence if the decorator is being omitted, the component is <strong><em>_not</em></strong>_ shadowed.</p>
+<p>A parameter can be set explicitly. This is some kind of coding style, a more expressive form.</p>
 <pre><code class="ts">@ShadowDOM(true | false)
 </code></pre>
 
@@ -340,9 +351,9 @@
 <li>If active, it copies all global styles into component so they work as expected even in Shadow DOM</li>
 </ul>
 <blockquote>
-<p>It's a trade-off. Shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.</p>
+<p>It's a trade-off. The shadow DOM increases performance and brings isolation. Copying many styles decreases performance and contradicts isolation.</p>
 </blockquote>
-<p>Example:</p>
+<p>See the following example for a common usage scenario:</p>
 <pre><code class="ts">@CustomElement('app-contact')
 @ShadowDOM()
 @UseParentStyles()
@@ -351,11 +362,16 @@ export class ContactComponent extends BaseComponent {
 }
 </code></pre>
 
-<p>Shadow DOM goes well along with the usage of slots. A typical example is a Tabs Component, that could look like this:</p>
-<h2 id="example-with-shadow-dom">Example with Shadow DOM<a class="headerlink" href="#example-with-shadow-dom" title="Permanent link">#</a></h2>
-<p>First, the definition of a single tab.</p>
-<h3 id="tab">Tab<a class="headerlink" href="#tab" title="Permanent link">#</a></h3>
-<pre><code class="tsx">import JSX, { BaseComponent, CustomElement, ShadowDOM, UseParentStyles, LifeCycle } from '@nyaf/lib';
+<p>The shadow DOM goes well along with the usage of slots. A typical example is a Tabs Component that's shown next. Tabs are a form of navigation for web sites, similar to the browser's tabs.</p>
+<h3 id="example-with-shadow-dom">Example with Shadow DOM<a class="headerlink" href="#example-with-shadow-dom" title="Permanent link">#</a></h3>
+<p>First, we start with the definition of a single tab.</p>
+<h4 id="single-tab">Single Tab<a class="headerlink" href="#single-tab" title="Permanent link">#</a></h4>
+<pre><code class="tsx">import JSX, {
+  BaseComponent,
+  CustomElement,
+  ShadowDOM,
+  UseParentStyles,
+  LifeCycle } from '@nyaf/lib';
 
 @CustomElement('app-slot-tab')
 @ShadowDOM(true)
@@ -388,9 +404,16 @@ export class SlotTabComponent extends BaseComponent&lt;{}&gt; {
 </code></pre>
 
 <p>The <code>&lt;slot&gt;</code> element is the content target. The id is used to address the tab (to open it, actually).</p>
-<h3 id="tabs">Tabs<a class="headerlink" href="#tabs" title="Permanent link">#</a></h3>
-<p>Now the container that handles multiple tabs.</p>
-<pre><code>import JSX, { BaseComponent, CustomElement, LifeCycle, Events, ShadowDOM, UseParentStyles, uuidv4 } from '@nyaf/lib';
+<h3 id="tabs-container">Tabs Container<a class="headerlink" href="#tabs-container" title="Permanent link">#</a></h3>
+<p>Second, look at the container that handles multiple tabs.</p>
+<pre><code class="tsx">import JSX, {
+  BaseComponent,
+  CustomElement,
+  LifeCycle,
+  Events,
+  ShadowDOM,
+  UseParentStyles,
+  uuidv4 } from '@nyaf/lib';
 
 interface TabStore {
   node: Node;
@@ -429,7 +452,10 @@ export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
 
   async render() {
     let first = 0;
-    const tabHeaders = Array.prototype.slice.call(this.children).map((child: Element) =&gt; {
+    const tabHeaders = Array.prototype
+              .slice
+              .call(this.children)
+              .map((child: Element) =&gt; {
       const targetId: string = child.id ?? '_' + uuidv4();
       child.setAttribute('id', targetId);
       this.tabChildren.push({
@@ -439,7 +465,9 @@ export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
       });
       return (
         &lt;li class='nav-item'&gt;
-          &lt;a class={'nav-link ' + (0 === first++ ? 'active' : '')} href={`#${targetId}`} &gt;{child.getAttribute('title')}&lt;/a&gt;
+          &lt;a class={'nav-link ' + (0 === first++ ? 'active' : '')}
+             href={`#${targetId}`} &gt;{child.getAttribute('title')}
+          &lt;/a&gt;
         &lt;/li&gt;
       );
     });
@@ -462,7 +490,8 @@ export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
       let first = 0;
       this.shadowRoot.querySelectorAll('li')
         .forEach(li =&gt; {
-          li.addEventListener('click', (e: Event) =&gt; this.selectTab(e));
+          li.addEventListener('click',
+                 (e: Event) =&gt; this.selectTab(e));
           if (first === 0) {
             this.openTab(li.querySelector('a').getAttribute('href'));
           }
@@ -486,13 +515,17 @@ export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
   }
 
   async setTab(id: string): Promise&lt;void&gt; {
-    const targetId = this.tabChildren.filter((child) =&gt; child.id === id).shift().targetId;
+    const targetId = this.tabChildren
+        .filter((child) =&gt; child.id === id)
+        .shift()
+        .targetId;
     // use shadowRoot because it is shadowed
     this.openTab(`#${targetId}`);
     return Promise.resolve();
   }
 
-  // the visible tabs are in the shadow-root, the content is outside in the document
+  // the visible tabs are in the shadow-root,
+  // the content is outside in the document
   private openTab(targetId: string) {
     const tabs = this.shadowRoot.querySelectorAll('li &gt; a');
     // const tab = this.querySelector&lt;HTMLElement&gt;(targetId);
@@ -517,7 +550,7 @@ export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
 }
 </code></pre>
 
-<h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h3>
+<h3 id="usage-of-the-tabs">Usage of the Tabs<a class="headerlink" href="#usage-of-the-tabs" title="Permanent link">#</a></h3>
 <p>The usage is quite simple. Just add as many tabs as required:</p>
 <pre><code class="tsx">&lt;app-slot-tabs id='demoTabs'&gt;
   &lt;app-slot-tab title='Store Counter' id='d1'&gt;
@@ -528,6 +561,46 @@ export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
   &lt;/app-slot-tab&gt;
 &lt;/app-slot-tabs&gt;
 </code></pre>
+
+<h3 id="shadow-dom-and-styles">Shadow DOM and Styles<a class="headerlink" href="#shadow-dom-and-styles" title="Permanent link">#</a></h3>
+<p>The Shadow DOM provides full isolation. The <code>@UseParentStyles</code> decorator contradicts this. A better way is to include styles "per component". Have a look onto an example first:</p>
+<pre><code class="tsx">@CustomElement('app-directive')
+@ShadowDOM()
+export class DirectiveComponent extends BaseComponent&lt;any&gt; {
+
+  async render() {
+    return await (
+      &lt;&gt;
+        &lt;button type='button' directive='drag' part='drag-button'&gt;
+          Drag me around
+        &lt;/button&gt;
+        &lt;div directive='drop' part='drop-zone'&gt;
+
+        &lt;/div&gt;
+      &lt;/&gt;
+    );
+  }
+
+}
+</code></pre>
+
+<p>The important part here is, despite the <code>@ShadowDOM</code> decorator, the <code>part</code> attribute. That makes the shadowed component accessible (penetrable) for special external styles using the <code>::part</code> pseudo-selector. A stylesheet could than look like this:</p>
+<pre><code class="css">app-directive::part(drop-zone) {
+  border: 1px solid silver;
+  width: 100px;
+  height: 100px;
+}
+app-directive::part(drag-button) {
+  background-color: green;
+  padding: 5px;
+}
+</code></pre>
+
+<p>This style is provided globally, not as part of the component, but it applies to this component only and only in shadow mode.</p>
+<p>Note, that using the regular CSS syntax, such as <code>app-directive[part="drop-zone"]</code> would not work, as this cannot penetrate the shadow DOM.</p>
+<blockquote>
+<p>This is not a feature of <strong>@nyaf</strong>; it's default Web Component behavior. We face some issues with elder browser version that don't understand the <code>::part</code> selector properly. Consider adding a polyfill if needed.</p>
+</blockquote>
               
             </div>
           </div>

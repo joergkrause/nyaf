@@ -8,15 +8,15 @@
   
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
-  <title>About - nyaf Documentation</title>
+  <title>Effects Mapping - nyaf Documentation</title>
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
   <script>
     // Current page data
-    var mkdocs_page_name = "About";
-    var mkdocs_page_input_path = "md/docs/internals/about.md";
+    var mkdocs_page_name = "Effects Mapping";
+    var mkdocs_page_input_path = "md/docs/store/effects.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -192,31 +192,45 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../../store/overview/">Overview</a>
+    <a class="" href="../overview/">Overview</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/example/">Store Example</a>
+    <a class="" href="../example/">Store Example</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/globloc/">Global and Local Stores</a>
+    <a class="" href="../globloc/">Global and Local Stores</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+    <a class="" href="../dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Effects Mapping</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#effects-mapping">Effects Mapping</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#the-effects-decorator">The Effects Decorator</a></li>
+        
+            <li><a class="toctree-l4" href="#using-the-effects-decorator">Using the Effects Decorator</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/effects/">Effects Mapping</a>
+    <a class="" href="../updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../store/updates/">Automatic Updates</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../../store/setup/">Setup</a>
+    <a class="" href="../setup/">Setup</a>
                 </li>
     </ul>
 	    </li>
@@ -260,33 +274,17 @@
 		
     <span class="caption-text">Internals</span>
     <ul class="subnav">
-                <li class=" current">
+                <li class="">
                     
-    <a class="current" href="./">About</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#about">About</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#a-short-introduction">A Short Introduction</a></li>
-        
-            <li><a class="toctree-l4" href="#projects">Projects</a></li>
-        
-            <li><a class="toctree-l4" href="#contact">Contact</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../../internals/about/">About</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../lic/">Licence</a>
+    <a class="" href="../../internals/lic/">Licence</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../start/">How it's being made</a>
+    <a class="" href="../../internals/start/">How it's being made</a>
                 </li>
     </ul>
 	    </li>
@@ -313,14 +311,14 @@
     
       
         
-          <li>Internals &raquo;</li>
+          <li>Flux Store &raquo;</li>
         
       
     
-    <li>About</li>
+    <li>Effects Mapping</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/internals/about.md"
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/store/effects.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -330,21 +328,86 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="about">About<a class="headerlink" href="#about" title="Permanent link">#</a></h1>
-<p>This project was created between 2019 and 2020 by Joerg <IsAGeek> Krause, Berlin, Germany.</p>
-<p>I like to introduce myself as an experienced expert especially for Web Technologies such as Angular, React, NodeJs, ASP.NET and common frameworks and systems such as .NET, SQL Server, IIS, and related subjects. I’m a developer, consultant, trainer, and software architect.</p>
-<p>I work as a freelance senior consultant for enterprises and run a few thrilling projects on my own. To learn more, click in the section ‚cool stuff‘ in the right column. To find out more about me feel free to contact me or click ‚current profiles‘ at the right.</p>
-<p>You can contact me in German and English language. I’m available worldwide.</p>
-<h2 id="a-short-introduction">A Short Introduction<a class="headerlink" href="#a-short-introduction" title="Permanent link">#</a></h2>
-<p>I work as an software architect and technology consultant, especially around software development on the Microsoft Windows platform. He is focused in main topics such as Web Server development (including all web technologies, like HTML, CSS, JS/AJAX, as well as ASP.NET), SQL Server development (T-SQL, SSIS), and graphical environments (graphical Editors like IE and stuff based on it like Netrix, WPF, Silverlight). I’m certified for several of these technologies and I’m re-certifying regularly.</p>
-<p>I have published more than 60 books for Apress, Carl Hanser Verlag, Addison Wesley Germany, Markt + Technik and Symposion Publishing and in addition to more than 100 journal articles, notably for the German IT journals iX, DatabasePro, DOTNETpro, and „ASP.NET professional“.</p>
-<p>I regularly speak at professional and scientific conferences (e.g. BASTA, Prio Conference, VSOne, DOTNET Conference, DotnetCologne, PHP Conference, DDC, and several INETA user group meetings).</p>
-<p>I run several thrilling projects, such as the component development of the Netrix Editor (Made by Guru Components), the software development company Augmented Software and the online publishing company Augmented Content. I’m co-founder and stakeholder of all.</p>
-<p>If you want to get more information, want to join my network, seeking investment possibilities, or just want to be part of the party you’re invited to contact me.</p>
-<h2 id="projects">Projects<a class="headerlink" href="#projects" title="Permanent link">#</a></h2>
-<p>I'M inventor and maintainer of @nyaf - an advanced Web Components framework. I'm the inventor and maintainer of SVOGV, an extension for Angular that provides dynamic forms, viewmodel decorators, and dynamic validation.</p>
-<h2 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">#</a></h2>
-<p>Get me on the <a href="https://www.joergkrause.de/">web</a> (in German, see English About section).</p>
+                <h2 id="effects-mapping">Effects Mapping<a class="headerlink" href="#effects-mapping" title="Permanent link">#</a></h2>
+<p>A component is basically just an user interface (UI), that is defined by HTML. This UI can be dynamic in both directions, receiving user actions and react to changes in an underlying data model. In business components this leads to a significant amount of code, that is primarily just a reference to the coding environment. For user actions it's a number of event hooks leading to handlers. For data changes it's the binding to a model and code to monitor changes.</p>
+<p>The Flux store reduces the amount of code by moving the actual business logic to the reducer functions. That a big progress compared to traditional programming styles, but the remaining definitions are now only skeletons to function calls. It would be great to have these function calls reduced to the bare minimum of code and, in the same step, collected in one single definition just like the reducers. This features exists in <strong>@nyaf</strong> and it's called <em>Effects</em>.</p>
+<h3 id="the-effects-decorator">The Effects Decorator<a class="headerlink" href="#the-effects-decorator" title="Permanent link">#</a></h3>
+<p>The decorator exists once on a component. The API looks like this:</p>
+<pre><code class="ts">@Effects(Effect[])
+</code></pre>
+
+<p>It makes only sense in conjunction with the store itself. This is how it goes with a real component:</p>
+<pre><code class="ts">@CustomElement('app-store-effects')
+@ProvideStore&lt;allStoreTypes&gt;(store)
+@Effects([
+  {
+    selector: 'button[data-action=&quot;ADD&quot;]',
+    trigger: 'click',
+    parameter: (e) =&gt; (e.target as HTMLElement).dataset.payload || 1,
+    action: INC
+  }
+])
+export class StoreEffectsComponent extends BaseComponent&lt;{ cnt: number }&gt; implements IStore&lt;allStoreTypes&gt; {
+}
+</code></pre>
+
+<p>Imagine this code in a component without effects:</p>
+<pre><code class="tsx">&lt;button class='btn btn-md btn-success' type='button' n-on-click={e =&gt; this.clickMeAdd(e)}&gt;
+  Add 1
+&lt;/button&gt;
+
+clickMeAdd(e) {
+  this.store.dispatch(INC, 1);
+}
+</code></pre>
+
+<p>The whole purpose of the code is to add a click event and trigger the dispatcher. Effects move both parts outside of the component and you can remove the code entirely. The view becomes simpler and the component is smaller and less error-prone.</p>
+<h3 id="using-the-effects-decorator">Using the Effects Decorator<a class="headerlink" href="#using-the-effects-decorator" title="Permanent link">#</a></h3>
+<p>To keep the handler stuff outside the component and still connected to one we use a decorator. The following example gives you an impression how this could look like:</p>
+<pre><code class="ts">@Effects([
+{
+  selector: '[data-action=&quot;ADD&quot;]',
+  trigger: 'click',
+  parameter: (e) =&gt; (e.target as HTMLElement).dataset.payload || 1,
+  action: INC
+},
+{
+  selector: '[data-action=&quot;SUB&quot;]',
+  trigger: 'click',
+  parameter: (e) =&gt; (e.target as HTMLElement).dataset.payload || 1,
+  action: DEC
+},
+{
+  selector: '[data-action=&quot;SET&quot;]',
+  trigger: 'click',
+  parameter: (e) =&gt; +(e.target as HTMLElement).dataset.payload,
+  action: SET
+}
+])
+</code></pre>
+
+<p>The decorator accepts an array of objects of type <code>Effect</code>. This type is an interface that has the following API:</p>
+<ul>
+<li><code>selector</code>: A string that can be handled by <code>querySelectorAll</code>.</li>
+<li><code>trigger</code>: A string that is one of the common ECMAScript events an element can fire or any custom event name.</li>
+<li><code>action</code>: A string constant that the store's reducer accept in a dispatch call.</li>
+<li><code>parameter</code>: An (optional) function that retrieves a value from the event handler parameter.</li>
+</ul>
+<h4 id="the-selector">The Selector<a class="headerlink" href="#the-selector" title="Permanent link">#</a></h4>
+<p>The selector is a string that can be handled by <code>querySelectorAll</code>. This is mandatory and the selector must return at least one element. The selector is executed after the life cycle event state <code>Load</code>. That means, that the <code>render</code> function is executed. The selector will not get any elements you add later dynamically.</p>
+<p>To avoid any conflicts it's strongly recommended to use <em>data-</em> attributes and avoid any CSS stuff to select elements, especially not the <code>class</code> attribute.</p>
+<h4 id="the-trigger">The Trigger<a class="headerlink" href="#the-trigger" title="Permanent link">#</a></h4>
+<p>The trigger is a string that is one of the common ECMAScript events an element can fire or any custom event name. To support IntelliSense a number of common events is part of the definition, but technically it's allowed to use any string here. Internally the event is attached to the outcome of the selector by using <code>addEventHandler(trigger)</code>.</p>
+<h4 id="the-action-definition">The Action Definition<a class="headerlink" href="#the-action-definition" title="Permanent link">#</a></h4>
+<p>The action is a string constant that the store's reducer accept in a dispatch call. It's recommended to use the action constants and not provide any string values here directly. The binder class that handles this internally will throw an exception in case the action is not known by the store.</p>
+<h4 id="the-parameter">The Parameter<a class="headerlink" href="#the-parameter" title="Permanent link">#</a></h4>
+<p>The Parameter is a function that retrieves a value from the event handler parameter. This is the only optional value. You can omit it in case the dispatched action does not need a payload. For all other reducer calls this function returns a value that's being used as the payload.</p>
+<p>The returned type is always <code>any</code> without further restrictions.</p>
+<p>The input parameter is the event's parameter object. In most cases it's of type <code>Event</code>, or <code>KeyEvent</code>, or <code>MouseEvent</code>. In case of a custom component it could be <code>CustomEvent</code>. To retrieve values the best way is to access the source element by using this code snippet:</p>
+<pre><code class="ts">const element = (e.target as HTMLElement);
+</code></pre>
+
+<p>To provide dynamic values the <em>data-</em> attributes are a robust way doing so. To access the values directly use the <code>dataset</code> property. In case your attribute is further divided in sections using the kebab-style (such as in <em>data-action-value</em>) the <code>dataset</code> property converts this into camel case (<em>action-value</em> transforms into <em>actionValue</em>). But, you can use any other property of the event source to set values. You can also simply use static values, too. However, even if technically possible, it's not recommended to add any business logic or validation code in this functions. Move such code consequently to the reducer. Otherwise you logic code will be split-up and becomes very hard to maintain. The reason the <code>@Effects</code> decorator exists is just to get a more rigid structure in your app.</p>
               
             </div>
           </div>
@@ -352,10 +415,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../lic/" class="btn btn-neutral float-right" title="Licence">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../updates/" class="btn btn-neutral float-right" title="Automatic Updates">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../../comparision/vue/" class="btn btn-neutral" title="...Vue"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../dispose/" class="btn btn-neutral" title="Disposing Subscriptions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -383,10 +446,10 @@
           <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../../comparision/vue/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../dispose/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../lic/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../updates/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

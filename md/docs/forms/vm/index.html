@@ -9,8 +9,6 @@
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
   <title>View Models - nyaf Documentation</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
-
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -89,7 +87,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../../../setup/">Setup</a>
+    <a class="" href="../../../ts/">Project Configuration (TS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../babel/">Project Configuration (JS)</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../../config/">Configuration Files</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -99,10 +107,6 @@
                 <li class="">
                     
     <a class="" href="../../lib/overview/">Overview</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/configuration/">Project Configuration</a>
                 </li>
                 <li class="">
                     
@@ -130,6 +134,10 @@
                 </li>
                 <li class="">
                     
+    <a class="" href="../../lib/directives/">Directives</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="../../lib/events/">Events</a>
                 </li>
                 <li class="">
@@ -144,16 +152,12 @@
                     
     <a class="" href="../../lib/services/">Services</a>
                 </li>
-                <li class="">
-                    
-    <a class="" href="../../lib/setup/">Setup</a>
-                </li>
     </ul>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">Forms Extensions</span>
+    <span class="caption-text">Forms Extension</span>
     <ul class="subnav">
                 <li class="">
                     
@@ -168,9 +172,15 @@
     
         <ul>
         
+            <li><a class="toctree-l4" href="#why-using-view-models">Why Using View Models?</a></li>
+        
+            <li><a class="toctree-l4" href="#creating-a-view-model">Creating a View Model</a></li>
+        
             <li><a class="toctree-l4" href="#validation-decorators">Validation Decorators</a></li>
         
             <li><a class="toctree-l4" href="#ui-decorators-property-level">UI Decorators (property level)</a></li>
+        
+            <li><a class="toctree-l4" href="#providing-the-viewmodel">Providing the ViewModel</a></li>
         
         </ul>
     
@@ -215,6 +225,14 @@
                 <li class="">
                     
     <a class="" href="../../store/dispose/">Disposing Subscriptions</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/effects/">Effects Mapping</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../store/updates/">Automatic Updates</a>
                 </li>
                 <li class="">
                     
@@ -299,7 +317,7 @@
     
       
         
-          <li>Forms Extensions &raquo;</li>
+          <li>Forms Extension &raquo;</li>
         
       
     
@@ -318,6 +336,14 @@
               
                 <h2 id="view-models">View Models<a class="headerlink" href="#view-models" title="Permanent link">#</a></h2>
 <p>First, you need view models. Then, you decorate the properties with validation and hint decorators.</p>
+<h3 id="why-using-view-models">Why Using View Models?<a class="headerlink" href="#why-using-view-models" title="Permanent link">#</a></h3>
+<p>View Models form an abstraction layer between code and pure user interface. They appear in many architectural pattern, such as Model-View-Control (MVC), Movel-View-ViewModel (MVVM), and similar constructs. A component library such as <strong>@nyaf</strong> is a different kind of pattern, but the basic need for a model is still valid.</p>
+<blockquote>
+<p>The ViewModel is essential when you want a separation of concerns between your DomainModel (DataModel) and the rest of your code.</p>
+</blockquote>
+<p>Decoupling and separation of concerns is one of the most crucial parts of modern software architectures. Models can contain code, have actions, and work as a distinct translator between the domain model and the view. It's not the same as the business logic, it's a layer between such a layer and the user interface (UI). A UI contains logic to control visible elements, such as tooltips, hints, and validation information. All this has no or only a weak relation to an underlying business logic. Mixing the both will create code that is hard to maintain, complex, and difficult to read. In software technology we often talk about so called software entropy. That's the process of code going to change over time into an even harder to manage form, with a lot of hacks, bells, and whistles nobody understands completely and that wil eventually start to fail. Levels of abstraction help to delay this process (it's an illusion that you can avoid it entirely). Viewmodels are hence an essential part of a good architecture.</p>
+<p>The flux architecture, delivered by the <strong>@nyaf/store</strong> module, seems to address a similar approach using store models and binding. However, this part is entirely devoted to the business logic. It's exactly that kind of abstraction we need to make great software not only by great design and an amazing stack of features, but by sheer quality, stability, with maintainable code, hard to break, and almost free of nasty bugs.</p>
+<h3 id="creating-a-view-model">Creating a View Model<a class="headerlink" href="#creating-a-view-model" title="Permanent link">#</a></h3>
 <p>A view model could look like this:</p>
 <pre><code class="ts">export class UserViewModel {
 
@@ -345,7 +371,7 @@
 
 <p>The last (optional) parameter of the validation decorators is a custom error message.</p>
 <h3 id="validation-decorators">Validation Decorators<a class="headerlink" href="#validation-decorators" title="Permanent link">#</a></h3>
-<p>Validation properties can be used together with the binding. After a binding action took place, usually after a change by the user, the state of the bound model updates and can be retrieved immediately. Elements bound to validation signals can use the state to show/hide elements or control sending data in code. The property names are the same as the respective decorators, just all lower case.</p>
+<p>Validation decorators can be used together with the binding. After a binding action took place, usually after a change by the user, the state of the bound model updates and can be retrieved immediately. Elements bound to validation signals can use the state to show/hide elements or control sending data in code. The property names are the same as the respective decorators, just all lower case.</p>
 <table>
 <thead>
 <tr>
@@ -382,6 +408,10 @@
 <td><strong>@Compare</strong></td>
 <td>Compares with another field, usually for password comparison.</td>
 </tr>
+<tr>
+<td><strong>@Custom</strong></td>
+<td>Provide a static validation function as a callback for any custom validation.</td>
+</tr>
 </tbody>
 </table>
 <h3 id="ui-decorators-property-level">UI Decorators (property level)<a class="headerlink" href="#ui-decorators-property-level" title="Permanent link">#</a></h3>
@@ -396,7 +426,7 @@
 <tbody>
 <tr>
 <td><strong>@Display</strong></td>
-<td>Determine the label's name and a tooltip ( optionally).</td>
+<td>Determine the label's name and an (optional) tooltip.</td>
 </tr>
 <tr>
 <td><strong>@DisplayGroup</strong></td>
@@ -420,18 +450,105 @@
 </tr>
 <tr>
 <td><strong>@ReadOnly</strong></td>
-<td>Forces a particular render type. Usually you get fields a shown in the table below. With a hint you can force other types.</td>
+<td>Forces a particular render type.</td>
 </tr>
 <tr>
 <td><strong>@TemplateHint</strong></td>
 <td>What kind of field (text, number, date, ...) and additional styles or classes.</td>
 </tr>
+</tbody>
+</table>
+<p>The UI decorators do not enforce any specific behavior. In fact, they do almost nothing in an application without explicit support. The decorators create hidden properties you can retrieve when building the UI. That way you can control the behavior of the app by setting the decorators. It's some sort of abstraction between the view model and the UI.</p>
+<h4 id="mapping-the-properties">Mapping the Properties<a class="headerlink" href="#mapping-the-properties" title="Permanent link">#</a></h4>
+<p>The actual properties are of the form <em>__propName__fieldName</em>, that means, you have to add the decorated property name at the end to retrieve the property specific value. As an example, the <em><strong>displayText</strong></em> property, created by the decorator <code>@Display</code>, and placed on a property <em>email</em>, can be retrieved by this code:</p>
+<pre><code class="ts">const text = this.model['__displayText__email'];
+</code></pre>
+
+<p>However, the internal names may change and to avoid any issues a mapping with external names is available. The following table shows the properties the decorators create.</p>
+<table>
+<thead>
+<tr>
+<th>Decorator function</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Display</strong></td>
+<td><code>text</code>, <code>order</code>, <code>desc</code></td>
+</tr>
+<tr>
+<td><strong>DisplayGroup</strong></td>
+<td><code>grouped</code>, <code>name</code>, <code>order</code>, <code>desc</code></td>
+</tr>
+<tr>
+<td><strong>Hidden</strong></td>
+<td><code>is</code></td>
+</tr>
+<tr>
+<td><strong>Sortable</strong></td>
+<td><code>is</code></td>
+</tr>
+<tr>
+<td><strong>Filterable</strong></td>
+<td><code>is</code></td>
+</tr>
+<tr>
+<td><strong>Placeholder</strong></td>
+<td><code>has</code>, <code>text</code></td>
+</tr>
+<tr>
+<td><strong>ReadOnly</strong></td>
+<td><code>is</code></td>
+</tr>
+<tr>
+<td><strong>TemplateHint</strong></td>
+<td><code>has</code>, <code>params</code>, <code>name</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="special-decorators">Special Decorators<a class="headerlink" href="#special-decorators" title="Permanent link">#</a></h4>
+<p>There is one more decorator that's not just defining the UI behavior but has some internal behavior.</p>
+<table>
+<thead>
+<tr>
+<th>Decorator</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td><strong>@Translate</strong></td>
 <td>For i18n of components</td>
 </tr>
 </tbody>
 </table>
+<p>This decorator can be placed on top of the view model, on class level, or on a specific property.</p>
+<pre><code class="ts">export class ContactModel {
+
+  constructor(init?: ContactModel) {
+    if (init) {
+      this.name = init.name;
+      this.email = init.email;
+    }
+  }
+
+  @Translate(json)
+  @Display('Contact Name')
+  @Required()
+  name = '';
+}
+</code></pre>
+
+<p>The function expects a JSON file with translation instructions. The translation converts the text on the properties to another language:</p>
+<pre><code class="js">const json = {
+  'Contact Name': 'Kontaktname'
+};
+</code></pre>
+
+<p>This decorator is experimental and will change in the near future to reflect a more powerful approach.</p>
+<h3 id="providing-the-viewmodel">Providing the ViewModel<a class="headerlink" href="#providing-the-viewmodel" title="Permanent link">#</a></h3>
+<p>To make a ViewModel accessible you use the <code>@ViewModel(T)</code> decorator. More about this in the chapter <em>Data Binding</em>.</p>
               
             </div>
           </div>
