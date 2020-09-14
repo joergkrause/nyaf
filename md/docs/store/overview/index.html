@@ -35,6 +35,7 @@
     font-size: 1.0em;
     border: none;
     background-color: transparent;
+    white-space: pre !important;
   }
   .wy-nav-content { max-width: none; }
   a.toctree-l4 {
@@ -216,7 +217,7 @@
                 </li>
                 <li class="">
                     
-    <a class="" href="../example/">Store Example</a>
+    <a class="" href="../example/">The Store Types</a>
                 </li>
                 <li class="">
                     
@@ -429,7 +430,7 @@ const store = new Store&lt;storeStateType&gt;({
 </code></pre>
 
 <h3 id="use-the-store">Use the Store<a class="headerlink" href="#use-the-store" title="Permanent link">#</a></h3>
-<p>Now make the <em>store</em> constant available in the component, if it's not yet defined there. This store can handle just one single component or spread multiple components and form eventually a single source of truth for the whole application.</p>
+<p>Now make the <em>store</em> constant available in the component, if it's not yet defined there. This particular store can handle just one single component or spread multiple components and form eventually a single source of truth for the whole application.</p>
 <pre><code class="tsx">@CustomElement('app-store-counter')
 @ProvideStore&lt;storeStateType&gt;(store)
 export class StoreCounterComponent
@@ -483,6 +484,7 @@ export class StoreCounterComponent
 }
 </code></pre>
 
+<p>The decorator <code>@ProvideStore&lt;T&gt;(storeInstance)</code> in the example activates the store and creates an instance in the property <em>this.store</em>. To help TypeScript to understand the existence of this property you must implement the interface <code>IStore&lt;T&gt;</code> with the same type as used in the decorator. Now you have access and an already existing instance. The store gives you access to the two main features, dispatching actions and subscribing to changes.</p>
 <blockquote>
 <p><strong>Pro Tip!</strong> Combine this example with the forms module (<strong>@nyaf/forms</strong>) and get binding on element level using the <code>n-bind</code> template feature.</p>
 </blockquote>
@@ -493,7 +495,7 @@ export class StoreCounterComponent
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../example/" class="btn btn-neutral float-right" title="Store Example">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../example/" class="btn btn-neutral float-right" title="The Store Types">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../../forms/setup/" class="btn btn-neutral" title="Setup"><span class="icon icon-circle-arrow-left"></span> Previous</a>

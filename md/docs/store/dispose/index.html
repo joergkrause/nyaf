@@ -35,6 +35,7 @@
     font-size: 1.0em;
     border: none;
     background-color: transparent;
+    white-space: pre !important;
   }
   .wy-nav-content { max-width: none; }
   a.toctree-l4 {
@@ -196,7 +197,7 @@
                 </li>
                 <li class="">
                     
-    <a class="" href="../example/">Store Example</a>
+    <a class="" href="../example/">The Store Types</a>
                 </li>
                 <li class="">
                     
@@ -211,7 +212,7 @@
     
         <ul>
         
-            <li><a class="toctree-l4" href="#example">Example</a></li>
+            <li><a class="toctree-l4" href="#using-dispose-with-store">Using Dispose with Store</a></li>
         
             <li><a class="toctree-l4" href="#general-usage">General Usage</a></li>
         
@@ -329,9 +330,8 @@
             <div class="section">
               
                 <h2 id="disposing">Disposing<a class="headerlink" href="#disposing" title="Permanent link">#</a></h2>
-<p>Some event handlers and especially the store environment need a proper removing of handlers. This happens in the <code>dispose</code> method you can
-override in the component.</p>
-<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">#</a></h3>
+<p>Some event handlers and especially the store environment need a proper removing of handlers. This happens in the <code>dispose</code> method you can override in the component. The <code>@Dispose</code> decorator is provided by the base library in <strong>@nyaf/lib</strong>. It will be triggered by the lifecycle event and is independent of the store infrastructure.</p>
+<h3 id="using-dispose-with-store">Using Dispose with Store<a class="headerlink" href="#using-dispose-with-store" title="Permanent link">#</a></h3>
 <p>This is how it looks like:</p>
 <pre><code class="ts">constructor() {
   super();
@@ -355,14 +355,14 @@ dispose() {
 }
 </code></pre>
 
-<p>Even easier is usage of the <code>Dispose</code> decorator like this:</p>
+<p>Even easier is the usage of the <code>Dispose</code> decorator like this:</p>
 <pre><code class="ts">@Dispose(s =&gt; s.remove()) private readonly tabSubscriber;
 @Dispose(s =&gt; s.remove()) private readonly tabSubscriberCheckRemoving;
 </code></pre>
 
-<p>You can now remove the <code>dispose</code> method entirely.</p>
+<p>You can now remove the <code>dispose</code> method entirely. The variable <em>s</em> in the example code is the current property the decorator is placed on (<em>tabSubscriber</em> or <em>tabSubscriberCheckRemoving</em>). The call convention depends on the object the property returns. There is no error handling internally, the code is executed "as is".</p>
 <h3 id="general-usage">General Usage<a class="headerlink" href="#general-usage" title="Permanent link">#</a></h3>
-<p>The <code>@Dispose</code> decorator is defined in the base library and not limited to store actions.</p>
+<p>The <code>@Dispose</code> decorator is defined in the base library and not limited to store actions. The callback function has access to the current property and can execute anything on behalf of it.</p>
               
             </div>
           </div>

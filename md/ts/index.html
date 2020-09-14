@@ -35,6 +35,7 @@
     font-size: 1.0em;
     border: none;
     background-color: transparent;
+    white-space: pre !important;
   }
   .wy-nav-content { max-width: none; }
   a.toctree-l4 {
@@ -212,7 +213,7 @@
                 </li>
                 <li class="">
                     
-    <a class="" href="../docs/store/example/">Store Example</a>
+    <a class="" href="../docs/store/example/">The Store Types</a>
                 </li>
                 <li class="">
                     
@@ -337,10 +338,13 @@
 </ol>
 <p>The best choice for a Packer is probably WebPack, in that case a <em>webpack.config.js</em> file is recommended.</p>
 <h3 id="the-entry-file">The Entry File<a class="headerlink" href="#the-entry-file" title="Permanent link">#</a></h3>
-<p>The recommended folder structure looks like this:</p>
-<pre><code>|
+<p>The recommended folder structure looks like this:
+<style>
+  code.txt { white-space: pre !important; }
+</style></p>
+<pre><code class="txt">|
 \--\src
-|  |-- index.html
+|  |-- index.html
 |  |-- main.ts
 |  \-- \components
 |  |             |
