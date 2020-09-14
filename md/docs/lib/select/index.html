@@ -326,7 +326,16 @@
 <pre><code class="ts">@Select('#queryId') elementName;
 </code></pre>
 
-<p>The element is filled with the real object, then.</p>
+<p>The element is filled with the real object, then. In case you have a selector that returns many elements, the decorator uses <code>querySelectorAll</code> internally and returns an object of type <code>QueryList&lt;T&gt;</code>. This is an interface and it is defined like this:</p>
+<pre><code class="ts">interface QueryList&lt;T extends HTMLElement&gt; {
+  length: number;
+  first: T;
+  last: T;
+  items: T[];
+}
+</code></pre>
+
+<p>The decorator logic takes care of the existence of a shadow DOM and acts accordingly.</p>
               
             </div>
           </div>

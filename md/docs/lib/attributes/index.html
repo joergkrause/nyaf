@@ -348,25 +348,25 @@
 <blockquote>
 <p>The State generic is optional. If there is no state necessary just use <code>any</code> or an empty object such  as <code>{}</code>.</p>
 </blockquote>
-<p>Now two functions are available:</p>
+<p>Now a property and a function are available:</p>
 <ul>
-<li><code>data</code>: Returns the instance of the data object and contains all properties defined in the generic. This is protected and only available within the class.</li>
-<li><code>setData</code>: Sets a changed value and, if the value differs, re-renders the component.</li>
+<li><code>data</code> (property): Returns the instance of the data object and contains all properties defined in the generic.</li>
+<li><code>setData(prop: string, val: any)</code> (function): Sets a value and if the value differs re-renders the component.</li>
 </ul>
 <p>A simple counter shows how to use:</p>
 <pre><code class="ts">export class CounterComponent extends BaseComponent&lt;{ cnt: number }&gt; {
 
   constructor() {
     super();
-    super.setData('cnt',  10);
+    this.setData('cnt',  10);
   }
 
   clickMeAdd(v: number) {
-    super.setData('cnt', super.data.cnt + 1);
+    this.setData('cnt', this.data.cnt + 1);
   }
 
   clickMeSub(v: number) {
-    super.setData('cnt', super.data.cnt - 1);
+    this.setData('cnt', this.data.cnt - 1);
   }
 
   async render() {
@@ -387,6 +387,7 @@
 }
 </code></pre>
 
+<p>However, changing <em>this.data</em> directly would be sufficient, too. The underlying object is a <code>Proxy</code> and can handle value changes automatically. The explicit function call is available to have a more dynamic approach through the property parameter.</p>
 <h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">#</a></h3>
 <p>Property names in JavaScript are in camel case while HTML attribute names are in kebab case (dash-separated) to match HTML standards. For example, a JavaScript property named <em>itemName</em> maps to an HTML attribute named <em>item-name</em>.</p>
 <p>Don’t start a property name with these characters:</p>
@@ -410,7 +411,7 @@ export class ButtonComponent extends BaseComponent&lt;{ title: string, cnt: numb
 </code></pre>
 
 <p><img alt="Figure A-4: Smart Property Declaration" src="../assets/smartprops2.png" /></p>
-<p>The initializer with default's is <strong><em>_not</em></strong>_ optional, you must provide an object that matches the generic.</p>
+<p>The initializer with default's is <strong>not</strong> optional, you must provide an object that matches the generic.</p>
 <p>This is how you use such a component (part of the render method):</p>
 <pre><code class="tsx">const someTitle='Demo';
 return (&lt;app-btn title={someTitle} /&gt;);
@@ -428,7 +429,7 @@ return (&lt;app-btn title={someTitle} /&gt;);
 <h3 id="data-types">Data Types<a class="headerlink" href="#data-types" title="Permanent link">#</a></h3>
 <p>Web Components have the restriction that an attribute can transport string values only. This would lead to "[Object object]" for other types.</p>
 <blockquote>
-<p><strong>@nyaf</strong>** overcomes this restriction with a smart attribute handling.</p>
+<p><strong>@nyaf</strong> overcomes this restriction with a smart attribute handling.</p>
 </blockquote>
 <p>That means the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "__name__" is written. Assume your value is written like shown below:</p>
 <pre><code class="tsx">&lt;app-comp test={[{&quot;obj&quot;: 1}, {&quot;obj&quot;: 2}]}&gt;&lt;/app-comp&gt;
