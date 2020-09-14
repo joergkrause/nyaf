@@ -1,6 +1,7 @@
+
 ## Custom Binders
 
-Custom Binders help binding to specific properties. They can be used like the embedded binders, that acts just as examples and use the same way.
+Custom Binders help binding to specific properties. They can be used like the embedded binders, that act just as examples and use the same way.
 
 ### Implementing a Custom Binder
 
@@ -8,13 +9,14 @@ A custom binder handles the binding procedure when binding a viewmodel property 
 
 1. The binding setup (`bind`)
 2. The binder into the element (a property change leads to an attribute change)
-3. The listener (a attribute change event leads to a updated model property)
+3. The listener (an attribute change event leads to an updated model property)
 
-Step 2 and 3 are both optional, leading to a uni-directional binding in one or another direction.
+Step 2 and 3 are both optional, omitting them is leading to a uni-directional binding in one or another direction.
 
 ~~~ts
 @BindName('VisibilityBinder')
-export class VisibilityBinder<T extends ConfirmSuccessErrorComponent> implements IBindingHandler
+export class VisibilityBinder<T extends ConfirmSuccessErrorComponent> 
+       implements IBindingHandler
 {
   bind(binding: Binding): void {
     (binding.el as T).addEventListener('done', (e) => {
@@ -49,13 +51,13 @@ export interface IBindingHandler {
 A handler must react to something, but everything else is optional. See this line:
 
 ~~~ts
-export class VisibilityBinder<T extends ConfirmSuccessErrorComponent> implements IBindingHandler
+export class VisibilityHandler<T extends ConfirmComponent> 
+       implements IBindingHandler
 ~~~
 
-The generic is optional. It allows the definition of the target element. If it's omitted, it falls back to `HTMLElement`. Ypu can use any
-HTML 5 element type or any custom web component type (as in the example).
+The generic is optional. It allows the definition of the target element. If it's omitted, it falls back to `HTMLElement`. You can use any HTML 5 element type or any custom web component type (as in the example).
 
-The `bind` method is called implicitly by the infrastructure. If doesn't exist it's being ignored. the only reason to use it is attaching an event listener. You may also consider calling `react` immediately to sync the data, but it depends on the actual behavior of the element any may result in an additional binding process while loading the form.
+The `bind` method is called implicitly by the infrastructure. If it doesn't exist it's being ignored. The only reason to use it is attaching an event listener. You may also consider calling `react` immediately to sync the data, but it depends on the actual behavior of the element and may result in an additional binding process while loading the form.
 
 The method `react` is called from the view model proxy instance each time the value changes. Write code here to assign the data to any property of the target element.
 
@@ -66,6 +68,7 @@ The method `listener` is optional and is called once the target element raises a
 How simple a binder can be is shown next with the already embedded uni-directional default binder:
 
 ~~~ts
+@BindName('DefaultBindingHandler')
 export class DefaultBindingHandler implements IBindingHandler {
   react(binding: Binding, property: string): void {
     binding.el[property] = binding.value;

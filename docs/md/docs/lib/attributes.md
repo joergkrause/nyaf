@@ -3,7 +3,7 @@
 
 There is no explicit difference between State and Property. Compared with React it's much more simpler. A state still exists and it supports smart rendering.
 
-![Figure A-3: Smart Properties](/assets/smartprops.png)
+![Figure A-3: Smart Properties](assets/smartprops.png)
 
 ### State
 
@@ -17,10 +17,10 @@ export class MainComponent extends BaseComponent<{ cnt: number}> {
 
 > The State generic is optional. If there is no state necessary just use `any` or an empty object such  as `{}`.
 
-Now two functions are available:
+Now a property and a function are available:
 
-* `data`: Returns the instance of the data object and contains all properties defined in the generic. This is protected and only available within the class.
-* `setData`: Sets a changed value and, if the value differs, re-renders the component.
+* `data` (property): Returns the instance of the data object and contains all properties defined in the generic.
+* `setData(prop: string, val: any)` (function): Sets a value and if the value differs re-renders the component.
 
 A simple counter shows how to use:
 
@@ -29,15 +29,15 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
 
   constructor() {
     super();
-    super.setData('cnt',  10);
+    this.setData('cnt',  10);
   }
 
   clickMeAdd(v: number) {
-    super.setData('cnt', super.data.cnt + 1);
+    this.setData('cnt', this.data.cnt + 1);
   }
 
   clickMeSub(v: number) {
-    super.setData('cnt', super.data.cnt - 1);
+    this.setData('cnt', this.data.cnt - 1);
   }
 
   async render() {
@@ -57,6 +57,8 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
   }
 }
 ~~~
+
+However, changing *this.data* directly would be sufficient, too. The underlying object is a `Proxy` and can handle value changes automatically. The explicit function call is available to have a more dynamic approach through the property parameter.
 
 ### Properties
 
@@ -84,9 +86,9 @@ export class ButtonComponent extends BaseComponent<{ title: string, cnt: number 
 }
 ~~~
 
-![Figure A-4: Smart Property Declaration](/assets/smartprops2.png)
+![Figure A-4: Smart Property Declaration](assets/smartprops2.png)
 
-The initializer with default's is ____not____ optional, you must provide an object that matches the generic.
+The initializer with default's is __not__ optional, you must provide an object that matches the generic.
 
 This is how you use such a component (part of the render method):
 
@@ -113,7 +115,7 @@ As with `setData` internally this will trigger the renderer to re-render the con
 
 Web Components have the restriction that an attribute can transport string values only. This would lead to "[Object object]" for other types.
 
-> **@nyaf**** overcomes this restriction with a smart attribute handling.
+> **@nyaf** overcomes this restriction with a smart attribute handling.
 
 That means the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\_\_name__" is written. Assume your value is written like shown below:
 

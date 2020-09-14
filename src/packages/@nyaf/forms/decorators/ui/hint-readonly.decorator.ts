@@ -18,10 +18,12 @@ export function Readonly(readonly = true) {
 export function readonlyInternalSetup(target: any, key: string, readonly: boolean) {
 
     // create a helper property to transport a meta data value
-    Object.defineProperty(target, `__isReadonly__${key}`, {
+    Object.defineProperty(target, `${Readonly.is}${key}`, {
         value: readonly,
         enumerable: false,
         configurable: false
     });
 
 }
+
+Readonly.is = '__isReadonly__';

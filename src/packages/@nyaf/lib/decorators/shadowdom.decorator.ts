@@ -18,7 +18,7 @@ export function ShadowDOM(useShadow: boolean = true) {
 /** @ignore */
 function shadowDOMInternalSetup(target: any, useShadow: boolean) {
 
-    Object.defineProperty(target, 'withShadow', {
+    Object.defineProperty(target, Symbol.for('withShadow'), {
         value: useShadow,
         enumerable: false,
         configurable: false

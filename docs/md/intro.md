@@ -1,10 +1,10 @@
 # Approach
 
-* @nyaf uses JSX/TSX syntax for quick component dev.
+* @nyaf uses JSX/TSX syntax for quick component dev. This is default option, you can use other any template system instead.
 * @nyaf supports Single Page App (SPA) directly.
 * @nyaf can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
-* @nyaf provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
-* @nyaf uses TypeScript from the beginning (and is written in TypeScript). It works with pure JS, though.
+* @nyaf provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML. This is a feature of the JSX/TSX provider.
+* @nyaf uses TypeScript from the beginning (and is written in TypeScript). It works with pure ECMAScript, though.
 * @nyaf creates a very small package.
 * @nyaf works well with WebPack and other common tools.
 * @nyaf uses standards, no weird or enforced CLI, no vendor lock in.
@@ -12,7 +12,7 @@
 
 ### Templates
 
-@nyaf uses TSX for templates. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.
+@nyaf prefers to use TSX for templates. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.
 
 See this excerpt from `tsconfig.json`:
 
@@ -24,6 +24,8 @@ See this excerpt from `tsconfig.json`:
 The class `JSX` is the core, it handles the element definitions and extract the template extensions.
 
 > You can use Babel to setup a pure JS environment without any restrictions. TypeScript is not enforced, it's just an option.
+
+Also you can use any other method to create the components content, but you will loose the *n-xxx* template extensions.
 
 ### Size
 

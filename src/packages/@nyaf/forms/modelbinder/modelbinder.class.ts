@@ -12,6 +12,8 @@ import { ValidatorBinding } from './validatorbinding.class';
 import { ViewUpdate } from '../interfaces/viewupdate.interface';
 import { MinLength, MaxLength, Pattern, Compare, Range, Email, Required } from '..';
 
+const withShadow = Symbol.for('withShadow');
+
 /**
  * The modelbinder serves two purposes:
  * First, the bi-directional data binding. Second, the converting of validation decorators into validation instructions.
@@ -117,7 +119,7 @@ export class ModelBinder<VM extends object> {
     if (modelInstanceConstructorFactory) {
       modelInstanceConstructorFactory(modelInstance);
     }
-    const isShadowed = !!component.constructor['withShadow'];
+    const isShadowed = !!component.constructor[withShadow];
     mbInstance.scope = modelInstance;
     console.log('** Init ModelBinder for: ', component.tagName);
     component.addEventListener('lifecycle', async (e: CustomEvent) => {
@@ -236,7 +238,7 @@ export class ModelBinder<VM extends object> {
     if (!model) {
       throw new Error('@ViewModel decorator missing or not before @ViewUpdates decorator.');
     }
-    const isShadowed = !!component.constructor['withShadow'];
+    const isShadowed = !!component.constructor[withShadow];
     component.addEventListener('lifecycle', async (e: CustomEvent) => {
       updatesMap.forEach((update) => {
         const { selector, property, binder, target } = update;

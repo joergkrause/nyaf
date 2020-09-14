@@ -32,11 +32,11 @@ nav:
     - Setup: md/docs/forms/setup.md
   - Flux Store:
     - Overview: md/docs/store/overview.md
-    - Store Example: md/docs/store/example.md
+    - The Store Types: md/docs/store/example.md
     - Global and Local Stores: md/docs/store/globloc.md
     - Disposing Subscriptions: md/docs/store/dispose.md
     - Effects Mapping: md/docs/store/effects.md
-    - Updates Mapping: md/docs/store/updates.md
+    - Automatic Updates: md/docs/store/updates.md
     - Setup: md/docs/store/setup.md
   - Comparision of @nyaf with...:
     - ...Angular: md/docs/comparision/angular.md

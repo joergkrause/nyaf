@@ -3,7 +3,7 @@
 
 Events are defined by a special instruction. They are attached to `document` object, regardless the usage.
 
-![Figure A-5: Define an event source](/assets/eventlistener.png)
+![Figure A-5: Define an event source](assets/eventlistener.png)
 
 ### n-on-event
 

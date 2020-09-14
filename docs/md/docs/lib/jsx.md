@@ -140,7 +140,7 @@ This behavior is usually not relevant. It’s only mentioned here for completene
 
 If you pass no value for a property, it defaults to true. These two TSX expressions are equivalent:
 
-~~~tsx
+~~~html
 <my-textbox autocomplete />
 
 <my-textbox autocomplete={true} />
@@ -195,19 +195,19 @@ In TSX expressions that contain both an opening tag and a closing tag, the conte
 
 You can put a string between the opening and closing tags and *this.children* will just be that string. This is useful for many of the built-in HTML elements. For example:
 
-~~~tsx
+~~~html
 <my-component>Hello world!</my-component>
 ~~~
 
 This is valid TSX, and *this.children* in *MyComponent* will simply be the string "Hello world!". HTML is unescaped, so you can generally write TSX just like you would write HTML in this way:
 
-~~~tsx
+~~~html
 <div>This is valid HTML &amp; TSX at the same time.</div>
 ~~~
 
 TSX removes whitespace at the beginning and ending of a line. It also removes blank lines. New lines adjacent to tags are removed; new lines that occur in the middle of string literals are condensed into a single space. So these all render to the same thing:
 
-~~~tsx
+~~~html
 <div>Hello World</div>
 
 <div>
@@ -229,7 +229,7 @@ TSX removes whitespace at the beginning and ending of a line. It also removes bl
 
 You can provide more TSX elements as the children. This is useful for displaying nested components:
 
-~~~tsx
+~~~html
 <my-container>
   <my-first-component />
   <my-second-component />
@@ -238,7 +238,7 @@ You can provide more TSX elements as the children. This is useful for displaying
 
 You can mix together different types of children, so you can use string literals together with TSX children. This is another way in which TSX is like HTML, so that this is both valid JSX and valid HTML:
 
-~~~tsx
+~~~html
 <div>
   Here is a list:
   <ul>
@@ -277,7 +277,7 @@ Item(data: { message: string }): string {
 }
 
 todoList(): string {
-  const todos = ['finish doc', 'submit pr', 'nag dan to review'];
+  const todos = ['create tests', 'fix bugs', 'attend scrum'];
   return (
     <ul>
       {todos.map((msg) => <my-item message={message} />)}

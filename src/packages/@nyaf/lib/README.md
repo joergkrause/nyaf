@@ -586,10 +586,10 @@ export class MainComponent extends BaseComponent<{ cnt: number}> {
 
 > The State generic is optional. If there is no state necessary just use `any` or an empty object such  as `{}`.
 
-Now two functions are available:
+Now a property and a function are available:
 
-* `data`: Returns the instance of the data object and contains all properties defined in the generic.
-* `setData`: Sets a changed value and, if the value differs, re-renders the component.
+* `data` (property): Returns the instance of the data object and contains all properties defined in the generic.
+* `setData(prop: string, val: any)` (function): Sets a value and if the value differs re-renders the component.
 
 A simple counter shows how to use:
 

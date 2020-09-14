@@ -12,7 +12,7 @@ export class EffectsBinder {
   public static initialize(component: BaseComponent): EffectsBinder {
     const mbInstance = new EffectsBinder();
     EffectsBinder._instanceStore.set(component, mbInstance);
-    const isShadowed = !!component.constructor['withShadow'];
+    const isShadowed = !!component.constructor[Symbol.for('withShadow')];
     component.addEventListener('lifecycle', async (e: CustomEvent) => {
       // prevent other components in the render body from bubbling their lifeCycle state to their parent
       // that happens if the binder binds to both, the parent and the children.

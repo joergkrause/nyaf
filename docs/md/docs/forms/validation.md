@@ -1,8 +1,9 @@
+
 ## Validation
 
-Form validation is painful to programm from scratch. **@nyaf** provides a n integrated but flexible validation system.
+Form validation is painful to programm from scratch. **@nyaf/forms** provides a n integrated but flexible validation system.
 
-### ViewModel Decorators
+### View Model Decorators
 
 First, you need a viewmodel that has validation decorators. It's the same kind of model used for regular binding. Again, here is an example:
 
@@ -44,20 +45,22 @@ this.model.state = {
 }
 ```
 
-It's supervised. After render _this.model.state_ helds the state of the model.
+It's supervised. After the component is rendered the property _this.model.state_ helds the state of the model.
 
-After a binding happens the validators are being executed and the instance values change. You can retrieve the values in a method, or an event handler. To set UI element interactively, immediately, you again use the `n-bind` attribute and the appropriate binding function like `to` and `bind`.
+After a binding happens the validators are being executed and the instance values change. You can retrieve the values in a method, or an event handler. To set UI elements interactively, immediately, you again use the `n-bind` attribute and the appropriate binding function like `to` and `bind`.
 
 ### Bind to Validators
 
-The error message is just regular output (class example from Bootstrap, not needed by **@nyaf** forms):
+An error message is just regular output (the class values are taken from Bootstrap and they're not needed by the **@nyaf/forms** module):
 
 ```tsx
 <form>
   <label n-bind="innerText: userName" for="un"/>
   <input n-bind="value: userName" id="un">
   <div class="text text-danger"
-       n-bind={val<ViewModel>(e => e.userName, Required, DisplayBindingHandler)}>
+       n-bind={val<ViewModel>(e => e.userName,
+                                   Required,
+                                   DisplayBindingHandler)}>
   </div>
 </form>
 ```
@@ -71,16 +74,18 @@ Distinguish between different validators like this:
   <label n-bind="innerText: userName" for="un"/>
   <input n-bind="value: userName" id="un">
   <span class="text text-danger"
-       n-bind={val<ViewModel>(e => e.userName, MaxLength, DisplayBindingHandler)}>
+       n-bind={val<ViewModel>(e => e.userName,
+                                   MaxLength,
+                                   DisplayBindingHandler)}>
   </span>
 </form>
 ```
 
 The smart binder `val` is the key ingredient here. It takes three parameters:
 
-1. Expression to access the models actual value
-2. Validator for which the binding is responsible (must also be aon the view models property)
-3. Display handler, that pulls the values and assigns it to the right property
+1. An expression to access the models actual value.
+2. A validator for which the binding is responsible (must also be aon the view models property).
+3. A display handler, that pulls the values and assigns it to the right property.
 
 In the above example the view model has this property:
 
@@ -96,17 +101,15 @@ Now, the binding instruction looks like this:
 val<ViewModel>(e => e.userName, MaxLength, DisplayBindingHandler)
 ```
 
-The `DisplayBindingHandler` is smart enough to know that it's bound to an error message. It know reads the second parameter that is `Required`. It binds now to parts.
+The `DisplayBindingHandler` is smart enough to know that it's bound to an error message. It now reads the second parameter that is `MaxLength`. It binds now these two parts.
 
-First, it binds the error message to `textContent`. That's a static assignment. Second, it binds the `display` style to the `isValid` method of the view model. This method is set through the `Required` decorator and knows how to determine the state 'required'. The property is bound through the scope's Proxy dynamically and once the values changes, irrespectively the source of the change, it fires an event and the model binder holds a subscriber for this. Here, the value is taken and handed over to the `isValid` method. This method is bound to the handler, that sets the style accordingly. That setting is reversed, means that the value `true` makes the message invisible, while the value `false` makes the message visible (isValid ==== false tells us an error occurred).
+First, it binds the error message to `textContent`. That's a static assignment. Second, it binds the `display` style to the `isValid` method of the view model. This method is set through the `MaxLength` decorator and knows how to determine the state 'maxlength'. The property is bound through the scope's Proxy dynamically and once the values changes, irrespectively the source of the change, it fires an event and the model binder holds a subscriber for this. Here, the value is taken and handed over to the `isValid` method. This method is bound to the handler, that sets the style accordingly. That setting is reversed, means that the value `true` makes the message invisible, while the value `false` makes the message visible (`isValid === false` tells you an error occurred).
 
 > If you use the `DisplayBindingHandler` or `VisibilityBindingHandler` directly, without validation but in conjunction with binding operations, than they will work straight, true makes an element visible, and false invisible.
 
 ### Handler Behavior
 
-The `DisplayBindingHandler` sets `display: none` or `display: block`.
-
-The `VisibilityBindingHandler` sets `visibility: hidden` or `visibility: visible`.
+The `DisplayBindingHandler` sets `display: none` or `display: block`. The `VisibilityBindingHandler` sets `visibility: hidden` or `visibility: visible`. These are the most basic handlers and available out-of-the-box.
 
 If you need other values you must write a new handler with the desired behavior. This is, fortunately, extremely simple. Here is the source code for the handlers:
 

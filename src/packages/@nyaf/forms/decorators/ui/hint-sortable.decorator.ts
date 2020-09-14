@@ -18,10 +18,12 @@ export function Sortable(show = true) {
 export function sortableInternalSetup(target: any, key: string, show: boolean) {
 
     // create a helper property to transport a meta data value
-    Object.defineProperty(target, `__isSortable__${key}`, {
+    Object.defineProperty(target, `${Sortable.is}${key}`, {
         value: show,
         enumerable: false,
         configurable: false
     });
 
 }
+
+Sortable.is = '__isSortable__';

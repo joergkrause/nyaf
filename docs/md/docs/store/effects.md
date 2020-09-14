@@ -1,4 +1,4 @@
-## Effects
+## Effects Mapping
 
 A component is basically just an user interface (UI), that is defined by HTML. This UI can be dynamic in both directions, receiving user actions and react to changes in an underlying data model. In business components this leads to a significant amount of code, that is primarily just a reference to the coding environment. For user actions it's a number of event hooks leading to handlers. For data changes it's the binding to a model and code to monitor changes.
 

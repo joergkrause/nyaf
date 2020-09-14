@@ -1,4 +1,4 @@
-## Updates
+## Automatic Updates
 
 The `@Updates` decorator complements the `@Effects` decorator. The schema is similar. However, both decorators work independently of each other and you can use any or both.
 

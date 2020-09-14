@@ -19,10 +19,12 @@ export function Hidden(hide = true) {
 export function hiddenInternalSetup(target: any, key: string, hide: boolean) {
 
     // create a helper property to transport a meta data value
-    Object.defineProperty(target, `__isHidden__${key}`, {
+    Object.defineProperty(target, `${Hidden.is}${key}`, {
         value: hide,
         enumerable: false,
         configurable: false
     });
 
 }
+
+Hidden.is = '__isHidden__';

@@ -7,6 +7,7 @@ export * from './decorators/forms/val-pattern.decorator';
 export * from './decorators/forms/val-compare.decorator';
 export * from './decorators/forms/val-required.decorator';
 export * from './decorators/forms/val-range.decorator';
+export * from './decorators/forms/val-custom.decorator';
 export * from './decorators/ui/hint-display.decorator';
 export * from './decorators/ui/hint-displaygroup.decorator';
 export * from './decorators/ui/hint-hidden.decorator';

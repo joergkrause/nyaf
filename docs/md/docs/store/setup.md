@@ -10,4 +10,4 @@ The type definitions required for TypeScript are part of the packages and no add
 
 ### Dependencies
 
-The one and only dependency is the core library, _@nyaf/lib_.
+The one and only dependency is the core library, __@nyaf/lib__.

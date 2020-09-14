@@ -9,7 +9,7 @@ export function Translate(json: { [key: string]: string }): any {
 
   function handleTranslation(target: object, propertyKey: string) {
     Object.getOwnPropertyNames(target)
-    .filter(key => key.endsWith(propertyKey))
+    .filter((key: string) => key.endsWith(propertyKey))
     .forEach(key => {
       const index = target[key];
       if (Object.getOwnPropertyDescriptor(target, key).writable) {

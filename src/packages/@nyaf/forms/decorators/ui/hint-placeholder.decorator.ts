@@ -19,13 +19,13 @@ export function Placeholder(name: string) {
 export function placeholderInternalSetup(target: any, key: string, name: string) {
 
     // create a helper property to transport a meta data value
-    Object.defineProperty(target, `__watermark__${key}`, {
+    Object.defineProperty(target, `${Placeholder.text}${key}`, {
         value: name,
         enumerable: false,
         configurable: false
     });
 
-    Object.defineProperty(target, `__hasWatermark__${key}`, {
+    Object.defineProperty(target, `${Placeholder.has}${key}`, {
         value: true,
         enumerable: false,
         configurable: false
@@ -33,3 +33,5 @@ export function placeholderInternalSetup(target: any, key: string, name: string)
 
 }
 
+Placeholder.has = '__hasWatermark__';
+Placeholder.text = '__watermark__';

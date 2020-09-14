@@ -1,4 +1,4 @@
-## Type Handling in Typescript
+## The Store Types
 
 The store has these basic parts as described before:
 
@@ -6,18 +6,18 @@ The store has these basic parts as described before:
 - Reducer
 - Store and Store Types
 
-The Actions are basically string constants. The reducers get payload that's anything. The return value is the Store Type.
+The actions are basically string constants. The reducers get a payload that can be simply anything, including `null` or `undefined`. The return value is the store type.
 
 The store has two basic function:
 
-- dispatch
-- subscribe
+1. Use `dispatch` to send action objects. These objects trigger the respective reducer functions.
+2. The `subscribe` method allows to attach an event handler that receives store updates.
 
-You dispatch an Action along with a payload. So, the types are `string` and `any`.
+You dispatch an action along with a payload. So, the types are `string` or `Symbol` for the name and `any` for the payload.
 
-When you receive a store event from a subscribe this subscription watches for changes of a part of the Store Type. The event handler receives the whole store, then.
+When you receive a store event from a subscriber, this subscription watches for changes of a part of the store type. The event handler receives the whole store, then.
 
-### Example
+### Examining an Example
 
 Assume we deal with a CRUD (Create, Read, Update, Delete) component using a custom model like this:
 
@@ -61,18 +61,18 @@ export class ArchivModel {
 }
 ```
 
-The decorators are from the _@nyaf/forms_ project.
+The decorators are from the **@nyaf/forms** library.
 
 Now, some actions are required:
 
 ```ts
 import { ArchivModel } from '../model/archiv.model';
 
-export const ALL = 'ALL';
-export const EDIT = 'EDIT';
-export const ADD = 'ADD';
-export const SAVE = 'SAVE';
-export const REMOVE = 'REMOVE';
+export const ALL = Symbol('ALL');
+export const EDIT = Symbol('EDIT');
+export const ADD = Symbol('ADD');
+export const SAVE = Symbol('SAVE');
+export const REMOVE = Symbol('REMOVE');
 
 /**
  * The defaults that we use as long as the code hasn't sent anything.
@@ -86,7 +86,7 @@ export default {
 };
 ```
 
-Also, some reducers doing the hard work:
+Also, some reducers doing the hard work (*DatabaseService* is an example service proxy not shown here; see the full example code on Github in the examples path):
 
 ```ts
 import { ALL, ADD, REMOVE, EDIT, SAVE } from '../actions/archive.actions';

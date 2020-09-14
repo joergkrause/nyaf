@@ -19,6 +19,8 @@ export interface IBaseComponent extends HTMLElement {
   setData(name: string, newValue: any, noRender?: boolean): Promise<void>;
 }
 
+const withShadow = Symbol.for('withShadow');
+
 /**
  * Base class for components. Use in derived classes with a path to a template file, and additional setup steps callback.
  * Override 'render' method (mandatory) for event wiring and data/dom manipulation or creation (dynamic part).
@@ -52,7 +54,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   /**
    * Set by decorator {@link {UseShadowDOM}}. A shadowed component is technically isolated.
    */
-  public static readonly withShadow: boolean;
+  public static readonly [withShadow]: boolean;
 
   /**
    * Set by decorator {@link {CustomElement}}. It's the element's name in CSS selector style.
@@ -148,7 +150,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     this._data = new Proxy(defaultProperties as P, this.proxyAttributeHandler);
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
-    if (this.constructor['useParentStyles'] && this.constructor['withShadow'] && !this.constructor['globalStyle']) {
+    if (this.constructor['useParentStyles'] && this.constructor[withShadow] && !this.constructor['globalStyle']) {
       this.constructor['globalStyle'] = '';
       if (isBoolean(this.constructor['useParentStyles']) && this.constructor['useParentStyles'] === true) {
         for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
@@ -317,7 +319,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   protected async setup(): Promise<void> {
     this.lifeCycleState = LifeCycle.PreRender;
     let $this: BaseComponent = null;
-    if ((<any>this.constructor).withShadow) {
+    if ((<any>this.constructor)[withShadow]) {
       const template = document.createElement('template');
       template.innerHTML = await this.render();
       if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {

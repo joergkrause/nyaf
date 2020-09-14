@@ -22,28 +22,33 @@ export function displayGroupInternalSetup(target: any, key: string, name: string
     order = parseInt(order.toString(), 10);
     // create a helper property to transport a meta data value
 
-    Object.defineProperty(target, `__isGrouped__${key}`, {
+    Object.defineProperty(target, `${DisplayGroup.grouped}${key}`, {
         value: true,
         enumerable: false,
         configurable: false
     });
 
-    Object.defineProperty(target, `__groupName__${key}`, {
+    Object.defineProperty(target, `${DisplayGroup.name}${key}`, {
         value: name,
         enumerable: false,
         configurable: false
     });
 
-    Object.defineProperty(target, `__groupOrder__${key}`, {
+    Object.defineProperty(target, `${DisplayGroup.order}${key}`, {
         value: order,
         enumerable: false,
         configurable: false
     });
 
-    Object.defineProperty(target, `__groupDesc__${key}`, {
+    Object.defineProperty(target, `${DisplayGroup.desc}${key}`, {
         value: description,
         enumerable: false,
         configurable: false
     });
 }
+
+DisplayGroup.grouped = '__isGrouped__';
+DisplayGroup.name = '__groupName__';
+DisplayGroup.order = '__groupOrder__';
+DisplayGroup.desc = '__groupDesc__';
 

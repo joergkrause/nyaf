@@ -25,7 +25,7 @@ export function Select(selector: string, many = false) {
             items: a
           };
         };
-        if (this.constructor['withShadow']) {
+        if (this.constructor[Symbol.for('withShadow')]) {
           return many ? all(this.shadowRoot.querySelectorAll(selector)) : this.shadowRoot.querySelector(selector);
         } else {
           return many ? all(this.querySelectorAll(selector)) : this.querySelector(selector);

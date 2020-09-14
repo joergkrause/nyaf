@@ -13,11 +13,13 @@ The best choice for a Packer is probably WebPack, in that case a *webpack.config
 ### The Entry File
 
 The recommended folder structure looks like this:
-
-~~~
+<style>
+  code.txt { white-space: pre !important; }
+</style>
+~~~txt
 |
 \--\src
-|  |-- index.html
+|  |-- index.html
 |  |-- main.ts
 |  \-- \components
 |  |             |
@@ -31,7 +33,7 @@ The recommended folder structure looks like this:
 
 The application starts with the code in *main.ts* and the basics structure looks like Figure A-1.
 
-![Figure A-1: Entry File](/assets/main_ts.png)
+![Figure A-1: Entry File](assets/main_ts.png)
 
 ### TypeScript Configuration
 

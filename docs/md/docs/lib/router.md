@@ -13,7 +13,7 @@ Any kind of parent element will do. The router code sets the property `innerHTML
 
 > There is just one default outlet. See further below for using named outlets.
 
-![Figure A-6: The router parts](/assets/routerparts.png)
+![Figure A-6: The router parts](assets/routerparts.png)
 
 ### Register Routes
 

@@ -12,7 +12,7 @@ export class UpdatesBinder {
   public static initialize<T extends object>(component: BaseComponent): UpdatesBinder {
     const mbInstance = new UpdatesBinder();
     UpdatesBinder._instanceStore.set(component, mbInstance);
-    const isShadowed = !!component.constructor['withShadow'];
+    const isShadowed = !!component.constructor[Symbol.for('withShadow')];
     component.addEventListener('lifecycle', async (e: CustomEvent) => {
       // prevent other components in the render body from bubbling their lifeCycle state to their parent
       // that happens if the binder binds to both, the parent and the children.
