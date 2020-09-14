@@ -337,7 +337,7 @@
               
                 <h2 id="the-flux-store">The Flux Store<a class="headerlink" href="#the-flux-store" title="Permanent link">#</a></h2>
 <p>This module is the store implementation, a simple flux variant without the burden of Redux. It strictly follows the flux pattern and brings, ones fully understood, a great amount of strict programming style to your application. It brings state to your single page app (SPA). Outside of a SPA it's not useful.</p>
-<p><img alt="Figure A-7: The flux model" src="assets/flux.png" /></p>
+<p><img alt="Figure A-7: The flux model" src="../assets/flux.png" /></p>
 <h3 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">#</a></h3>
 <p>It's very much like Redux, but makes use of decorators to write less code. It's a good strategy to create one global store in your app. Leave it empty if there are no global actions, but make it global if you have such actions.</p>
 <p>Then, define three parts for each implementation:</p>
@@ -368,7 +368,7 @@ export default {
 </code></pre>
 
 <p>The following figure shows the relevant parts of the action definition:</p>
-<p><img alt="Figure A-8: The main parts store: the action setup" src="assets/actions.png" /></p>
+<p><img alt="Figure A-8: The main parts store: the action setup" src="../assets/actions.png" /></p>
 <blockquote>
 <p><strong>Why using actions?</strong> It's convenient to have typed constants in the editor and use easy to remember names without the chance to create mistakenly typos.</p>
 </blockquote>
@@ -390,7 +390,7 @@ export default {
 </code></pre>
 
 <p>The following figure shows the relevant parts of the reducer definition:</p>
-<p><img alt="Figure A-9: Parts of a reducer" src="assets/reducer.png" /></p>
+<p><img alt="Figure A-9: Parts of a reducer" src="../assets/reducer.png" /></p>
 <p>The returned payload is the whole store object by reference. The type for the store is optional and helps elevating the power of TypeScript and getting a type safe store.</p>
 <blockquote>
 <p><strong>Why using reducers at all?</strong> Pure function calls are the foundation of a side effect free business layer. You have exactly one location where the logic goes -  the reducer. That's said, from now on you will know where to have logic, where to have UI, and where to store everything.</p>
@@ -400,7 +400,7 @@ export default {
 <p>The return value is an object that contains the fragments of the store that need to be changed. Through subscriptions this is the way to inform other instances that something happened. But be careful with setting multiple values in one single step. The store logic will execute property by property and immediately publish the change event. A subscriber will receive the changes in the exact order of the properties in the reducers returns value. If the subscriber receives the first property's change event, the ne value is provided. However, the remaining values are not yet set, and hence the store is in an intermediate state. You must wait for all subscribers to get their final values. The best way to avoid hassle here is to avoid returning multiple values from a single reducer function.</p>
 <h3 id="store-and-dispatcher">Store and Dispatcher<a class="headerlink" href="#store-and-dispatcher" title="Permanent link">#</a></h3>
 <p>The store holds the state, provides a dispatch function and fires events in case a store value changes. First, the store can by defined by types, but this is an option and you may decide to go with a simple object just for the sake of simplicity.</p>
-<p><img alt="Figure A-10: The store's parts" src="assets/store.png" /></p>
+<p><img alt="Figure A-10: The store's parts" src="../assets/store.png" /></p>
 <p>The example shows a store that consists of fragments. This allows one to use parts of the store just by using the type fragments.</p>
 <pre><code class="ts">// This is a store fragment
 export interface DemoTitleStore {
