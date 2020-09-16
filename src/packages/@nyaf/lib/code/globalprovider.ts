@@ -189,11 +189,11 @@ export class GlobalProvider {
               call = true;
               if (match[3] && match[3].indexOf(',') > 0) {
                 params.push(...match[3].split(',').map((s: any) => {
-                  const param = s.trim();
-                  if (param === 'true') { return true; }
-                  if (param === 'false') { return false; }
+                  const param = s.trim().replace(/^["']|["']$/g, '');
+                  if (param === 'true' || param === '!0') { return true; }
+                  if (param === 'false' || param === '!1') { return false; }
                   if (!isNaN(param)) { return param - 0; }
-                  return param.replace(/^'|'$/g, '');
+                  return param;
                 }).slice(1));
               }
             }

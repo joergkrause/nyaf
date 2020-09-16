@@ -18,7 +18,7 @@ export function TemplateHint(template: string, params?: { [key: string]: any }) 
 
 export function templateHintInternalSetup(target: any, key: string, template: string, params?: { [key: string]: any }) {
   // create a helper property to transport a meta data value
-  Object.defineProperty(target, `${TemplateHint.name}${key}`, {
+  Object.defineProperty(target, `${TemplateHint.hint}${key}`, {
     value: template,
     enumerable: false,
     configurable: false
@@ -37,6 +37,6 @@ export function templateHintInternalSetup(target: any, key: string, template: st
   });
 }
 
-TemplateHint.name = '';
+TemplateHint.hint = '';
 TemplateHint.params = '';
 TemplateHint.has = '';

@@ -2,11 +2,51 @@
 
 Because the preferred installation is based on TypeScript, it's very recommended to use WebPack and TypeScript's configuration file *tsconfig.json*.
 
+## Project
+
+The *package.json* of your project may look like this:
+
+~~~json
+{
+  "name": "your-project",
+  "version": "0.0.0",
+  "description": "My first @nyaf project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"no test defined\"",
+    "start": "webpack-dev-server",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.26",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.0.2",
+    "css-loader": "^3.6.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^1.2.1",
+    "ts-loader": "^7.0.5",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "typescript": "^3.9.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  },
+  "dependencies": {
+    "@nyaf/cli": "~0.6.2",
+    "@nyaf/lib": "~0.6.2"
+  }
+}
+~~~
+
+Of course, you have to add anything you might need in addition to that, such as CSS frameworks, fonts, or specific libraries. Also it's worth to note that the various WebPack plug-ins are just a recommendation and you can replace the whole packer stuff with whatever you like. The only thing really needed is the package *@nyaf/lib*.
+
 ## TypeScript
 
 The *tsconfig.json* looks like this:
 
-~~~~~json
+~~~json
 {
   "compilerOptions": {
     "target": "es2015",
@@ -34,7 +74,7 @@ The *tsconfig.json* looks like this:
     ]
   }
 }
-~~~~~
+~~~
 
 ## WebPack
 

@@ -289,7 +289,7 @@ Events are defined by a special instruction. They are attached to `document` obj
 
 ### n-on-[event]
 
-Events are easy to add directly using it like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
+Events are easy to add directly using them like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
 
 ~~~tsx
   <button n-on-click={() => this.clickMe()}>OK</button>

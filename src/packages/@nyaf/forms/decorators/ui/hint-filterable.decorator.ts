@@ -18,10 +18,12 @@ export function Filterable(show = true) {
 export function filterableInternalSetup(target: any, key: string, show: boolean) {
 
     // create a helper property to transport a meta data value
-    Object.defineProperty(target, `__isFilterable__${key}`, {
+    Object.defineProperty(target, `${Filterable.is}${key}`, {
         value: show,
         enumerable: false,
         configurable: false
     });
 
 }
+
+Filterable.is = '__isFilterable__';

@@ -28,7 +28,7 @@ export function displayGroupInternalSetup(target: any, key: string, name: string
         configurable: false
     });
 
-    Object.defineProperty(target, `${DisplayGroup.name}${key}`, {
+    Object.defineProperty(target, `${DisplayGroup.group}${key}`, {
         value: name,
         enumerable: false,
         configurable: false
@@ -48,7 +48,7 @@ export function displayGroupInternalSetup(target: any, key: string, name: string
 }
 
 DisplayGroup.grouped = '__isGrouped__';
-DisplayGroup.name = '__groupName__';
+DisplayGroup.group = '__groupName__';
 DisplayGroup.order = '__groupOrder__';
 DisplayGroup.desc = '__groupDesc__';
 

@@ -20,7 +20,7 @@ If you use Visual Studio Code it's recommended to tell the editor the specific f
 }
 ```
 
-This assumes you sources are in the folder _./src_. Adjust the settings according your needs.
+This assumes your sources are in the folder _./src_. Adjust the settings according your needs.
 
 ### Project Dependencies
 
@@ -45,7 +45,7 @@ Next add the following dependencies to your project's _package.json_. This is th
   }
 ```
 
-This setup allows the compilation and packaging with WebPack, but the transformation invoked from WebPack is based in the Babel plug-ins.
+This setup allows the compilation and packaging with WebPack, but the transformation invoked from WebPack is based on the Babel plug-ins.
 
 ### Configuring Babel
 
@@ -118,7 +118,7 @@ module.exports = {
 };
 ```
 
-The entry point is the file _main.js_. All component files have the extension _.jsx_, so we need to resolve that extension, too. Apart from this the _babel-loader_ invokes the Babel transpiler and that settings, described above, apply here. The bundle is copied to the distribution folder _dist_ and the bundle is added to the HTML file using the appropriate plug-in.
+The entry point is the file _main.js_. All component files have the extension _.jsx_, so we need to resolve that extension, too. Apart from this the _babel-loader_ invokes the Babel transpiler and these settings, described above, apply here. The bundle is copied to the distribution folder _dist_ and the bundle is added to the HTML file using the appropriate plug-in.
 
 ### Writing Components
 
@@ -198,7 +198,7 @@ GlobalProvider.bootstrap({
 });
 ~~~
 
-The import from *@components* makes it so much more convenient. To setup this local path resolution you need to create an index file for your components:
+The import from *@components* makes it so much more convenient. To setup this local path resolution you need to create an index file (*index.js*) for your components in the root folder of the components:
 
 ~~~js
 export * from './main.component';
