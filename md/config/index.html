@@ -105,6 +105,8 @@
     
         <ul>
         
+            <li><a class="toctree-l3" href="#project">Project</a></li>
+        
             <li><a class="toctree-l3" href="#typescript">TypeScript</a></li>
         
             <li><a class="toctree-l3" href="#webpack">WebPack</a></li>
@@ -329,6 +331,42 @@
               
                 <h1 id="configuration-files">Configuration Files<a class="headerlink" href="#configuration-files" title="Permanent link">#</a></h1>
 <p>Because the preferred installation is based on TypeScript, it's very recommended to use WebPack and TypeScript's configuration file <em>tsconfig.json</em>.</p>
+<h2 id="project">Project<a class="headerlink" href="#project" title="Permanent link">#</a></h2>
+<p>The <em>package.json</em> of your project may look like this:</p>
+<pre><code class="json">{
+  &quot;name&quot;: &quot;your-project&quot;,
+  &quot;version&quot;: &quot;0.0.0&quot;,
+  &quot;description&quot;: &quot;My first @nyaf project&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;echo \&quot;no test defined\&quot;&quot;,
+    &quot;start&quot;: &quot;webpack-dev-server&quot;,
+    &quot;build&quot;: &quot;webpack&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@types/node&quot;: &quot;^12.12.26&quot;,
+    &quot;clean-webpack-plugin&quot;: &quot;^3.0.0&quot;,
+    &quot;copy-webpack-plugin&quot;: &quot;^6.0.2&quot;,
+    &quot;css-loader&quot;: &quot;^3.6.0&quot;,
+    &quot;file-loader&quot;: &quot;^6.0.0&quot;,
+    &quot;html-webpack-plugin&quot;: &quot;^4.3.0&quot;,
+    &quot;postcss-loader&quot;: &quot;^3.0.0&quot;,
+    &quot;style-loader&quot;: &quot;^1.2.1&quot;,
+    &quot;ts-loader&quot;: &quot;^7.0.5&quot;,
+    &quot;tsconfig-paths-webpack-plugin&quot;: &quot;^3.2.0&quot;,
+    &quot;typescript&quot;: &quot;^3.9.5&quot;,
+    &quot;webpack&quot;: &quot;^4.41.5&quot;,
+    &quot;webpack-cli&quot;: &quot;^3.3.10&quot;,
+    &quot;webpack-dev-server&quot;: &quot;^3.10.1&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;@nyaf/cli&quot;: &quot;~0.6.2&quot;,
+    &quot;@nyaf/lib&quot;: &quot;~0.6.2&quot;
+  }
+}
+</code></pre>
+
+<p>Of course, you have to add anything you might need in addition to that, such as CSS frameworks, fonts, or specific libraries. Also it's worth to note that the various WebPack plug-ins are just a recommendation and you can replace the whole packer stuff with whatever you like. The only thing really needed is the package <em>@nyaf/lib</em>.</p>
 <h2 id="typescript">TypeScript<a class="headerlink" href="#typescript" title="Permanent link">#</a></h2>
 <p>The <em>tsconfig.json</em> looks like this:</p>
 <pre><code class="json">{

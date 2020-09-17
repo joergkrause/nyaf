@@ -355,13 +355,13 @@
 }
 </code></pre>
 
-<p>This assumes you sources are in the folder <em>./src</em>. Adjust the settings according your needs.</p>
+<p>This assumes your sources are in the folder <em>./src</em>. Adjust the settings according your needs.</p>
 <h3 id="project-dependencies">Project Dependencies<a class="headerlink" href="#project-dependencies" title="Permanent link">#</a></h3>
 <p>Next add the following dependencies to your project's <em>package.json</em>. This is the current Babel 7 setup.</p>
 <pre><code class="json">&quot;dependencies&quot;: {
-    &quot;@nyaf/forms&quot;: &quot;^0.6.1&quot;,
-    &quot;@nyaf/lib&quot;: &quot;^0.6.1&quot;,
-    &quot;@nyaf/store&quot;: &quot;^0.6.1&quot;,
+    &quot;@nyaf/forms&quot;: &quot;^0.6.2&quot;,
+    &quot;@nyaf/lib&quot;: &quot;^0.6.2&quot;,
+    &quot;@nyaf/store&quot;: &quot;^0.6.2&quot;,
     &quot;babel-loader&quot;: &quot;^8.1.0&quot;
   },
   &quot;devDependencies&quot;: {
@@ -376,7 +376,7 @@
   }
 </code></pre>
 
-<p>This setup allows the compilation and packaging with WebPack, but the transformation invoked from WebPack is based in the Babel plug-ins.</p>
+<p>This setup allows the compilation and packaging with WebPack, but the transformation invoked from WebPack is based on the Babel plug-ins.</p>
 <h3 id="configuring-babel">Configuring Babel<a class="headerlink" href="#configuring-babel" title="Permanent link">#</a></h3>
 <p>Next, configure Babel to support the features <strong>@nyaf</strong> needs. This is primarily the JSX namespaces, that are different from React. It's similar to the procedure described for TypeScript. However, the settings look a bit different.</p>
 <p>You can use either <em>.babelrc</em> or the settings in <em>package.json</em>. The following example shows the settings in <em>package.json</em> (on root level).</p>
@@ -439,7 +439,7 @@ module.exports = {
 };
 </code></pre>
 
-<p>The entry point is the file <em>main.js</em>. All component files have the extension <em>.jsx</em>, so we need to resolve that extension, too. Apart from this the <em>babel-loader</em> invokes the Babel transpiler and that settings, described above, apply here. The bundle is copied to the distribution folder <em>dist</em> and the bundle is added to the HTML file using the appropriate plug-in.</p>
+<p>The entry point is the file <em>main.js</em>. All component files have the extension <em>.jsx</em>, so we need to resolve that extension, too. Apart from this the <em>babel-loader</em> invokes the Babel transpiler and these settings, described above, apply here. The bundle is copied to the distribution folder <em>dist</em> and the bundle is added to the HTML file using the appropriate plug-in.</p>
 <h3 id="writing-components">Writing Components<a class="headerlink" href="#writing-components" title="Permanent link">#</a></h3>
 <p>The components look exactly like the ones using TypeScript, apart from missing types and generics. Let's assume you have this <em>index.html</em>:</p>
 <pre><code class="html">&lt;!DOCTYPE html&gt;
@@ -506,7 +506,7 @@ GlobalProvider.bootstrap({
 });
 </code></pre>
 
-<p>The import from <em>@components</em> makes it so much more convenient. To setup this local path resolution you need to create an index file for your components:</p>
+<p>The import from <em>@components</em> makes it so much more convenient. To setup this local path resolution you need to create an index file (<em>index.js</em>) for your components in the root folder of the components:</p>
 <pre><code class="js">export * from './main.component';
 export * from './message.component';
 </code></pre>
