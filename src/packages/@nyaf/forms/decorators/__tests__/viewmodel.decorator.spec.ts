@@ -1,4 +1,4 @@
-import { ViewModel } from './viewmodel.decorator';
+import { ViewModel } from '../viewmodel.decorator';
 import { isFunction } from 'util';
 
 test('ViewModel signature', () => {
@@ -8,6 +8,9 @@ test('ViewModel signature', () => {
 test('ViewModel decorator', () => {
 
   class MockModel {
+    constructor(constructorHelper: () => string) {
+      this.name = constructorHelper();
+    }
     name: string;
   }
 
@@ -33,6 +36,6 @@ test('ViewModel decorator', () => {
   expect(mockObj.__model__).not.toBeUndefined();
   expect(mockObj.__model__.name).toEqual('MockModel');
   expect(mockObj.prototype).not.toBeUndefined();
-  expect(mockObj.prototype[Symbol.for('__ctor__')]).toEqual('model');
+  expect(mockObj.prototype[Symbol.for('__ctor__')]).toMatchObject(['model']);
   expect(mockObj.prototype.model).not.toBeUndefined();
 });

@@ -1,4 +1,6 @@
-﻿/**
+﻿import { Extends_Symbol } from "../consts/decorator.props";
+
+/**
  * The Extends decorator. Experimental.
  *
  * If decorated, the component will register itself as an extension of the given element.
@@ -22,7 +24,7 @@ export function Extends(elementName: string) {
 
 function extendsInternalSetup(target: any, elementName: string) {
 
-  Object.defineProperty(target, '__extends_element__', {
+  Object.defineProperty(target, Extends_Symbol, {
     value: elementName,
     enumerable: false,
     configurable: false

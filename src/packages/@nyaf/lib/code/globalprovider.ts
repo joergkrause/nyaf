@@ -9,8 +9,9 @@ import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
 import { NRepeaterComponent } from '../components/smart/nrepeater.component';
 import { NOutletComponent } from '../components/smart/noutlet.component';
-import { NFinishedComponent } from '../components/smart/nfinished.component';
+import { NFinishComponent } from '../components/smart/nfinish.component';
 import { IBaseDirective } from './basedirective';
+import { Events_Symbol_Eventlist, Extends_Symbol, CustomElement_Symbol_Selector } from '../consts/decorator.props';
 
 /**
  * Main support class that provides all global functions. You must call at least the {@link bootstrap} method to register components.
@@ -29,14 +30,14 @@ export class GlobalProvider {
    * provide the tag name in a property calles *selector*. The component must inherit {@link Component}.
    */
   static register(type: IComponent) {
-    if ((type as any).__extends_element__) {
-      customElements.define(type[Symbol.for('CustomElementSelector')], type, { extends: (type as any).__extends_element__ });
+    if (type[Extends_Symbol]) {
+      customElements.define(type[CustomElement_Symbol_Selector], type, { extends: type[Extends_Symbol] });
     } else {
-      customElements.define(type[Symbol.for('CustomElementSelector')], type);
+      customElements.define(type[CustomElement_Symbol_Selector], type);
     }
-    GlobalProvider.registeredElements.push(type[Symbol.for('CustomElementSelector')].toUpperCase());
-    if (type.customEvents) {
-      type.customEvents.forEach(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
+    GlobalProvider.registeredElements.push(type[CustomElement_Symbol_Selector].toUpperCase());
+    if (type[Events_Symbol_Eventlist]) {
+      type[Events_Symbol_Eventlist].forEach(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     }
   }
 
@@ -63,7 +64,7 @@ export class GlobalProvider {
     // register smart components
     customElements.define('n-repeat', NRepeaterComponent);
     customElements.define('n-outlet', NOutletComponent);
-    customElements.define('n-finished', NFinishedComponent);
+    customElements.define('n-finish', NFinishComponent);
     // register custom components
     GlobalProvider.bootstrapProps.components.forEach(c => {
       // add to browsers web component registry
@@ -94,7 +95,7 @@ export class GlobalProvider {
     // loop through all alread statically set components
     GlobalProvider.bootstrapProps.components.forEach(c => {
       // get all appearances
-      [].slice.call(document.getElementsByTagName(c[Symbol.for('CustomElementSelector')])).forEach((e: IBaseComponent) => {
+      [].slice.call(document.getElementsByTagName(c[CustomElement_Symbol_Selector])).forEach((e: IBaseComponent) => {
         // make a promise to wait for the async renderer
         const p = new Promise<void>((resolve) => {
           // if already done it's okay for us (mostly, that's just the main component)

@@ -1,3 +1,5 @@
+import { ShadowDOM_Symbol_WithShadow } from '../consts/decorator.props';
+
 /**
  * Return of Select decorator in case of a list.
  */
@@ -11,6 +13,7 @@ export interface QueryList<T extends HTMLElement> {
 /**
  * Select an element and assign to property.
  * @param selector Any selector used by `querySelector`.
+ * @param many If set to true, the result is always a list with @link QueryList, regardless the number of elements
  */
 export function Select(selector: string, many = false) {
   return function (target: any, prop: string) {
@@ -25,7 +28,7 @@ export function Select(selector: string, many = false) {
             items: a
           };
         };
-        if (this.constructor[Symbol.for('withShadow')]) {
+        if (this.constructor[ShadowDOM_Symbol_WithShadow]) {
           return many ? all(this.shadowRoot.querySelectorAll(selector)) : this.shadowRoot.querySelector(selector);
         } else {
           return many ? all(this.querySelectorAll(selector)) : this.querySelector(selector);

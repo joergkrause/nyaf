@@ -1,4 +1,5 @@
 import { ServiceType } from '../types/servicetype';
+import { InjectServices_Symbol } from '../consts/decorator.props';
 
 /**
  * The service class that is not singleton must provide a ctor.
@@ -17,21 +18,21 @@ type Constructor<T> = new (...args: any[]) => T;
  * @param singleton If set to @true the type must be an instance, that will be re-used accross calls,
  *                  if @false or omitted an instance will be created using new operator.
  */
-export function InjectService<T extends Constructor<{}>>(name: string, type: ServiceType<T> | T, singleton: boolean = false) {
+export function InjectService<T extends Constructor<{}> = any>(name: string, type: ServiceType<T> | T, singleton: boolean = false) {
   return function (target: any) {
     // setup for multiple
-    if (!target.prototype['_services']) {
-      target.prototype['_services'] = new Map<string, any>();
+    if (!target.prototype[InjectServices_Symbol]) {
+      target.prototype[InjectServices_Symbol] = new Map<string, any>();
     }
-    if (!(<Map<string, any>>target.prototype['_services']).has(name)) {
+    if (!(<Map<string, any>>target.prototype[InjectServices_Symbol]).has(name)) {
       const t = singleton ? (type as ServiceType<T>).instance : new (type as T)();
-      (<Map<string, any>>target.prototype['_services']).set(name, t);
+      (<Map<string, any>>target.prototype[InjectServices_Symbol]).set(name, t);
     }
     // we define the access on "this" level, but let the definition run on "super" level
     if (!target.services) {
       Object.defineProperty(target, 'services', {
         get: function () {
-          return target.prototype['_services'];
+          return target.prototype[InjectServices_Symbol];
         }
       });
     }

@@ -1,3 +1,5 @@
+import { Expands_Symbol } from '../consts/decorator.props';
+
 /**
  * Name the {@link Expander} by using this decorator.
  * @param prop value of expandable property
@@ -8,7 +10,7 @@ export function Expand<T>(prop: string) {
     if (!target.prototype) {
       throw new Error('Decorator must be run on an instanciable class.');
     }
-    Object.defineProperty(target.prototype, '__expand__', {
+    Object.defineProperty(target.prototype, Expands_Symbol, {
       get: function() {
         return prop;
       },

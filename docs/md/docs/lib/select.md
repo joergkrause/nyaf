@@ -1,7 +1,7 @@
 
 ## Select Elements
 
-Using the HTML 5 API can be boring. Instead of using `querySelector` in the component's code, use an decorator:
+Using the HTML 5 API can result in a lot of API calls. Instead of using `querySelector` in the component's code, use a decorator:
 
 ~~~ts
 @Select('#queryId') elementName;
@@ -19,3 +19,25 @@ interface QueryList<T extends HTMLElement> {
 ~~~
 
 The decorator logic takes care of the existence of a shadow DOM and acts accordingly.
+
+You can enforce the creation of a list with a second parameter *many*. If set to `true`, the result is always a list with `QueryList`, regardless the number of elements.
+
+~~~ts
+@Select('a[href]', true) links;
+
+// later in code
+const count = this.links.length;
+~~~
+
+### Using Element Types
+
+Use types to access type specific properties:
+
+~~~ts
+@Select('#queryId') elementName: HTMLElement;
+~~~
+
+~~~ts
+@Select('button') buttons: QueryList<HTMLButtonElement>;
+~~~
+

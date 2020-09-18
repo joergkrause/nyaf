@@ -1,4 +1,6 @@
-﻿/**
+﻿import { ShadowDOM_Symbol_WithShadow } from '../consts/decorator.props';
+
+/**
  * The ShadowDOM decorator.
  *
  * If decorated, the component uses or not uses shadow DOM according the parameter.
@@ -18,7 +20,7 @@ export function ShadowDOM(useShadow: boolean = true) {
 /** @ignore */
 function shadowDOMInternalSetup(target: any, useShadow: boolean) {
 
-    Object.defineProperty(target, Symbol.for('withShadow'), {
+    Object.defineProperty(target, ShadowDOM_Symbol_WithShadow, {
         value: useShadow,
         enumerable: false,
         configurable: false

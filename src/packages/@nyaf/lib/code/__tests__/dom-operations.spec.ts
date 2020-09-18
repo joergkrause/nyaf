@@ -1,4 +1,4 @@
-import { DomOp } from './dom-operations';
+import { DomOp } from '../dom-operations';
 
 test('DOM operation function', () => {
 

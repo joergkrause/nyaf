@@ -3,7 +3,7 @@ import { GlobalProvider } from '../code/globalprovider';
 import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../code/utils';
 import { isString } from 'util';
 import { IDirective } from '../types/common';
-import { CTOR } from '../consts/decorator.props';
+import { CTOR, CustomElement_Symbol_Selector, ShadowDOM_Symbol_WithShadow, UseParentStyles_Symbol } from '../consts/decorator.props';
 
 /**
  * The structure that defines the state object.
@@ -19,7 +19,6 @@ export interface IBaseComponent extends HTMLElement {
   setData(name: string, newValue: any, noRender?: boolean): Promise<void>;
 }
 
-const withShadow = Symbol.for('withShadow');
 
 /**
  * Base class for components. Use in derived classes with a path to a template file, and additional setup steps callback.
@@ -54,12 +53,12 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   /**
    * Set by decorator {@link {UseShadowDOM}}. A shadowed component is technically isolated.
    */
-  public static readonly [withShadow]: boolean;
+  public static readonly [ShadowDOM_Symbol_WithShadow]: boolean;
 
   /**
    * Set by decorator {@link {CustomElement}}. It's the element's name in CSS selector style.
    */
-  public static readonly selector: string;
+  public static readonly [CustomElement_Symbol_Selector]: string;
 
   /**
    * Observe all registered attributes. The source field is set by the {@link {Properties}} decorator.
@@ -139,9 +138,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   public onlifecycle: Function;
 
   /**
-   *
-   * @param template The path to the file containing the HTML
-   * @param withShadow `false` to suppress using shadow dom, required for jquery-ui
+   * The constructor checks the various decorator settings and calls initializer routines that
+   * have been marked as ctor dependency.
    */
   constructor() {
     super();
@@ -150,9 +148,9 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     this._data = new Proxy(defaultProperties as P, this.proxyAttributeHandler);
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
-    if (this.constructor['useParentStyles'] && this.constructor[withShadow] && !this.constructor['globalStyle']) {
+    if (this.constructor[UseParentStyles_Symbol] && this.constructor[ShadowDOM_Symbol_WithShadow] && !this.constructor['globalStyle']) {
       this.constructor['globalStyle'] = '';
-      if (isBoolean(this.constructor['useParentStyles']) && this.constructor['useParentStyles'] === true) {
+      if (isBoolean(this.constructor[UseParentStyles_Symbol]) && this.constructor[UseParentStyles_Symbol] === true) {
         for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
           const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
           try {
@@ -167,7 +165,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           }
         }
       } else {
-        const css: StyleSheet = this.constructor['useParentStyles'] as StyleSheet;
+        const css: StyleSheet = this.constructor[UseParentStyles_Symbol] as StyleSheet;
         this.constructor['globalStyle'] += Object.keys(css)
               .map(k => css[k])
               .join(' ');
@@ -194,7 +192,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           return JSON.parse(this.getAttribute(prop));
         }
         if (this.attributes.getNamedItem(`__${prop}__bool__`) || (this[prop] !== undefined && isBoolean(this[prop]))) {
-          return this.getAttribute(prop) === 'true';
+          return this.getAttribute(prop) === 'true' || this.getAttribute(prop) === '!0';
         }
         if (this.attributes.getNamedItem(`__${prop}__num__`) || (this[prop] !== undefined && isNumber(this[prop]))) {
           return Number.parseFloat(this.getAttribute(prop));
@@ -319,7 +317,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   protected async setup(): Promise<void> {
     this.lifeCycleState = LifeCycle.PreRender;
     let $this: BaseComponent = null;
-    if ((<any>this.constructor)[withShadow]) {
+    if ((<any>this.constructor)[ShadowDOM_Symbol_WithShadow]) {
       const template = document.createElement('template');
       template.innerHTML = await this.render();
       if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {

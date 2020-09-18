@@ -15,17 +15,12 @@
     "args": ["g",  "c", "xxx"]
   },
   {
+    "name": "Debug Jest Tests",
     "type": "node",
     "request": "launch",
-    "name": "Jest Tests",
-    "program": "${workspaceRoot}\\node_modules\\jest\\bin\\jest.js",
-    "args": [
-        "-i"
-    ],
-    "internalConsoleOptions": "openOnSessionStart",
-    "outFiles": [
-        "${workspaceRoot}/dist/**/*"
-    ]
+    "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/.bin/jest", "--runInBand", "--coverage", "false"],
+    "console": "integratedTerminal",
+    "internalConsoleOptions": "neverOpen"
   },
     {
       "type": "chrome",

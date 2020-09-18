@@ -1,4 +1,4 @@
-import events from './events';
+import events from '../events';
 
 test('number of monitored events', () => {
   expect(Array.isArray(events)).toBeTruthy();

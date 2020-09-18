@@ -1,7 +1,7 @@
-import { GlobalProvider } from './globalprovider';
+import { GlobalProvider } from '../globalprovider';
 
-import { MockComponent } from './mocks/mock.component';
-import { Component } from '../types/common';
+import { MockComponent } from '../mocks/mock.component';
+import { IComponent } from '../../types/common';
 
 beforeEach(() => {
   // mockDateNow = jest.spyOn(global.Date, 'now').mockImplementation(() => new Date(now).getTime());
@@ -19,7 +19,7 @@ test('Static instance shall be provided', () => {
 
 test('register function', () => {
   const eventSpyDoc = jest.spyOn(document, 'addEventListener');
-  const componentMock = MockComponent as Component;
+  const componentMock = MockComponent as IComponent;
   GlobalProvider.register(componentMock);
   const registered = GlobalProvider.registeredElements;
   expect(registered).toEqual(['MOCK-COMPONENT']);

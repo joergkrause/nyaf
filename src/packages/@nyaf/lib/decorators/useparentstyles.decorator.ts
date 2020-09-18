@@ -1,4 +1,6 @@
-﻿/**
+﻿import { UseParentStyles_Symbol } from '../consts/decorator.props';
+
+/**
  * The UseParentStyles decorator.
  *
  * Applies external styles to an element. This works with shadowed elements, even if there is no penetrating pseudo selector.
@@ -24,7 +26,7 @@ export function UseParentStyles(useStyles?: any) {
 /** @ignore */
 function useParentStylesInternalSetup(target: any, parentOnly: boolean, useStyles?: StyleSheet) {
 
-    Object.defineProperty(target, 'useParentStyles', {
+    Object.defineProperty(target, UseParentStyles_Symbol, {
         value: parentOnly ? true : useStyles,
         enumerable: false,
         configurable: false

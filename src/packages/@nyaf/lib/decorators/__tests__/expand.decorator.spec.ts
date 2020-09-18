@@ -1,5 +1,6 @@
-import { Expand } from './expand.decorator';
+import { Expand } from '../expand.decorator';
 import { isFunction } from 'util';
+import { Expands_Symbol } from '../../consts/decorator.props';
 
 test('Expands decorator', () => {
   const dec = Expand('expander');
@@ -10,13 +11,13 @@ test('Expands decorator', () => {
   expect(fn).toThrowError(Error);
 });
 
-test('valid obj with enhanced prototype', () => {
+test('Expands decorator enhanced prototype', () => {
   const dec = Expand('expander');
   function mockClass() { }
   dec(mockClass);
-  expect(mockClass.prototype['__expand__']).not.toBeUndefined();
-  expect(mockClass.prototype['__expand__']).toEqual('expander');
+  expect(mockClass.prototype[Expands_Symbol]).not.toBeUndefined();
+  expect(mockClass.prototype[Expands_Symbol]).toEqual('expander');
   const testMock = new mockClass();
-  expect(testMock['__expand__']).not.toBeUndefined();
-  expect(testMock['__expand__']).toEqual('expander');
+  expect(testMock[Expands_Symbol]).not.toBeUndefined();
+  expect(testMock[Expands_Symbol]).toEqual('expander');
 });

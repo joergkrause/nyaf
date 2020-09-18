@@ -2,6 +2,8 @@
 
 The `@Updates` decorator complements the `@Effects` decorator. The schema is similar. However, both decorators work independently of each other and you can use any or both.
 
+> Using `@Updates` and `@Effects` is comparable with React Hooks, but in combination more powerful.
+
 ### The Updates Decorator
 
 The decorator exists once on a component. The API looks like this:
