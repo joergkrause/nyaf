@@ -1,7 +1,14 @@
 import { GlobalProvider } from '../globalprovider';
 
-import { MockComponent } from '../mocks/mock.component';
+// import { MockComponent } from './mocks/mock.component';
 import { IComponent } from '../../types/common';
+import { BaseComponent } from '../../components/base.component';
+
+class MockComponent extends BaseComponent<{}>{
+  async render() {
+    return '';
+  }
+}
 
 beforeEach(() => {
   // mockDateNow = jest.spyOn(global.Date, 'now').mockImplementation(() => new Date(now).getTime());

@@ -27,7 +27,7 @@ function customInternalSetup(target: any, key: string, cb: () => boolean, msg?: 
   });
 
   Object.defineProperty(target, `__err__${Custom.internal}__${key}`, {
-    value: msg || `The field ${key} is not valid`,
+    value: msg || `The field ${key} is not valid.`,
     enumerable: false,
     configurable: false
   });

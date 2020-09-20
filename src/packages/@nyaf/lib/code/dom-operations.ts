@@ -8,7 +8,7 @@ export class DomOp {
    * @param  {String} selector Selector to match against [optional]
    * @return {Array}           The parent elements
    */
-  static getParents(elem: any, selector: string) {
+  static getParents(elem: any, selector: string): Array<HTMLElement> {
     // Setup parents array
     const parents = [];
 
@@ -33,7 +33,7 @@ export class DomOp {
    * @param  {String} selector Selector to match against [optional]
    * @return {Node}   The parent element
    */
-  static getParent(elem: any, selector: string) {
+  static getParent(elem: any, selector: string): HTMLElement {
     const parents = DomOp.getParents(elem, selector);
     if (parents && parents.length) {
       return parents[0];
@@ -41,9 +41,9 @@ export class DomOp {
     return null;
   }
 
-  static getParentsUntil(elem: any, parent: any, selector: string) {
+  static getParentsUntil(elem: any, parent: any, selector: string): Array<HTMLElement> {
     // Setup parents array
-    const parents = [];
+    const parents: HTMLElement[] = [];
 
     // Get matching parent elements
     for (; elem && elem !== document; elem = elem.parentNode) {
@@ -66,7 +66,7 @@ export class DomOp {
     return parents;
   }
 
-  static getClosest(elem: any, selector: any ) {
+  static getClosest(elem: any, selector: string): HTMLElement | null {
     // Get closest match
     for (; elem && elem !== document; elem = elem.parentNode) {
       if (elem.matches(selector)) {

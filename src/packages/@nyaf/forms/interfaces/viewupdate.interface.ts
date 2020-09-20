@@ -1,4 +1,4 @@
-import { Type } from '@nyaf/lib';
+import { Type, BaseComponent } from '@nyaf/lib';
 import { IBindingHandler } from '../modelbinder/handlers/ibindinghandler.interface';
 
 /**
@@ -6,7 +6,7 @@ import { IBindingHandler } from '../modelbinder/handlers/ibindinghandler.interfa
  * When the value changes the element's property is updated automatically.
  * This does not re-render the whole component.
  */
-export interface ViewUpdate<T extends object, H extends HTMLElement> {
+export interface ViewUpdate<T extends object, H extends BaseComponent = BaseComponent> {
   /**
    * Any selector that's valid for `querySelector`. Must return a single element.
    */

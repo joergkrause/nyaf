@@ -23,9 +23,9 @@ import { ModelBinder } from '../modelbinder/modelbinder.class';
  * as an array of ViewUpdate objects.
  *
  */
-export function ViewUpdates<T extends object>(updatesMap: ViewUpdate<T, HTMLElement>[]) {
+export function ViewUpdates<T extends object>(updatesMap: ViewUpdate<T>[]) {
   return function (target: any) {
-    const targetPrototype = target.prototype;
+    const targetPrototype = Object.getPrototypeOf(target);
     if (!targetPrototype) {
       throw new Error('Decorator must be run on an instanciable component.');
     }
@@ -33,8 +33,8 @@ export function ViewUpdates<T extends object>(updatesMap: ViewUpdate<T, HTMLElem
       throw new Error('You must provide an array with at least one Update object.');
     }
     // store the effect binder instance itself
-    if (!targetPrototype[`__viewupdates__`]) {
-      Object.defineProperty(targetPrototype, `__viewupdates__`, {
+    if (!targetPrototype[Symbol.for('__viewupdates__')]) {
+      Object.defineProperty(targetPrototype, Symbol.for('__viewupdates__'), {
         get: () => updatesMap,
         enumerable: false,
         configurable: false
@@ -47,7 +47,7 @@ export function ViewUpdates<T extends object>(updatesMap: ViewUpdate<T, HTMLElem
       configurable: true
     });
     Object.defineProperty(targetPrototype, `__viewupdates_ctor__`, {
-      value: (c: BaseComponent) => ModelBinder.initupdates(c, c['__viewupdates__']),
+      value: (c: BaseComponent) => ModelBinder.initupdates(c, c[Symbol.for('__viewupdates__')]),
       enumerable: false,
       configurable: false
     });

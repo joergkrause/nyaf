@@ -22,8 +22,12 @@ export class Observer {
   private topics: { [id: string]: func[] } = {};
   private hOP: hopf;
 
-  public static getInstance(): Observer {
-    if (!Observer._instance) {
+  /**
+   * Get the singletone instance.
+   * @param forceRecreate Used to enforce clean instance in test situations. Usually you never need to set this in user code.
+   */
+  public static getInstance(forceRecreate = false): Observer {
+    if (!Observer._instance || forceRecreate) {
       Observer._instance = new Observer(void 0);
     }
     return Observer._instance;

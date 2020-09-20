@@ -26,14 +26,14 @@ function requiredInternalSetup(target: any, key: string, msg?: string) {
   });
 
   Object.defineProperty(target, `__err__${Required.internal}__${key}`, {
-    value: msg || `The field ${key} is required`,
+    value: msg || `The field ${key} is required.`,
     enumerable: false,
     configurable: false
   });
 
   Object.defineProperty(target, `__isValid__${Required.internal}__${key}`, {
-    value: function (val: string) {
-      return !!val;
+    get: function () {
+      return !!target[key];
     },
     enumerable: false,
     configurable: false

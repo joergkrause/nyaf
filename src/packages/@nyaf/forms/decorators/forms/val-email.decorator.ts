@@ -26,10 +26,17 @@ function emailInternalSetup(target: any, key: string, msg?: string) {
 
   // create a helper property to transport a meta data value
   Object.defineProperty(target, `__has__${Email.internal}__${key}`, {
+    value: true,
+    enumerable: false,
+    configurable: false
+  });
+
+  Object.defineProperty(target, `__pattern__${Email.internal}__${key}`, {
     value: pattern,
     enumerable: false,
     configurable: false
   });
+
 
   Object.defineProperty(target, `__err__${Email.internal}__${key}`, {
     value: msg || `The field ${key} must contain a valid e-mail address.`,
@@ -38,8 +45,8 @@ function emailInternalSetup(target: any, key: string, msg?: string) {
   });
 
   Object.defineProperty(target, `__isValid__${Email.internal}__${key}`, {
-    value: function (val: string) {
-      return new RegExp(pattern).test(val);
+    get: function () {
+      return new RegExp(pattern).test(target[key]);
     },
     enumerable: false,
     configurable: false

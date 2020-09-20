@@ -22,20 +22,26 @@ function maxLengthInternalSetup(target: any, key: string, len: number, msg?: str
 
   // create a helper property to transport a meta data value
   Object.defineProperty(target, `__has__${MaxLength.internal}__${key}`, {
+    value: true,
+    enumerable: false,
+    configurable: false
+  });
+
+  Object.defineProperty(target, `__pattern__${MaxLength.internal}__${key}`, {
     value: len,
     enumerable: false,
     configurable: false
   });
 
   Object.defineProperty(target, `__err__${MaxLength.internal}__${key}`, {
-    value: msg || `The field ${key} has max length of ${len} characters`,
+    value: msg || `The field ${key} has max length of ${len} characters.`,
     enumerable: false,
     configurable: false
   });
 
   Object.defineProperty(target, `__isValid__${MaxLength.internal}__${key}`, {
-    value: function (val: string) {
-      return val?.toString().length <= len;
+    get: function () {
+      return target[key]?.toString().length <= len || false;
     },
     enumerable: false,
     configurable: false

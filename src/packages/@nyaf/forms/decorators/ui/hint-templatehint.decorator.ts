@@ -37,6 +37,6 @@ export function templateHintInternalSetup(target: any, key: string, template: st
   });
 }
 
-TemplateHint.hint = '';
-TemplateHint.params = '';
-TemplateHint.has = '';
+TemplateHint.has = '__hasTemplatehint__';
+TemplateHint.hint = '__templatehint__';
+TemplateHint.params = '__templatehintParam__';

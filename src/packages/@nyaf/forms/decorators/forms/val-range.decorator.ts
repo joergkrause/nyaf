@@ -1,4 +1,6 @@
-﻿/**
+﻿import { isNumber } from "util";
+
+/**
  * Validates a field against an range. Applies to numerical values or dates.
  *
  * The range's values are included in the valid range.
@@ -38,14 +40,23 @@ function rangeInternalSetup(target: any, key: string, from: number | Date, to: n
   });
 
   Object.defineProperty(target, `__err__${Range.internal}__${key}`, {
-    value: msg || `The field ${key} does not fall into the range from ${from} to ${to}`,
+    value: msg || `The field ${key} does not fall into the range from ${from} to ${to}.`,
     enumerable: false,
     configurable: false
   });
 
   Object.defineProperty(target, `__isValid__${Range.internal}__${key}`, {
     get: function () {
-      return +target[key] >= from && +target[key] <= to;
+      if (isNumber(target[key])) {
+        return +target[key] >= from && +target[key] <= to;
+      }
+      if (target[key] instanceof Date) {
+        const ts = (target[key] as Date).getTime();
+        const fromts = from instanceof Date ? (from as Date).getTime() : from;
+        const tots = to instanceof Date ? (to as Date).getTime() : to;
+        return ts >= fromts && ts <= tots;
+      }
+      return false;
     },
     enumerable: false,
     configurable: false
