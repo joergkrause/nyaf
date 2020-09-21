@@ -11,6 +11,7 @@ source tools/travis/ci/sources/mode.sh
 
 if is_lint; then
   npm run lint
+  npm test
 else
   npm run build
 fi
