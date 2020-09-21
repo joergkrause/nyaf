@@ -2,6 +2,7 @@
 [![Version](https://img.shields.io/npm/v/%40nyaf%2Flib.svg?style=flat-square)](https://npmjs.com/package/@nyaf/lib)
 [![License](https://img.shields.io/npm/l/%40nyaf%2Flib.svg?style=flat-square)](https://npmjs.com/package/@nyaf/lib)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/joergisageek)
+[![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 
 # Introducing @nyaf
 
@@ -930,7 +931,7 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 Is it worth coding with @nyaf and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual package sizes (0.6.0, published 10th of August 2020):
+Actual package sizes (0.6.3, published 21st of September 2020):
 
 * Lib:    36 KB --> 11 KB zipped (always needed)
 * Forms:  20 KB -->  5 KB zipped (Forms binding, validation, decorators)

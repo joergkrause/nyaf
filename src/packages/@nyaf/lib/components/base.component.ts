@@ -110,7 +110,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     if (this.getAttribute('onlifecycle')) {
       let evt = this.getAttribute('onlifecycle');
       const params = [];
-      const match = evt.match(/^(?:(\(?.+\)?|.?)\s?=>\s?)?this\.([^(]*)((?:[^)]*)?)?/);
+      const match = evt.match(/^(?:(\(?.+\)?|.?)\s?=>\s?)?.+\.([^(]*)((?:[^)]*)?)?/);
       if (match.length > 2) {
         evt = match[2];
         parent = parentWalk(this, evt);
