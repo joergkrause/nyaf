@@ -22,7 +22,7 @@ export class GlobalProvider {
   public static registeredDirectives: Map<string, IDirective> = new Map();
   private static tagExpander: Map<string, IExpander> = new Map();
   private static bootstrapProps: BootstrapProp;
-  private static router: Router = Router.instance;
+  private static router: Router = Router.getInstance();
 
   /**
    *

@@ -17,9 +17,10 @@ export class Router {
   private static _routerInstance: Router;
   private static _routes: Routes;
   public onRouterAction: RouteEventTarget;
+  public outlets: Array<HTMLElement> = [];
 
-  public static get instance(): Router {
-    if (!this._routerInstance) {
+  public static getInstance(forceReset = false): Router {
+    if (!this._routerInstance || forceReset) {
       this._routerInstance = new Router();
     }
     return this._routerInstance;
@@ -32,9 +33,9 @@ export class Router {
   public registerRouter(routes: Routes) {
     Router._routes = routes;
     // find the outlets after ready
-    const outlets = document.querySelectorAll(N_ROUTER_OUTLET_SEL);
+    this.outlets = Array.prototype.slice.call(document.querySelectorAll<HTMLElement>(N_ROUTER_OUTLET_SEL));
     // is completely voluntery
-    if (outlets) {
+    if (this.outlets) {
       // prepare router events
       this.onRouterAction = new RouteEventTarget(routes);
       // handle history

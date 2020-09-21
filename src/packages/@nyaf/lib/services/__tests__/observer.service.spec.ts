@@ -52,6 +52,22 @@ describe('Observer service', () => {
 
   });
 
+  it('call publish with multiple subscribers', () => {
+
+    const spyPublish = jest.spyOn(os, 'publish');
+    const spySubscribe = jest.spyOn(os, 'subscribe');
+    // let's add 3 subscribers
+    os.subscribe('test', () => { });
+    os.subscribe('test', () => { });
+    os.subscribe('test', () => { });
+    os.publish('test', true);
+    expect(spyPublish).toBeCalled();
+    expect(spyPublish).toBeCalledTimes(1);
+    expect(spySubscribe).toBeCalled();
+    expect(spySubscribe).toBeCalledTimes(3);
+
+  });
+
   it('call publish no subscriber', () => {
 
     const spyPublish = jest.spyOn(os, 'publish');
@@ -62,7 +78,6 @@ describe('Observer service', () => {
     expect(spySubscribe).not.toBeCalled();
 
   });
-
 
   it('remove subscriber instance', () => {
 
@@ -76,6 +91,74 @@ describe('Observer service', () => {
 
   });
 
+  it('call publish with 3 subscribers, last removed', () => {
 
+    function receiver() {
+      this.rec = () => {}
+    }
+    const testReceiver = new receiver();
+    const spyPublish = jest.spyOn(os, 'publish');
+    const spySubscribe = jest.spyOn(testReceiver, 'rec');
+    // let's add 3 subscribers
+    const s1 = os.subscribe('test', testReceiver.rec);
+    const s2 = os.subscribe('test', testReceiver.rec);
+    const s3 = os.subscribe('test', testReceiver.rec);
+    // and remove one
+    s3.remove();
+    os.publish('test', true);
+    expect(spyPublish).toBeCalled();
+    expect(spyPublish).toBeCalledTimes(1);
+    expect(spySubscribe).toBeCalled();
+    // to have it called 2 times
+    expect(spySubscribe).toBeCalledTimes(2);
+
+  });
+
+  it('call publish with 3 subscribers, first removed', () => {
+
+    function receiver() {
+      this.rec = () => {}
+    }
+    const testReceiver = new receiver();
+    const spyPublish = jest.spyOn(os, 'publish');
+    const spySubscribe = jest.spyOn(testReceiver, 'rec');
+    // let's add 3 subscribers
+    const s1 = os.subscribe('test', testReceiver.rec);
+    const s2 = os.subscribe('test', testReceiver.rec);
+    const s3 = os.subscribe('test', testReceiver.rec);
+    // and remove one
+    s1.remove();
+    os.publish('test', true);
+    expect(spyPublish).toBeCalled();
+    expect(spyPublish).toBeCalledTimes(1);
+    expect(spySubscribe).toBeCalled();
+    // to have it called 2 times
+    expect(spySubscribe).toBeCalledTimes(2);
+
+  });
+
+
+  it('call publish with 3 subscribers, middle removed', () => {
+
+    function receiver() {
+      this.rec = () => {}
+    }
+    const testReceiver = new receiver();
+    const spyPublish = jest.spyOn(os, 'publish');
+    const spySubscribe = jest.spyOn(testReceiver, 'rec');
+    // let's add 3 subscribers
+    const s1 = os.subscribe('test', testReceiver.rec);
+    const s2 = os.subscribe('test', testReceiver.rec);
+    const s3 = os.subscribe('test', testReceiver.rec);
+    // and remove one
+    s2.remove();
+    os.publish('test', true);
+    expect(spyPublish).toBeCalled();
+    expect(spyPublish).toBeCalledTimes(1);
+    expect(spySubscribe).toBeCalled();
+    // to have it called 2 times
+    expect(spySubscribe).toBeCalledTimes(2);
+
+  });
 
 });

@@ -227,7 +227,7 @@ export class ModelBinder<VM extends object> {
     }
   }
 
-  public static initupdates(component: BaseComponent, updatesMap: ViewUpdate<any, HTMLElement>[]): void {
+  public static initupdates(component: BaseComponent, updatesMap: ViewUpdate<any, BaseComponent>[]): void {
     let mbInstance = ModelBinder._instanceStore.get(component);
     if (!mbInstance) {
       mbInstance = ModelBinder.initialize(component);

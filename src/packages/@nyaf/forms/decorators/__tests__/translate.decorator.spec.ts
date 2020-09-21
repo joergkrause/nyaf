@@ -1,7 +1,17 @@
 import { Translate } from '../translate.decorator';
 import { isFunction } from 'util';
 
-test('Translate signature', () => {
-  expect(isFunction(Translate)).toBeTruthy();
-});
+class MockModel {
+  constructor() {
+    this.name = '';
+  }
+  name: string;
+}
 
+test('Translate signature', () => {
+  const dec = Translate({ 'test': 'text' });
+  expect(dec).not.toBeUndefined();
+  expect(isFunction(dec)).toBeTruthy();
+  const mockObj: any = new MockModel();
+  dec(mockObj);
+});
