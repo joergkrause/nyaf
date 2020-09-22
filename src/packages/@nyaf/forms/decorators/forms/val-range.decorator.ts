@@ -1,4 +1,4 @@
-﻿import { isNumber } from "util";
+﻿import { isNumber } from '@nyaf/lib';
 
 /**
  * Validates a field against an range. Applies to numerical values or dates.

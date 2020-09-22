@@ -1,5 +1,5 @@
 import { Expand } from '../expand.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '../../code/utils';
 import { Expands_Symbol } from '../../consts/decorator.props';
 
 test('Expands decorator', () => {

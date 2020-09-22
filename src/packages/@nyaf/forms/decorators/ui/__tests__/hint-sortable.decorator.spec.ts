@@ -1,5 +1,5 @@
 import { Sortable } from '../hint-sortable.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Sortable decorator', () => {
   it('default', () => {

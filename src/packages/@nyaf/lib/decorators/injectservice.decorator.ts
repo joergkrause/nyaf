@@ -1,16 +1,18 @@
-import { ServiceType } from '../types/servicetype';
+import { ServiceType, Constructor } from '../types/servicetype';
 import { InjectServices_Symbol } from '../consts/decorator.props';
-
-/**
- * The service class that is not singleton must provide a ctor.
- */
-type Constructor<T> = new (...args: any[]) => T;
 
 /**
  * Gives a component access to an injectable service. That is, any sort of class's instances.
  * Use the access within the component the `services` property provides.
  *
- * @example this.services('myName')
+ * @example
+ * ```
+ * @InjectService<MyService>('myName', MyService)
+ * export class MyComponent extends BaseComponent {
+ *   // access the service's instance like this:
+ *   this.services('myName').actionOnService();
+ * }
+ * ```
  *
  * @param name local name (within component) of service
  * @param type Type of service class. Any type that can make an instance will do (`function`, `class`) if you instantiate the service implicitly.

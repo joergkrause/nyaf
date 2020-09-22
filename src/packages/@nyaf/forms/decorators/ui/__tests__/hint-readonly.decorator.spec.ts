@@ -1,5 +1,5 @@
 import { Readonly } from '../hint-readonly.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Readonly decorator', () => {
   it('default', () => {

@@ -1,5 +1,5 @@
 import { ViewUpdates } from '../viewupdates.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 import { ViewUpdate } from '../../interfaces/viewupdate.interface';
 import { BaseComponent } from '@nyaf/lib';
 

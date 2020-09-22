@@ -1,5 +1,5 @@
 import { Required } from '../val-required.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Required decorator', () => {
   it('default', () => {

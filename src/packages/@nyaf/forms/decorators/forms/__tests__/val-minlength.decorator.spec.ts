@@ -1,5 +1,5 @@
 import { MinLength } from '../val-minlength.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('MinLength decorator', () => {
   it('default', () => {

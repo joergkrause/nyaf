@@ -1,5 +1,5 @@
 import { DisplayGroup } from '../hint-displaygroup.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('DisplayGroup decorator', () => {
   it('text only', () => {

@@ -1,5 +1,5 @@
 import { Translate } from '../translate.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 class MockModel {
   constructor() {

@@ -1,5 +1,5 @@
 import { Display } from '../hint-display.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Display decorator', () => {
   it('text only', () => {

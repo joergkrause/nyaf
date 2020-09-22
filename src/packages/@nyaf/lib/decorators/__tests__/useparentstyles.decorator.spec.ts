@@ -1,5 +1,5 @@
 import { UseParentStyles } from '../useparentstyles.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '../../code/utils';
 import { UseParentStyles_Symbol } from '../../consts/decorator.props';
 
 test('UseParentStyles decorator', () => {

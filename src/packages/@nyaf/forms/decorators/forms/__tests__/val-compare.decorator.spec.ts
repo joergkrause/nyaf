@@ -1,5 +1,5 @@
 import { Compare } from '../val-compare.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Compare decorator', () => {
   it('default', () => {

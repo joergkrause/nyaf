@@ -1,5 +1,5 @@
 import { Placeholder } from '../hint-placeholder.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Placeholder decorator', () => {
   it('set a name', () => {

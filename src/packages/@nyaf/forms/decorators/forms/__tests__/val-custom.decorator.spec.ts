@@ -1,5 +1,5 @@
 import { Custom } from '../val-custom.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Custom decorator', () => {
   it('default', () => {

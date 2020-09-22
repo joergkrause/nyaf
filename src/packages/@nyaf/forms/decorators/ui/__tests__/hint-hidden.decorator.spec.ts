@@ -1,5 +1,5 @@
 import { Hidden } from '../hint-hidden.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Hidden decorator', () => {
   it('default', () => {

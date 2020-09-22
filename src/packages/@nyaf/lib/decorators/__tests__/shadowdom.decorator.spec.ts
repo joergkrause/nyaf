@@ -1,5 +1,5 @@
 import { ShadowDOM } from '../shadowdom.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '../../code/utils';
 import { ShadowDOM_Symbol_WithShadow } from '../../consts/decorator.props';
 
 test('ShadowDOM decorator', () => {

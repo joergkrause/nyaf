@@ -1,5 +1,5 @@
 import { Dispose } from '../dispose.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '../../code/utils';
 
 test('Dispose decorator', () => {
   const mockfactory = () => {

@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin').TsconfigPathsPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const webpackConfig = {
   mode: dev ? 'development' : 'production',
@@ -83,7 +84,8 @@ const webpackConfig = {
       options: {
         concurrency: 100
       }
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ]
 };
 

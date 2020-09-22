@@ -1,5 +1,5 @@
 import { ViewModel } from '../viewmodel.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 test('ViewModel signature', () => {
   expect(isFunction(ViewModel)).toBeTruthy();

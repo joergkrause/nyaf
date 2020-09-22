@@ -1,5 +1,5 @@
 import { Range } from '../val-range.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Range decorator (numbers)', () => {
 

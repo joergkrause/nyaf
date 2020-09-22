@@ -1,5 +1,5 @@
 import { CustomElement } from '../customelement.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '../../code/utils';
 import { CustomElement_Symbol_Selector } from '../../consts/decorator.props';
 
 test('CustomElement decorator', () => {

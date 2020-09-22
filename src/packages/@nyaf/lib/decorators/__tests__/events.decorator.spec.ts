@@ -1,5 +1,5 @@
 import { Events } from '../events.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '../../code/utils';
 import { Events_Symbol_Eventlist } from '../../consts/decorator.props';
 
 test('Events decorator, not matching target', () => {

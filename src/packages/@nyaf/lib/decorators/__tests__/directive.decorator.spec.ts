@@ -1,5 +1,5 @@
 import { Directive } from '../directive.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '../../code/utils';
 import { Directive_Symbol_Selector } from '../../consts/decorator.props';
 
 test('Directive decorator', () => {

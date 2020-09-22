@@ -1,7 +1,6 @@
 import { LifeCycle } from './lifecycle.enum';
 import { GlobalProvider } from '../code/globalprovider';
-import { uuidv4, isObject, isNumber, isBoolean, isArray } from '../code/utils';
-import { isString } from 'util';
+import { uuidv4, isObject, isNumber, isBoolean, isArray, isString } from '../code/utils';
 import { IDirective } from '../types/common';
 import { CTOR, CustomElement_Symbol_Selector, ShadowDOM_Symbol_WithShadow, UseParentStyles_Symbol } from '../consts/decorator.props';
 

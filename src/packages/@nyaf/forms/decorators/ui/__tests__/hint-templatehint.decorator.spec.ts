@@ -1,5 +1,5 @@
 import { TemplateHint } from '../hint-templatehint.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('TemplateHint decorator', () => {
   it('no params', () => {

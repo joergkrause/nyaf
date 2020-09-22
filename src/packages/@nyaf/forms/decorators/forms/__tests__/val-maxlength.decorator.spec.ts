@@ -1,5 +1,5 @@
 import { MaxLength } from '../val-maxlength.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('MaxLength decorator', () => {
   it('default', () => {

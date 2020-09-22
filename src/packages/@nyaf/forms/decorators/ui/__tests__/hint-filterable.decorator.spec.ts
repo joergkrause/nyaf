@@ -1,5 +1,5 @@
 import { Filterable } from '../hint-filterable.decorator';
-import { isFunction } from 'util';
+import { isFunction } from '@nyaf/lib';
 
 describe('Filterable decorator', () => {
   it('default', () => {
