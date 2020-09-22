@@ -202,26 +202,10 @@ export class GlobalProvider {
         }
         if (call) {
           const ee: any = {};
-          ee.bubbles = e.bubbles;
-          ee.cancelBubble = e.cancelBubble;
-          ee.cancelable = e.cancelable;
-          ee.composed = e.composed;
-          ee.currentTarget = e.currentTarget;
-          ee.defaultPrevented = e.defaultPrevented;
-          ee.eventPhase = e.eventPhase;
-          ee.isTrusted = e.isTrusted;
-          ee.returnValue = e.returnValue;
-          ee.srcElement = target;
-          ee.target = target;
-          ee.timeStamp = e.timeStamp;
-          ee.type = type;
-          ee.preventDefault = () => e.preventDefault();
-          ee.stopImmediatePropagation = () => e.stopImmediatePropagation();
-          ee.stopPropagation = () => e.stopPropagation();
-          ee.AT_TARGET = e.AT_TARGET;
-          ee.BUBBLING_PHASE = e.BUBBLING_PHASE;
-          ee.CAPTURING_PHASE = e.CAPTURING_PHASE;
-          ee.NONE = e.NONE;
+          // shallow copy legacy event including non-owned
+          for (let prop in e) {
+            ee[prop] = e[prop];
+          }
           ee.detail = (e as CustomEvent).detail;
           if (asy) {
             await parent[evt].call(parent, ee, ...params);

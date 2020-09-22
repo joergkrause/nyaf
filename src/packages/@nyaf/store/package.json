@@ -1,6 +1,6 @@
 {
   "name": "@nyaf/store",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "An extension to \"Not Yet Another Framework\". A simple store based on a flux like architecture.",
   "main": "store.umd.js",
   "private": false,
