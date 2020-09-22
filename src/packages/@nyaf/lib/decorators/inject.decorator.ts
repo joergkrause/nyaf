@@ -21,10 +21,12 @@ import { ServiceType, Constructor } from '../types/servicetype';
 export function Inject<T extends Constructor<{}> = any>(type: ServiceType<T> | T, singleton: boolean = false) {
   return function (target: any, property: string | symbol) {
     const t = singleton ? (type as ServiceType<T>).instance : new (type as T)();
-    Object.defineProperty(target, property, {
-      get: function () {
-        return t;
-      }
-    });
+    if (!target[property]) {
+      Object.defineProperty(target, property, {
+        get: function () {
+          return t;
+        }
+      });
+    }
   };
 }

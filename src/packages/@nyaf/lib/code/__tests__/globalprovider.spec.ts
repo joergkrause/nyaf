@@ -1,43 +1,71 @@
 import { GlobalProvider } from '../globalprovider';
-
-// import { MockComponent } from './mocks/mock.component';
+import { JSDOM } from 'jsdom';
 import { IComponent } from '../../types/common';
 import { BaseComponent } from '../../components/base.component';
+import { CustomElement_Symbol_Selector, Events_Symbol_Eventlist } from '../../consts/decorator.props';
 
-class MockComponent extends BaseComponent<{}>{
-  async render() {
-    return '';
-  }
-}
+type Writeable<T> = { -readonly [P in keyof T]: T[P] };
+
+beforeAll(() => {
+  const dom = new JSDOM();
+  global.document = dom.window.document;
+  global.window = dom.window;
+});
 
 beforeEach(() => {
-  // mockDateNow = jest.spyOn(global.Date, 'now').mockImplementation(() => new Date(now).getTime());
 });
 
 afterEach(() => {
   // mockDateNow.mockRestore();
 });
 
-test('Static instance shall be provided', () => {
-  expect(GlobalProvider).not.toBeNull();
-  expect(GlobalProvider.routerAction).not.toBeNull();
-  expect(GlobalProvider.navigateRoute).not.toBeNull();
+describe('GlobalProvider', () => {
+
+  it('has a static instance provided', () => {
+    expect(GlobalProvider).not.toBeNull();
+    expect(GlobalProvider.routerAction).not.toBeNull();
+    expect(GlobalProvider.navigateRoute).not.toBeNull();
+  });
+
+  it('registers a component', () => {
+
+    class MockComponent extends BaseComponent<{}>{
+      constructor() {
+        super();
+      }
+      async render() {
+        return '';
+      }
+    }
+
+    const componentMock = MockComponent as IComponent;
+    // make writeable to simulate the decorator
+    (componentMock as Writeable<IComponent>)[CustomElement_Symbol_Selector] = 'mock-component';
+    GlobalProvider.register(componentMock);
+    const registered = GlobalProvider.registeredElements;
+    expect(registered).toEqual(['MOCK-COMPONENT']);
+  });
+
+  it('registers and receive an event', () => {
+
+    class MockEventComponent extends BaseComponent<{}>{
+      constructor() {
+        super();
+      }
+      async render() {
+        return '';
+      }
+    }
+
+    const componentMock = MockEventComponent as IComponent;
+    // make writeable to simulate the decorator
+    (componentMock as Writeable<IComponent>)[CustomElement_Symbol_Selector] = 'mock-component-event';
+    (componentMock as Writeable<IComponent>)[Events_Symbol_Eventlist] = ['testAction'];
+    GlobalProvider.registeredElements = [];
+    const eventSpyDoc = jest.spyOn(GlobalProvider as any, 'eventHub');
+    GlobalProvider.register(componentMock);
+    document.dispatchEvent(new Event('testAction'));
+    expect(eventSpyDoc).toHaveBeenCalledTimes(1);
+  });
+
 });
-
-test('register function', () => {
-  const eventSpyDoc = jest.spyOn(document, 'addEventListener');
-  const componentMock = MockComponent as IComponent;
-  GlobalProvider.register(componentMock);
-  const registered = GlobalProvider.registeredElements;
-  expect(registered).toEqual(['MOCK-COMPONENT']);
-  expect(eventSpyDoc).toHaveBeenCalledTimes(1);
-  // execute event call
-  const eventSpyHub = jest.spyOn(GlobalProvider as any, 'eventHub');
-  const mockEvent = new Event('showAlert');
-  document.dispatchEvent(mockEvent);
-  expect(eventSpyHub).toHaveBeenCalledTimes(0); // TODO: Not correct
-});
-
-
-
-

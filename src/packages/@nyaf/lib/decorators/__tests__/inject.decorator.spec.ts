@@ -1,6 +1,5 @@
 import { Inject } from '../inject.decorator';
 import { isFunction } from '../../code/utils';
-import { InjectServices_Symbol } from '../../consts/decorator.props';
 import { ServiceType } from '../../types/servicetype';
 
 afterEach(() => {
@@ -30,7 +29,7 @@ describe('Inject decorator instance', () => {
     expect(isFunction(dec)).toBeTruthy();
   });
   it('sets the services property', () => {
-    function mockClass() { }
+    const mockClass = {};
     dec(mockClass, 'service');
     expect(mockClass['service']).not.toBeUndefined();
     // test creation of internal service Map
@@ -46,9 +45,9 @@ test('Inject decorator singleton', () => {
   const dec = Inject(MockSingletonService.get, true);
   expect(dec).not.toBeUndefined();
   expect(isFunction(dec)).toBeTruthy();
-  function mockClass() { }
+  const mockClass = {};
   dec(mockClass, 'service');
-  expect(mockClass.prototype[InjectServices_Symbol]).not.toBeUndefined();
+  expect(mockClass['service']).not.toBeUndefined();
   // test creation of internal service Map
   const testMap = new Map<string, any>();
   // decorator creates an instance if it's a singleton

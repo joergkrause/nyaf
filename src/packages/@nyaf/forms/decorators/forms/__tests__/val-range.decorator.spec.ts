@@ -127,6 +127,7 @@ describe('Range decorator (Date)', () => {
   });
   it('with wrong from', () => {
     const wrongFromType = 321;
+    mockObj[testProp] = wrongFromType;
     expect(mockObj[`__has__${Range.internal}__from__${testProp}`]).toEqual(from);
     expect(mockObj[`__has__${Range.internal}__to__${testProp}`]).toEqual(to);
     const expectMsg = `The field ${testProp} does not fall into the range from ${from} to ${to}.`;

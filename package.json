@@ -54,6 +54,7 @@
     "html-webpack-plugin": "^4.3.0",
     "inquirer": "^7.3.3",
     "jest": "^26.2.2",
+    "jsdom": "^16.4.0",
     "mini-css-extract-plugin": "^0.6.0",
     "mkdocs": "0.0.1",
     "node-sass": "^4.13.1",

@@ -31,7 +31,7 @@ describe('Custom decorator', () => {
     expect(mockObj[`__isValid__${Custom.internal}__${testProp}`]).toEqual(true);
   });
   it('object property correct', () => {
-    const dec = Custom(() => { return this['testProp'] === 123; }, 'An error occurred');
+    const dec = Custom((o) => o['testProp'] === 123, 'An error occurred');
     expect(dec).not.toBeUndefined();
     expect(isFunction(dec)).toBeTruthy();
     const testProp = 'testProp';

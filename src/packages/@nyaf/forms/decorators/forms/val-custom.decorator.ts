@@ -6,7 +6,7 @@
  * @param msg The error message shown in case of error. A default value is being provided if omitted.
  *
  */
-export function Custom(cb: () => boolean, msg?: string) {
+export function Custom(cb: (o: any) => boolean, msg?: string) {
   // the original decorator
   function customInternal(target: Object, property: string | symbol): void {
     customInternalSetup(target, property.toString(), cb, msg);
@@ -19,7 +19,7 @@ export function Custom(cb: () => boolean, msg?: string) {
 /**
  * @ignore
  */
-function customInternalSetup(target: any, key: string, cb: () => boolean, msg?: string) {
+function customInternalSetup(target: any, key: string, cb: (o: any) => boolean, msg?: string) {
   Object.defineProperty(target, `__has__${Custom.internal}__${key}`, {
     value: true,
     enumerable: false,
@@ -34,7 +34,7 @@ function customInternalSetup(target: any, key: string, cb: () => boolean, msg?: 
 
   Object.defineProperty(target, `__isValid__${Custom.internal}__${key}`, {
     get: function () {
-      return cb.call(this);
+      return cb.call(this, this);
     },
     enumerable: false,
     configurable: false
