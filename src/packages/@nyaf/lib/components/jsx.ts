@@ -33,7 +33,8 @@ const JSX: any = {
           // TODO: make this an Map and check for duplicate attributes
           const value = props[key];
           switch (key) {
-            case 'className':
+            // class allows an array
+            case 'class':
               if (Array.isArray(value)) {
                 return `class="${(<any>value).join(' ')}"`;
               } else {

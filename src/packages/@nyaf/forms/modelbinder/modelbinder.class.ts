@@ -121,7 +121,6 @@ export class ModelBinder<VM extends object> {
     }
     const isShadowed = !!component.constructor[withShadow];
     mbInstance.scope = modelInstance;
-    console.log('** Init ModelBinder for: ', component.tagName);
     component.addEventListener('lifecycle', async (e: CustomEvent) => {
       // prevent other components in the render body from bubbling their lifeCycle state to their parent
       // that happens if the binder binds to both, the parent and the children.

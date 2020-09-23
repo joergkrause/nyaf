@@ -35,12 +35,12 @@ test('n-if', () => {
   expect(e).toEqual('<div></div>');
 });
 
-test('className', () => {
-  const e = JSX.createElement('div', { 'className': 'btn btn-sm' });
+test('class', () => {
+  const e = JSX.createElement('div', { 'class': 'btn btn-sm' });
   expect(e).toEqual('<div class="btn btn-sm"></div>');
 });
 
-test('className class', () => {
-  const e = JSX.createElement('div', { 'className': 'btn btn-sm', 'class': 'btn-primary' });
+test('class array', () => {
+  const e = JSX.createElement('div', { 'class': ['btn btn-sm', 'btn-primary'] });
   expect(e).toEqual('<div class="btn btn-sm btn-primary"></div>');
 });

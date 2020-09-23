@@ -41,7 +41,7 @@ export interface IViewDecoratorOptions<T> {
    *
    * In the following example the factory sets just one property to a distinct value (a pre-fill).
    *
-   * ```typescript
+   * @example```
    * @CustomElement('app-forms-demo')
    * @ViewModel(ContactModel, {
    *   factory: m => m.email = 'bla@fasel.com',
@@ -58,7 +58,7 @@ export interface IViewDecoratorOptions<T> {
    * If you access the model (without any further code required) like this: `this.model.scope.email` the value is already filled in.
    * An even more complex setup is possible providing a definition like this:
    *
-   * ```typescript
+   * @example```
    *  factory: (m: ContactModel) => {
    *    m.email = 'bla@fasel.com';
    *    m.name = 'Test Name';
@@ -145,7 +145,7 @@ function viewModelInternalSetup<T extends {}>(target: any, modelType: Type<T>, o
       }
       const $this: BaseComponent = this as BaseComponent;
       if (!target.__modelbinder__[$this.__uniqueId__]) {
-        target.__modelbinder__[$this.__uniqueId__] = ModelBinder.initialize(this /* the actual component */, options?.handler);
+        target.__modelbinder__[$this.__uniqueId__] = ModelBinder.initialize($this /* the actual component */, options?.handler);
       }
       return target.__modelbinder__[$this.__uniqueId__];
     }

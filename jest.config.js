@@ -7,9 +7,10 @@ module.exports = {
   },
   modulePathIgnorePatterns: [
     '<rootDir>/dist/',
-    '<rootDir>/src/packages&/@nyaf/cli/',
-    '<rootDir>/src/packages&/@nyaf/ui/',
-    '<rootDir>/src/packages&/@nyaf/yo/',
+    '<rootDir>/src/packages/@nyaf/cli/',
+    '<rootDir>/src/packages/@nyaf/ui/',
+    '<rootDir>/src/packages/@nyaf/yo/',
+    '<rootDir>/src/packages/@nyaf-extensions/',
   ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   modulePaths: [
@@ -21,5 +22,12 @@ module.exports = {
   "moduleNameMapper": {
     "^@nyaf/lib$": "<rootDir>/src/packages/@nyaf/lib"
   },
+  testPathIgnorePatterns: [
+    "/mocks/",
+    "@nyaf-extensions",
+    "_experimental",
+    "\.backed",
+    "<rootDir>/node_modules/",
+  ],
   collectCoverage: true
 }

@@ -14,13 +14,18 @@ class MockComponent extends BaseComponent {
 }
 
 test('Updates decorator', () => {
-  const dec = Updates([{
+  const mockUpdates = [{
     selector: '#id',
     store: 'value',
     target: 'innerText'
-  }]);
+  }];
+  const dec = Updates(mockUpdates);
   expect(dec).not.toBeUndefined();
   expect(isFunction(dec)).toBeTruthy();
   const mockObj: any = Object.create(MockComponent);
   dec(mockObj);
+  expect(mockObj.prototype['__updates__']).toEqual(mockUpdates);
+  expect(mockObj.prototype['__updates_ctor__']).toBeUndefined();
+  expect(mockObj.prototype[Symbol.for('__ctor__')]).not.toBeUndefined();
+  expect(mockObj.prototype[Symbol.for('__ctor__')]).toEqual(['__updates_ctor__']);
 });

@@ -10,9 +10,9 @@ export interface ContainerProps {
  * <app-container classList="container row cell">Some Content</app-container>
  *
  * This renders in:
- * <div class=="container">
- *  <div class=="row">
- *    <div class=="cell">
+ * <div class="container">
+ *  <div class="row">
+ *    <div class="cell">
  *      Some Content
  *    </div>
  *  </div>

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test-report": "jest --coverageReporters=\"text-summary\"",
     "lint": "tslint --project ./src/packages/@nyaf/lib && tslint --project ./src/packages/@nyaf/forms && tslint --project ./src/packages/@nyaf/store",
     "nyaf": "export NODE_ENV=prod && webpack --config webpack.config.lib.js --env.NODE_ENV=prod --env.production",
     "nyaf-debug": "export NODE_ENV=dev && webpack --config webpack.config.lib.js --env.NODE_ENV=dev --env.development",

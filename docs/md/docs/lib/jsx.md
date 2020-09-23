@@ -55,20 +55,20 @@ If you don’t use a JavaScript bundler and load **@nyaf** from a `<script>` tag
 You can also use the self-closing form of the tag if there are no children.
 
 ~~~tsx
-<div className="sidebar" />
+<div class="sidebar" />
 ~~~
 
 This piece of code compiles into this JavaScript:
 
 ~~~js
-JSX.createElement('div', {className: 'sidebar'})
+JSX.createElement('div', {'class': 'sidebar'})
 ~~~
 
 If you want to test out how some specific JSX is converted into JavaScript, you can try out the online [Babel compiler](https://babeljs.io/repl). Be aware that in case of any JSX oriented tools not explicitly configured for **@nyaf** may create the code with the namespace `React`. In fact, the online Babel transpiler creates something like this:
 
 ~~~js
 React.createElement("div", {
-  className: "sidebar"
+  class: "sidebar"
 });
 ~~~
 
@@ -169,7 +169,7 @@ You can also pick specific properties that your component will consume while pas
 const Button = props => {
   const { kind, ...other } = props;
   const cls = kind === "primary" ? "PrimaryButton" : "SecondaryButton";
-  return <button className={cls} {...other} />;
+  return <button class={cls} {...other} />;
 };
 
 const getApp = () => {

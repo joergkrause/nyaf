@@ -15,7 +15,6 @@
  *     }
  *
  *     clickMe(e) {
- *       console.log('Button Element Click ', e);
  *       const checkEvent: CustomEventInit = {
  *         bubbles: true,
  *         cancelable: false,

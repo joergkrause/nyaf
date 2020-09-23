@@ -1,5 +1,4 @@
 import { Store } from '../store';
-import { isFunction } from 'util';
 
 describe('Store', () => {
 
@@ -9,5 +8,7 @@ describe('Store', () => {
       reducer: {},
       state: {}
     });
+    expect(s).toBeInstanceOf(Store);
   });
+
 });

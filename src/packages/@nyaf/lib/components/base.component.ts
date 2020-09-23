@@ -77,7 +77,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * * third a property 'onLifecycle' is being called if a handler function is attached.
    */
   protected set lifeCycleState(lc: LifeCycle) {
-    console.log('Lifecycle for ' + this.tagName, lc);
     // <a><b></b></a>: Init A, Init B, Load B, Load A, Dispose B, Dispose A
     const parentWalk = (el: HTMLElement, evt: string): any => {
       if (!el.parentElement) {
