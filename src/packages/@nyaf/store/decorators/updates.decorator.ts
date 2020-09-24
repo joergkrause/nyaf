@@ -1,5 +1,6 @@
 import { BaseComponent } from '@nyaf/lib';
 import { Update } from '../interfaces/update.interface';
+import { UpdateProperty } from '../interfaces/updateproperty.interface';
 import { UpdatesBinder } from '../store/updatesbinder.class';
 
 /**
@@ -7,7 +8,7 @@ import { UpdatesBinder } from '../store/updatesbinder.class';
  * that add events to elements and forward properties to actions. That way one cna define a whole range of
  * actions outside of the view code and simplify the appearance of compnents.
  */
-export function Updates<T>(updatesMap: Update<T>[]) {
+export function Updates<T>(updatesMap: Array<Update<T> | UpdateProperty<T, any>>) {
   return function (target: any) {
     const targetPrototype = target.prototype;
     if (!targetPrototype) {

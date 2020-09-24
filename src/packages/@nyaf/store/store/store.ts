@@ -1,5 +1,5 @@
-import { Observer, uuidv4 } from '@nyaf/lib';
-import { StoreParams } from './store.params';
+import { Observer, uuidv4, isFunction } from '@nyaf/lib';
+import { StoreParams, ActionKey } from './store.params';
 
 /**
  * The current state of the store during a store operation.
@@ -27,10 +27,10 @@ enum StoreState {
  * That happens even if the reducer returns multiple values in one single step. To assure a fully mutated object
  */
 export class Store<ST> {
-  private _actions: Map<string, any>;
-  private _reducer: Map<string, (state: any, payload: any, actionKey?: string) => Promise<any> | any>;
+  private _actions: Map<ActionKey, any>;
+  private _reducer: Map<ActionKey, (state: any, payload: any, actionKey?: ActionKey) => Promise<any> | any>;
   private _subscribers: Map<string, Map<string, { remove: () => void; }>> = new Map();
-  private _status: Map<string, StoreState> = new Map();
+  private _status: Map<ActionKey, StoreState> = new Map();
   private _state: ProxyConstructor;
   private _observer: Observer;
   private _id: string;
@@ -41,25 +41,36 @@ export class Store<ST> {
     // Look in the passed params object for actions and reducer
     // that might have been passed in
     if (params.hasOwnProperty('actions')) {
-      const keys = Object.entries(params.actions);
+      const keys: [ActionKey, any][] = Object.entries(params.actions);
+      const symbolKeys: [ActionKey, any][] = Object.getOwnPropertySymbols(params.actions).map(s => [s, params.actions[s as any]]);
       this._actions = new Map(keys);
-      // A status enum to set during actions and reducer
-      keys.forEach(key => this._status.set(key[0], StoreState.Resting));
+      symbolKeys.forEach(sk => this._actions.set(sk[0], sk[1]));
     } else {
       this._actions = new Map<string, any>();
     }
 
     if (params.hasOwnProperty('reducer')) {
       this._reducer = new Map(Object.entries(params.reducer));
+      const symbolKeys: [ActionKey, any][] = Object.getOwnPropertySymbols(params.actions).map(s => [s, params.actions[s as any]]);
+      symbolKeys.forEach(sk => this._reducer.set(sk[0], sk[1]));
     } else {
       this._reducer = new Map<string, (state: any, payload: any) => void>();
     }
 
     this.createStoreState<ST>(params);
+    // A status enum to set during actions and reducer
+    this._actions.forEach(action => {
+      this._status.set(action[0], StoreState.Resting);
+      // set initial values by call the reducer with the initial payload, if any
+      if (action[1] && isFunction(action[1]) && action[1]()) {
+        this.dispatch(action[0], action[1]());
+      }
+    });
+
   }
 
   private createStoreState<S>(params: StoreParams<S>) {
-        // Set our state to be a Proxy. We are setting the default state by
+    // Set our state to be a Proxy. We are setting the default state by
     // checking the params and defaulting to an empty object if no default
     // state is passed in
     this._state = new Proxy(params.state || {}, {
@@ -79,16 +90,16 @@ export class Store<ST> {
    * A dispatcher for actions that looks in the actions
    * collection and runs the action if it can find it
    *
-   * @param {string} actionKey
-   * @param {any} payload
-   * @returns {boolean}
-   * @memberof Store
+   * @param {ActionKey} actionKey The key to initiate the action, must have a corresponding entry in the reducer object
+   * @param {any} payload An optional payload that provides data for the action
+   * @returns {boolean} Returns true for success or false if the action could not dispatch properly (see warnings)
+   * @memberof Store {@link Store}
    */
-  async dispatch(actionKey: string, payload: any): Promise<boolean> {
+  async dispatch(actionKey: ActionKey, payload?: any): Promise<boolean> {
     // Run a quick check to see if the action actually exists
     // before we try to run it
     if (this.actions.has(actionKey) === false) {
-      console.error(`Action "${String(actionKey)} doesn't exist.`);
+      console.error(`Action "${String(actionKey)}" doesn't exist.`);
       return false;
     }
     // Create a console group which will contain the logs from our Proxy etc
@@ -196,21 +207,21 @@ export class Store<ST> {
   /**
    * The state of the store. If not in a dispatch call, its usually Resting. {@link StoreState}.
    */
-  get status(): Map<string, StoreState> {
+  get status(): Map<ActionKey, StoreState> {
     return this._status;
   }
 
   /**
    * The known actions. Dispatching a missing action results in an exception.
    */
-  get actions(): Map<string, any> {
+  get actions(): Map<ActionKey, any> {
     return this._actions;
   }
 
   /**
    * The registered reducers with the action names as keys.
    */
-  get reducer(): Map<string, (state: any, payload: any, actionKey?: string) => Promise<any> | any> {
+  get reducer(): Map<ActionKey, (state: any, payload: any, actionKey?: ActionKey) => Promise<any> | any> {
     return this._reducer;
   }
 

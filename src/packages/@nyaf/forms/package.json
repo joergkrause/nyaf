@@ -1,6 +1,6 @@
 {
   "name": "@nyaf/forms",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "An extension to \"Not Yet Another Framework\". A simple forms validation library.",
   "main": "forms.umd.js",
   "private": false,

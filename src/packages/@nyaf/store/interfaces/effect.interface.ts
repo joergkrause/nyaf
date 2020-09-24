@@ -1,3 +1,4 @@
+import { ActionKey } from "../store/store.params";
 
 export interface Effect {
   /**
@@ -16,5 +17,5 @@ export interface Effect {
   /**
    * The action that's being dispatched when the event occurs.
    */
-  action: string;
+  action: ActionKey;
 }
