@@ -86,6 +86,8 @@ export default {
 };
 ```
 
+> The functions of the actions are executed if the *dispatch* call provides nothing (`undefined` - exactly). In that case the value from the function is pulled.
+
 Also, some reducers doing the hard work (*DatabaseService* is an example service proxy not shown here; see the full example code on Github in the examples path):
 
 ```ts

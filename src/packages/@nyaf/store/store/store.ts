@@ -4,7 +4,7 @@ import { StoreParams, ActionKey } from './store.params';
 /**
  * The current state of the store during a store operation.
  */
-enum StoreState {
+export enum StoreState {
   /**
    * An action is being dispatched.
    */
@@ -26,7 +26,7 @@ enum StoreState {
  * the **one** property you currently subscribe to has it's new value already; all others remain until they receive their values.
  * That happens even if the reducer returns multiple values in one single step. To assure a fully mutated object
  */
-export class Store<ST> {
+export class Store<ST extends object = any> {
   private _actions: Map<ActionKey, any>;
   private _reducer: Map<ActionKey, (state: any, payload: any, actionKey?: ActionKey) => Promise<any> | any>;
   private _subscribers: Map<string, Map<string, { remove: () => void; }>> = new Map();
@@ -40,7 +40,7 @@ export class Store<ST> {
     this._observer = Observer.getInstance();
     // Look in the passed params object for actions and reducer
     // that might have been passed in
-    if (params.hasOwnProperty('actions')) {
+    if (params.hasOwnProperty('actions') && params.actions) {
       const keys: [ActionKey, any][] = Object.entries(params.actions);
       const symbolKeys: [ActionKey, any][] = Object.getOwnPropertySymbols(params.actions).map(s => [s, params.actions[s as any]]);
       this._actions = new Map(keys);
@@ -49,7 +49,7 @@ export class Store<ST> {
       this._actions = new Map<string, any>();
     }
 
-    if (params.hasOwnProperty('reducer')) {
+    if (params.hasOwnProperty('reducer') && params.reducer) {
       this._reducer = new Map(Object.entries(params.reducer));
       const symbolKeys: [ActionKey, any][] = Object.getOwnPropertySymbols(params.actions).map(s => [s, params.actions[s as any]]);
       symbolKeys.forEach(sk => this._reducer.set(sk[0], sk[1]));
@@ -59,12 +59,8 @@ export class Store<ST> {
 
     this.createStoreState<ST>(params);
     // A status enum to set during actions and reducer
-    this._actions.forEach(action => {
-      this._status.set(action[0], StoreState.Resting);
-      // set initial values by call the reducer with the initial payload, if any
-      if (action[1] && isFunction(action[1]) && action[1]()) {
-        this.dispatch(action[0], action[1]());
-      }
+    this._actions.forEach(async (val, key) => {
+      this._status.set(key, StoreState.Resting);
     });
 
   }
@@ -99,22 +95,21 @@ export class Store<ST> {
     // Run a quick check to see if the action actually exists
     // before we try to run it
     if (this.actions.has(actionKey) === false) {
-      console.error(`Action "${String(actionKey)}" doesn't exist.`);
+      console.warn(`Action "${String(actionKey)}" doesn't exist.`);
       return false;
     }
-    // Create a console group which will contain the logs from our Proxy etc
-    console.groupCollapsed(`ACTION: ${String(actionKey)}`);
     // Let anything that's watching the status know that we're dispatching an action
     this._status.set(actionKey, StoreState.Action);
-    // Actually call the action and pass it the Store context and whatever payload was passed
-    const value = payload || this.actions.get(actionKey)(payload);
-    // Close our console group to keep things nice and neat
-    console.groupEnd();
+    let value = payload;
+    if (value === undefined) {
+      // Actually call the action and pass it if no payload provided (default fallback)
+      value = this.actions.get(actionKey)();
+    }
     // forward the actions value as initial value to the reducer
     // Run a quick check to see if this mutation actually exists
     // before trying to run it
     if (this.reducer.has(actionKey) === false) {
-      console.warn(`Reducer "${String(actionKey)}" doesn't exist`);
+      console.warn(`Reducer "${String(actionKey)}" doesn't exist.`);
       return false;
     }
     // Let anything that's watching the status know that we're mutating state
