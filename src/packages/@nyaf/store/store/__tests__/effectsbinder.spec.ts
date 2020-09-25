@@ -12,22 +12,39 @@ describe('Effects Binder', () => {
     }
   }
 
+  beforeAll(() => {
+    customElements.define('effects-test', TestComponent);
+    const el = document.createElement('effects-test');
+    document.body.appendChild(el);
+  });
+
   it('no instance without init', () => {
     const el = document.createElement('div');
     const e = EffectsBinder.getInstance(el);
-    // no initialized
+    // not initialized
     expect(e).toBeUndefined();
   });
 
   it('instance with init', () => {
-    customElements.define('effects-test', TestComponent);
-    const el = document.createElement('effects-test');
-    document.body.innerHTML = '<effects-test></effects-test>';
     const c = document.querySelector<HTMLElement>('effects-test') as BaseComponent;
     EffectsBinder.initialize(c);
     const e = EffectsBinder.getInstance(c);
-    // no initialized
+    // is initialized
     expect(e).not.toBeUndefined();
+    // reset
+    (EffectsBinder as any)._instanceStore = new Map<HTMLElement, EffectsBinder>();
+  });
+
+  it('initiatews on lifecycle event', () => {
+    const c = document.querySelector<HTMLElement>('effects-test') as BaseComponent;
+    EffectsBinder.initialize(c);
+    const e = EffectsBinder.getInstance(c);
+    // is initialized
+    expect(e).not.toBeUndefined();
+
+    // reset
+    (EffectsBinder as any)._instanceStore = new Map<HTMLElement, EffectsBinder>();
+
   });
 
 });

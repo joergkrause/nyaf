@@ -7,10 +7,8 @@ import { IBaseComponent } from '../components/base.component';
 import { LifeCycle } from '../components/lifecycle.enum';
 import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
-import { NRepeaterComponent } from '../components/smart/nrepeater.component';
-import { NOutletComponent } from '../components/smart/noutlet.component';
-import { NFinishComponent } from '../components/smart/nfinish.component';
 import { IBaseDirective } from './basedirective';
+import * as smartComponents from '../components/smart';
 import { Events_Symbol_Eventlist, Extends_Symbol, CustomElement_Symbol_Selector } from '../consts/decorator.props';
 
 /**
@@ -62,9 +60,8 @@ export class GlobalProvider {
   /** @ignore */
   private static registerInternal() {
     // register smart components
-    customElements.define('n-repeat', NRepeaterComponent);
-    customElements.define('n-outlet', NOutletComponent);
-    customElements.define('n-finish', NFinishComponent);
+    customElements.define('n-outlet', smartComponents.NOutletComponent);
+    customElements.define('n-finish', smartComponents.NFinishComponent);
     // register custom components
     GlobalProvider.bootstrapProps.components.forEach(c => {
       // add to browsers web component registry

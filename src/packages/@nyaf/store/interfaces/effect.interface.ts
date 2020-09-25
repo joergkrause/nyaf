@@ -1,4 +1,5 @@
 import { ActionKey } from "../store/store.params";
+import { BaseComponent } from "@nyaf/lib";
 
 export interface Effect {
   /**
@@ -13,7 +14,7 @@ export interface Effect {
    * A selector function that retrieves a value from the derived event object. This value is the action's payload.
    * This function can be omitted if the action doesn't require any payload.
    */
-  parameter?: (e: Event) => any;
+  parameter?: (e: HTMLElement | BaseComponent) => any;
   /**
    * The action that's being dispatched when the event occurs.
    */

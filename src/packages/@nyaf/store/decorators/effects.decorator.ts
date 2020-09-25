@@ -1,6 +1,7 @@
 import { BaseComponent } from '@nyaf/lib';
 import { EffectsBinder } from '../store/effectsbinder.class';
 import { Effect } from '../interfaces/effect.interface';
+import { Effects_Symbol, CTOR, Effects_Symbol_Ctor } from '../consts/decorator.props';
 
 /**
  * Allows an event driven mechanism to dispatch actions. The decorator takes an array of effect definitions,
@@ -17,20 +18,22 @@ export function Effects(effectsMap: Effect[]) {
       throw new Error('You must provide an array with at least one Effect object.');
     }
     // store the effect binder instance itself
-    if (!targetPrototype[`__effects__`]) {
-      Object.defineProperty(targetPrototype, `__effects__`, {
+    if (!targetPrototype[Effects_Symbol]) {
+      Object.defineProperty(targetPrototype, Effects_Symbol, {
         get: () => effectsMap,
         enumerable: false,
         configurable: false
       });
     }
     // trigger the call in the basecomponent ctor to get a valid this instance
-    Object.defineProperty(targetPrototype, Symbol.for('__ctor__'), {
-      value: targetPrototype[Symbol.for('__ctor__')] ? ['__effects_ctor__', ...targetPrototype[Symbol.for('__ctor__')]] : ['__effects_ctor__'],
+    Object.defineProperty(targetPrototype, CTOR, {
+      value: targetPrototype[CTOR]
+        ? [Effects_Symbol_Ctor, ...targetPrototype[CTOR]]
+        : [Effects_Symbol_Ctor],
       enumerable: false,
       configurable: true
     });
-    Object.defineProperty(targetPrototype, `__effects_ctor__`, {
+    Object.defineProperty(targetPrototype, Effects_Symbol_Ctor, {
       set: (c: BaseComponent) => EffectsBinder.initialize(c),
       enumerable: false,
       configurable: false

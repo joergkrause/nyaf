@@ -1,5 +1,6 @@
 import { Effects } from '../effects.decorator';
 import { isFunction } from '@nyaf/lib';
+import { Effects_Symbol, Effects_Symbol_Ctor, CTOR } from '../../consts/decorator.props';
 
 class BaseComponent extends HTMLElement {
   constructor() {
@@ -27,8 +28,8 @@ test('Effects decorator', () => {
   expect(isFunction(dec)).toBeTruthy();
   const mockObj: any = Object.create(MockComponent);
   dec(mockObj);
-  expect(mockObj.prototype['__effects__']).toEqual(mockEffects);
-  expect(mockObj.prototype['__effects__ctor__']).toBeUndefined();
-  expect(mockObj.prototype[Symbol.for('__ctor__')]).not.toBeUndefined();
-  expect(mockObj.prototype[Symbol.for('__ctor__')]).toEqual(['__effects_ctor__']);
+  expect(mockObj.prototype[Effects_Symbol]).toEqual(mockEffects);
+  expect(mockObj.prototype[Effects_Symbol_Ctor]).toBeUndefined();
+  expect(mockObj.prototype[CTOR]).not.toBeUndefined();
+  expect(mockObj.prototype[CTOR]).toEqual([Effects_Symbol_Ctor]);
 });
