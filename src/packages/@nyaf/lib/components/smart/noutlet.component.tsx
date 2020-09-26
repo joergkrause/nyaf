@@ -1,4 +1,4 @@
-import JSX from '../jsx';
+import JSX from '../jsx.classic';
 import { Properties } from '../../decorators/properties.decorator';
 import { BaseComponent } from '../base.component';
 import { LifeCycle } from '../lifecycle.enum';

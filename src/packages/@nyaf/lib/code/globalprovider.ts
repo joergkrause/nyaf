@@ -9,7 +9,7 @@ import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
 import { IBaseDirective } from './basedirective';
 import * as smartComponents from '../components/smart';
-import { Events_Symbol_Eventlist, Extends_Symbol, CustomElement_Symbol_Selector } from '../consts/decorator.props';
+import { Events_Symbol_Eventlist, Extends_Symbol, CustomElement_Symbol_Selector, Expands_Symbol } from '../consts/decorator.props';
 
 /**
  * Main support class that provides all global functions. You must call at least the {@link bootstrap} method to register components.
@@ -70,12 +70,12 @@ export class GlobalProvider {
     // expanders
     if (GlobalProvider.bootstrapProps.expanders) {
       // expand and execute decorator
-      const expanders = GlobalProvider.bootstrapProps.expanders.map(e => new e());
-      expanders.forEach(ex => {
-        if (!ex['__expand__']) {
+      GlobalProvider.bootstrapProps.expanders.forEach(expanderType => {
+        const ex = new expanderType();
+        if (!ex[Expands_Symbol]) {
           console.error('Illegal expander, you must set the @Expand decorator to name the expander');
         } else {
-          GlobalProvider.tagExpander.set(ex['__expand__'], ex);
+          GlobalProvider.tagExpander.set(ex[Expands_Symbol], ex);
         }
       });
     }
@@ -143,7 +143,7 @@ export class GlobalProvider {
    * All events are handled by this helper function. This function shall not be called from user code.
    */
   private static async eventHub(e: Event) {
-    const parentWalk = (el: HTMLElement, evt: string): any  => {
+    const parentWalk = (el: HTMLElement, evt: string): any => {
       if (!el.parentElement) {
         return null;
       }

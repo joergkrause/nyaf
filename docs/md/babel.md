@@ -386,6 +386,18 @@ To let Visual Studio Code accept this, too, add this *jsconfig.json* (look for t
 
 Both, the alias' for WebPack as well as the *paths* key can handle multiple entries for more complex setups.
 
+### Handle the JSX Import
+
+Each component needs to import the *JSX* namespace in classic mode. This can be simplified by adding the import globally. The following snippet is usually provided in the *main.js* or *index.js* file used to configure the app and before calling `GlobalProvider.bootstrap`.
+
+~~~js
+import JSX from "@nyaf/lib";
+
+window.JSX = JSX;
+~~~
+
+From now on you can avoid any of the JSX imports in all the component files. Please note, that the new import of JSX that was introduced in React 17 and is supported in Babel 7.9 and newer will be available in **@nyaf** beginning with version 0.7.0.
+
 ### Bundle Size
 
 For the demo files shown in the code above the whole bundle is 43.7 KB (11.6 KB zipped). The HTML remains with 230 Bytes (squeezed).

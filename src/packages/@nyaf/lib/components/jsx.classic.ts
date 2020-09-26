@@ -34,6 +34,7 @@ const JSX: any = {
           const value = props[key];
           switch (key) {
             // class allows an array
+            case 'className':
             case 'class':
               if (Array.isArray(value)) {
                 return `class="${(<any>value).join(' ')}"`;

@@ -2,6 +2,7 @@ import { DomOp } from '../dom-operations';
 import { Routes } from './routes';
 import { IComponent } from '../../types/common';
 import { RouteEventTarget } from './navigate.event';
+import { CustomElement_Symbol_Selector } from '@nyaf/lib/consts/decorator.props';
 
 const N_ROUTER_OUTLET_SEL = '[n-router-outlet]';
 const N_LINK = 'n-link';
@@ -185,9 +186,9 @@ export class Router {
     if (!(outlet as any)['__activatedComponent__']) {
       Object.defineProperty(outlet, '__activatedComponent__', { enumerable: false, writable: true, configurable: false, value: '' });
     }
-    if (forced || (outlet as any)['__activatedComponent__'] !== activatedComponent[Symbol.for('CustomElementSelector')]) {
-      (outlet as any)['__activatedComponent__'] = activatedComponent[Symbol.for('CustomElementSelector')];
-      outlet.innerHTML = `<${activatedComponent[Symbol.for('CustomElementSelector')]}></${activatedComponent[Symbol.for('CustomElementSelector')]}>`;
+    if (forced || (outlet as any)['__activatedComponent__'] !== activatedComponent[CustomElement_Symbol_Selector]) {
+      (outlet as any)['__activatedComponent__'] = activatedComponent[CustomElement_Symbol_Selector];
+      outlet.innerHTML = `<${activatedComponent[CustomElement_Symbol_Selector]}></${activatedComponent[CustomElement_Symbol_Selector]}>`;
       event = new CustomEvent('navigated', {
         bubbles: true,
         cancelable: false,
