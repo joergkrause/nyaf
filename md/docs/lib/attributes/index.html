@@ -436,10 +436,28 @@ return (&lt;app-btn title={someTitle} /&gt;);
 </code></pre>
 
 <p>The rendered component would look like this:</p>
-<pre><code class="tsx">&lt;app-comp test=&quot;[{&quot;obj&quot;: 1}, {&quot;obj&quot;: 2}]&quot; __test__&gt;&lt;/app-comp&gt;
+<pre><code class="tsx">&lt;app-comp test=&quot;[{&quot;obj&quot;: 1}, {&quot;obj&quot;: 2}]&quot; n-type-test=&quot;array&quot;&gt;&lt;/app-comp&gt;
 </code></pre>
 
 <p>Apparently the double double quotes work just fine. However, the content is now a string. If you do operations on this it will not resolve as the array it was before. Here the second attribute will trigger a different behavior. The hook for the data Proxy used internally is now applying a <code>JSON.parse</code> and returns the former object. Also, once set again, the incoming value is checked for being an object and stringified, then. The technique currently works for <code>string</code> (default Web Component behavior), <code>number</code>, <code>boolean</code>, <code>array</code>, and <code>object</code>.</p>
+<p>Be aware, that the automatic recognition of the data type is only possible if the value is provided as nativ type. This example will work:</p>
+<pre><code class="tsx">&lt;app-comp cnt={100}&gt;&lt;/app-comp&gt;
+</code></pre>
+
+<p>In this example the value is recognized as string. It will remain a string event if you declare the observed attribute as <code>number</code> in the model type and <code>@Properties</code> decorator. Both settings are pure TypeScript features. they get stripped and will not be available at runtime. The render code will analyse the given object, that's only what's still available.</p>
+<pre><code class="tsx">&lt;app-comp cnt='100'&gt;&lt;/app-comp&gt;
+</code></pre>
+
+<p>However, if you set the type by yourself, you can enforce the setting you wish. Be aware, that the type conversion must be possible by JavaScript to avoid runtime exceptions. See this example:</p>
+<pre><code class="tsx">&lt;app-comp cnt='100' n-type-cnt='number'&gt;&lt;/app-comp&gt;
+</code></pre>
+
+<p>Here the JSX transformer will see the type <code>string</code>. But at runtime the additional attribute enforces a conversion back to number and keeps that type.</p>
+<p>The following example is not valid code. The type is recognized internally and the very same type attribute is created. So it would finally exist twice. While this will not necessarily result in an runtime error, the behavior is unpredictable and it can change in future versions.</p>
+<pre><code class="tsx">// this is illegal, the type is recognized internally
+&lt;app-comp cnt={100} n-type-cnt='number'&gt;&lt;/app-comp&gt;
+</code></pre>
+
 <blockquote>
 <p>For extremely huge complex objects this technique might produce a performance penalty due to repeatedly used <code>JSON.parse</code> / <code>JSON.stringify</code> calls. Be also aware that this cannot work if the object has recursive structures, because the JSON class cannot deal with this. There is no additional error handling to keep the code small, it's just a <code>try/catch</code> block that reports the native error.</p>
 </blockquote>
@@ -451,13 +469,14 @@ return (&lt;app-btn title={someTitle} /&gt;);
 }
 
 @CustomElement('app-main')
-@Properties&lt;{ data: Model }&gt;({ id: 0, name: '' })
-export class MainComponent extends BaseComponent {
+@Properties&lt;Model&gt;({ id: 0, name: '' })
+export class MainComponent extends BaseComponent&lt;Model&gt; {
   // ... omitted for brevity
 }
 </code></pre>
 
 <p>Within the component, this model now present. In the above definition <code>this.data</code> contains an actual model. The forms module contains a more sophisticated way to handle a view model with bi-directional data binding. the properties discussed here are for access from a parent component, while the form's module view models handle this internal binding.</p>
+<p>The settings of the decorator <code>@Properties</code> are the defaults, if no attributes are set. However, even if the existence of a default is not necessary, you must provide values here. This is due to the runtime behavior, where JavaScript requires a real type to create the instance properly. The generic in both places, the decorator and the base class, helps TypeScript to understand the model type and is mainly to support an excellent editor experience.</p>
               
             </div>
           </div>

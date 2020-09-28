@@ -127,17 +127,6 @@
         </ul>
     
 
-    <li class="toctree-l3"><a href="#n-repeat">n-repeat</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#the-n-repeat-component">The n-repeat Component</a></li>
-        
-            <li><a class="toctree-l4" href="#the-n-repeat-attribute">The n-repeat Attribute</a></li>
-        
-        </ul>
-    
-
     </ul>
                 </li>
                 <li class="">
@@ -416,50 +405,6 @@ export class SearchExpander extends Expander {
 </code></pre>
 
 <p>It's just pure ECMAScript magic, no code from <strong>@nyaf</strong> required.</p>
-<h2 id="n-repeat">n-repeat<a class="headerlink" href="#n-repeat" title="Permanent link">#</a></h2>
-<p>The basic idea of TSX is to write traditional code using <code>map</code> or <code>forEach</code> on array to create loops. In most cases this is the best solution. It provides editor support and you can add the full range of JavaScript API features to adjust the result. But sometimes a simple loop is required and the creation of a complete expression creates a lot boilerplate code. In that case two variations of loops are provided, both with full editor support, too.</p>
-<h3 id="the-n-repeat-component">The n-repeat Component<a class="headerlink" href="#the-n-repeat-component" title="Permanent link">#</a></h3>
-<p>This is a smart component that acts as a helper for common tasks. It's supported by one functions for binding:</p>
-<ul>
-<li><code>of</code>: Creates an expression to select a property from a model. The only reason is to have editor support (IntelliSense) without additional tools.</li>
-</ul>
-<pre><code class="tsx">&lt;ul&gt;
-  &lt;n-repeat source={this.eventData}&gt;
-    &lt;li data={of&lt;TBind&gt;(p =&gt; p.id)}&gt;{of&lt;TBind&gt;(p =&gt; p.name)}&lt;/li&gt;
-  &lt;/n-repeat&gt;
-&lt;/ul&gt;
-</code></pre>
-
-<h3 id="the-n-repeat-attribute">The n-repeat Attribute<a class="headerlink" href="#the-n-repeat-attribute" title="Permanent link">#</a></h3>
-<p>Also, a <strong>@nyaf</strong> template function with the same name exists. This is supported by two other function for same reason:</p>
-<ul>
-<li><code>from</code>: Define a data source for repeating; must be an array of objects.</li>
-<li><code>select</code>: Select a property from the object type the array consists of.</li>
-</ul>
-<pre><code class="tsx">&lt;ul&gt;
-  &lt;li n-repeat={from&lt;TBind&gt;(this.eventData)}
-      data={select&lt;TBind&gt;(p =&gt; p.id)} &gt;
-      The name is: {select&lt;TBind&gt;(p =&gt; p.name)}
-  &lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
-
-<p>Both examples would work with a type definition like this:</p>
-<pre><code class="ts">interface TBind {
-  id: number;
-  name: string;
-}
-</code></pre>
-
-<p>In the component the data assignment looks like this:</p>
-<pre><code class="ts">// excerpt from a component
-  private eventData: Array&lt;TBind&gt;;
-
-  constructor() {
-    super();
-    this.eventData = [{ id: 1, name: 'One' }, { id: 2, name: 'Two' }, { id: 3, name: 'Three' }];
-  }
-</code></pre>
               
             </div>
           </div>

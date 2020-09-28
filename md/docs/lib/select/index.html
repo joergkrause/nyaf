@@ -124,6 +124,12 @@
             
     <li class="toctree-l3"><a href="#select-elements">Select Elements</a></li>
     
+        <ul>
+        
+            <li><a class="toctree-l4" href="#using-element-types">Using Element Types</a></li>
+        
+        </ul>
+    
 
     </ul>
                 </li>
@@ -322,7 +328,7 @@
             <div class="section">
               
                 <h2 id="select-elements">Select Elements<a class="headerlink" href="#select-elements" title="Permanent link">#</a></h2>
-<p>Using the HTML 5 API can be boring. Instead of using <code>querySelector</code> in the component's code, use an decorator:</p>
+<p>Using the HTML 5 API can result in a lot of API calls. Instead of using <code>querySelector</code> in the component's code, use a decorator:</p>
 <pre><code class="ts">@Select('#queryId') elementName;
 </code></pre>
 
@@ -336,6 +342,20 @@
 </code></pre>
 
 <p>The decorator logic takes care of the existence of a shadow DOM and acts accordingly.</p>
+<p>You can enforce the creation of a list with a second parameter <em>many</em>. If set to <code>true</code>, the result is always a list with <code>QueryList</code>, regardless the number of elements.</p>
+<pre><code class="ts">@Select('a[href]', true) links;
+
+// later in code
+const count = this.links.length;
+</code></pre>
+
+<h3 id="using-element-types">Using Element Types<a class="headerlink" href="#using-element-types" title="Permanent link">#</a></h3>
+<p>Use types to access type specific properties:</p>
+<pre><code class="ts">@Select('#queryId') elementName: HTMLElement;
+</code></pre>
+
+<pre><code class="ts">@Select('button') buttons: QueryList&lt;HTMLButtonElement&gt;;
+</code></pre>
               
             </div>
           </div>

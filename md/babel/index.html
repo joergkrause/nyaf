@@ -106,11 +106,22 @@
         
             <li><a class="toctree-l3" href="#configuring-babel">Configuring Babel</a></li>
         
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#packer">Packer</a></li>
+    
+        <ul>
+        
             <li><a class="toctree-l3" href="#configure-webpack">Configure WebPack</a></li>
+        
+            <li><a class="toctree-l3" href="#configure-rollup">Configure Rollup</a></li>
         
             <li><a class="toctree-l3" href="#writing-components">Writing Components</a></li>
         
             <li><a class="toctree-l3" href="#improvements">Improvements</a></li>
+        
+            <li><a class="toctree-l3" href="#handle-the-jsx-import">Handle the JSX Import</a></li>
         
             <li><a class="toctree-l3" href="#bundle-size">Bundle Size</a></li>
         
@@ -359,9 +370,9 @@
 <h3 id="project-dependencies">Project Dependencies<a class="headerlink" href="#project-dependencies" title="Permanent link">#</a></h3>
 <p>Next add the following dependencies to your project's <em>package.json</em>. This is the current Babel 7 setup.</p>
 <pre><code class="json">&quot;dependencies&quot;: {
-    &quot;@nyaf/forms&quot;: &quot;^0.6.2&quot;,
-    &quot;@nyaf/lib&quot;: &quot;^0.6.2&quot;,
-    &quot;@nyaf/store&quot;: &quot;^0.6.2&quot;,
+    &quot;@nyaf/forms&quot;: &quot;^0.6.7&quot;,
+    &quot;@nyaf/lib&quot;: &quot;^0.6.7&quot;,
+    &quot;@nyaf/store&quot;: &quot;^0.6.7&quot;,
     &quot;babel-loader&quot;: &quot;^8.1.0&quot;
   },
   &quot;devDependencies&quot;: {
@@ -404,6 +415,8 @@
 
 <p>The core settings you'll need are <em>preset-react</em> and <em>plugin-proposal-decorators</em>. The first activates the compilation for the <em>JSX</em> namespace <code>JSX.createElement</code>. This is the exact and complete call to the <strong>@nyaf</strong> JSX module. The second parameter <em>pragmaFrag</em> is the support for the <code>&lt;&gt;&lt;/&gt;</code> fragment syntax. In React it's <em>React.fragment</em>. In <strong>@nyaf</strong> it's just nothing, as the <em>JSX</em> module treats a missing element information as fragment. To enforce this, we provide <code>null</code>.</p>
 <p>The decorator support is provided by a plugin. Babel takes care to compile this using a polyfill so it runs on the selected ECMAScript version.</p>
+<h2 id="packer">Packer<a class="headerlink" href="#packer" title="Permanent link">#</a></h2>
+<p>You can, of course, use any packer. Most examples use WebPack, but it will work with others, too. The following section covers WebPack and Rollup.</p>
 <h3 id="configure-webpack">Configure WebPack<a class="headerlink" href="#configure-webpack" title="Permanent link">#</a></h3>
 <p>The Babel transpiler can create a bundle, but putting it all together requires additional steps. The most powerful way (not always the easiest) is WebPack. The following <em>webpack.config.js</em> file is all you need to setup WebPack to create a bundle using Babel:</p>
 <pre><code class="js">const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -440,6 +453,141 @@ module.exports = {
 </code></pre>
 
 <p>The entry point is the file <em>main.js</em>. All component files have the extension <em>.jsx</em>, so we need to resolve that extension, too. Apart from this the <em>babel-loader</em> invokes the Babel transpiler and these settings, described above, apply here. The bundle is copied to the distribution folder <em>dist</em> and the bundle is added to the HTML file using the appropriate plug-in.</p>
+<h3 id="configure-rollup">Configure Rollup<a class="headerlink" href="#configure-rollup" title="Permanent link">#</a></h3>
+<p>The following <em>packagejson</em> file shows a setup with Babel and Rollup. It has several plug-ins to handle the tasks required to make a small bundle. We experienced issues with the typical uglify plug-in and got much better results using <em>Terser</em>. Other compression and mangle tools may work, too.</p>
+<pre><code class="json">{
+  &quot;name&quot;: &quot;nyaf-todo&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;private&quot;: true,
+  &quot;dependencies&quot;: {
+    &quot;@nyaf/lib&quot;: &quot;^0.6.2&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@babel/cli&quot;: &quot;^7.11.6&quot;,
+    &quot;@babel/core&quot;: &quot;^7.11.6&quot;,
+    &quot;@babel/plugin-proposal-class-properties&quot;: &quot;^7.10.4&quot;,
+    &quot;@babel/plugin-proposal-decorators&quot;: &quot;^7.10.5&quot;,
+    &quot;@babel/preset-env&quot;: &quot;^7.11.5&quot;,
+    &quot;@babel/preset-react&quot;: &quot;^7.10.4&quot;,
+    &quot;@rollup/plugin-babel&quot;: &quot;^5.2.1&quot;,
+    &quot;@rollup/plugin-commonjs&quot;: &quot;^15.1.0&quot;,
+    &quot;@rollup/plugin-image&quot;: &quot;^2.0.5&quot;,
+    &quot;@rollup/plugin-node-resolve&quot;: &quot;^9.0.0&quot;,
+    &quot;babel-plugin-external-helpers&quot;: &quot;^6.22.0&quot;,
+    &quot;http-server&quot;: &quot;^0.12.3&quot;,
+    &quot;rollup&quot;: &quot;^2.28.1&quot;,
+    &quot;rollup-plugin-postcss&quot;: &quot;^3.1.8&quot;,
+    &quot;terser&quot;: &quot;^5.3.2&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;http-server ./dist -p 8080 -o&quot;,
+    &quot;build&quot;: &quot;rollup -c &amp;&amp; npx terser --compress --mangle -- dist/index.js &gt; dist/index.min.js&quot;,
+    &quot;test&quot;: &quot;echo \&quot;No tests\&quot;&quot;
+  },
+  &quot;browserslist&quot;: {
+    &quot;production&quot;: [
+      &quot;&gt;0.2%&quot;,
+      &quot;not dead&quot;,
+      &quot;not op_mini all&quot;
+    ],
+    &quot;development&quot;: [
+      &quot;last 1 chrome version&quot;,
+      &quot;last 1 firefox version&quot;,
+      &quot;last 1 safari version&quot;
+    ]
+  },
+  &quot;babel&quot;: {
+    &quot;presets&quot;: [
+      [
+        &quot;@babel/preset-env&quot;,
+         {
+          &quot;targets&quot;: {
+            &quot;esmodules&quot;: true
+          }
+         }
+      ],
+      [
+        &quot;@babel/preset-react&quot;,
+        {
+          &quot;runtime&quot;: &quot;classic&quot;,
+          &quot;pragma&quot;: &quot;JSX.createElement&quot;,
+          &quot;pragmaFrag&quot;: &quot;null&quot;
+        }
+      ]
+    ],
+    &quot;plugins&quot;: [
+      [
+        &quot;@babel/plugin-proposal-decorators&quot;,
+        {
+          &quot;legacy&quot;: true
+        }
+      ],
+      &quot;@babel/plugin-proposal-class-properties&quot;
+    ]
+  }
+}
+</code></pre>
+
+<p>The whole build procedure uses this command (here on command line for manual execution):</p>
+<pre><code class="bash">$ npx rollup -c
+$ npx terser --compress --mangle -- dist/index.js &gt; dist/index.min.js
+</code></pre>
+
+<p>Rollup itself comes with its own configuration. It's JavaScript and consists mainly of some plug-ins.</p>
+<pre><code class="js">import babel from '@rollup/plugin-babel';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import image from '@rollup/plugin-image';
+
+import postcss from 'rollup-plugin-postcss';
+
+const extensions = ['.js', '.jsx'];
+
+export default {
+  input: 'src/index.js',
+  output: {
+    file: 'dist/index.js',
+    format: 'iife',
+    name: 'bundle',
+  },
+  plugins: [
+    postcss({
+      plugins: []
+    }),
+    image(),
+    resolve({
+      extensions
+    }),
+    commonjs({
+      include: 'node_modules/**'
+    }),
+    babel({
+      exclude: 'node_modules/**',
+    })
+  ],
+};
+</code></pre>
+
+<p>This file starts with the processing of inline CSS. In a component you can use something like this:</p>
+<pre><code class="js">import JSX, { GlobalProvider, BaseComponent, CustomElement } from '@nyaf/lib';
+
+import 'main.css';
+
+@CustomElement('app-main')
+export class MainComponent extends BaseComponent {
+  // omitted for brevity
+}
+</code></pre>
+
+<p>Here, the CSS is being importat directly into the code and you can use the class names in JSX elements (the code assumes that <em>main.css</em> has a rule like <code>.ClassName { color: red }</code>):</p>
+<pre><code class="jsx">&lt;div class={ClassName}&gt;
+</code></pre>
+
+<p>A similar behavior happens to image resources with the plug-in <em>@rollup/plugin-image</em>. <em>@rollup/plugin-node-resolve</em> is required to resolve the <em>jsx</em> file extension. It's not really a requiement, the component files could be named <em>.js</em>, but the typical editors and IDEs process the JSX stuff better, then. <em>@rollup/plugin-commonjs</em> is used to handle the <em>umd</em> bundle and <code>import</code>/<code>export</code> syntax. Finally we call Babel to transform the ES2020 JavaScript into something any modern browser can read.</p>
+<blockquote>
+<p>Note that in typical Rollup setups the compression is made by <em>rollup-plugin-uglify</em>. This makes trouble processing the <em>umd</em>-files of the <em>@nyaf</em> package. Hence we use <em>Terser</em> to do a final compression for prduction environments.</p>
+</blockquote>
+<p>This setup leads to a quite small package. The <strong>nyaf-todo</strong> app has a final bundle of 26KB zipped, including the <em>@nyaf/lib</em> package, all the CSS, some components, and the loader provided by Rollup.</p>
 <h3 id="writing-components">Writing Components<a class="headerlink" href="#writing-components" title="Permanent link">#</a></h3>
 <p>The components look exactly like the ones using TypeScript, apart from missing types and generics. Let's assume you have this <em>index.html</em>:</p>
 <pre><code class="html">&lt;!DOCTYPE html&gt;
@@ -536,6 +684,14 @@ export * from './message.component';
 </code></pre>
 
 <p>Both, the alias' for WebPack as well as the <em>paths</em> key can handle multiple entries for more complex setups.</p>
+<h3 id="handle-the-jsx-import">Handle the JSX Import<a class="headerlink" href="#handle-the-jsx-import" title="Permanent link">#</a></h3>
+<p>Each component needs to import the <em>JSX</em> namespace in classic mode. This can be simplified by adding the import globally. The following snippet is usually provided in the <em>main.js</em> or <em>index.js</em> file used to configure the app and before calling <code>GlobalProvider.bootstrap</code>.</p>
+<pre><code class="js">import JSX from &quot;@nyaf/lib&quot;;
+
+window.JSX = JSX;
+</code></pre>
+
+<p>From now on you can avoid any of the JSX imports in all the component files. Please note, that the new import of JSX that was introduced in React 17 and is supported in Babel 7.9 and newer will be available in <strong>@nyaf</strong> beginning with version 0.7.0.</p>
 <h3 id="bundle-size">Bundle Size<a class="headerlink" href="#bundle-size" title="Permanent link">#</a></h3>
 <p>For the demo files shown in the code above the whole bundle is 43.7 KB (11.6 KB zipped). The HTML remains with 230 Bytes (squeezed).</p>
 <p>With all the loader and polyfill stuff this is an extremely small footprint for a client app. Forms and Flux Store would add another 10 KBytes roughly.</p>

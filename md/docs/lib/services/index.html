@@ -156,6 +156,18 @@
             
     <li class="toctree-l3"><a href="#services">Services</a></li>
     
+        <ul>
+        
+            <li><a class="toctree-l4" href="#dependency-injection">Dependency Injection</a></li>
+        
+            <li><a class="toctree-l4" href="#using-injectservice">Using @InjectService</a></li>
+        
+            <li><a class="toctree-l4" href="#using-inject">Using @Inject</a></li>
+        
+            <li><a class="toctree-l4" href="#usage-scenarios">Usage Scenarios</a></li>
+        
+        </ul>
+    
 
     </ul>
                 </li>
@@ -322,6 +334,56 @@
             <div class="section">
               
                 <h2 id="services">Services<a class="headerlink" href="#services" title="Permanent link">#</a></h2>
+<p>Services can be injected by two decorators, one on class level and one on property level. The motivation behind services is a technique called <em>Dependency Injection</em>. It's a key ingredient to create testable components.</p>
+<h3 id="dependency-injection">Dependency Injection<a class="headerlink" href="#dependency-injection" title="Permanent link">#</a></h3>
+<p>When developing Web Components you will ask yourself at some point, where to actually get the data and configuration from. If you are used to frameworks like Angular, you know that you can inject services and configurations. Web Components rely on HTML attributes, JavaScript properties and <code>CustomEvent</code> for input/outputs. But, what if we use that, to build our own dependency injection to share along with services and configuration? In this deep dive, we are going to experiment and not only see if it is possible but also if it makes sense.</p>
+<p>In the blog series about Web Components, we talked a lot about the perks and flaws of Web Components (or: the current state of Web Components) and how their integrability in modern SPA frameworks looks like. But we only took a short look at Web Components being integrated as a single stand-alone component into other environments.</p>
+<p>Even with all the flaws, Web Components provide a good-enough foundation to write full applications. For example, our colleague Christian Liebel implemented a web version of Microsoft Paint with Web Components and the help of LitElement.</p>
+<p>Especially in the last part of the above-mentioned blog series, we addressed sharing data and common services. If you have a good sense of software architecture, your first thought might be that you can solve sharing data and services via the dependency injection (DI) approach. That is why we want to explore the idea of DI and Web Components in this blog post.</p>
+<h4 id="the-idea-behind-dependency-injection">The Idea Behind Dependency Injection<a class="headerlink" href="#the-idea-behind-dependency-injection" title="Permanent link">#</a></h4>
+<p>If you are familiar with DI, you can skip this section.</p>
+<p>As a little reminder, let's talk about dependency injection in general, without going too deep into this (because many great blog posts out there are describing DI). See the following, non-DI approach:</p>
+<pre><code class="ts">export class WordDocument extends BaseComponent {
+  constructor() {
+    this.spellChecker = new GermanSpellChecker();
+  }
+
+  spellCheck() {
+    this.spellChecker.perform();
+  }
+}
+</code></pre>
+
+<p>In this example, we have a class WordDocument that itself creates a GermanSpellChecker. By that, they are strongly tied together. If you create an instance of WordDocument, you will always have a GermanSpellChecker. As you can guess, that's not what you want to have all the time.</p>
+<p>To change that, we have to invert the control, like this:</p>
+<pre><code class="js">export class WordDocument extends BaseComponent{
+  constructor(spellChecker: SpellChecker) {
+    this.spellChecker = spellChecker;
+  }
+
+  // ...
+}
+
+// Example
+const germanDocument = new WordDocument(new GermanSpellChecker());
+const englishDocument = new WordDocument(new EnglishSpellChecker());
+const frenchDocument = new WordDocument(new FrenchSpellChecker());
+</code></pre>
+
+<p>If someone wants to create an instance of WordDocument, they also have to provide a spell checker. The big difference is that the caller now can decide which kind of spell checker they want to have, thus we are inverting the control here. That makes our class much more flexible, and you can implement any language for spell checking.</p>
+<p>The more dependencies the WordDocument has, the more cumbersome it gets to create each of the dependencies (which also could have dependencies on their own). At this point, you normally introduce a dependency injection container, that, as a straightforward explanation, has a list of classes and automatically creates the instances for you:</p>
+<pre><code class="js">container.register(WordDocument);
+container.register(GermanSpellChecker);
+// ...
+
+const document = container.resolve(WordDocument);
+</code></pre>
+
+<p>The container takes care of how to create an instance of WordDocument with all its dependencies. Since we are using the constructor to inject the dependency, it is also called constructor injection.</p>
+<p>Web Components &amp; Dependency Injection
+In general, all components share the concept of having inputs and outputs. According to Web Components, we can use HTML attributes and JavaScript properties as inputs and dispatch custom events as outputs. If you want to stay 100 % compatible with the Web Components specification, there is no other possibility to communicate with the Web Component's surroundings. If you plan to embed your Web Components on any page, you should also follow the specification.</p>
+<p>But if you plan to build a whole application with Web Components, you can think of other possibilities to communicate and develop your Web Components. Creating an entire application means that you have everything under control. You know your components, your data, your services, and your use cases. And you can create all your classes in a way that they fit together perfectly. Under such circumstances, it is possible to create a dependency injection system that works kind of well with Web Components. And it can even be a hierarchical DI system, that allows a child component to override a parent component's container registry.</p>
+<h3 id="using-injectservice">Using @InjectService<a class="headerlink" href="#using-injectservice" title="Permanent link">#</a></h3>
 <p>Once in a while we need to get access to an injectable service. That's also a task for a decorator to extract that kind of infrastructure code from the component's body.</p>
 <pre><code class="ts">@CustomElement('app-main')
 @InjectService('localNameA', ServiceClass1)
@@ -342,6 +404,31 @@ export class MainComponent extends BaseComponent&lt;{}&gt; {
 <p>Async is an option, can by sync, too. However, the render process is always asynchronous internally.</p>
 </blockquote>
 <p>The third option of <code>@InjectService</code> allows to define a singleton. Instead of providing a type for the second parameter of the decorator, here you must provide an instance. The same name will be shared across components.</p>
+<p>To get help with types, you can use a generic on the <em>services</em> function:</p>
+<pre><code class="ts">this.services&lt;ServiceClass1&gt;('localNameA');
+</code></pre>
+
+<h3 id="using-inject">Using @Inject<a class="headerlink" href="#using-inject" title="Permanent link">#</a></h3>
+<p>If you provide this decorator directly on a property, the service is available through this property. The name is no longer needed.</p>
+<pre><code class="ts">@CustomElement('app-main')
+export class MainComponent extends BaseComponent&lt;{}&gt; {
+
+  @Inject&lt;ServiceClass1&gt;(ServiceClass1) serviceField;
+
+  someActionMethod(): void {
+    this.serviceField.actionOnService();
+  }
+}
+</code></pre>
+
+<h3 id="usage-scenarios">Usage Scenarios<a class="headerlink" href="#usage-scenarios" title="Permanent link">#</a></h3>
+<p>Injectable services can be any of these, just to give a few ideas:</p>
+<ul>
+<li>Translation Service</li>
+<li>Logger Service</li>
+<li>HTTP Service</li>
+</ul>
+<p>As a definition, it's often something that is not clearly bound to a specific component. If it's a global piece of business logic, it would better fit into a global store as a set of reducers. That's what the <em>@nyaf/store</em> module is for. But id it's a technical service, a common function, of just infrastructure, a service is a much better way to implement.</p>
               
             </div>
           </div>

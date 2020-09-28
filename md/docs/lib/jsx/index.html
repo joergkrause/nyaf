@@ -393,16 +393,16 @@ async render() {
 </blockquote>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">#</a></h2>
 <p>You can also use the self-closing form of the tag if there are no children.</p>
-<pre><code class="tsx">&lt;div className=&quot;sidebar&quot; /&gt;
+<pre><code class="tsx">&lt;div class=&quot;sidebar&quot; /&gt;
 </code></pre>
 
 <p>This piece of code compiles into this JavaScript:</p>
-<pre><code class="js">JSX.createElement('div', {className: 'sidebar'})
+<pre><code class="js">JSX.createElement('div', {'class': 'sidebar'})
 </code></pre>
 
 <p>If you want to test out how some specific JSX is converted into JavaScript, you can try out the online <a href="https://babeljs.io/repl">Babel compiler</a>. Be aware that in case of any JSX oriented tools not explicitly configured for <strong>@nyaf</strong> may create the code with the namespace <code>React</code>. In fact, the online Babel transpiler creates something like this:</p>
 <pre><code class="js">React.createElement(&quot;div&quot;, {
-  className: &quot;sidebar&quot;
+  class: &quot;sidebar&quot;
 });
 </code></pre>
 
@@ -472,7 +472,7 @@ getApp2(): string {
 <pre><code class="tsx">const Button = props =&gt; {
   const { kind, ...other } = props;
   const cls = kind === &quot;primary&quot; ? &quot;PrimaryButton&quot; : &quot;SecondaryButton&quot;;
-  return &lt;button className={cls} {...other} /&gt;;
+  return &lt;button class={cls} {...other} /&gt;;
 };
 
 const getApp = () =&gt; {

@@ -130,8 +130,6 @@
     
         <ul>
         
-            <li><a class="toctree-l4" href="#repeater-n-repeat">Repeater - n-repeat</a></li>
-        
             <li><a class="toctree-l4" href="#transparent-outlet-n-outlet">Transparent Outlet n-outlet</a></li>
         
             <li><a class="toctree-l4" href="#render-finisher-n-finish">Render Finisher n-finish</a></li>
@@ -333,47 +331,6 @@
               
                 <h2 id="smart-components">Smart Components<a class="headerlink" href="#smart-components" title="Permanent link">#</a></h2>
 <p>Some features do not require additional code, they just need a clever usage of the power of TypeScript and Web Components. To simplify your life, a few of these are predefined as integrated components - the Smart Components.</p>
-<h3 id="repeater-n-repeat">Repeater - n-repeat<a class="headerlink" href="#repeater-n-repeat" title="Permanent link">#</a></h3>
-<p>The repeater component creates a loop. In the following example and interface defines a single item. An array with items of this type is provided.</p>
-<pre><code class="jsx">import JSX, { CustomElement, BaseComponent, of } from '@nyaf/lib';
-
-interface T {
-  id: number;
-  name: string;
-}
-
-@CustomElement('app-repeater-test')
-export class RepeaterTestComponent extends BaseComponent&lt;{}&gt; {
-  eventData: any;
-
-  constructor() {
-    super();
-  }
-
-  clickMe(e) {
-    console.log('Button Element Click ', e);
-    this.eventData = e;
-    super.setup();
-  }
-
-  async render() {
-    const data: Array&lt;T&gt; = [{ id: 1, name: 'One' }, { id: 2, name: 'Two' }, { id: 3, name: 'Three' }]
-    return await (
-      &lt;&gt;
-        &lt;div&gt;
-          &lt;ul&gt;
-            &lt;n-repeat source={data}&gt;
-              &lt;li data={of&lt;T&gt;(p =&gt; p.id)}&gt;{of&lt;T&gt;(p =&gt; p.name)}&lt;/li&gt;
-            &lt;/n-repeat&gt;
-          &lt;/ul&gt;
-        &lt;/div&gt;
-      &lt;/&gt;
-    );
-  }
-}
-</code></pre>
-
-<p>The repeater repeats the array's elements. Each element provides properties you can place anywhere in the body using the <code>of&lt;Type&gt;</code> operator. It's type safe, the editor will help you selecting the right properties from the given type.</p>
 <h3 id="transparent-outlet-n-outlet">Transparent Outlet n-outlet<a class="headerlink" href="#transparent-outlet-n-outlet" title="Permanent link">#</a></h3>
 <p>This is another outlet that renders into nothing. Normally you would do this:</p>
 <pre><code class="html">&lt;div n-router-outlet&gt;&lt;/div&gt;

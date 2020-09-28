@@ -405,6 +405,9 @@ export default {
 };
 </code></pre>
 
+<blockquote>
+<p>The functions of the actions are executed if the <em>dispatch</em> call provides nothing (<code>undefined</code> - exactly). In that case the value from the function is pulled.</p>
+</blockquote>
 <p>Also, some reducers doing the hard work (<em>DatabaseService</em> is an example service proxy not shown here; see the full example code on Github in the examples path):</p>
 <pre><code class="ts">import { ALL, ADD, REMOVE, EDIT, SAVE } from '../actions/archive.actions';
 import { archiveStoreType } from '../stores/archive.store';
