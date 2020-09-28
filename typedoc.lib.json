@@ -11,8 +11,8 @@
   "target": "ES2015",
   "excludePrivate": true,
   "excludeNotExported": true,
-  "excludeExternals": true,
-  "inputFiles": ["./src/packages/@nyaf/lib"],
+  "excludeExternals": false,
+  "inputFiles": ["./src/packages/@nyaf/lib/index.ts"],
   "exclude": [
     "./src/_experimental"
   ]

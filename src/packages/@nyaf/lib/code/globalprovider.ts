@@ -139,23 +139,24 @@ export class GlobalProvider {
     return GlobalProvider.bootstrapProps.routes;
   }
 
+  private static parentWalk (el: HTMLElement, evt: string): any {
+    if (!el.parentElement) {
+      return null;
+    }
+    // only events attached to custom components matter here
+    if (GlobalProvider.registeredElements.some(te => (<HTMLElement>el.parentElement).tagName === te)) {
+      const target = el.parentElement[evt];
+      if (target) {
+        return el.parentElement;
+      }
+    }
+    return GlobalProvider.parentWalk(el.parentElement, evt);
+  };
+
   /**
    * All events are handled by this helper function. This function shall not be called from user code.
    */
   private static async eventHub(e: Event) {
-    const parentWalk = (el: HTMLElement, evt: string): any => {
-      if (!el.parentElement) {
-        return null;
-      }
-      // only events attached to custom components matter here
-      if (GlobalProvider.registeredElements.some(te => (<HTMLElement>el.parentElement).tagName === te)) {
-        const target = el.parentElement[evt];
-        if (target) {
-          return el.parentElement;
-        }
-      }
-      return parentWalk(el.parentElement, evt);
-    };
     if ((<HTMLElement>e.target).getAttribute) {
       let type = e.type;
       if (e instanceof CustomEvent) {
@@ -182,7 +183,7 @@ export class GlobalProvider {
           const match = evt.match(/^(?:(\(?.+\)?|.?)\s?=>\s?)?.+\.([^(]*)((?:[^)]*)?)?/);
           if (match && match.length > 2) {
             evt = match[2];
-            parent = parentWalk(target, evt);
+            parent = GlobalProvider.parentWalk(target, evt);
             if (parent) {
               call = true;
               if (match[3] && match[3].indexOf(',') > 0) {
@@ -203,7 +204,11 @@ export class GlobalProvider {
           for (let prop in e) {
             ee[prop] = e[prop];
           }
+          ee.preventDefault = () => e.preventDefault();
+          ee.stopImmediatePropagation = () => e.stopImmediatePropagation();
+          ee.stopPropagation = () => e.stopPropagation();
           ee.detail = (e as CustomEvent).detail;
+          ee.target = target;
           if (asy) {
             await parent[evt].call(parent, ee, ...params);
           } else {

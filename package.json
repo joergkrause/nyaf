@@ -1,6 +1,6 @@
 {
   "name": "nyaf",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "build": "rimraf dist/@nyaf && cp README.md ./src/packages/@nyaf/lib && rimraf out-tsc && tsc && npm run nyaf",
     "build-debug": "rimraf dist/@nyaf && rimraf out-tsc && tsc && npm run nyaf-debug",
     "publish": "npm run build && cd dist/@nyaf/lib && npm publish --access public && cd ../../.. && cd dist/@nyaf/forms && npm publish --access public && cd ../../.. && cd dist/@nyaf/store && npm publish --access public && cd ../../../ && cd dist/@nyaf/cli && npm publish --access public",
-    "doc": "rimraf dist/manual && rimraf dist/apidoc && npm run t-lib && npm run t-forms && npm run t-store && mkdocs build && showdown makehtml -i README.md -o dist/readme.html && cp -r dist/manual ../nyaf-homepage/dist/manual && cp -r dist/apidoc ../nyaf-homepage/dist/apidoc && cp -r dist/readme.html ../nyaf-homepage/dist/readme.html",
+    "doc": "rimraf dist/manual && rimraf dist/apidoc && npm run t-lib && npm run t-forms && npm run t-store && mkdocs build && showdown makehtml -i README.md -o dist/readme.html && cp -r dist/manual ../nyaf-homepage/dist/manual && cp -r dist/apidoc ../nyaf-homepage/dist/ && cp -r dist/readme.html ../nyaf-homepage/dist/readme.html",
     "t-lib": "typedoc --options typedoc.lib.json",
     "t-forms": "typedoc --options typedoc.forms.json",
     "t-store": "typedoc --options typedoc.store.json",

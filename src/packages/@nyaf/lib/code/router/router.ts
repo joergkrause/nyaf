@@ -1,10 +1,8 @@
 import { DomOp } from '../dom-operations';
 import { Routes } from './routes';
-import { IComponent } from '../../types/common';
 import { RouteEventTarget } from './navigate.event';
 import { CustomElement_Symbol_Selector } from '@nyaf/lib/consts/decorator.props';
 
-const N_ROUTER_OUTLET_SEL = '[n-router-outlet]';
 const N_LINK = 'n-link';
 const N_LINK_SEL = `[${N_LINK}]`;
 
@@ -34,18 +32,10 @@ export class Router {
   public registerRouter(routes: Routes) {
     Router._routes = routes;
     // find the outlets after ready
-    this.outlets = Array.prototype.slice.call(document.querySelectorAll<HTMLElement>(N_ROUTER_OUTLET_SEL));
-    // is completely voluntery
+    this.outlets = Array.prototype.slice.call(document.querySelectorAll<HTMLElement>(`[n-router-outlet],n-outlet`));
     if (this.outlets) {
       // prepare router events
       this.onRouterAction = new RouteEventTarget(routes);
-      // handle history
-      const onNavItemClick = (pathName: string, title?: string) => {
-        if (title) {
-          document.title = title;
-        }
-        window.history.pushState({ pathName }, pathName, window.location.origin + pathName);
-      };
       window.addEventListener('hashchange', (event: HashChangeEvent) => {
         // Currently we suport hash location strategy only
         if (window.location.hash === event.oldURL.substring(event.oldURL.indexOf('#'))) {
@@ -58,90 +48,45 @@ export class Router {
           externalhashPath = externalhashPath.slice(0, -1);
         }
         const requestedRoute = externalhashPath ? externalhashPath.replace(/^#\//, '/') : '/';
-        const activatedComponent = routes[requestedRoute] ? routes[requestedRoute].component : null;
+        const activatedComponent = routes[requestedRoute] ? routes[requestedRoute].component as unknown as Node : null;
         if (activatedComponent) {
-          const title = routes[requestedRoute].data?.title;
           const outletName = routes[requestedRoute].outlet;
-          const outlet = outletName
-            ? document.querySelector(`[n-router-outlet="${outletName}"]`)
-            : document.querySelector(N_ROUTER_OUTLET_SEL);
-          onNavItemClick(externalhashPath, title);
+          const outlet = this.queryOutlet(outletName);
           this.setRouterOutlet(activatedComponent, externalhashPath, outlet, routes[requestedRoute].forced);
+          this.setLinkElements(requestedRoute);
         }
       });
-      // listen for any click event and check n-link attribute
-      document.addEventListener('click', e => {
-        let target = <HTMLElement>e.target;
-        let nLink = target.getAttribute(N_LINK);
-        if (!nLink) {
-          // walk up the tree to find next n-link
-          const parents = DomOp.getParents(target, `a${N_LINK_SEL}`);
-          if (parents && parents.length === 1) {
-            target = parents[0];
-            nLink = target.getAttribute(N_LINK);
-          }
-        }
-        if (nLink) {
-          // handle classes globally
-          document.querySelectorAll(N_LINK_SEL).forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute(N_LINK)));
-          if (nLink !== 'true') {
-            // empty n-link has true as value, that's not a class and we don't set this
-            (<HTMLElement>target).classList.add(nLink);
-          }
-          // expect that n-link is on an anchor tag
-          const pf = (<HTMLAnchorElement>target).href.split('#');
-          let requestedRoute = '';
-          let needFallback = false;
-          let outletName = '';
-          // fallback strategy
-          do {
-            if (pf.length !== 2) {
-              needFallback = true;
-              break;
-            }
-            requestedRoute = pf[1];
-            if (!requestedRoute) {
-              needFallback = true;
-              break;
-            }
-            if (!routes[requestedRoute]) {
-              needFallback = true;
-              break;
-            }
-            outletName = routes[requestedRoute].outlet;
-            break;
-          } while (true);
-          // only execute if useful, here we have a valid route
-          if (!needFallback || (needFallback && routes['**'])) {
-            const activatedComponent = routes[requestedRoute].component;
-            const forced = routes[requestedRoute].forced;
-            if (!requestedRoute.startsWith('#')) {
-              requestedRoute = `#${requestedRoute}`;
-            }
-            onNavItemClick(requestedRoute);
-            const outlet = outletName
-              ? document.querySelector(`[n-router-outlet="${outletName}"]`)
-              : document.querySelector(N_ROUTER_OUTLET_SEL);
-            this.setRouterOutlet(activatedComponent, requestedRoute, outlet, forced);
-          } else {
-            console.warn(
-              '[@nyaf] A router link call has been executed,' +
-              'but requested link is not properly configured: ' +
-              (<HTMLAnchorElement>e.target).href
-            );
-          }
-        }
-      });
-      // set default '/': { component: DemoComponent },
       if (routes) {
         const defaultRoute = routes['/'];
         if (defaultRoute) {
-          const activatedComponent = defaultRoute.component;
+          const activatedComponent = defaultRoute.component as unknown as Node;
           // default route goes always to default outlet
-          onNavItemClick('/');
-          const outlet = document.querySelector(N_ROUTER_OUTLET_SEL);
+          this.onNavItemClick('/');
+          const outlet = this.queryOutlet();
           this.setRouterOutlet(activatedComponent, '/', outlet, defaultRoute.forced);
+          this.setLinkElements('/');
         }
+        // in case we have any "forced" routes, we need to invoke even if there is no hashchange
+        const forcedRoutes = Object.keys(routes)
+          .filter(route => routes[route].forced)
+          .map((attr) => `[href$="${attr}"]`)
+          .join(' ');
+        const linkElements = document.querySelectorAll<HTMLAnchorElement>(`${N_LINK_SEL} ${forcedRoutes}`);
+        linkElements.forEach((linkElement) => {
+          // if (linkElement.href.endsWith())
+          linkElement.addEventListener('click', (e: Event) => {
+            const linkElement = e.target as HTMLAnchorElement;
+            const requestedRoute = linkElement.href.replace(/^#\//, '/');
+            if (routes[requestedRoute]) {
+              const activatedComponent =  routes[requestedRoute].component as unknown as Node;
+              this.onNavItemClick(requestedRoute);
+              const outletName = routes[requestedRoute].outlet;
+              const outlet = this.queryOutlet(outletName);
+              this.setRouterOutlet(activatedComponent, requestedRoute, outlet, true);
+              this.setLinkElements(requestedRoute);
+            }
+          });
+        })
       }
     }
   }
@@ -155,10 +100,10 @@ export class Router {
   public navigateRoute(requestedRoute: string, outletName?: string) {
     const routes: Routes = Router._routes;
     let outlet: HTMLElement;
-    let activatedComponent: IComponent = routes[requestedRoute]?.component;
+    let activatedComponent: Node = routes[requestedRoute]?.component as unknown as Node;
     const forced = routes[requestedRoute]?.forced || false;
     if (!activatedComponent) {
-      activatedComponent = routes['/']?.component;
+      activatedComponent = routes['/']?.component as unknown as Node;
     }
     if (!activatedComponent) {
       throw new Error('Route not found and no default route defined');
@@ -166,7 +111,8 @@ export class Router {
     if (!outletName) {
       outletName = routes[requestedRoute].outlet;
     }
-    outlet = outletName ? document.querySelector(`[n-router-outlet="${outletName}"]`) : document.querySelector(`[n-router-outlet]`);
+    outlet = this.queryOutlet(outletName);
+
     if (outlet) {
       this.setRouterOutlet(activatedComponent, requestedRoute, outlet, forced);
     } else {
@@ -174,29 +120,125 @@ export class Router {
     }
   }
 
+  // handle history if not invoked by hashchanged
+  private onNavItemClick(pathName: string, title?: string) {
+    if (title) {
+      document.title = title;
+    }
+    window.history.pushState({ pathName }, pathName, window.location.origin + pathName);
+  }
 
-  private setRouterOutlet(activatedComponent: IComponent, requestedRoute: string, outlet: Element, forced: boolean) {
-    let event = new CustomEvent('navigate', {
+  private setLinkElements(route: string) {
+    // deactivate all
+    const linkElements = document.querySelectorAll(N_LINK_SEL);
+    linkElements.forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute(N_LINK)));
+    // activate all with matching route
+    const setElements = document.querySelectorAll(`${N_LINK_SEL} [href$="#${route}]`);
+    setElements.forEach((linkElement) => linkElement.classList.add(linkElement.getAttribute(N_LINK)));
+  }
+
+  private queryOutlet(outletName?: string): HTMLElement {
+    const outlet = outletName
+      ? document.querySelector<HTMLElement>(`[n-router-outlet="${outletName}"],n-outlet[name="${outletName}"]`)
+      : document.querySelector<HTMLElement>(`[n-router-outlet],n-outlet`);
+    return outlet;
+  }
+
+  private setRouterOutlet(activatedComponent: Node, requestedRoute: string, outlet: Element, forced: boolean) {
+    let event = this.createEvent('navigate', true, requestedRoute);
+    this.onRouterAction.dispatchEvent(event);
+    const activatedElement = document.createElement(activatedComponent[CustomElement_Symbol_Selector]);
+    switch (outlet.tagName) {
+      case 'N-OUTLET':
+        if (forced || this.needToLoad(outlet.firstElementChild, activatedComponent)) {
+          if (outlet.firstElementChild) {
+            outlet.replaceChild(activatedElement, outlet.firstElementChild);
+          } else {
+            outlet.appendChild(activatedElement);
+          }
+        }
+        break;
+      default:
+        // outlet is any HTMLElement
+        if (forced || this.needToLoad(outlet.firstChild, activatedComponent)) {
+          if (outlet.firstChild) {
+            outlet.replaceChild(activatedElement, outlet.firstChild);
+          } else {
+            outlet.appendChild(activatedElement);
+          }
+        }
+        break;
+    }
+    event = this.createEvent('navigated', false, requestedRoute);
+    this.onRouterAction.dispatchEvent(event);
+  }
+
+  private createEvent(name: string, cancelable: boolean, requestedRoute: string): CustomEvent {
+    const event = new CustomEvent(name, {
       bubbles: true,
-      cancelable: true,
+      cancelable,
       composed: true,
       detail: requestedRoute
     });
-    this.onRouterAction.dispatchEvent(event);
-    if (!(outlet as any)['__activatedComponent__']) {
-      Object.defineProperty(outlet, '__activatedComponent__', { enumerable: false, writable: true, configurable: false, value: '' });
-    }
-    if (forced || (outlet as any)['__activatedComponent__'] !== activatedComponent[CustomElement_Symbol_Selector]) {
-      (outlet as any)['__activatedComponent__'] = activatedComponent[CustomElement_Symbol_Selector];
-      outlet.innerHTML = `<${activatedComponent[CustomElement_Symbol_Selector]}></${activatedComponent[CustomElement_Symbol_Selector]}>`;
-      event = new CustomEvent('navigated', {
-        bubbles: true,
-        cancelable: false,
-        composed: true,
-        detail: requestedRoute
-      });
-      this.onRouterAction.dispatchEvent(event);
-    }
+    return event;
   }
 
+  private needToLoad(outletChild: Node, activatedComponent: Node): boolean {
+    return (!outletChild || outletChild['__uniqueId__'] as Node !== activatedComponent['__uniqueId__']);
+  }
+
+
+  // private invokeLinkTarget(target: HTMLElement) {
+  //     let nLink = target.getAttribute(N_LINK);
+  //     if (!nLink) {
+  //       // walk up the tree to find next n-link
+  //       const parents = DomOp.getParents(target, `${N_LINK_SEL}`);
+  //       if (parents && parents.length === 1) {
+  //         target = parents[0];
+  //         nLink = target.getAttribute(N_LINK);
+  //       }
+  //     }
+  //     if (nLink) {
+  //       // expect that n-link is on an anchor tag
+  //       const pf = (<HTMLAnchorElement>target).href.split('#');
+  //       let requestedRoute = '';
+  //       let needFallback = false;
+  //       let outletName = '';
+  //       // fallback strategy
+  //       do {
+  //         if (pf.length !== 2) {
+  //           needFallback = true;
+  //           break;
+  //         }
+  //         requestedRoute = pf[1];
+  //         if (!requestedRoute) {
+  //           needFallback = true;
+  //           break;
+  //         }
+  //         if (!routes[requestedRoute]) {
+  //           needFallback = true;
+  //           break;
+  //         }
+  //         outletName = routes[requestedRoute].outlet;
+  //         break;
+  //       } while (true);
+  //       // only execute if useful, here we have a valid route
+  //       if (!needFallback || (needFallback && routes['**'])) {
+  //         const activatedComponent = routes[requestedRoute].component as unknown as Node;
+  //         const forced = routes[requestedRoute].forced;
+  //         if (!requestedRoute.startsWith('#')) {
+  //           requestedRoute = `#${requestedRoute}`;
+  //         }
+  //         onNavItemClick(requestedRoute);
+  //         const outlet = this.queryOutlet(outletName);
+  //         this.setRouterOutlet(activatedComponent, requestedRoute, outlet, forced);
+  //       } else {
+  //         console.warn(
+  //           '[@nyaf] A router link call has been executed,' +
+  //           'but requested link is not properly configured: ' +
+  //           (<HTMLAnchorElement>e.target).href
+  //         );
+  //       }
+  //     }
+  // }
 }

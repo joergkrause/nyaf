@@ -30,13 +30,13 @@ export function InjectService<T extends Constructor<{}> = any>(name: string, typ
       const t = singleton ? (type as ServiceType<T>).instance : new (type as T)();
       (<Map<string, any>>target.prototype[InjectServices_Symbol]).set(name, t);
     }
-    // we define the access on "this" level, but let the definition run on "super" level
-    if (!target.services) {
-      Object.defineProperty(target, 'services', {
-        get: function () {
-          return target.prototype[InjectServices_Symbol];
-        }
-      });
-    }
+    // // we define the access on "this" level, but let the definition run on "super" level
+    // if (!target.services) {
+    //   Object.defineProperty(target, 'services', {
+    //     get: function () {
+    //       return target.prototype[InjectServices_Symbol];
+    //     }
+    //   });
+    // }
   };
 }

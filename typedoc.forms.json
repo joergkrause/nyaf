@@ -9,8 +9,8 @@
   "preserveConstEnums": "true",
   "excludePrivate": true,
   "excludeNotExported": true,
-  "excludeExternals": true,
-  "inputFiles": ["./src/packages/@nyaf/forms"],
+  "excludeExternals": false,
+  "inputFiles": ["./src/packages/@nyaf/forms/index.ts"],
   "exclude": [
     "./src/_experimental"
   ]

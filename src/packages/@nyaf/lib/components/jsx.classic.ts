@@ -110,14 +110,14 @@ const JSX: any = {
               // Stringify and mark as complex to handle the read/write procedure in the Proxy handler
               if (isArray(value)) {
                 delete props[key];
-                return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__arr__`;
+                return `${key}='${JSON.stringify(value)}' n-type-${key}='array'`;
               } else if (isObject(value)) {
                 delete props[key];
-                return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__obj__`;
+                return `${key}='${JSON.stringify(value)}' n-type-${key}='object'`;
               } else if (isBoolean(value)) {
-                return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__bool__`;
+                return `${key}='${JSON.stringify(value)}' n-type-${key}='boolean'`;
               } else if (isNumber(value)) {
-                return `${key}='${JSON.stringify(value)}' __${key}__ __${key}__num__`;
+                return `${key}='${JSON.stringify(value)}' n-type-${key}='number'`;
               } else {
                 // single quotes to process JSON.stringify (needed, because web components support only string)
                 // In case argument has already single quotes, we replace with escaped double quotes

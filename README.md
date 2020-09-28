@@ -18,14 +18,14 @@ It's simple, has a flat learning curve, doesn't need any special tools. Keep you
 
 @nyaf is very well documented.
 
-**[Home Page and Interactive Demos](http://nyaf.comzept.de/)**
+**[Home Page and Interactive Demos](https://nyaf.comzept.de/)**
 **[Read the Manual](https://nyaf.readthedocs.io/en/latest/)**
 
 ### API Documentation
 
-**[Full API Documentation Base Library](http://nyaf.comzept.de/apidoc/lib/index.html)**
-**[Full API Documentation Forms Library](http://nyaf.comzept.de/apidoc/forms/index.html)**
-**[Full API Documentation Store Library](http://nyaf.comzept.de/apidoc/store/index.html)**
+**[Full API Documentation Base Library](https://nyaf.comzept.de/apidoc/lib/index.html)**
+**[Full API Documentation Forms Library](https://nyaf.comzept.de/apidoc/forms/index.html)**
+**[Full API Documentation Store Library](https://nyaf.comzept.de/apidoc/store/index.html)**
 
 ## Approach
 
@@ -931,7 +931,7 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 Is it worth coding with @nyaf and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual package sizes (0.6.6, published 21st of September 2020):
+Actual package sizes (0.6.7, published 21st of September 2020):
 
 * Lib:    36 KB --> 11 KB zipped (always needed)
 * Forms:  20 KB -->  5 KB zipped (Forms binding, validation, decorators)

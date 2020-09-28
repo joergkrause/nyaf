@@ -2,6 +2,7 @@
 export const CTOR = Symbol.for('__ctor__');
 export const ShadowDOM_Symbol_WithShadow = Symbol.for('withShadow');
 export const UseParentStyles_Symbol = Symbol.for('useParentStyles');
+export const UniqueId_Symbol = Symbol.for('ComponentUniqueId'); // TODO:: use
 // Lib internals
 export const CustomElement_Symbol_Selector = Symbol('CustomElementSelector');
 export const Directive_Symbol_Selector = Symbol('DirectiveSelector');

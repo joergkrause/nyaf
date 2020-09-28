@@ -2,7 +2,7 @@ import { LifeCycle } from './lifecycle.enum';
 import { GlobalProvider } from '../code/globalprovider';
 import { uuidv4, isObject, isNumber, isBoolean, isArray, isString } from '../code/utils';
 import { IDirective } from '../types/common';
-import { CTOR, CustomElement_Symbol_Selector, ShadowDOM_Symbol_WithShadow, UseParentStyles_Symbol } from '../consts/decorator.props';
+import { CTOR, CustomElement_Symbol_Selector, ShadowDOM_Symbol_WithShadow, UseParentStyles_Symbol, InjectServices_Symbol } from '../consts/decorator.props';
 
 /**
  * The structure that defines the state object.
@@ -18,6 +18,7 @@ export interface IBaseComponent extends HTMLElement {
   setData(name: string, newValue: any, noRender?: boolean): Promise<void>;
 }
 
+const globalStyle_Symbol = Symbol();
 
 /**
  * Base class for components. Use in derived classes with a path to a template file, and additional setup steps callback.
@@ -39,16 +40,9 @@ export interface IBaseComponent extends HTMLElement {
 export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLElement implements IBaseComponent {
 
   /**
-   * Set by decorator {@link {UseParentStyles}}. If set, it copies styles to a shadowed component.
-   * If not shadowed, it's being ignored. See {@link {UseShadowDOM}} decorator, too.
-   */
-  public static readonly useParentStyles: boolean;
-
-  /**
    * A copy of the global styles statically set for all components. First access fills it in, then it's cached.
    */
-  private static globalStyle: string;
-  private static linkedStyles: HTMLLinkElement[] = [];
+  private static readonly [globalStyle_Symbol]: string;
   /**
    * Set by decorator {@link {UseShadowDOM}}. A shadowed component is technically isolated.
    */
@@ -130,7 +124,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
 
   private _lifeCycleState: LifeCycle;
   private _data: P;
-  private _services: Map<string, any>;
 
   public isInitalized = false;
   public onlifecycle: Function;
@@ -146,8 +139,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     this._data = new Proxy(defaultProperties as P, this.proxyAttributeHandler);
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
-    if (this.constructor[UseParentStyles_Symbol] && this.constructor[ShadowDOM_Symbol_WithShadow] && !this.constructor['globalStyle']) {
-      this.constructor['globalStyle'] = '';
+    if (this.constructor[UseParentStyles_Symbol] && this.constructor[ShadowDOM_Symbol_WithShadow] && !this.constructor[globalStyle_Symbol]) {
+      this.constructor[globalStyle_Symbol] = '';
       if (isBoolean(this.constructor[UseParentStyles_Symbol]) && this.constructor[UseParentStyles_Symbol] === true) {
         for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
           const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
@@ -155,7 +148,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
             if (!css.rules || css.rules.length === 0 || css.rules[0].cssText.startsWith(':ignore')) {
               continue;
             }
-            this.constructor['globalStyle'] += Object.keys(css.cssRules)
+            this.constructor[globalStyle_Symbol] += Object.keys(css.cssRules)
               .map(k => css.cssRules[k].cssText ?? ' ')
               .join(' ');
           } catch {
@@ -164,7 +157,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         }
       } else {
         const css: StyleSheet = this.constructor[UseParentStyles_Symbol] as StyleSheet;
-        this.constructor['globalStyle'] += Object.keys(css)
+        this.constructor[globalStyle_Symbol] += Object.keys(css)
               .map(k => css[k])
               .join(' ');
       }
@@ -186,17 +179,17 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   proxyAttributeHandler = {
     get: (obj: P, prop: string) => {
       try {
-        if (this.attributes.getNamedItem(`__${prop}__obj__`) || (this[prop] !== undefined && isObject(this[prop]))) {
+        if (this.attributes.getNamedItem(`n-type-${prop}`) && this.attributes.getNamedItem(`n-type-${prop}`).value === 'object') {
           return JSON.parse(this.getAttribute(prop));
         }
-        if (this.attributes.getNamedItem(`__${prop}__bool__`) || (this[prop] !== undefined && isBoolean(this[prop]))) {
+        if (this.attributes.getNamedItem(`n-type-${prop}`) && this.attributes.getNamedItem(`n-type-${prop}`).value === 'boolean') {
           return this.getAttribute(prop) === 'true' || this.getAttribute(prop) === '!0';
         }
-        if (this.attributes.getNamedItem(`__${prop}__num__`) || (this[prop] !== undefined && isNumber(this[prop]))) {
+        if (this.attributes.getNamedItem(`n-type-${prop}`) && this.attributes.getNamedItem(`n-type-${prop}`).value === 'number') {
           return Number.parseFloat(this.getAttribute(prop));
         }
-        if (this.attributes.getNamedItem(`__${prop}__arr__`) || (this[prop] !== undefined && isArray(this[prop]))) {
-          return JSON.parse(this.attributes.getNamedItem(`__${prop}__arr__`).value);
+        if (this.attributes.getNamedItem(`n-type-${prop}`) && this.attributes.getNamedItem(`n-type-${prop}`).value === 'array') {
+          return JSON.parse(this.attributes.getNamedItem(`n-type-${prop}-value`).value);
         }
         return obj[prop];
       } catch (err) {
@@ -208,15 +201,16 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       (<any>obj)[prop] = value;
       try {
         if (isBoolean(value)) {
-          this.setAttribute(`__${prop}__bool__`, '');
+          this.setAttribute(`n-type-${prop}`, 'boolean');
         } else if (isNumber(value)) {
-          this.setAttribute(`__${prop}__num__`, '');
+          this.setAttribute(`n-type-${prop}`, 'number');
         } else if (isArray(value) || (isString(value) && (value.match(/^\[.*\]$/) && isArray(JSON.parse(value))))) {
           // an array we observe too
           if (isArray(value)) {
             value = JSON.stringify(value);
           }
-          this.setAttribute(`__${prop}__arr__`, value);
+          this.setAttribute(`n-type-${prop}`, 'array');
+          this.setAttribute(`n-type-${prop}-value`, value);
           (<any>obj)[prop] = new Proxy(JSON.parse(value), {
             get(target, innerProp: string) {
               const val = target[innerProp];
@@ -238,7 +232,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
             }
           });
         } else if (isObject(value)) {
-          this.setAttribute(`__${prop}__obj__`, '');
+          this.setAttribute(`n-type-${prop}`, 'object');
           value = JSON.stringify(value);
         }
         this.setAttribute(prop, value);
@@ -294,7 +288,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param service The name of a registered service
    */
   protected services<S = any>(serviceId: string): S {
-    return this._services.get(serviceId) as S;
+    return this[InjectServices_Symbol].get(serviceId) as S;
   }
 
   /**
@@ -320,10 +314,10 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       template.innerHTML = await this.render();
       if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {
         this.attachShadow({ mode: 'open' });
-        if ((<any>this.constructor).useParentStyles && (<any>this.constructor).globalStyle) {
+        if ((<any>this.constructor)[UseParentStyles_Symbol] && (<any>this.constructor)[globalStyle_Symbol]) {
           // copy styles to shadow if shadowed and there is something to add
           const style = document.createElement('style');
-          style.textContent = (<any>this.constructor).globalStyle;
+          style.textContent = (<any>this.constructor)[globalStyle_Symbol];
           this.shadowRoot.appendChild(style);
         }
         this.shadowRoot.appendChild(template.content.cloneNode(true));
