@@ -1,5 +1,4 @@
-import { DomOp } from '../dom-operations';
-import { Routes } from './routes';
+import { Routes, Action, RouteDefinition } from './routes';
 import { RouteEventTarget } from './navigate.event';
 import { CustomElement_Symbol_Selector } from '@nyaf/lib/consts/decorator.props';
 
@@ -14,7 +13,7 @@ const N_LINK_SEL = `[${N_LINK}]`;
 export class Router {
 
   private static _routerInstance: Router;
-  private static _routes: Routes;
+  private routes: Routes;
   public onRouterAction: RouteEventTarget;
   public outlets: Array<HTMLElement> = [];
 
@@ -29,66 +28,94 @@ export class Router {
    * Called by the bootstrapper to setup a route environment. The route definition is held in memory as static object.
    * @param routes The route definition
    */
-  public registerRouter(routes: Routes) {
-    Router._routes = routes;
+  public registerRouter(routes: RouteDefinition): void {
+    if (!routes) {
+      return;
+    }
+    this.routes = Object.keys(routes)
+      // sort longest path first
+      .sort((a, b) => { return b.length - a.length; })
+      // convert into more usable format
+      .map((path) => {
+        return {
+          // create regex
+          path: new RegExp("^" + path.replace(/:[^\s/]+/g, '([\\w-]+)').replace('/', '\\/').replace('**', '') + "$"),
+          action: routes[path]
+        };
+      });
     // find the outlets after ready
     this.outlets = Array.prototype.slice.call(document.querySelectorAll<HTMLElement>(`[n-router-outlet],n-outlet`));
-    if (this.outlets) {
-      // prepare router events
-      this.onRouterAction = new RouteEventTarget(routes);
-      window.addEventListener('hashchange', (event: HashChangeEvent) => {
-        // Currently we suport hash location strategy only
-        if (window.location.hash === event.oldURL.substring(event.oldURL.indexOf('#'))) {
-          // we're already on that path and there is no additional action required
-          event.preventDefault();
-          return false;
+    if (!this.outlets || this.outlets.length === 0) {
+      console.warn('There are routes available, but no outlet to deliver components. Consider adding an outlet element.');
+      return;
+    }
+    // prepare router events
+    this.onRouterAction = new RouteEventTarget(this.routes);
+    window.addEventListener('hashchange', (event: HashChangeEvent) => {
+      this.handleHashChange(event);
+    });
+    const defaultAction = this.getRoute('/');
+    if (defaultAction) {
+      const activatedComponent = defaultAction.component as unknown as Node;
+      // default route goes always to default outlet
+      this.onNavItemClick('/');
+      const outlet = this.queryOutlet();
+      this.setRouterOutlet(activatedComponent, '/', outlet, defaultAction.forced);
+      this.setLinkElements('/');
+    }
+    // in case we have any "forced" routes, we need to invoke even if there is no hashchange
+    const forcedRoutes = this.getForcedRoutes();
+    const linkElements = document.querySelectorAll<HTMLAnchorElement>(`${N_LINK_SEL} ${forcedRoutes}`);
+    linkElements.forEach((linkElement) => {
+      // if (linkElement.href.endsWith())
+      linkElement.addEventListener('click', (e: Event) => {
+        const linkElement = e.target as HTMLAnchorElement;
+        const requestedRoute = linkElement.href.replace(/^#\//, '/');
+        const routeAction = this.getRoute(requestedRoute);
+        if (routeAction === false) {
+          return;
         }
-        let externalhashPath = event.newURL.substring(event.newURL.indexOf('#')); // (event. as any).path[0].location.hash || event.path[0].location.pathname;
-        if (externalhashPath.endsWith('/')) {
-          externalhashPath = externalhashPath.slice(0, -1);
-        }
-        const requestedRoute = externalhashPath ? externalhashPath.replace(/^#\//, '/') : '/';
-        const activatedComponent = routes[requestedRoute] ? routes[requestedRoute].component as unknown as Node : null;
-        if (activatedComponent) {
-          const outletName = routes[requestedRoute].outlet;
-          const outlet = this.queryOutlet(outletName);
-          this.setRouterOutlet(activatedComponent, externalhashPath, outlet, routes[requestedRoute].forced);
-          this.setLinkElements(requestedRoute);
-        }
+        const activatedComponent = routeAction.component as unknown as Node;
+        this.onNavItemClick(requestedRoute);
+        const outletName = routeAction.outlet;
+        const outlet = this.queryOutlet(outletName);
+        this.setRouterOutlet(activatedComponent, requestedRoute, outlet, true);
+        this.setLinkElements(requestedRoute);
       });
-      if (routes) {
-        const defaultRoute = routes['/'];
-        if (defaultRoute) {
-          const activatedComponent = defaultRoute.component as unknown as Node;
-          // default route goes always to default outlet
-          this.onNavItemClick('/');
-          const outlet = this.queryOutlet();
-          this.setRouterOutlet(activatedComponent, '/', outlet, defaultRoute.forced);
-          this.setLinkElements('/');
-        }
-        // in case we have any "forced" routes, we need to invoke even if there is no hashchange
-        const forcedRoutes = Object.keys(routes)
-          .filter(route => routes[route].forced)
-          .map((attr) => `[href$="${attr}"]`)
-          .join(' ');
-        const linkElements = document.querySelectorAll<HTMLAnchorElement>(`${N_LINK_SEL} ${forcedRoutes}`);
-        linkElements.forEach((linkElement) => {
-          // if (linkElement.href.endsWith())
-          linkElement.addEventListener('click', (e: Event) => {
-            const linkElement = e.target as HTMLAnchorElement;
-            const requestedRoute = linkElement.href.replace(/^#\//, '/');
-            if (routes[requestedRoute]) {
-              const activatedComponent =  routes[requestedRoute].component as unknown as Node;
-              this.onNavItemClick(requestedRoute);
-              const outletName = routes[requestedRoute].outlet;
-              const outlet = this.queryOutlet(outletName);
-              this.setRouterOutlet(activatedComponent, requestedRoute, outlet, true);
-              this.setLinkElements(requestedRoute);
-            }
-          });
-        })
+    })
+  }
+
+  private getRoute(routePath: string): Action | false {
+    // TODO: consider https://github.com/pillarjs/path-to-regexp/
+    const routes = this.routes;
+    for (var i = 0, l = routes.length; i < l; i++) {
+      // parse if possible
+      var found = routePath.match(routes[i].path);
+      if (found) { // parsed successfully
+        return routes[i].action;
       }
     }
+    return false;
+  }
+
+  private getDefaultRoute(): Action | false {
+    return this.getRoute('/');
+  }
+
+  private getForcedRoutes(): string {
+    const forcedRoutes = this.routes
+      .filter(route => route.action.forced)
+      .map((attr) => `[href$="${attr}"]`)
+      .join(' ');
+    return forcedRoutes;
+  }
+
+  private get allRoutePaths(): RegExp[] {
+    return this.routes.map(route => route.path);
+  }
+
+  private get hasRoutes(): boolean {
+    return (this.routes.length > 0);
   }
 
   /**
@@ -97,19 +124,26 @@ export class Router {
    * @param requestedRoute String value of the route's name. Same as in the `href` attribute when defining links.
    * @param outletName The target. Can be omitted, if the default (main) router outlet is being adressed or the router configuration provides static outlets.
    */
-  public navigateRoute(requestedRoute: string, outletName?: string) {
-    const routes: Routes = Router._routes;
+  public navigateRoute(requestedRoute: string, outletName?: string): void | never {
     let outlet: HTMLElement;
-    let activatedComponent: Node = routes[requestedRoute]?.component as unknown as Node;
-    const forced = routes[requestedRoute]?.forced || false;
+    let routeAction = this.getRoute(requestedRoute);
+    if (routeAction === false) {
+      throw new Error('Route not found');
+    }
+    let activatedComponent: Node = routeAction.component as unknown as Node;
+    const forced = routeAction.forced || false;
     if (!activatedComponent) {
-      activatedComponent = routes['/']?.component as unknown as Node;
+      routeAction = this.getDefaultRoute();
+      if (routeAction === false) {
+        throw new Error('Route found but has no component and default route is not defined');
+      }
+      activatedComponent = routeAction.component as unknown as Node;
     }
     if (!activatedComponent) {
-      throw new Error('Route not found and no default route defined');
+      throw new Error('Route found has no component and default route has no component either');
     }
     if (!outletName) {
-      outletName = routes[requestedRoute].outlet;
+      outletName = routeAction.outlet;
     }
     outlet = this.queryOutlet(outletName);
 
@@ -117,6 +151,31 @@ export class Router {
       this.setRouterOutlet(activatedComponent, requestedRoute, outlet, forced);
     } else {
       throw new Error('Outlet not found or route improper configured.');
+    }
+  }
+
+  private handleHashChange(event: HashChangeEvent) {
+    // Currently we suport hash location strategy only
+    if (window.location.hash === event.oldURL.substring(event.oldURL.indexOf('#'))) {
+      // we're already on that path and there is no additional action required
+      event.preventDefault();
+      return false;
+    }
+    let externalhashPath = event.newURL.substring(event.newURL.indexOf('#')); // (event. as any).path[0].location.hash || event.path[0].location.pathname;
+    if (externalhashPath.endsWith('/')) {
+      externalhashPath = externalhashPath.slice(0, -1);
+    }
+    const requestedRoute = externalhashPath ? externalhashPath.replace(/^#\//, '/') : '/';
+    const routeAction = this.getRoute(requestedRoute);
+    if (routeAction === false) {
+      return;
+    }
+    const activatedComponent = routeAction.component as unknown as Node;
+    if (activatedComponent) {
+      const outletName = routeAction.outlet;
+      const outlet = this.queryOutlet(outletName);
+      this.setRouterOutlet(activatedComponent, externalhashPath, outlet, routeAction.forced);
+      this.setLinkElements(requestedRoute);
     }
   }
 

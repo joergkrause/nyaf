@@ -1,7 +1,7 @@
 import { IComponent, IDirective } from '../types/common';
 import events from './events';
 import { Router } from './router/router';
-import { Routes } from './router/routes';
+import { Routes, RouteDefinition } from './router/routes';
 import { DomOp } from './dom-operations';
 import { IBaseComponent } from '../components/base.component';
 import { LifeCycle } from '../components/lifecycle.enum';
@@ -135,7 +135,7 @@ export class GlobalProvider {
   /**
    * Returns the current router configuration. Allows dynamic manipulation.
    */
-  public static get routerConfig(): Routes {
+  public static get routerConfig(): RouteDefinition {
     return GlobalProvider.bootstrapProps.routes;
   }
 

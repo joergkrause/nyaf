@@ -1,5 +1,5 @@
-import { IComponent, IExpanderInstance, IDirective } from '../types/common';
-import { Routes } from './router/routes';
+import { IComponent, IExpanderInstance } from '../types/common';
+import { RouteDefinition } from './router/routes';
 
 /**
  * For registration we handle just the types, not actual instances. And types are actually functions.
@@ -20,5 +20,5 @@ export class BootstrapProp {
   /**
    * Optional. Add the router definition here. Path's shall not contain hash signs, even if used in link tags.
    */
-  routes?: Routes;
+  routes?: RouteDefinition;
 }

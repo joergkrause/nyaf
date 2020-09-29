@@ -158,8 +158,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       } else {
         const css: StyleSheet = this.constructor[UseParentStyles_Symbol] as StyleSheet;
         this.constructor[globalStyle_Symbol] += Object.keys(css)
-              .map(k => css[k])
-              .join(' ');
+          .map(k => css[k])
+          .join(' ');
       }
     }
     // look for plugins that require ctor initialization, __ctor__ pattern
@@ -310,9 +310,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     this.lifeCycleState = LifeCycle.PreRender;
     let $this: BaseComponent = null;
     if ((<any>this.constructor)[ShadowDOM_Symbol_WithShadow]) {
-      const template = document.createElement('template');
-      template.innerHTML = await this.render();
-      if (!this.shadowRoot || this.shadowRoot.mode === 'closed') {
+      if (!this.shadowRoot) {
+        // first time call we create the shadow root
         this.attachShadow({ mode: 'open' });
         if ((<any>this.constructor)[UseParentStyles_Symbol] && (<any>this.constructor)[globalStyle_Symbol]) {
           // copy styles to shadow if shadowed and there is something to add
@@ -320,9 +319,17 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           style.textContent = (<any>this.constructor)[globalStyle_Symbol];
           this.shadowRoot.appendChild(style);
         }
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
-        $this = this.shadowRoot as unknown as BaseComponent;
+      } else {
+        const hasStyle = (<any>this.constructor)[UseParentStyles_Symbol] ? 1 : 0;
+        for (let index = this.shadowRoot.childNodes.length - 1; index >= hasStyle; index--) {
+          this.shadowRoot.childNodes.item(index).remove();
+        };
       }
+      const template = document.createElement('template');
+      template.innerHTML = await this.render();
+      template.id = this.__uniqueId__;
+      this.shadowRoot.appendChild(template.content.cloneNode(true));
+      $this = this.shadowRoot as unknown as BaseComponent;
     } else {
       this.innerHTML = await this.render();
       $this = this;
@@ -335,26 +342,33 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         });
       });
     }
-    // query all children and wait for load cycle, invoke own load, then
     const childLoaders: Array<any> = [];
-    Array.from($this.querySelectorAll('*')).forEach(wc => {
-      if (wc instanceof BaseComponent) {
+    this.loadCycleDetector(this.childNodes, childLoaders);
+    if (childLoaders.length > 0) {
+      Promise.all(childLoaders).then(() => this.lifeCycleState = LifeCycle.Load);
+    } else {
+      this.lifeCycleState = LifeCycle.Load;
+    }
+  }
+
+  // observe all web components of the first level and wait for lifecycle === load
+  private loadCycleDetector(children: NodeListOf<ChildNode>, childLoaders: Array<any>) {
+    children.forEach((childNode) => {
+      if (childNode instanceof BaseComponent) {
         const p = new Promise<void>(resolve => {
-          wc.addEventListener('lifecycle', (e: CustomEvent) => {
+          childNode.addEventListener('lifecycle', (e: CustomEvent) => {
             if (e.detail === LifeCycle.Load) {
               resolve();
             }
           });
         });
         childLoaders.push(p);
+      } else {
+        if (childNode.childNodes.length > 0) {
+          this.loadCycleDetector(childNode.childNodes, childLoaders);
+        }
       }
     });
-    if (childLoaders.length) {
-      await Promise.all(childLoaders);
-      this.lifeCycleState = LifeCycle.Load;
-    } else {
-      this.lifeCycleState = LifeCycle.Load;
-    }
   }
 
 

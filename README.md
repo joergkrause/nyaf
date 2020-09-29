@@ -18,14 +18,14 @@ It's simple, has a flat learning curve, doesn't need any special tools. Keep you
 
 @nyaf is very well documented.
 
-**[Home Page and Interactive Demos](https://nyaf.comzept.de/)**
-**[Read the Manual](https://nyaf.readthedocs.io/en/latest/)**
+* **[Home Page and Interactive Demos](https://nyaf.comzept.de/)**
+* **[Read the Manual](https://nyaf.readthedocs.io/en/latest/)**
 
 ### API Documentation
 
-**[Full API Documentation Base Library](https://nyaf.comzept.de/apidoc/lib/index.html)**
-**[Full API Documentation Forms Library](https://nyaf.comzept.de/apidoc/forms/index.html)**
-**[Full API Documentation Store Library](https://nyaf.comzept.de/apidoc/store/index.html)**
+* **[Full API Documentation Base Library](https://nyaf.comzept.de/apidoc/lib/index.html)**
+* **[Full API Documentation Forms Library](https://nyaf.comzept.de/apidoc/forms/index.html)**
+* **[Full API Documentation Store Library](https://nyaf.comzept.de/apidoc/store/index.html)**
 
 ## Approach
 
@@ -78,11 +78,11 @@ Done. To continue:
   npm start
 ~~~
 
-Do as instructed ('testme' is here the demo name, use any valid name). A browser will open and show a running app.
+Do as instructed ('testme' is just a demo name, use any valid name). A browser will open and show the running app.
 
 # Learn how to make an App
 
-Components are based TSX. It has relation to React, though. It's just a feature of the TypeScript compiler.
+Components are usually based on a TSX-like template styles. It has no relation to React, though. It's just a feature of the TypeScript compiler.
 
 Excerpt from `tsconfig.json`:
 
@@ -93,13 +93,17 @@ Excerpt from `tsconfig.json`:
 
 A class `JSX` is the core, it handles the element definitions and extract the template extensions.
 
+> You can use simply strings for the HTML part. TSX is just an option, any other template engine could be used, too.
+
+See the full documentation about a setup without TypeScript and by using Babel/Rollup if you like to work with E2015 directly.
+
 ## Components
 
-Components are the core ingredients. You write components as classes, decorated with the decorator `CustomElement`. This defines a [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components). The Component must be registered, then. This is done by calling the static method `GlobalProvider.bootstrap`.
+Components are the core ingredients of your app. You write components as classes, decorated with the decorator `CustomElement`. This defines a [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components). The Component must be registered, then. This is done by calling the static method `GlobalProvider.bootstrap` once.
 
 ### Registration
 
-Web Components must be registered. To support this, we use decorators. This makes it quite easy to define a component without knowing the details of the browser's API. The name is determined by `@CustomElement('my-name')`. This is mandatory. Note the base class, which gets a generic that later controls the attributes. The name shall follow the common rules of Web Components, that means, it must have at least one dash '-' so there is no risk of a collision with common HTML element names.
+The decorators makes it quite easy to define a component without knowing the details of the browser's API. The name is determined by `@CustomElement('my-name')`. This decorator is mandatory. Note the base class, which gets a generic that later controls the attributes. The name shall follow the common rules of Web Components, that means, it must have at least one dash '-' so there is no risk of a collision with common HTML element names and it is always in all lower case (kebap style).
 
 ~~~tsx
 import JSX, { CustomElement } from '@nyaf/lib';
@@ -124,9 +128,9 @@ export class MainComponent extends BaseComponent<{}> {
 
 Let's go step by step through this simple component.
 
-First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from @nyaf and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLInt know about this and will not complain.
+First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from @nyaf and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLint know about this and will not complain.
 
-Second, the component has a base class. All @nyaf components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
+Second, the component has a base class. All **@nyaf** components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
 
 Now, that the component is defined, it must be registered. In a file called *main.ts* (or wherever your app is bootstrapped) call this:
 
@@ -178,9 +182,9 @@ lifeCycle(cycle: LifeCycle){
 Note, that the method has lower case "l". The `LifeCycle`-enum (upper case "L") has these fields:
 
 * `Init`: Start, ctor is being called.
-* `Connect`: Component connects to backend
+* `Connect`: Component connects to backend.
 * `SetData`: A change in the data object occurred.
-* `Load`: The render process is done and the component has been loaded
+* `Load`: The render process is done and the component has been loaded.
 * `PreRender`: The render method has been called and content is written to `innerHTML`.
 * `Disconnect`: Component is going to be unloaded.
 * `Disposed`: After calling the `dispose` method.
@@ -293,7 +297,7 @@ Events are defined by a special instruction. They are attached to `document` obj
 Events are easy to add directly using them like `n-on-click`. All JavaScript events are supported. Just replace 'click' in the example with any other JavaScript event.
 
 ~~~tsx
-  <button n-on-click={() => this.clickMe()}>OK</button>
+<button n-on-click={() => this.clickMe()}>OK</button>
 ~~~
 
 > There is no `bind` necessary, events are bound to components anyway.
@@ -301,13 +305,14 @@ Events are easy to add directly using them like `n-on-click`. All JavaScript eve
 You can get the (original HTML 5 API) event using a parameter, like *e* in the example below:
 
 ~~~tsx
-  <button n-on-click={(e) => this.clickMe(e)}>OK</button>
+<button n-on-click={(e) => this.clickMe(e)}>OK</button>
 ~~~
 
 There is an alternative syntax that takes the method name directly (note that here are single quotes being used instead of curly braces):
 
 ~~~tsx
-  <button n-on-click='clickMe'>OK</button>
+<button n-on-click='clickMe'>OK</button>
+<button n-on-click={this.clickMe}>OK</button>
 ~~~
 
 The method is bound with the event object as a parameter, hence the method can have a parameter like this:
@@ -319,7 +324,6 @@ clickMe(e: Event) {
 ~~~
 
 The `Event` type conforms to HTML 5 DOM. Replace according the attached event (`MouseEvent` etc., see [here](https://developer.mozilla.org/en-US/docs/Web/API/Event) for details).
-
 
 ### Async
 
@@ -334,8 +338,8 @@ You can combine any event with the attribute `n-async` to make the call to the e
 Sometimes the JavaScript events are not flexible enough. So you can define your own ones. That's done by three simple steps:
 
 * Add a decorator `@Events` to declare the events (it's an array to declare multiple in one step). Mandatory.
-* Create `CustomEventInit` object and dispatch (that's [native Web Component behavior](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent))
-* use the `n-on-<myCustomEventName>` attribute to attach the event.
+* Create `CustomEventInit` object and dispatch (that's [native Web Component behavior](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)) it.
+* Use the `n-on-<myCustomEventName>` attribute to attach the event.
 
 Imagine a button component like this:
 
@@ -367,7 +371,7 @@ export class ButtonComponent extends BaseComponent {
 
 The custom event in this example is called *showAlert*. It's invoked by a click. The element's host component has code like this:
 
-~~~
+~~~tsx
 <app-button n-on-showAlert={(e) => this.someHandler(e)} />
 ~~~
 
@@ -392,15 +396,15 @@ To have elements handy, just use the `@Select` decorator:
 @Select('.all') elements: QueryList<MyCustomElement>;
 ~~~
 
-This avoids using `this.querySelector()` all over your code.
+This avoids using `this.querySelector()` in your code many times.
 
 ## Router
 
-Usually we create SPAs (Single Page Apps). Hence we need a router. The included router is very simple.
+Usually we create SPAs (Single Page Apps). Hence we need a router. The included router is very simple but powerful.
 
 First, define an outlet where the components appear:
 
-~~~
+~~~html
 <div n-router-outlet></div>
 ~~~
 
@@ -413,7 +417,7 @@ Any kind of parent element will do. The router code sets the property `innerHTML
 The following code shows how to register routes:
 
 ~~~tsx
-let routes = {
+const routes = {
   '/': { component: DemoComponent },
   '/about': { component: AboutComponent },
   '/demo': { component: DemoComponent },
@@ -422,17 +426,22 @@ let routes = {
 };
 
 GlobalProvider.bootstrap({
-  components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
-  routes: routes
+  components: [
+    DemoComponent,
+    AboutComponent,
+    ContactComponent,
+    MainComponent
+  ],
+  routes
 });
 ~~~
 
 The first entry `'/': { component: DemoComponent },` shall always exist, it's the default route loaded on start. It's being recognized by the `'/'` key (the position in the array doesn't matter).
 The entry `'**': { component: DemoComponent }` is optional and defines a fallback in case an invalid path is being used.
 
-### Use Routes
+### Using Routes
 
-To activate a router you need a hyperlink. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
+To activate a router you need a hyperlink or any other method that invokes a `hashchange` event. The router's code looks for a click onto an anchor tag. An appropriate code snippet to use the routes looks like this:
 
 ~~~tsx
 <a href="#/" n-link>Home</a>
@@ -444,7 +453,7 @@ To activate a router you need a hyperlink. The router's code looks for a click o
 
 The important part here is the `n-link` attribute. Using this you can distinguish between navigation links for routing and any other anchor tag. You can also use a `<button>` element or any other. Internally it's just a `click`-event that's handled and that checks for the attribute, then.
 
-Please note the hash sign (#). It's required. No code or strategies here, write it by yourself and then enjoy the very small footprint of the outcome.
+Please note the hash sign (#). It's mantdatory. There are no code or strategies here, write it by yourself and then enjoy the very small footprint of the outcome.
 
 > **Pro Tip!** Import the router definition and use additional fields to create a menu directly from router configuration.
 
@@ -462,19 +471,22 @@ After this, by clicking the hyperlink, the class "active" will be added to the a
 
 ### Named Routes
 
-The underlying Route definition, the type `Routes`, allows two additional fields (`outlet` and `data`):
+The underlying route definition, the type `Routes`, allows three additional fields (`outlet`, `data`, and `forced`):
 
 ~~~tsx
 const routes: Routes = {
   '/': { component: HomeComponent, outlet: 'main' },
-  '/docu': { component: DocuComponent, outlet: 'main', data: { notlocal: true} },
+  '/docu': {
+    component: DocuComponent,
+    outlet: 'main',
+    data: { notlocal: true} },
   '/about': { component: AboutComponent, outlet: 'main' },
   '/demo': { component: DemoComponent, outlet: 'main',
   '/router': { component: RouterComponent, outlet: 'main' },
   '/router/page1': { component: Page1Component, outlet: 'router' },
   '/router/page2': { component: Page2Component, outlet: 'router' },
-  '/router/page2/other': { component: Page2Component, outlet: 'other' },
-  '/router/page3/other': { component: Page3Component, outlet: 'other' },
+  '/router/2/other': { component: Page2Component, outlet: 'other' },
+  '/router/3/other': { component: Page3Component, outlet: 'other' },
   '/contact': { component: ContactComponent }
 };
 ~~~
@@ -676,7 +688,7 @@ That means the object is being recognized and stringified to JSON. Additionally,
 The rendered component would look like this:
 
 ~~~tsx
-<app-comp test="[{"obj": 1}, {"obj": 2}]" __test__></app-comp>
+<app-comp test="[{"obj": 1}, {"obj": 2}]" n-type-test="array"></app-comp>
 ~~~
 
 Apparently the double double quotes work just fine. However, the content is now a string. If you do operations on this it will not resolve as the array it was before. Here the second attribute will trigger a different behavior. The hook for the data Proxy used internally is now applying a `JSON.parse` and returns the former object. Also, once set again, the incoming value is checked for being an object and stringified, then. The technique currently works for `string` (default Web Component behavior), `number`, `boolean`, `array`, and `object`.
@@ -931,7 +943,7 @@ An now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 Is it worth coding with @nyaf and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual package sizes (0.6.7, published 21st of September 2020):
+Actual package sizes (0.6.7, published End of September 2020):
 
 * Lib:    36 KB --> 11 KB zipped (always needed)
 * Forms:  20 KB -->  5 KB zipped (Forms binding, validation, decorators)
@@ -976,5 +988,4 @@ Look out for '@nyaf/forms' (forms validation, data binding, UI control) and '@ny
 # Need Help?
 
 Need a Pro? Need help writing a framework? Need one who knows a lot (full stack, front end, backend with NodeJS, ASP.NET / C#, SQL, noSQL, Azure, AWS)? [Hire me!](https://www.joergkrause.de/contact).
-
 
