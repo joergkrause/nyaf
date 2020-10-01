@@ -419,8 +419,8 @@ export class ButtonComponent extends BaseComponent {
     super.dispatch('showAlert', checkEvent);
   }
 
-  async render() {
-    return await (
+  render() {
+    return (
       &lt;button type=&quot;button&quot; n-on-click={this.clickMe}&gt;
         Demo
       &lt;/button&gt;

@@ -355,9 +355,9 @@
 <p><strong>@nyaf</strong> has a simple template language extension for binding. For forms it's just one more command for any input element, <code>n-bind</code>. See the following excerpt from a component.</p>
 <pre><code class="tsx">model: ModelBinder&lt;UserViewModel&gt;; // instance created by decorator
 
-async render() {
+render() {
   const model: UserViewModel = new UserViewModel(); // or where ever the model comes from
-  return await (
+  return (
     &lt;&gt;
       &lt;form&gt;
         &lt;input n-bind=&quot;value: Name&quot; /&gt;
@@ -398,8 +398,8 @@ async render() {
 <pre><code class="tsx">@ViewModel(ModelType)
 export class component extends BaseComponent&lt;any&gt; implements IModel&lt;ModelType&gt; {
 
-  async render() {
-    return await (
+  render() {
+    return (
       &lt;form&gt;
         &lt;label n-bind=&quot;innerText: userName&quot; for=&quot;un&quot;/&gt;
         &lt;input n-bind=&quot;value: userName&quot; id=&quot;un&quot; /&gt;

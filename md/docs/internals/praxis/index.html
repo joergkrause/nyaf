@@ -8,15 +8,15 @@
   
   
   <link rel="shortcut icon" href="../../../../img/favicon.ico">
-  <title>...React - nyaf Documentation</title>
+  <title>Praxis - nyaf Documentation</title>
   <link rel="stylesheet" href="../../../../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
   <script>
     // Current page data
-    var mkdocs_page_name = "...React";
-    var mkdocs_page_input_path = "md/docs/comparision/react.md";
+    var mkdocs_page_name = "Praxis";
+    var mkdocs_page_input_path = "md/docs/internals/praxis.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -228,51 +228,31 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../angular/">...Angular</a>
+    <a class="" href="../../comparision/angular/">...Angular</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../polymer/">...Polymer</a>
+    <a class="" href="../../comparision/polymer/">...Polymer</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../preact/">...Preact</a>
-                </li>
-                <li class=" current">
-                    
-    <a class="current" href="./">...React</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#nyaf-and-react">nyaf and React</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#components">Components</a></li>
-        
-            <li><a class="toctree-l4" href="#state">State</a></li>
-        
-            <li><a class="toctree-l4" href="#events">Events</a></li>
-        
-            <li><a class="toctree-l4" href="#conditions">Conditions</a></li>
-        
-            <li><a class="toctree-l4" href="#lists">Lists</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../../comparision/preact/">...Preact</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../stencil/">...Stencil</a>
+    <a class="" href="../../comparision/react/">...React</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../svelte/">...Svelte</a>
+    <a class="" href="../../comparision/stencil/">...Stencil</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../vue/">...Vue</a>
+    <a class="" href="../../comparision/svelte/">...Svelte</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../comparision/vue/">...Vue</a>
                 </li>
     </ul>
 	    </li>
@@ -283,15 +263,15 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../../internals/about/">About</a>
+    <a class="" href="../about/">About</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../internals/lic/">Licence</a>
+    <a class="" href="../lic/">Licence</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="../../internals/start/">How it's being made</a>
+    <a class="" href="../start/">How it's being made</a>
                 </li>
     </ul>
 	    </li>
@@ -317,15 +297,11 @@
     <li><a href="../../../..">Docs</a> &raquo;</li>
     
       
-        
-          <li>Comparision of @nyaf with... &raquo;</li>
-        
-      
     
-    <li>...React</li>
+    <li>Praxis</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/comparision/react.md"
+        <a href="https://github.com/joergkrause/nyaf/edit/master/docs/md/docs/internals/praxis.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -335,126 +311,40 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="nyaf-and-react">nyaf and React<a class="headerlink" href="#nyaf-and-react" title="Permanent link">#</a></h1>
-<p>Due to the nature of using TSX/JSX for templates it seems that React is quite close. But that's not entirely true. @nyaf has a lot to offer.</p>
-<h2 id="components">Components<a class="headerlink" href="#components" title="Permanent link">#</a></h2>
-<p>React is based on JavaScript and not native in TypeScript. That seems just a small issue, as TypeScript compiles down to JavaScript anyway, but
-in reality it's a big deal. Because of the non-native development style the TypeScript form is not very elegant. And the real advantage of TypeScript, such as advanced types like decorators and interfaces, are not or rarely used. Let's compare it.</p>
-<h3 id="react">React<a class="headerlink" href="#react" title="Permanent link">#</a></h3>
-<p>This is a simple component in React. The name always follows the class name, <em>Welcome</em> in this example.</p>
-<pre><code class="jsx">class Welcome extends BaseComponent&lt;{}&gt; {
-  render() {
-    return &lt;h1&gt;Hello, {this.props.name}&lt;/h1&gt;;
+                <h2 id="practical-work">Practical Work<a class="headerlink" href="#practical-work" title="Permanent link">#</a></h2>
+<p>This section shows common scenarios and how to deal with them in all day projects.</p>
+<h3 id="component-inheritance">Component Inheritance<a class="headerlink" href="#component-inheritance" title="Permanent link">#</a></h3>
+<p>Often you have multiple very similar components. As components are classes, we can use the comon inheritance technique. The base class of a group of components can be either <em>.js</em> or <em>.ts</em> or even <em>.jsx</em> or <em>.tsx</em>. The <em>JSX</em> variant is only needed i f you wish to write template code internally and use this. For components with pure code go with standard  JavaScript/TypeScript classes.</p>
+<p>Base component classes derive from <code>BaseComponent</code>. You must call the constructor and you must add the render method. If the base component does not render anything (the final component does), then just return <code>null</code> in the implementation. In case you use TypeScript, using the keyword <code>abstract</code> leads to a clean code structure.</p>
+<p>The following example shows an abstract base component.</p>
+<pre><code class="ts">export abstract class DemoBaseComponent extends BaseComponent {
+
+  constructor() {
+    super();
   }
+
+  abstract render(): Promise&lt;string&gt;;
+
+  lifeCycle(lc: LifeCycle) {
+    if (lc === LifeCycle.Render) {
+      // Some action for all derived components
+    }
+  }
+
 }
 </code></pre>
 
-<h3 id="nyaf">@nyaf<a class="headerlink" href="#nyaf" title="Permanent link">#</a></h3>
-<p>This is a simple component on @nyaf. The name is defined separately, and so is the property definition. Apart from this, it's the same.</p>
-<pre><code class="tsx">@CustomElement('app-welcome')
-@Properties({ name: '' })
-class WelcomeComponent extends BaseComponent&lt;{ name: string }&gt; {
-  render() {
-    return &lt;h1&gt;Hello, {this.data.name}&lt;/h1&gt;;
-  }
-}
-</code></pre>
-
-<p>The element style is more natural, because the browser engine processes the Web Components, not custom code.</p>
-<p>Because of the generic the editor will recognize and resolve the <code>this.data</code> property, too. Also, the render code allows async calls to pull data
-from a data source or do other non-blocking stuff.</p>
-<h2 id="state">State<a class="headerlink" href="#state" title="Permanent link">#</a></h2>
-<p>React documentation says:</p>
-<blockquote>
-<p>Never mutate <code>this.state</code> directly, as calling <code>setState()</code> afterwards may replace the mutation you made. Treat this.state as if it were immutable.</p>
-</blockquote>
-<p>In @nyaf it's a similar mechanism, but simpler. There is no distinguish between props and state, you define properties and held the state in it. There
-is no need to use the properties, then. That's why it's called <code>data</code> and purposefully <code>setData()</code>. However, you can set the state directly on the
-object and don't need to follow restrictions. It's a Proxy under the hat that handles the changes. If something isn't allows the property would be
-readonly and the editor shows this, no need to read documentation and remember it all the time.</p>
-<h2 id="events">Events<a class="headerlink" href="#events" title="Permanent link">#</a></h2>
-<p>In React a so-called synthetic event looks like this:</p>
-<pre><code class="jsx">&lt;button onClick={activateLasers}&gt;
-  Activate Lasers
-&lt;/button&gt;
-</code></pre>
-
-<p>In @nyaf it's not that different:</p>
-<pre><code class="tsx">&lt;button n-on-click={this.activateLasers}&gt;
-  Activate Lasers
-&lt;/button&gt;
-</code></pre>
-
-<p>The <code>this</code> quantifier is necessary. The main reason is that the code transforms directly into JavaScript and there is nothing "synthetic" here, the
-template engine connects the method as a dynamic handler directly to the event.</p>
-<p>However, you can use custom events that transport additional data. But still, it's the browsers event engine that handles these event natively.</p>
-<h2 id="conditions">Conditions<a class="headerlink" href="#conditions" title="Permanent link">#</a></h2>
-<p>See this example from the React documentation:</p>
-<pre><code class="js">function UserGreeting(props) {
-  return &lt;h1&gt;Welcome back!&lt;/h1&gt;;
-}
-
-function GuestGreeting(props) {
-  return &lt;h1&gt;Please sign up.&lt;/h1&gt;;
-}
-
-function Greeting(props) {
-  const isLoggedIn = props.isLoggedIn;
-  if (isLoggedIn) {
-    return &lt;UserGreeting /&gt;;
-  }
-  return &lt;GuestGreeting /&gt;;
-}
-</code></pre>
-
-<p>In @nyaf this would look a bit different.</p>
-<pre><code class="tsx">@CustomElement('user-greeting')
-export class UserGreeting extends BaseComponent&lt;void&gt; {
-  constructor() { super(); }
-  render() {
-    return &lt;h1&gt;Welcome back!&lt;/h1&gt;;
-  }
-}
-
-@CustomElement('guest-greeting')
-export class GuestGreeting() extends BaseComponent&lt;void&gt; {
-  constructor() { super(); }
-  render() {
-    return &lt;h1&gt;Please sign up.&lt;/h1&gt;;
-  }
-}
-
-@CustomElement('app-greeting')
-export class Greeting() extends BaseComponent&lt;{ isLoggedIn: boolean}&gt; {
-  constructor() { super(); }
-
-  render() {
-    const isLoggedIn = this.data.isLoggedIn;
-    return (
-      &lt;user-greeting n-if={isLoggedIn} /&gt;
-      &lt;guest-greeting n-if={!isLoggedIn} /&gt;
-    );
-  }
-</code></pre>
-
-<p>It's a little more verbose, but it's easier to read due to additional template functions, here <code>n-if</code>.</p>
-<h2 id="lists">Lists<a class="headerlink" href="#lists" title="Permanent link">#</a></h2>
-<p>As far as it's just JSX the handling is the same in React and @nyaf.</p>
-<p>The <em>key</em> feature for rendering of list items according to element changes does not exist in @nyaf. The render engine will always render the whole
-list, if something changes. That's not that smart, but it reduces the template code drastically.</p>
+<p>There is something remarkable here:</p>
+<ol>
+<li>The component lacks the <code>@CustomElement</code> decorator. It's not required because the class will never create a component directly.</li>
+<li>Also a registration is not necessary (and not possible), the inheritance is a pure language construct.</li>
+<li>The <code>super</code> call <strong>is</strong> required and the <em>render</em> method <strong>must</strong> be written, either abstract or with an implementation.</li>
+</ol>
+<p>You can also use any decorators on the base component, such as <code>@InjectService</code> on class level or <code>@Select</code> on property level. The class itself or the deriving class can also implement any of the helper interfaces, such as <code>IModel</code> or <code>IStore</code>.</p>
               
             </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../stencil/" class="btn btn-neutral float-right" title="...Stencil">Next <span class="icon icon-circle-arrow-right"></span></a>
-      
-      
-        <a href="../preact/" class="btn btn-neutral" title="...Preact"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -480,10 +370,6 @@ list, if something changes. That's not that smart, but it reduces the template c
           <a href="https://github.com/joergkrause/nyaf/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../preact/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../stencil/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

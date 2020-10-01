@@ -385,8 +385,8 @@ export class SlotTabComponent extends BaseComponent&lt;{}&gt; {
     this.classList.add('hide');
   }
 
-  async render() {
-    return await (
+  render() {
+    return (
       &lt;div id={this.getAttribute('data-id')}&gt;
         &lt;slot&gt;&lt;/slot&gt;
       &lt;/div&gt;
@@ -451,7 +451,7 @@ export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
     super();
   }
 
-  async render() {
+  render() {
     let first = 0;
     const tabHeaders = Array.prototype
               .slice
@@ -472,7 +472,7 @@ export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
         &lt;/li&gt;
       );
     });
-    return await (
+    return (
       &lt;&gt;
         &lt;ul role=&quot;nav&quot; class=&quot;nav nav-tabs&quot;&gt;
           {tabHeaders}
@@ -569,8 +569,8 @@ export class SlotTabsComponent extends BaseComponent&lt;{}&gt; {
 @ShadowDOM()
 export class DirectiveComponent extends BaseComponent&lt;any&gt; {
 
-  async render() {
-    return await (
+  render() {
+    return (
       &lt;&gt;
         &lt;button type='button' directive='drag' part='drag-button'&gt;
           Drag me around

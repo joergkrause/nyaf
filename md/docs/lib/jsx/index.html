@@ -378,9 +378,9 @@
 
 // code omitted for brevity
 
-async render() {
+render() {
   // return JSX.createElement('custom-button', {color: 'red'}, null);
-  return await (&lt;custom-button color=&quot;red&quot; /&gt;);
+  return (&lt;custom-button color=&quot;red&quot; /&gt;);
 }
 </code></pre>
 
@@ -535,14 +535,6 @@ const getApp = () =&gt; {
 &lt;/div&gt;
 </code></pre>
 
-<p>The render method of an <strong>@nyaf</strong> component can also be async:</p>
-<pre><code class="tsx">async render() {
-  // use further async calls here
-  await return &lt;div&gt;Some data&lt;/div&gt;;
-}
-</code></pre>
-
-<p>You can retrieve data asynchronously directly in the render method. I trivial examples this could dramatically simplify the component construction.</p>
 <h4 id="expressions-as-children">Expressions as Children<a class="headerlink" href="#expressions-as-children" title="Permanent link">#</a></h4>
 <p>You can pass any JavaScript expression as children, by enclosing it within <code>{}</code>. For example, these expressions are equivalent:</p>
 <pre><code class="tsx">&lt;my-component&gt;foo&lt;/my-component&gt;

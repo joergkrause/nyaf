@@ -353,8 +353,8 @@ export class SimpleGreeting extends LitElement {
 @Properties({ name = 'World' });
 export class SimpleGreeting extends BaseComponent&lt;{ name: string }&gt; {
 
-  async render() {
-    return await &lt;p&gt;Hello, {this.data.name}!&lt;/p&gt;;
+  render() {
+    return &lt;p&gt;Hello, {this.data.name}!&lt;/p&gt;;
   }
 }
 
