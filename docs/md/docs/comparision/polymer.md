@@ -31,8 +31,8 @@ import { BaseComponent, CustomElement, Properties } from '@nyaf/lib';
 @Properties({ name = 'World' });
 export class SimpleGreeting extends BaseComponent<{ name: string }> {
 
-  async render() {
-    return await <p>Hello, {this.data.name}!</p>;
+  render() {
+    return <p>Hello, {this.data.name}!</p>;
   }
 }
 

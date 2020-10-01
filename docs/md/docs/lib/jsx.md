@@ -38,9 +38,9 @@ import JSX from '@nyaf/lib';
 
 // code omitted for brevity
 
-async render() {
+render() {
   // return JSX.createElement('custom-button', {color: 'red'}, null);
-  return await (<custom-button color="red" />);
+  return (<custom-button color="red" />);
 }
 ~~~
 
@@ -247,17 +247,6 @@ You can mix together different types of children, so you can use string literals
   </ul>
 </div>
 ~~~
-
-The render method of an **@nyaf** component can also be async:
-
-~~~tsx
-async render() {
-  // use further async calls here
-  await return <div>Some data</div>;
-}
-~~~
-
-You can retrieve data asynchronously directly in the render method. I trivial examples this could dramatically simplify the component construction.
 
 #### Expressions as Children
 

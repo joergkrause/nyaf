@@ -64,8 +64,8 @@ export class SlotTabComponent extends BaseComponent<{}> {
     this.classList.add('hide');
   }
 
-  async render() {
-    return await (
+  render() {
+    return (
       <div id={this.getAttribute('data-id')}>
         <slot></slot>
       </div>
@@ -134,7 +134,7 @@ export class SlotTabsComponent extends BaseComponent<{}> {
     super();
   }
 
-  async render() {
+  render() {
     let first = 0;
     const tabHeaders = Array.prototype
               .slice
@@ -155,7 +155,7 @@ export class SlotTabsComponent extends BaseComponent<{}> {
         </li>
       );
     });
-    return await (
+    return (
       <>
         <ul role="nav" class="nav nav-tabs">
           {tabHeaders}
@@ -258,8 +258,8 @@ The Shadow DOM provides full isolation. The `@UseParentStyles` decorator contrad
 @ShadowDOM()
 export class DirectiveComponent extends BaseComponent<any> {
 
-  async render() {
-    return await (
+  render() {
+    return (
       <>
         <button type='button' directive='drag' part='drag-button'>
           Drag me around

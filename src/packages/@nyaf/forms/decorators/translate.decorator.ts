@@ -26,7 +26,6 @@ export function Translate(json: { [key: string]: string }): any {
     if (!propertyKey) {
       // on class, look for all props
       Object.getOwnPropertyNames(target).forEach(key => {
-        console.log(key);
         handleTranslation(target, key);
       });
     } else {

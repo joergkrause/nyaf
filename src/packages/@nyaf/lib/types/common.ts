@@ -1,4 +1,4 @@
-import { IBaseComponent } from '../components/base.component';
+import { BaseComponent } from '../components/base.component';
 import { Expander } from '../code/expander/expander';
 import { IExpander } from '../code/expander/iexpander';
 import { BaseDirective } from '../code/basedirective';
@@ -10,7 +10,7 @@ export type ComponentType<T extends HTMLElement | HTMLParagraphElement> = new (.
 export type DirectiveType<T extends BaseDirective> = new (...args: any[]) => T;
 
 /** @internal */
-export interface IComponent extends ComponentType<IBaseComponent> {
+export interface IComponent extends ComponentType<BaseComponent> {
   readonly [CustomElement_Symbol_Selector]?: string;
   readonly [Events_Symbol_Eventlist]?: string[];
 }

@@ -47,11 +47,11 @@ function rangeInternalSetup(target: any, key: string, from: number | Date, to: n
 
   Object.defineProperty(target, `__isValid__${Range.internal}__${key}`, {
     get: function () {
-      if (isNumber(target[key])) {
-        return +target[key] >= from && +target[key] <= to;
+      if (isNumber(this[key])) {
+        return +this[key] >= from && +this[key] <= to;
       }
-      if (target[key] instanceof Date) {
-        const ts = (target[key] as Date).getTime();
+      if (this[key] instanceof Date) {
+        const ts = (this[key] as Date).getTime();
         const fromts = from instanceof Date ? (from as Date).getTime() : from;
         const tots = to instanceof Date ? (to as Date).getTime() : to;
         return ts >= fromts && ts <= tots;

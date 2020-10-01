@@ -26,7 +26,9 @@ export class ValidatorBinding extends Binding {
     el: HTMLElement
   ) {
     super(modelProperty, handler, binderInstance, el);
-    this.validationHandler = Object.values(this.binderInstance.handlers).filter(h => h.constructor[Symbol.for('bindingname')] === this.handler).shift();
+    this.validationHandler = Object.values(this.binderInstance.handlers)
+      .filter(h => h.constructor[Symbol.for('bindingname')] === this.handler)
+      .shift();
   }
   /**
    * Define the binder
@@ -49,7 +51,8 @@ export class ValidatorBinding extends Binding {
 
   }
   public get value() {
-    return this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey];
+    // the delivered value shows an error, but internally we store isValid, hence the not operator
+    return !this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey];
   }
   public get validationProperty(): string {
     return super.modelProperty;

@@ -10,9 +10,9 @@ Data Binding is one of the most important features in component development. It 
 ~~~tsx
 model: ModelBinder<UserViewModel>; // instance created by decorator
 
-async render() {
+render() {
   const model: UserViewModel = new UserViewModel(); // or where ever the model comes from
-  return await (
+  return (
     <>
       <form>
         <input n-bind="value: Name" />
@@ -71,8 +71,8 @@ The model is provided by the `@ViewModel` decorator and the `IModel<T>` interfac
 @ViewModel(ModelType)
 export class component extends BaseComponent<any> implements IModel<ModelType> {
 
-  async render() {
-    return await (
+  render() {
+    return (
       <form>
         <label n-bind="innerText: userName" for="un"/>
         <input n-bind="value: userName" id="un" />

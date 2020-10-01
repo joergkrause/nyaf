@@ -40,8 +40,8 @@ export class CounterComponent extends BaseComponent<{ cnt: number }> {
     this.setData('cnt', this.data.cnt - 1);
   }
 
-  async render() {
-    return await (
+  render() {
+    return (
       <>
         <div>
           <button type='button' n-on-click={e => this.clickMeAdd(e)}>

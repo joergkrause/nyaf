@@ -1,15 +1,15 @@
 import { IComponent, IDirective } from '../types/common';
 import events from './events';
 import { Router } from './router/router';
-import { Routes, RouteDefinition } from './router/routes';
+import { RouteDefinition } from './router/routes';
 import { DomOp } from './dom-operations';
-import { IBaseComponent } from '../components/base.component';
 import { LifeCycle } from '../components/lifecycle.enum';
 import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
 import { IBaseDirective } from './basedirective';
 import * as smartComponents from '../components/smart';
 import { Events_Symbol_Eventlist, Extends_Symbol, CustomElement_Symbol_Selector, Expands_Symbol } from '../consts/decorator.props';
+import { BaseComponent } from '../components/base.component';
 
 /**
  * Main support class that provides all global functions. You must call at least the {@link bootstrap} method to register components.
@@ -92,7 +92,7 @@ export class GlobalProvider {
     // loop through all alread statically set components
     GlobalProvider.bootstrapProps.components.forEach(c => {
       // get all appearances
-      [].slice.call(document.getElementsByTagName(c[CustomElement_Symbol_Selector])).forEach((e: IBaseComponent) => {
+      [].slice.call(document.getElementsByTagName(c[CustomElement_Symbol_Selector])).forEach((e: BaseComponent) => {
         // make a promise to wait for the async renderer
         const p = new Promise<void>((resolve) => {
           // if already done it's okay for us (mostly, that's just the main component)

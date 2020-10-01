@@ -27,8 +27,8 @@ This is a simple component on @nyaf. The name is defined separately, and so is t
 @CustomElement('app-welcome')
 @Properties({ name: '' })
 class WelcomeComponent extends BaseComponent<{ name: string }> {
-  async render() {
-    return await <h1>Hello, {this.data.name}</h1>;
+  render() {
+    return <h1>Hello, {this.data.name}</h1>;
   }
 }
 ~~~
@@ -100,16 +100,16 @@ In @nyaf this would look a bit different.
 @CustomElement('user-greeting')
 export class UserGreeting extends BaseComponent<void> {
   constructor() { super(); }
-  async render() {
-    return await <h1>Welcome back!</h1>;
+  render() {
+    return <h1>Welcome back!</h1>;
   }
 }
 
 @CustomElement('guest-greeting')
 export class GuestGreeting() extends BaseComponent<void> {
   constructor() { super(); }
-  async render() {
-    return await <h1>Please sign up.</h1>;
+  render() {
+    return <h1>Please sign up.</h1>;
   }
 }
 
@@ -117,9 +117,9 @@ export class GuestGreeting() extends BaseComponent<void> {
 export class Greeting() extends BaseComponent<{ isLoggedIn: boolean}> {
   constructor() { super(); }
 
-  async render() {
+  render() {
     const isLoggedIn = this.data.isLoggedIn;
-    return await (
+    return (
       <user-greeting n-if={isLoggedIn} />
       <guest-greeting n-if={!isLoggedIn} />
     );

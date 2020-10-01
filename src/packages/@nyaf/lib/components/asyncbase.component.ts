@@ -11,6 +11,13 @@ export interface ComponentData {
   [key: string]: any;
 }
 
+export interface IBaseComponent extends HTMLElement {
+  isInitalized: boolean;
+  onlifecycle: Function;
+  render(): Promise<string>;
+  setData(name: string, newValue: any, noRender?: boolean): Promise<void>;
+}
+
 const globalStyle_Symbol = Symbol();
 
 /**
@@ -30,7 +37,7 @@ const globalStyle_Symbol = Symbol();
  *
  * https://www.mikedoesweb.com/2017/dynamic-super-classes-extends-in-es6/
  */
-export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLElement {
+export abstract class BaseComponentAsync<P extends ComponentData = {}> extends HTMLElement implements IBaseComponent {
 
   /**
    * A copy of the global styles statically set for all components. First access fills it in, then it's cached.
@@ -225,7 +232,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   /**
    * Implement and return a string with HTML. Ideally use JSX to create elements.
    */
-  public abstract render(): string;
+  public abstract async render(): Promise<string>;
 
   /**
    * Clean up any resources here.
@@ -245,9 +252,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param service The name of a registered service
    */
   protected services<S = any>(serviceId: string): S {
-    if (!this[InjectServices_Symbol]) {
-      console.error(`The service with id ${serviceId} was requested, but no setup could be found. Add @InjectService decorator on class level.`)
-    }
     return this[InjectServices_Symbol].get(serviceId) as S;
   }
 
@@ -266,11 +270,9 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * Fires the {@link LifeCycle}.PreRender before and the {@link LifeCycle}.Load event after the content is being written.
    * The {@link lifeCycle} hook is called accordingly.
    */
-  protected async setup() {
+  protected async setup(): Promise<void> {
     this.lifeCycleState = LifeCycle.PreRender;
-    const childLoaders: Array<any> = [];
-    this.lifeCycleDetector(this.childNodes, childLoaders);
-    let $this: BaseComponent = null;
+    let $this: BaseComponentAsync = null;
     if ((<any>this.constructor)[ShadowDOM_Symbol_WithShadow]) {
       if (!this.shadowRoot) {
         // first time call we create the shadow root
@@ -288,12 +290,12 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         };
       }
       const template = document.createElement('template');
-      template.innerHTML = this.render();
+      template.innerHTML = await this.render();
       template.id = this.__uniqueId__;
       this.shadowRoot.appendChild(template.content.cloneNode(true));
-      $this = this.shadowRoot as unknown as BaseComponent;
+      $this = this.shadowRoot as unknown as BaseComponentAsync;
     } else {
-      this.innerHTML = this.render();
+      this.innerHTML = await this.render();
       $this = this;
     }
     // attach directives, if any
@@ -305,6 +307,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       });
     }
     this.lifeCycleState = LifeCycle.Load;
+    const childLoaders: Array<any> = [];
+    this.lifeCycleDetector(this.childNodes, childLoaders);
     if (childLoaders.length > 0) {
       Promise.all(childLoaders).then((state) => {
         this.lifeCycleState = LifeCycle.Render;
@@ -317,7 +321,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   // observe all web components of the first level and wait for lifecycle === load
   private lifeCycleDetector(children: NodeListOf<ChildNode>, childLoaders: Array<any>) {
     children.forEach((childNode) => {
-      if (childNode instanceof BaseComponent) {
+      if (childNode instanceof BaseComponentAsync) {
         const p = new Promise<void>(resolve => {
           childNode.addEventListener('lifecycle', (e: CustomEvent) => {
             if (e.detail === LifeCycle.Render) {
@@ -342,35 +346,35 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * @param newValue The actual new value.
    * @param noRender Prevent or enforce the re-rendering. Used if multiple attributes are being written and a render process for each is not required.
    */
-  public setData(name: keyof (P), newValue: any, noRender?: boolean): void {
+  public async setData(name: keyof (P), newValue: any, noRender?: boolean): Promise<void> {
     this.lifeCycleState = LifeCycle.SetData;
     const rerender = this.data[name] !== newValue;
     (this.data)[name] = newValue;
     // something is new so we rerender
     if (rerender && noRender === void 0) {
-      this.setup();
+      await this.setup();
     } else {
       if (noRender === false) {
-        this.setup();
+        await this.setup();
       }
     }
   }
 
-  private attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+  private async attributeChangedCallback(name: string, oldValue: any, newValue: any) {
     if (this._lifeCycleState === LifeCycle.SetData) {
       return;
     }
     if (oldValue !== newValue) {
       (this.data as ComponentData)[name] = newValue;
       if (this.isInitalized) {
-        this.setup();
+        await this.setup();
       }
     }
   }
 
-  private connectedCallback() {
+  private async connectedCallback() {
     this.lifeCycleState = LifeCycle.Connect;
-    this.setup();
+    await this.setup();
     this.isInitalized = true;
   }
 

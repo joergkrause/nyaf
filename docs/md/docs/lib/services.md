@@ -83,7 +83,7 @@ export class MainComponent extends BaseComponent<{}> {
 
   // ... omitted for brevity
 
-  async render() {
+  render() {
     let data = await this.services('localNameA').callAnyServiceFunctionHereAsync();
   }
 

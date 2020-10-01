@@ -26,7 +26,7 @@ export abstract class ContainerComponent extends BaseComponent<ContainerProps> {
     super();
   }
 
-  async render() {
+  render() {
     const clss = this.data.classList.split(' ');
     const div = (cls: string, inner: any) => {
       if (cls) {
@@ -35,7 +35,7 @@ export abstract class ContainerComponent extends BaseComponent<ContainerProps> {
       return (<div class={cls}>{inner}</div>);
     };
     const c = clss.shift();
-    return await div(c, this.parentElement.innerHTML);
+    return div(c, this.parentElement.innerHTML);
   }
 
 }

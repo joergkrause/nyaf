@@ -41,7 +41,7 @@ function maxLengthInternalSetup(target: any, key: string, len: number, msg?: str
 
   Object.defineProperty(target, `__isValid__${MaxLength.internal}__${key}`, {
     get: function () {
-      return target[key]?.toString().length <= len || false;
+      return this[key]?.toString().length <= len || false;
     },
     enumerable: false,
     configurable: false

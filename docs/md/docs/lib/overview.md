@@ -95,8 +95,8 @@ export class MainComponent extends BaseComponent {
 		super();
 	}
 
-	async render() {
-		return await (
+	render() {
+		return (
 			<section>
         <h2>Demo</h2>
         <p>Hello nyaf</p>

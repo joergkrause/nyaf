@@ -46,7 +46,7 @@ function emailInternalSetup(target: any, key: string, msg?: string) {
 
   Object.defineProperty(target, `__isValid__${Email.internal}__${key}`, {
     get: function () {
-      return new RegExp(pattern).test(target[key]);
+      return new RegExp(pattern).test(this[key]);
     },
     enumerable: false,
     configurable: false

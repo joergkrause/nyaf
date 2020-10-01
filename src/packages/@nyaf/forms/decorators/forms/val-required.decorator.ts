@@ -33,7 +33,7 @@ function requiredInternalSetup(target: any, key: string, msg?: string) {
 
   Object.defineProperty(target, `__isValid__${Required.internal}__${key}`, {
     get: function () {
-      return !!target[key];
+      return !!this[key];
     },
     enumerable: false,
     configurable: false

@@ -40,7 +40,7 @@ function patternInternalSetup(target: any, key: string, reg: RegExp, msg?: strin
 
   Object.defineProperty(target, `__isValid__${Pattern.internal}__${key}`, {
     get: function () {
-      return new RegExp(reg).test(target[key]);
+      return new RegExp(reg).test(this[key]);
     },
     enumerable: false,
     configurable: false

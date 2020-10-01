@@ -13,17 +13,12 @@ import { Events } from '../../decorators';
  *
  * This component fires an event, `mutation`, that indicates the content has been changed by the router infrastructure.
  *
- * @example
- * ```
- * <n-outlet></n-outlet>
- * ```
+ * `<n-outlet></n-outlet>`
  *
  * As with any other outlet you can add a name by using the *name* parameter. That is an observed attribute.
  *
- * @example
- * ```
- * <n-outlet name="target"></n-outlet>
- * ```
+ * `<n-outlet name="target"></n-outlet>`
+ *
  * @event mutation Custom event that has a {@link MutationRecord} in the detail property.
  *
  */
@@ -38,7 +33,7 @@ export class NOutletComponent extends BaseComponent<{ name: '' }> {
   private observer: MutationObserver;
   private outletId: string;
 
-  async render() {
+  render() {
     this.outletId = uuidv4();
     return `<!--OUTLET n-router-outlet=${this.data.name} id=${this.outletId} -->`;
   }

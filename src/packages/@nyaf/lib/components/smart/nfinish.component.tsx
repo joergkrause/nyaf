@@ -1,4 +1,3 @@
-import JSX from '../jsx.classic';
 import { BaseComponent } from '../base.component';
 import { LifeCycle } from '../lifecycle.enum';
 
@@ -10,15 +9,14 @@ import { LifeCycle } from '../lifecycle.enum';
  *
  * If both conditions are true, you must re-render the parent element by providing this smart element:
  *
- * @example
- * ~~~
+ * ```
  * <some-component>
  *   <ul>
  *     <li>Dynamically added later</li>
  *   </ul>
  *   <n-finish />
  * </some-component>
- * ~~~
+ * ```
  *
  * The occurrence of the element triggers the parent to re-render. This enforces the appearance of all elements in it, regardless their nature.
  *
@@ -29,7 +27,7 @@ export class NFinishComponent extends BaseComponent<{}> {
     super();
   }
 
-  async render(): Promise<string> {
+  render(): string {
     return null;
   }
 

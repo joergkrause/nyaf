@@ -44,7 +44,7 @@ function compareInternalSetup(target: any, key: string, withProperty: string, ms
 
   Object.defineProperty(target, `__isValid__${Compare.internal}__${key}`, {
     get: function () {
-      return target[key] === target[withProperty];
+      return this[key] === this[withProperty];
     },
     enumerable: false,
     configurable: false

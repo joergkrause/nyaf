@@ -155,14 +155,9 @@ export class ModelBinder<VM extends object> {
                   // Decoratorkeys all that apply (Required, Email, MaxLength) to that application
                   const [, scopeKey, decoratorKey, binderKey] = expressionParts;
                   // bind the model to validation action
-                  console.log(`const binding = new ValidatorBinding(${scopeKey}, ${binderKey}, ${ mbInstance}, ${decoratorKey.toLowerCase()}, ${el.tagName});`);
                   const binding = new ValidatorBinding(scopeKey, binderKey, mbInstance, decoratorKey.toLowerCase(), el);
                   mbInstance.subscribe(scopeKey, (key: string) => {
-                    const actualValidator: (val: any) => boolean = modelInstance[`__isValid__${decoratorKey}__${key}`];
-                    if (actualValidator !== undefined) {
-                      // we turn the value from true to false, because in case of a true value (valid) we mnke the error message invisible (hence false)
-                      binding.value = !actualValidator(modelInstance[key]);
-                    }
+                    binding.value = modelInstance[`__isValid__${decoratorKey}__${key}`];
                   });
                   // bind the error messages to target element
                   ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `err__${decoratorKey}`, 'innerText');

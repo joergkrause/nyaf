@@ -31,13 +31,13 @@ Also you can use any other method to create the components content, but you will
 
 Is it worth coding with **@nyaf** and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual package sizes (0.6.7, published 16th of September 2020):
+Actual package sizes (0.6.8, published 16th of September 2020):
 
-* Lib:    36 KB --> 11 KB zipped (always needed)
-* Forms:  20 KB -->  5 KB zipped (Forms binding, validation, decorators)
-* Store:   5 KB -->  2 KB zipped (Flux like store for state management)
+* Lib:    31 KB --> 11 KB zipped (always needed)
+* Forms:  27 KB -->  6 KB zipped (Forms binding, validation, decorators)
+* Store:  11 KB -->  3 KB zipped (Flux like store for state management)
 
-* Total:  58 KB --> 18 KB zipped all files together for your project
+* Total:  69 KB --> 18 KB zipped all files together for your project
 
 However, compared with React or Angular it's a lot simpler. Compared to Vue, Svelte or Polymer it's simpler and even smaller, but the delta is not that thrilling.
 
