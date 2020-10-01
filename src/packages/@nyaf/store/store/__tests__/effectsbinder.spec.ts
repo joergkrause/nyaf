@@ -7,7 +7,7 @@ describe('Effects Binder', () => {
     constructor() {
       super();
     }
-    async render() {
+    render() {
       return '';
     }
   }

@@ -1,7 +1,5 @@
-import { NFinishComponent } from '../nfinish.component';
 import { GlobalProvider } from '../../../code/globalprovider';
 import { BaseComponent } from '../../base.component';
-import { CustomElement_Symbol_Selector } from '../../../consts/decorator.props';
 import { CustomElement } from '../../../decorators/customelement.decorator';
 
 describe('n-finish', () => {
@@ -11,7 +9,7 @@ describe('n-finish', () => {
     constructor() {
       super();
     }
-    async render() {
+    render() {
       return '<ul><n-finish></n-finish></ul>';
     }
   }
@@ -27,7 +25,7 @@ describe('n-finish', () => {
     const expectedNFinish = document.querySelector('n-finish');
     expect(expectedNFinish).not.toBeUndefined();
     const expected = document.querySelector('ul').innerHTML.trim();
-    expect(expected).toEqual('<li></li><n-finish></n-finish>');
+    expect(expected).toEqual('<li></li>');
   });
 
   it('handles dynamic elements', () => {
@@ -40,7 +38,7 @@ describe('n-finish', () => {
     li.innerHTML = 'Dynamic Element';
     ul.insertAdjacentElement('afterbegin', li);
     const expected = document.querySelector('ul').innerHTML.trim();
-    expect(expected).toEqual('<li>Dynamic Element</li><n-finish></n-finish>');
+    expect(expected).toEqual('<li>Dynamic Element</li>');
   });
 
 });

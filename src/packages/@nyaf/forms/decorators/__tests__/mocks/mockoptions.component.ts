@@ -25,7 +25,7 @@ export class MockOptionsCtorComponent extends BaseComponent {
   constructor() {
     super();
   }
-  async render(): Promise<string> {
+  render(): string {
     return '<h1>Test</h1>';
   }
 }
@@ -39,7 +39,7 @@ export class MockOptionsFactoryComponent extends BaseComponent {
   constructor() {
     super();
   }
-  async render(): Promise<string> {
+  render(): string {
     return '<h1>Test</h1>';
   }
 }

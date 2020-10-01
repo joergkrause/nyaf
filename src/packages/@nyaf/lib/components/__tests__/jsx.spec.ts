@@ -1,4 +1,4 @@
-import JSX from '../jsx';
+import JSX from '../jsx.classic';
 import { isFunction } from '../../code/utils';
 
 test('JSX base test', () => {

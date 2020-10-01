@@ -7,7 +7,7 @@ describe('Updates Binder', () => {
     constructor() {
       super();
     }
-    async render() {
+    render() {
       return '';
     }
   }

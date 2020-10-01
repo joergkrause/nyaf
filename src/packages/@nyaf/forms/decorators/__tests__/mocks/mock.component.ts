@@ -7,7 +7,7 @@ export class MockComponent extends BaseComponent {
   constructor() {
     super();
   }
-  async render(): Promise<string> {
+  render(): string {
     return '<h1>Test</h1>';
   }
 }

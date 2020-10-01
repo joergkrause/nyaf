@@ -33,7 +33,7 @@ describe('GlobalProvider', () => {
       constructor() {
         super();
       }
-      async render() {
+      render() {
         return '';
       }
     }
@@ -52,7 +52,7 @@ describe('GlobalProvider', () => {
       constructor() {
         super();
       }
-      async render() {
+      render() {
         return '';
       }
     }

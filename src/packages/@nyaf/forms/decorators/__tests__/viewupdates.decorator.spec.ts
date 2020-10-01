@@ -21,7 +21,7 @@ describe('ViewUpdates decorator', () => {
     constructor() {
       super();
     }
-    async render() {
+    render() {
       return '<div id="target"></div>';
     }
   }
