@@ -162,6 +162,8 @@
         
             <li><a class="toctree-l4" href="#route-events">Route Events</a></li>
         
+            <li><a class="toctree-l4" href="#deal-with-parameters">Deal with Parameters</a></li>
+        
         </ul>
     
 
@@ -355,33 +357,23 @@
   '/about': { component: AboutComponent },
   '/demo': { component: DemoComponent },
   '/contact': { component: ContactComponent },
-  '**': { component: DemoComponent }
+  '**': { component: DemoComponent },
 };
 
 GlobalProvider.bootstrap({
-  components: [
-    DemoComponent,
-    AboutComponent,
-    ContactComponent,
-    MainComponent
-  ],
-  routes: routes
+  components: [DemoComponent, AboutComponent, ContactComponent, MainComponent],
+  routes: routes,
 });
 </code></pre>
 
 <p>The first entry <code>'/': { component: DemoComponent },</code> shall always exist, it's the default route loaded on start. It's being recognized by the <code>'/'</code> key (the position in the array doesn't matter).
 The entry <code>'**': { component: DemoComponent }</code> is optional and defines a fallback in case an invalid path is being used.</p>
 <p>You can shorten the property in the bootstrap script, too:</p>
-<pre><code class="ts">const components = [
-  DemoComponent,
-  AboutComponent,
-  ContactComponent,
-  MainComponent
-];
+<pre><code class="ts">const components = [DemoComponent, AboutComponent, ContactComponent, MainComponent];
 
 GlobalProvider.bootstrap({
   components,
-  routes
+  routes,
 });
 </code></pre>
 
@@ -468,6 +460,52 @@ GlobalProvider.bootstrap({
 </code></pre>
 
 <p>If you have a dynamic component and you set the event handler, don't forget to remove the event handler in the dispose callback.</p>
+<h3 id="deal-with-parameters">Deal with Parameters<a class="headerlink" href="#deal-with-parameters" title="Permanent link">#</a></h3>
+<p>Routes can have parameters. These parameters can be optional. The handling is quite flexible. Internally the path instruction is rewritten into a regular expression. Everything not epxlicitly recognized will appear in the epxression, then. That means you have both, restrictions and advantages. First, any path characters must match the <code>RegExp</code> conditions, with two exceptions. First, <em>/</em> is converted to be valid in the expression. Second, <em>:</em> is the divider for a parameter and replace the name with a sufficient placeholder. Path instructions look typically like this:</p>
+<pre><code class="js">let routes = {
+  'path/:id': { component: RoutedComponent },
+};
+</code></pre>
+
+<p>Now you need to get access to the router data in the component. The rules of a constructor for a Web Component are pretty strict. One rule is that you are not allowed to pass in any arguments into the constructor. To overcome this the router supports attributes and properties instead. They are available immediately after the constructor call, but not within.
+There are two ways to access the parameters.</p>
+<h4 id="generic-parameters">Generic Parameters<a class="headerlink" href="#generic-parameters" title="Permanent link">#</a></h4>
+<p>The router always sets an attribute named <code>routeParams</code>. It's set automatically, regardless it's being observed or not.</p>
+<pre><code class="ts">const obj = this.getAttribute('routeParams');
+</code></pre>
+
+<p>It's of type <code>object</code> and contains an array of parameter objects, type <code>RouteParam</code>. Typically it looks like this:</p>
+<pre><code class="ts">[
+  {
+    parameter: 'type',
+    optional: false,
+    start: 6,
+    value: 'simple',
+  },
+];
+</code></pre>
+
+<p>The data are as follows:</p>
+<ul>
+<li>parameter: The name of the parameter as it is written in the router definition.</li>
+<li>optional: Indicates whether the parameter was declared as optional.</li>
+<li>start: The position in the router path definition, a zero based index.</li>
+<li>value: The actual value from the given hash. This might be empty if the parameter is optional.</li>
+</ul>
+<h4 id="direct-access">Direct Access<a class="headerlink" href="#direct-access" title="Permanent link">#</a></h4>
+<p>Usually you may be interested in a specific parameter value only and the internal values of the router logic doesn't matter. Than you can define a mapping in the router definition to write the actual value into an attribute. Be aware that the type is not handled here and such router parameters will always treated as string values.</p>
+<p>This is a single router path definition with such an additional mapping:</p>
+<pre><code class="ts">'/todo/:type': { component: ToDoAppDemoComponent, map: { 'type': 'todokind' } },
+</code></pre>
+
+<p>The essential part is the <em>map</em> property. The left side is the name in the path string ('type' in the example), the right side is the attribute the value is written into. The access is possible using standard HTML 5 API.</p>
+<pre><code class="ts">const str = this.getAttribute('todokind');
+</code></pre>
+
+<h4 id="observing-parameters">Observing Parameters<a class="headerlink" href="#observing-parameters" title="Permanent link">#</a></h4>
+<p>Despite the fact that the parameter mapping is not async, the change can be monitored through the <code>@Properties</code> decorator. Just make any of the mentioned attributes observable, either the whole mapping or just a single mapped parameter. Even if the loading of the component is not enforced the attribute change will happen and the component renders again. The advantage of an attribute is the fact that you can put it in the list of observed attributes and any change will call the render method implicitly.</p>
+<pre><code class="ts">@Properties({ todokind: ''})
+</code></pre>
               
             </div>
           </div>
