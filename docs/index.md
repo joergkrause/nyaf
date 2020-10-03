@@ -3,6 +3,8 @@
 
 # Introducing @nyaf
 
+![](assets/logo.png)
+
 The name **@nyaf** is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".
 
 It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.

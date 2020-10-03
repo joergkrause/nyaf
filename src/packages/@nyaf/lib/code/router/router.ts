@@ -1,6 +1,8 @@
-import { Routes, Action, RouteDefinition } from './routes';
+import { Routes, Action, RouteDefinition, Route, RouteParams } from './routes';
 import { RouteEventTarget } from './navigate.event';
 import { CustomElement_Symbol_Selector } from '@nyaf/lib/consts/decorator.props';
+import { matchAll } from '../utils';
+import { BaseComponent } from '@nyaf/lib/components/base.component';
 
 const N_LINK = 'n-link';
 const N_LINK_SEL = `[${N_LINK}]`;
@@ -36,11 +38,22 @@ export class Router {
       // sort longest path first
       .sort((a, b) => { return b.length - a.length; })
       // convert into more usable format
-      .map((path) => {
+      .map((path: string) => {
+        let map: any = [];
+        let idx = 0;
+        for (let p of matchAll(path, /\/:([^\s/?]+)([?]?)/g)) {
+          map.push({
+            parameter: p[1],
+            optional: !!(p[2] && p[2] === '?'),
+            start: p.index + 1
+          });
+        }
         return {
           // create regex
-          path: new RegExp("^" + path.replace(/:[^\s/]+/g, '([\\w-]+)').replace('/', '\\/').replace('**', '') + "$"),
-          action: routes[path]
+          path: new RegExp(`^${path.replace(/:[^\s/]+/g, '([\\w-]+)').replace('/', '\\/').replace('**', '')}$`),
+          action: routes[path],
+          map,
+          legacy: path
         };
       });
     // find the outlets after ready
@@ -54,8 +67,9 @@ export class Router {
     window.addEventListener('hashchange', (event: HashChangeEvent) => {
       this.handleHashChange(event);
     });
-    const defaultAction = this.getRoute('/');
-    if (defaultAction) {
+    const defaultRoute = this.getRoute('/');
+    if (defaultRoute) {
+      const defaultAction = defaultRoute.action;
       const activatedComponent = defaultAction.component as unknown as Node;
       // default route goes always to default outlet
       this.onNavItemClick('/');
@@ -71,34 +85,38 @@ export class Router {
       linkElement.addEventListener('click', (e: Event) => {
         const linkElement = e.target as HTMLAnchorElement;
         const requestedRoute = linkElement.href.replace(/^#\//, '/');
-        const routeAction = this.getRoute(requestedRoute);
-        if (routeAction === false) {
+        const linkedRoute = this.getRoute(requestedRoute);
+        if (linkedRoute === false) {
           return;
         }
+        const routeAction = linkedRoute.action;
         const activatedComponent = routeAction.component as unknown as Node;
         this.onNavItemClick(requestedRoute);
         const outletName = routeAction.outlet;
         const outlet = this.queryOutlet(outletName);
-        this.setRouterOutlet(activatedComponent, requestedRoute, outlet, true);
+        this.setRouterOutlet(activatedComponent, requestedRoute, outlet, routeAction.forced);
         this.setLinkElements(requestedRoute);
       });
     })
   }
 
-  private getRoute(routePath: string): Action | false {
+  private getRoute(routePath: string): Route | false {
     // TODO: consider https://github.com/pillarjs/path-to-regexp/
     const routes = this.routes;
     for (var i = 0, l = routes.length; i < l; i++) {
       // parse if possible
       var found = routePath.match(routes[i].path);
       if (found) { // parsed successfully
-        return routes[i].action;
+        if (routes[i].map) {
+          routes[i].map
+        }
+        return routes[i];
       }
     }
     return false;
   }
 
-  private getDefaultRoute(): Action | false {
+  private getDefaultRoute(): Route | false {
     return this.getRoute('/');
   }
 
@@ -126,17 +144,19 @@ export class Router {
    */
   public navigateRoute(requestedRoute: string, outletName?: string): void | never {
     let outlet: HTMLElement;
-    let routeAction = this.getRoute(requestedRoute);
-    if (routeAction === false) {
+    let navigateRoute = this.getRoute(requestedRoute);
+    if (navigateRoute === false) {
       throw new Error('Route not found');
     }
+    let routeAction = navigateRoute.action;
     let activatedComponent: Node = routeAction.component as unknown as Node;
     const forced = routeAction.forced || false;
     if (!activatedComponent) {
-      routeAction = this.getDefaultRoute();
-      if (routeAction === false) {
+      navigateRoute = this.getDefaultRoute();
+      if (navigateRoute === false) {
         throw new Error('Route found but has no component and default route is not defined');
       }
+      routeAction = navigateRoute.action
       activatedComponent = routeAction.component as unknown as Node;
     }
     if (!activatedComponent) {
@@ -166,10 +186,11 @@ export class Router {
       externalhashPath = externalhashPath.slice(0, -1);
     }
     const requestedRoute = externalhashPath ? externalhashPath.replace(/^#\//, '/') : '/';
-    const routeAction = this.getRoute(requestedRoute);
-    if (routeAction === false) {
+    const hashRoute = this.getRoute(requestedRoute);
+    if (hashRoute === false) {
       return;
     }
+    const routeAction = hashRoute.action;
     const activatedComponent = routeAction.component as unknown as Node;
     if (activatedComponent) {
       const outletName = routeAction.outlet;
@@ -204,9 +225,32 @@ export class Router {
   }
 
   private setRouterOutlet(activatedComponent: Node, requestedRoute: string, outlet: Element, forced: boolean) {
-    let event = this.createEvent('navigate', true, requestedRoute);
+    const normalizedRoute = this.normalizeRoute(requestedRoute);
+    let event = this.createEvent('navigate', true, normalizedRoute);
     this.onRouterAction.dispatchEvent(event);
-    const activatedElement = document.createElement(activatedComponent[CustomElement_Symbol_Selector]);
+    let activatedElement: BaseComponent<any> = null;
+    if (forced || !outlet.firstElementChild || outlet.firstElementChild.tagName.toLowerCase() !== activatedComponent[CustomElement_Symbol_Selector]) {
+      activatedElement = document.createElement(activatedComponent[CustomElement_Symbol_Selector]);
+    } else {
+      activatedElement = outlet.firstElementChild as BaseComponent<any>;
+    }
+    const mapping = this.getRoute(normalizedRoute);
+    if (mapping !== false) {
+      let start = normalizedRoute;
+      mapping.map.forEach((m: RouteParams) => {
+        // this extracts the real parameter into the parameter object
+        start = normalizedRoute.substr(mapping.map[0].start);
+        const len = start.indexOf('/') > 0 ? start.indexOf('/') : start.length;
+        const value = start.substr(0, len);
+        m.value = value;
+        // if the router definition has instructions to convert parameters into attributes
+        if (mapping.action.map && mapping.action.map[m.parameter]) {
+          activatedElement.setData(mapping.action.map[m.parameter], value);
+        }
+      });
+      activatedElement.setData('routeParams', mapping.map);
+      activatedElement.setData('n-type-routerParams', 'object');
+    }
     switch (outlet.tagName) {
       case 'N-OUTLET':
         if (forced || this.needToLoad(outlet.firstElementChild, activatedComponent)) {
@@ -219,7 +263,16 @@ export class Router {
         break;
       default:
         // outlet is any HTMLElement
-        if (forced || this.needToLoad(outlet.firstChild, activatedComponent)) {
+        let currentElement = null;
+        if (outlet.firstChild) {
+          // correct outlet content in case some illegal DOM operation happened
+          currentElement = customElements.get((outlet.firstChild as HTMLElement).tagName.toLowerCase());
+          if (!currentElement) {
+            outlet.innerHTML = '';
+            forced = true;
+          }
+        }
+        if (forced || this.needToLoad(outlet.firstChild, activatedElement)) {
           if (outlet.firstChild) {
             outlet.replaceChild(activatedElement, outlet.firstChild);
           } else {
@@ -242,62 +295,12 @@ export class Router {
     return event;
   }
 
-  private needToLoad(outletChild: Node, activatedComponent: Node): boolean {
-    return (!outletChild || outletChild['__uniqueId__'] as Node !== activatedComponent['__uniqueId__']);
+  private needToLoad(currentElement: Node, activatedElement: Node): boolean {
+    return (!currentElement || currentElement['__uniqueId__'] as Node !== activatedElement['__uniqueId__']);
   }
 
+  private normalizeRoute(requestedRoute: string): string {
+    return requestedRoute.replace(/^#/, '');
+  }
 
-  // private invokeLinkTarget(target: HTMLElement) {
-  //     let nLink = target.getAttribute(N_LINK);
-  //     if (!nLink) {
-  //       // walk up the tree to find next n-link
-  //       const parents = DomOp.getParents(target, `${N_LINK_SEL}`);
-  //       if (parents && parents.length === 1) {
-  //         target = parents[0];
-  //         nLink = target.getAttribute(N_LINK);
-  //       }
-  //     }
-  //     if (nLink) {
-  //       // expect that n-link is on an anchor tag
-  //       const pf = (<HTMLAnchorElement>target).href.split('#');
-  //       let requestedRoute = '';
-  //       let needFallback = false;
-  //       let outletName = '';
-  //       // fallback strategy
-  //       do {
-  //         if (pf.length !== 2) {
-  //           needFallback = true;
-  //           break;
-  //         }
-  //         requestedRoute = pf[1];
-  //         if (!requestedRoute) {
-  //           needFallback = true;
-  //           break;
-  //         }
-  //         if (!routes[requestedRoute]) {
-  //           needFallback = true;
-  //           break;
-  //         }
-  //         outletName = routes[requestedRoute].outlet;
-  //         break;
-  //       } while (true);
-  //       // only execute if useful, here we have a valid route
-  //       if (!needFallback || (needFallback && routes['**'])) {
-  //         const activatedComponent = routes[requestedRoute].component as unknown as Node;
-  //         const forced = routes[requestedRoute].forced;
-  //         if (!requestedRoute.startsWith('#')) {
-  //           requestedRoute = `#${requestedRoute}`;
-  //         }
-  //         onNavItemClick(requestedRoute);
-  //         const outlet = this.queryOutlet(outletName);
-  //         this.setRouterOutlet(activatedComponent, requestedRoute, outlet, forced);
-  //       } else {
-  //         console.warn(
-  //           '[@nyaf] A router link call has been executed,' +
-  //           'but requested link is not properly configured: ' +
-  //           (<HTMLAnchorElement>e.target).href
-  //         );
-  //       }
-  //     }
-  // }
 }

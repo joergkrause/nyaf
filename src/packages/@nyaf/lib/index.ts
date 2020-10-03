@@ -3,6 +3,7 @@ export * from './code/dom-operations';
 export * from './code/utils';
 export * from './code/router/routes';
 export * from './code/router/router';
+export * from './code/router//routerparams.interface';
 export * from './code/basedirective';
 export * from './code/expander/iexpander';
 export * from './code/expander/expander';

@@ -12,6 +12,21 @@ export function uuidv4(): string {
   });
 }
 
+/**
+ * A simple matchAll polyfill, could be removed if `matchAll` is available nativ.
+ * @param str The string to investigate
+ * @param regexp The regular expression to process
+ * @returns Returns an iterable object with all matches
+ */
+export function* matchAll(str: string, regexp: RegExp) {
+  const flags = regexp.global ? regexp.flags : regexp.flags + "g";
+  const re = new RegExp(regexp, flags);
+  let match: RegExpExecArray;
+  while (match = re.exec(str)) {
+    yield match;
+  }
+}
+
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
