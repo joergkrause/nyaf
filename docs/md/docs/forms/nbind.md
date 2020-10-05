@@ -5,7 +5,7 @@ Data Binding is one of the most important features in component development. It 
 
 ### Template Language Enhancements
 
-**@nyaf** has a simple template language extension for binding. For forms it's just one more command for any input element, `n-bind`. See the following excerpt from a component.
+**ny@f** has a simple template language extension for binding. For forms it's just one more command for any input element, `n-bind`. See the following excerpt from a component.
 
 ~~~tsx
 model: ModelBinder<UserViewModel>; // instance created by decorator
@@ -114,7 +114,7 @@ There is an alternative syntax that provides full type support:
 </label>
 ~~~
 
-The function `to<Type>` from **@nyaf/forms** module has these syntax variations:
+The function `to<Type>` from ****ny@f**/forms** module has these syntax variations:
 
 ~~~ts
 to<ViewModel>(propertyExpression, handlerKey)
@@ -176,9 +176,9 @@ In the next example two properties are bound:
   n-bind />
 ~~~
 
-> The `n-bind` is still required to efficiently trigger the binder logic. It's now empty, though (default value is `true` internally). Please note that you cannot bind to deeper structures in the current version (e.g. `style.border={bind<T>()}` is not possible.) That's typically a way to bind styles in Angular, but this would violate the rule that standard **@nyaf** templates shall be standard TSX files that any editor can handle without additional tool support. To support a scenario with style binding, refer to section *Custom Binders*.
+> The `n-bind` is still required to efficiently trigger the binder logic. It's now empty, though (default value is `true` internally). Please note that you cannot bind to deeper structures in the current version (e.g. `style.border={bind<T>()}` is not possible.) That's typically a way to bind styles in Angular, but this would violate the rule that standard **ny@f** templates shall be standard TSX files that any editor can handle without additional tool support. To support a scenario with style binding, refer to section *Custom Binders*.
 
-If the binding handler is not provided, it falls back to a `DefaultBindingHandler`, that binds uni-directional to the assigned attribute. That has two limitations. First, it's always uni-directional. Second, it can bind only to attributes of `HTMLElement`. Object properties, such as `textContent`or `innerText` cannot be reached that way. That's indeed the same with Angular, where you need to encapsulate elements in custom components to reach hidden properties, but in **@nyaf** there is a much smarter way.
+If the binding handler is not provided, it falls back to a `DefaultBindingHandler`, that binds uni-directional to the assigned attribute. That has two limitations. First, it's always uni-directional. Second, it can bind only to attributes of `HTMLElement`. Object properties, such as `textContent`or `innerText` cannot be reached that way. That's indeed the same with Angular, where you need to encapsulate elements in custom components to reach hidden properties, but in **ny@f** there is a much smarter way.
 
 Imagine you'll bind to whatever, just assign another binding handler.
 

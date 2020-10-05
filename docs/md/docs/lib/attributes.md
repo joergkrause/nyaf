@@ -115,7 +115,7 @@ As with `setData` internally this will trigger the renderer to re-render the con
 
 Web Components have the restriction that an attribute can transport string values only. This would lead to "[Object object]" for other types.
 
-> **@nyaf** overcomes this restriction with a smart attribute handling.
+> **ny@f** overcomes this restriction with a smart attribute handling.
 
 That means the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\_\_name__" is written. Assume your value is written like shown below:
 

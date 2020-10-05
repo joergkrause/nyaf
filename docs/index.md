@@ -5,7 +5,7 @@
 
 ![](assets/logo.png)
 
-The name **@nyaf** is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".
+The name **ny@f** is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".
 
 It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.
 
@@ -21,7 +21,7 @@ But over time, frameworks get elder. And they can't change and involve, because 
 
 One of the most important innovations in browser development where Web Components. The API is easy to learn, the support is complete for all modern browsers, and the implementation is stable. At the same time the programming language TypeScript came to us along with a powerful toolset.
 
-It's time for the next step. Take the leading tools and create an easy to use library, that covers the hard stuff and be invisible where the native API is almost the best. That's the core idea behind **@nyaf**.
+It's time for the next step. Take the leading tools and create an easy to use library, that covers the hard stuff and be invisible where the native API is almost the best. That's the core idea behind **ny@f**.
 
 ## Parts
 

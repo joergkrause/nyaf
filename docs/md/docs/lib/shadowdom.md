@@ -292,5 +292,5 @@ This style is provided globally, not as part of the component, but it applies to
 
 Note, that using the regular CSS syntax, such as `app-directive[part="drop-zone"]` would not work, as this cannot penetrate the shadow DOM.
 
-> This is not a feature of **@nyaf**; it's default Web Component behavior. We face some issues with elder browser version that don't understand the `::part` selector properly. Consider adding a polyfill if needed.
+> This is not a feature of **ny@f**; it's default Web Component behavior. We face some issues with elder browser version that don't understand the `::part` selector properly. Consider adding a polyfill if needed.
 

@@ -4,7 +4,7 @@ First, you need view models. Then, you decorate the properties with validation a
 
 ### Why Using View Models?
 
-View Models form an abstraction layer between code and pure user interface. They appear in many architectural pattern, such as Model-View-Control (MVC), Movel-View-ViewModel (MVVM), and similar constructs. A component library such as **@nyaf** is a different kind of pattern, but the basic need for a model is still valid.
+View Models form an abstraction layer between code and pure user interface. They appear in many architectural pattern, such as Model-View-Control (MVC), Movel-View-ViewModel (MVVM), and similar constructs. A component library such as **ny@f** is a different kind of pattern, but the basic need for a model is still valid.
 
 > The ViewModel is essential when you want a separation of concerns between your DomainModel (DataModel) and the rest of your code.
 

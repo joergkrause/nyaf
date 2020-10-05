@@ -2,7 +2,7 @@
 
 A component is basically just an user interface (UI), that is defined by HTML. This UI can be dynamic in both directions, receiving user actions and react to changes in an underlying data model. In business components this leads to a significant amount of code, that is primarily just a reference to the coding environment. For user actions it's a number of event hooks leading to handlers. For data changes it's the binding to a model and code to monitor changes.
 
-The Flux store reduces the amount of code by moving the actual business logic to the reducer functions. That a big progress compared to traditional programming styles, but the remaining definitions are now only skeletons to function calls. It would be great to have these function calls reduced to the bare minimum of code and, in the same step, collected in one single definition just like the reducers. This features exists in **@nyaf** and it's called *Effects*.
+The Flux store reduces the amount of code by moving the actual business logic to the reducer functions. That a big progress compared to traditional programming styles, but the remaining definitions are now only skeletons to function calls. It would be great to have these function calls reduced to the bare minimum of code and, in the same step, collected in one single definition just like the reducers. This features exists in **ny@f** and it's called *Effects*.
 
 ### The Effects Decorator
 

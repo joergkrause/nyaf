@@ -18,7 +18,7 @@
     "name": "Debug Jest Tests",
     "type": "node",
     "request": "launch",
-    "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/.bin/jest", "finish", "--runInBand", "--coverage", "false"],
+    "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/.bin/jest", "effectsbinder", "--runInBand", "--coverage", "false"],
     "console": "integratedTerminal",
     "internalConsoleOptions": "neverOpen"
   },

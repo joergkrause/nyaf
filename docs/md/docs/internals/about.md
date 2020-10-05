@@ -22,7 +22,7 @@ If you want to get more information, want to join my network, seeking investment
 
 ## Projects
 
-I'M inventor and maintainer of @nyaf - an advanced Web Components framework. I'm the inventor and maintainer of SVOGV, an extension for Angular that provides dynamic forms, viewmodel decorators, and dynamic validation.
+I'M inventor and maintainer of **ny@f** - an advanced Web Components framework. I'm the inventor and maintainer of SVOGV, an extension for Angular that provides dynamic forms, viewmodel decorators, and dynamic validation.
 
 ## Contact
 

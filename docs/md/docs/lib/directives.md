@@ -53,7 +53,7 @@ GlobalProvider.bootstrap({
 
 #### Activation
 
-The directive applies ones a component renders. That means, the directive must be part of an **@nyaf** web component. But the actual assignment can be placed on any HTML element. If you have just one global component and pure HTML in it, then the directive will still work.
+The directive applies ones a component renders. That means, the directive must be part of an **ny@f** web component. But the actual assignment can be placed on any HTML element. If you have just one global component and pure HTML in it, then the directive will still work.
 
 To activate the directive just add the selector to an element:
 

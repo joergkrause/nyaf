@@ -1,4 +1,4 @@
-# @nyaf and Angular
+# ny@f and Angular
 
 Angular is a full-fledged framework that has an answer for everything. It comes with huge amount of code.
 The main reason to use Angular is to have a very powerful template language. It gives developers the feel they must not learn HTML 5 APIs and can still
@@ -9,13 +9,13 @@ way until you master Angular. Would you learn HTML 5 instead... but that's to ea
 
 Angular comes with full support of TypeScript (actually, it's written in TypeScript) and all the new handy features, such as Decorators.
 
-That's the same as in @nyaf. Let's compare it a bit here.
+That's the same as in ny@f. Let's compare it a bit here.
 
 ### Components
 
 A component in Angular is decorated with `@Component({})`. It needs several settings, though.
 
-A component in @nyaf is quite the same, using `@CustomElement('name')`. Despite the name no additional settings required.
+A component in ny@f is quite the same, using `@CustomElement('name')`. Despite the name no additional settings required.
 
 Angular comes with a template language you have to learn.
 
@@ -27,7 +27,7 @@ Angular comes with a template language you have to learn.
 
 The part to learn is the very proprietary **ngFor* instruction. Some JavaScript is possible here, but very restrictive.
 
-@nyaf comes with TSX, which is TypeScript with embedded HTML elements. Not so much to learn here.
+ny@f comes with TSX, which is TypeScript with embedded HTML elements. Not so much to learn here.
 
 ~~~tsx
 const lis = this.items.map(item => <li>{ item.text })</li>);
@@ -50,7 +50,7 @@ Any sort of JavaScript is allowed in here, as long as it fits into a function ca
 
 ### Binding
 
-Angular has great data binding. @nyaf has this, too, but on request. Let's return to the last example. In Angular the list items will re-render if the
+Angular has great data binding. **ny@f** has this, too, but on request. Let's return to the last example. In Angular the list items will re-render if the
 collection *items* changes. That's smart and easy to use. It comes with a big penalty: Huge template compiler that inserts a lot boilerplate code for you.
 
 ~~~html
@@ -72,7 +72,7 @@ Supporting steps required (component and binding property):
 
 That's smart, because it's easy to use.
 
-In @nyaf you load the module **@nyaf/forms** and use explicit binding:
+In **ny@f** you load the module **@nyaf/forms** and use explicit binding:
 
 ~~~tsx
 <div class="alert alert-danger" n-bind={to<Messages>(m => m.message), 'innerText'}>

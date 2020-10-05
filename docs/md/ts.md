@@ -1,6 +1,6 @@
 ## Project Configuration with TypeScript
 
-An **@nyaf** application consists of:
+An **ny@f** application consists of:
 
 1. An entry file for registering components, typically called *main.ts*
 2. At least one root component
@@ -42,7 +42,7 @@ The TypeScript configuration is typical, but two things are crucial to know:
 1. You need to compile with the target "es2015" (minimum). ES 5 is explicitly not supported anymore.
 2. The template language is a variety of JSX, so the setting *"jsx"* and *"reactNamespace"* are required.
 
-> **@nyaf** does not use React, has no relation to React and has almost nothing in common. The setting just tricks the compiler to transpile the templates.
+> **ny@f** does not use React, has no relation to React and has almost nothing in common. The setting just tricks the compiler to transpile the templates.
 
 ~~~json
 {
@@ -74,7 +74,7 @@ The TypeScript configuration is typical, but two things are crucial to know:
 First, the target must be "es2015" or higher. There are some native features used here that don't have polyfills. The recommended template language is JSX (or in TypeScript it's called TSX). It's not enforced, you can also use pure string templates, but all examples in this documentation and the snippets shown online are using JSX. Hence the following settings are highly recommended:
 
 * "jsx": "react" -- this activates JSX, though we don't use React
-* "reactNamespace": "JSX" -- the name of the support class in **@nyaf** (this **is** mandatory if JSX is used)
+* "reactNamespace": "JSX" -- the name of the support class in **ny@f** (this **is** mandatory if JSX is used)
 
 All other settings follow the common requirements of a typical TypeScript application.
 

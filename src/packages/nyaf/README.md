@@ -9,7 +9,7 @@ And it is, well, just another framework. It's simple, has a flat learning curve,
 
 > No dependencies! No bullshit! Pure HTML 5 DOM API and ES 2015 Code. Super small, super smart, super powerful. Period!
 
-This is a placeholder. The current development has been moved to the organisation **@nyaf**.
+This is a placeholder. The current development has been moved to the organisation **ny@f**.
 
 See [here](https://npmjs.com/package/@nyaf/lib) for the latest package ___@nyaf/lib___.
 

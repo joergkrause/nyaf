@@ -31,7 +31,7 @@ Let's go step by step through this simple component.
 
 First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from **@nyaf/lib** and has absolutely no relation to React. It has, in some details, a different behavior compared with the JSX used in React. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter (such as *TSLint*) know about this and will not complain.
 
-Second, the component has a base class. All **@nyaf** components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
+Second, the component has a base class. All **ny@f** components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
 
 Note also the usage of a base class, which gets a generic that later controls the access to the attributes.
 

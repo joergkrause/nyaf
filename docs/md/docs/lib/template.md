@@ -93,5 +93,5 @@ const d = {
 <app-button  {...d} />
 ~~~
 
-It's just pure ECMAScript magic, no code from **@nyaf** required.
+It's just pure ECMAScript magic, no code from **ny@f** required.
 

@@ -1,18 +1,18 @@
 # Approach
 
-* @nyaf uses JSX/TSX syntax for quick component dev. This is default option, you can use other any template system instead.
-* @nyaf supports Single Page App (SPA) directly.
-* @nyaf can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
-* @nyaf provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML. This is a feature of the JSX/TSX provider.
-* @nyaf uses TypeScript from the beginning (and is written in TypeScript). It works with pure ECMAScript, though.
-* @nyaf creates a very small package.
-* @nyaf works well with WebPack and other common tools.
-* @nyaf uses standards, no weird or enforced CLI, no vendor lock in.
-* @nyaf uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
+* ny@f uses JSX/TSX syntax for quick component dev. This is default option, you can use other any template system instead.
+* ny@f supports Single Page App (SPA) directly.
+* ny@f can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
+* ny@f provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML. This is a feature of the JSX/TSX provider.
+* ny@f uses TypeScript from the beginning (and is written in TypeScript). It works with pure ECMAScript, though.
+* ny@f creates a very small package.
+* ny@f works well with WebPack and other common tools.
+* ny@f uses standards, no weird or enforced CLI, no vendor lock in.
+* ny@f uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
 
 ### Templates
 
-@nyaf prefers to use TSX for templates. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.
+ny@f prefers to use TSX for templates. It does not use React, though. In fact, it's just a feature of the TypeScript compiler.
 
 See this excerpt from `tsconfig.json`:
 
@@ -29,7 +29,7 @@ Also you can use any other method to create the components content, but you will
 
 ### Size
 
-Is it worth coding with **@nyaf** and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
+Is it worth coding with **ny@f** and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
 Actual package sizes (0.6.9, published October 2020):
 

@@ -3,7 +3,7 @@
 
 Fundamentally, JSX just provides syntactic sugar for the code line `JSX.createElement(component, props, ...children)` function. The transformation and conversion to JavaScript is made by the TypeScript transpiler. In case you use pure JavaScript, the best tool to compile JSX is Babel.
 
-> Be aware, that while the main framework with native JSX support is React, **@nyaf** has absolutely no relation to React, and the behavior of the code is different.
+> Be aware, that while the main framework with native JSX support is React, **ny@f** has absolutely no relation to React, and the behavior of the code is different.
 
 ### Introduction
 
@@ -29,9 +29,7 @@ JSX.createElement(
 
 ### JSX Scope
 
-Since JSX compiles into calls to `JSX.createElement`, the JSX class must also always be in scope from your TSX code.
-
-For example, both of the imports are necessary in this code, even though React and CustomButton are not directly referenced from JavaScript:
+Since JSX compiles into calls to `JSX.createElement`, the JSX class must also always be in scope from your TSX code. For example, both of the imports are necessary in this code, even though `JSX` is not directly referenced from code:
 
 ~~~tsx
 import JSX from '@nyaf/lib';
@@ -46,9 +44,9 @@ render() {
 
 > Note that this is a default export, so no curly braces here!
 
-If you don’t use a JavaScript bundler and load **@nyaf** from a `<script>` tag, it is already in scope as a global object named `JSX`.
+If you don’t use a JavaScript bundler and load **ny@f** from a `<script>` tag, it is already in scope as a global object named `JSX`.
 
-> The elements used in the JSX parts are registered globally and there is no additional import required. That's a fundamentally different behavior in comparison to React. In React the first argument is a type and the elements will render itself based on the given type. In **@nyaf** the first argument is a string, and the constructed element is pushed to the browser as string through `innerHTML`, and the browser renders the content directly using native code.
+> The elements used in the JSX parts are registered globally and there is no additional import required. That's a fundamentally different behavior in comparison to React. In React the first argument is a type and the elements will render itself based on the given type. In **ny@f** the first argument is a string, and the constructed element is pushed to the browser as string through `innerHTML`, and the browser renders the content directly using native code.
 
 ## Examples
 
@@ -64,7 +62,7 @@ This piece of code compiles into this JavaScript:
 JSX.createElement('div', {'class': 'sidebar'})
 ~~~
 
-If you want to test out how some specific JSX is converted into JavaScript, you can try out the online [Babel compiler](https://babeljs.io/repl). Be aware that in case of any JSX oriented tools not explicitly configured for **@nyaf** may create the code with the namespace `React`. In fact, the online Babel transpiler creates something like this:
+If you want to test out how some specific JSX is converted into JavaScript, you can try out the online [Babel compiler](https://babeljs.io/repl). Be aware that in case of any JSX oriented tools not explicitly configured for **ny@f** may create the code with the namespace `React`. In fact, the online Babel transpiler creates something like this:
 
 ~~~js
 React.createElement("div", {
@@ -72,7 +70,7 @@ React.createElement("div", {
 });
 ~~~
 
-That's pretty much the same, so it will work as learning tool, but keep the changed names in mind.
+That's pretty much the same, so it will work as learning tool, but keep the changed names in mind and configure your toolchain to use the namespace `JSX`.
 
 ### Specifying the Element Type
 
@@ -310,7 +308,7 @@ This can be useful to conditionally render elements. This TSX renders the <app-h
 </div>
 ~~~
 
-One caveat is that some “falsy” values, such as the 0 number, are still rendered by React. For example, this code will not behave as you might expect because 0 will be printed when *data.messages* is an empty array:
+One caveat is that some “falsy” values, such as the 0 number, are still rendered by the *@nyaf* render engine. For example, this code will not behave as you might expect because 0 will be printed when *data.messages* is an empty array:
 
 ~~~tsx
 <div>
@@ -338,3 +336,15 @@ Conversely, if you want a value like `false`, `true`, `null`, or `undefined` to 
 </div>
 ~~~
 
+### Fragments
+
+JSX needs a root element. That can be a real disadvantage if yoo want to create a bunch siblings in a component. To overcome this, the concept of a fragment exists. That's a virtual element that fulfills the root element requirement but renders into nothing. It's written as an empty element:
+
+~~~tsx
+<>
+  <li>First</li>
+  <li>Second</li>
+</>
+~~~
+
+The editor will recognize this a valid JSX syntax. The Fragment element (in React it's called `<React.Fragment>`) is not available in **ny@f**.

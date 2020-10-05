@@ -9,7 +9,7 @@ It's simple, has a flat learning curve, doesn't need any special tools. Keep you
 
 ## Preface
 
-This is an extension to the famous micro framework **@nyaf**. You need to build your project on top of **@nyaf**, then *@nyaf/forms* makes your life easier, again.
+This is an extension to the famous micro framework **ny@f**. You need to build your project on top of **ny@f**, then *@nyaf/forms* makes your life easier, again.
 
 # @nyaf Forms Module
 
@@ -86,7 +86,7 @@ The last (optional) parameter of the validation decorators is a custom error mes
 
 ## Template language
 
-**@nyaf** has a simple template language. For forms it's just one for any input element:
+**ny@f** has a simple template language. For forms it's just one for any input element:
 
 ~~~
 model: ModelBinder<UserViewModel>; // instance created by decorator

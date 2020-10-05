@@ -15,15 +15,20 @@ export class EffectsBinder {
   public static initialize(component: BaseComponent): EffectsBinder {
     const mbInstance = new EffectsBinder();
     EffectsBinder._instanceStore.set(component, mbInstance);
-    const isShadowed = !!component.constructor[Symbol.for('withShadow')];
+
     component.addEventListener('lifecycle', async (e: CustomEvent) => {
       // prevent other components in the render body from bubbling their lifeCycle
       // state to their parent. That happens if the binder binds to both, the parent and the children.
-      if (e.detail === LifeCycle.Load && component.__uniqueId__ === (e.target as any).__uniqueId__) {
-        mbInstance.lifeCycleHandler.call(mbInstance, component, isShadowed);
-      }
+      mbInstance.loadLifecycle.call(mbInstance, e.detail, e.target, component);
     });
     return mbInstance;
+  }
+
+  private loadLifecycle(lc: LifeCycle, target: BaseComponent, component: BaseComponent) {
+    const isShadowed = !!component.constructor[Symbol.for('withShadow')];
+    if (lc === LifeCycle.Load && component.__uniqueId__ === (target as any).__uniqueId__) {
+      this.lifeCycleHandler.call(this, component, isShadowed);
+    }
   }
 
   private lifeCycleHandler(component: BaseComponent, isShadowed: boolean): void {

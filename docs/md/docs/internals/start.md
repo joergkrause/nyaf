@@ -4,7 +4,7 @@ This chapter explains the inner workings and solutions used to create the framew
 
 ## The Base Component
 
-This is by far the most complex part. It delivers the support for all the features **@nyaf** has to offer.
+This is by far the most complex part. It delivers the support for all the features **ny@f** has to offer.
 
 Let's look into the inner parts step by step.
 

@@ -1,8 +1,8 @@
 import { Routes, Action, RouteDefinition, Route, RouteParams } from './routes';
-import { RouteEventTarget } from './navigate.event';
-import { CustomElement_Symbol_Selector } from '@nyaf/lib/consts/decorator.props';
+import { RouteEventTarget } from './routeeventtarget';
+import { CustomElement_Symbol_Selector } from '../../consts/decorator.props';
 import { matchAll } from '../utils';
-import { BaseComponent } from '@nyaf/lib/components/base.component';
+import { BaseComponent } from '../../components/base.component';
 
 const N_LINK = 'n-link';
 const N_LINK_SEL = `[${N_LINK}]`;

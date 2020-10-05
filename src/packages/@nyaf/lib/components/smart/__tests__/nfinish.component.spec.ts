@@ -20,6 +20,10 @@ describe('n-finish', () => {
     });
   });
 
+  afterAll(() => {
+    GlobalProvider.registeredElements = null;
+  });
+
   it('exists in global setting', () => {
     document.body.innerHTML = '<ul><li></li><n-finish></n-finish></ul>';
     const expectedNFinish = document.querySelector('n-finish');

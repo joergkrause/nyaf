@@ -4,9 +4,9 @@
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/joergisageek)
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 
-# Introducing @nyaf
+# Introducing ny@f
 
-The name @nyaf is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".
+The name ny@f is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".
 
 It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.
 
@@ -16,7 +16,7 @@ It's simple, has a flat learning curve, doesn't need any special tools. Keep you
 
 ## Documentation
 
-@nyaf is very well documented.
+ny@f is very well documented.
 
 * **[Home Page and Interactive Demos](https://nyaf.comzept.de/)**
 * **[Read the Manual](https://nyaf.readthedocs.io/en/latest/)**
@@ -29,15 +29,15 @@ It's simple, has a flat learning curve, doesn't need any special tools. Keep you
 
 ## Approach
 
-* @nyaf uses JSX/TSX syntax for quick component dev.
-* @nyaf supports Single Page App (SPA) directly.
-* @nyaf can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
-* @nyaf provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
-* @nyaf uses TypeScript from the beginning (and is written in TypeScript).
-* @nyaf creates a very small package.
-* @nyaf works well with WebPack and other common tools.
-* @nyaf uses standards, no weird or enforced CLI, no vendor lock in.
-* @nyaf uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
+* ny@f uses JSX/TSX syntax for quick component dev.
+* ny@f supports Single Page App (SPA) directly.
+* ny@f can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
+* ny@f provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
+* ny@f uses TypeScript from the beginning (and is written in TypeScript).
+* ny@f creates a very small package.
+* ny@f works well with WebPack and other common tools.
+* ny@f uses standards, no weird or enforced CLI, no vendor lock in.
+* ny@f uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
 
 > All three base parts (library, form binding, store) together have less than 100 KB; 26 KB zipped in total.
 
@@ -53,7 +53,7 @@ Yes, sure. First, assure you have NodeJs 10+ and **npm** version 6+.
 2. Enter this:
 
 ~~~sh
-npm i @nyaf/cli -g
+npm i ny@f/cli -g
 npx nyaf n
 ~~~
 
@@ -128,14 +128,14 @@ export class MainComponent extends BaseComponent<{}> {
 
 Let's go step by step through this simple component.
 
-First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from @nyaf and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLint know about this and will not complain.
+First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from ny@f and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLint know about this and will not complain.
 
-Second, the component has a base class. All **@nyaf** components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
+Second, the component has a base class. All **ny@f** components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
 
 Now, that the component is defined, it must be registered. In a file called *main.ts* (or wherever your app is bootstrapped) call this:
 
-~~~tsx
-import { GlobalProvider } from '@nyaf/lib;
+~~~ts
+import { GlobalProvider } from '@nyaf/lib';
 import { MainComponent } from './components/main.component';
 
 GlobalProvider.bootstrap({
@@ -145,7 +145,7 @@ GlobalProvider.bootstrap({
 
 That's it, the component works now. Use it in the HTML part:
 
-~~~tsx
+~~~html
 <body class="container">
   <app-main></app-main>
 </body>
@@ -155,7 +155,7 @@ That's it, the component works now. Use it in the HTML part:
 
 Once you have more components, it may look like this:
 
-~~~tsx
+~~~ts
 GlobalProvider.bootstrap({
   components: [
     ButtonComponent,
@@ -171,7 +171,7 @@ The main goal is to add template features to the JSX part.
 
 Components have a life cycle. Instead of several events, there is just one method you must override (or ignore if not needed):
 
-~~~tsx
+~~~ts
 lifeCycle(cycle: LifeCycle){
   if (cycle === LifeCycle.Load){
     // it's ready to go

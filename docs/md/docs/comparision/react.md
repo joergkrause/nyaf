@@ -1,6 +1,6 @@
 # nyaf and React
 
-Due to the nature of using TSX/JSX for templates it seems that React is quite close. But that's not entirely true. @nyaf has a lot to offer.
+Due to the nature of using TSX/JSX for templates it seems that React is quite close. But that's not entirely true. **ny@f** has a lot to offer.
 
 ## Components
 
@@ -19,9 +19,9 @@ class Welcome extends BaseComponent<{}> {
 }
 ~~~
 
-### @nyaf
+### ny@f
 
-This is a simple component on @nyaf. The name is defined separately, and so is the property definition. Apart from this, it's the same.
+This is a simple component on **ny@f**. The name is defined separately, and so is the property definition. Apart from this, it's the same.
 
 ~~~tsx
 @CustomElement('app-welcome')
@@ -44,7 +44,7 @@ React documentation says:
 
 > Never mutate `this.state` directly, as calling `setState()` afterwards may replace the mutation you made. Treat this.state as if it were immutable.
 
-In @nyaf it's a similar mechanism, but simpler. There is no distinguish between props and state, you define properties and held the state in it. There
+In **ny@f** it's a similar mechanism, but simpler. There is no distinguish between props and state, you define properties and held the state in it. There
 is no need to use the properties, then. That's why it's called `data` and purposefully `setData()`. However, you can set the state directly on the
 object and don't need to follow restrictions. It's a Proxy under the hat that handles the changes. If something isn't allows the property would be
 readonly and the editor shows this, no need to read documentation and remember it all the time.
@@ -59,7 +59,7 @@ In React a so-called synthetic event looks like this:
 </button>
 ~~~
 
-In @nyaf it's not that different:
+In **ny@f** it's not that different:
 
 ~~~tsx
 <button n-on-click={this.activateLasers}>
@@ -94,7 +94,7 @@ function Greeting(props) {
 }
 ~~~
 
-In @nyaf this would look a bit different.
+In **ny@f** this would look a bit different.
 
 ~~~tsx
 @CustomElement('user-greeting')
@@ -130,9 +130,9 @@ It's a little more verbose, but it's easier to read due to additional template f
 
 ## Lists
 
-As far as it's just JSX the handling is the same in React and @nyaf.
+As far as it's just JSX the handling is the same in React and **ny@f**.
 
-The *key* feature for rendering of list items according to element changes does not exist in @nyaf. The render engine will always render the whole
+The *key* feature for rendering of list items according to element changes does not exist in **ny@f**. The render engine will always render the whole
 list, if something changes. That's not that smart, but it reduces the template code drastically.
 
 

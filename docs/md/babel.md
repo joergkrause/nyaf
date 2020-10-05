@@ -1,6 +1,6 @@
 ## Project Configuration with Babel
 
-If you don't want to use TypeScript, you can still get the full power of **@nyaf**. All features that the package requires are provided by ES2017 and above. The recommended tool to setup a package for ES2015 any modern browser supports is _Babel_.
+If you don't want to use TypeScript, you can still get the full power of **ny@f**. All features that the package requires are provided by ES2017 and above. The recommended tool to setup a package for ES2015 any modern browser supports is _Babel_.
 
 > This section describes the setup and usage with pure ECMAScript.
 
@@ -49,7 +49,7 @@ This setup allows the compilation and packaging with WebPack, but the transforma
 
 ### Configuring Babel
 
-Next, configure Babel to support the features **@nyaf** needs. This is primarily the JSX namespaces, that are different from React. It's similar to the procedure described for TypeScript. However, the settings look a bit different.
+Next, configure Babel to support the features **ny@f** needs. This is primarily the JSX namespaces, that are different from React. It's similar to the procedure described for TypeScript. However, the settings look a bit different.
 
 You can use either _.babelrc_ or the settings in _package.json_. The following example shows the settings in _package.json_ (on root level).
 
@@ -76,7 +76,7 @@ You can use either _.babelrc_ or the settings in _package.json_. The following e
   }
 ```
 
-The core settings you'll need are _preset-react_ and _plugin-proposal-decorators_. The first activates the compilation for the _JSX_ namespace `JSX.createElement`. This is the exact and complete call to the **@nyaf** JSX module. The second parameter _pragmaFrag_ is the support for the `<></>` fragment syntax. In React it's _React.fragment_. In **@nyaf** it's just nothing, as the _JSX_ module treats a missing element information as fragment. To enforce this, we provide `null`.
+The core settings you'll need are _preset-react_ and _plugin-proposal-decorators_. The first activates the compilation for the _JSX_ namespace `JSX.createElement`. This is the exact and complete call to the **ny@f** JSX module. The second parameter _pragmaFrag_ is the support for the `<></>` fragment syntax. In React it's _React.fragment_. In **ny@f** it's just nothing, as the _JSX_ module treats a missing element information as fragment. To enforce this, we provide `null`.
 
 The decorator support is provided by a plugin. Babel takes care to compile this using a polyfill so it runs on the selected ECMAScript version.
 
@@ -396,7 +396,7 @@ import JSX from "@nyaf/lib";
 window.JSX = JSX;
 ~~~
 
-From now on you can avoid any of the JSX imports in all the component files. Please note, that the new import of JSX that was introduced in React 17 and is supported in Babel 7.9 and newer will be available in **@nyaf** beginning with version 0.7.0.
+From now on you can avoid any of the JSX imports in all the component files. Please note, that the new import of JSX that was introduced in React 17 and is supported in Babel 7.9 and newer will be available in **ny@f** beginning with version 0.7.0.
 
 ### Bundle Size
 
