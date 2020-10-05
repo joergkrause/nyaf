@@ -21,7 +21,7 @@ import { LifeCycle } from '../lifecycle.enum';
  * The occurrence of the element triggers the parent to re-render. This enforces the appearance of all elements in it, regardless their nature.
  *
  */
-export class NFinishComponent extends BaseComponent<{}> {
+export class NFinishComponent extends BaseComponent<any> {
 
   constructor() {
     super();

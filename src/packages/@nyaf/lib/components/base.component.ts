@@ -1,5 +1,5 @@
 import { LifeCycle } from './lifecycle.enum';
-import { GlobalProvider } from '../code/globalprovider';
+// import { GlobalProvider } from '../code/globalprovider';
 import { uuidv4, isObject, isNumber, isBoolean, isArray, isString } from '../code/utils';
 import { IDirective } from '../types/common';
 import { CTOR, CustomElement_Symbol_Selector, ShadowDOM_Symbol_WithShadow, UseParentStyles_Symbol, InjectServices_Symbol } from '../consts/decorator.props';
@@ -45,6 +45,11 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * Set by decorator {@link {CustomElement}}. It's the element's name in CSS selector style.
    */
   public static readonly [CustomElement_Symbol_Selector]: string;
+
+  /**
+   * Global directive registration that all component have access to.
+   */
+  public static registeredDirectives: Map<string, any>;
 
   /**
    * Observe all registered attributes. The source field is set by the {@link {Properties}} decorator.
@@ -297,8 +302,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
       $this = this;
     }
     // attach directives, if any
-    if (GlobalProvider.registeredDirectives) {
-      GlobalProvider.registeredDirectives.forEach((directive: IDirective, selector: string) => {
+    if (BaseComponent.registeredDirectives) {
+      BaseComponent.registeredDirectives.forEach((directive: IDirective, selector: string) => {
         $this.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
           const d = new directive(hostElement);
         });

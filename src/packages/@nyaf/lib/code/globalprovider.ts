@@ -7,9 +7,10 @@ import { LifeCycle } from '../components/lifecycle.enum';
 import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
 import { IBaseDirective } from './basedirective';
-import * as smartComponents from '../components/smart';
 import { Events_Symbol_Eventlist, Extends_Symbol, CustomElement_Symbol_Selector, Expands_Symbol } from '../consts/decorator.props';
 import { BaseComponent } from '../components/base.component';
+import { NFinishComponent } from '../components/smart/nfinish.component';
+import { NOutletComponent } from '../components/smart/noutlet.component';
 
 /**
  * Main support class that provides all global functions. You must call at least the {@link bootstrap} method to register components.
@@ -17,7 +18,6 @@ import { BaseComponent } from '../components/base.component';
 export class GlobalProvider {
 
   public static registeredElements: Array<string> = [];
-  public static registeredDirectives: Map<string, IDirective> = new Map();
   private static tagExpander: Map<string, IExpander> = new Map();
   private static bootstrapProps: BootstrapProp;
   private static router: Router = Router.getInstance();
@@ -59,9 +59,6 @@ export class GlobalProvider {
 
   /** @ignore */
   private static registerInternal() {
-    // register smart components
-    customElements.define('n-outlet', smartComponents.NOutletComponent);
-    customElements.define('n-finish', smartComponents.NFinishComponent);
     // register custom components
     GlobalProvider.bootstrapProps.components.forEach(c => {
       // add to browsers web component registry
@@ -80,20 +77,25 @@ export class GlobalProvider {
       });
     }
     if (GlobalProvider.bootstrapProps.directives) {
+      BaseComponent.registeredDirectives = new Map();
       GlobalProvider.bootstrapProps.directives.forEach((bd: IBaseDirective) => {
-        GlobalProvider.registeredDirectives.set(bd[Symbol.for('DirectiveSelector')], bd as unknown as IDirective);
+        BaseComponent.registeredDirectives.set(bd[Symbol.for('DirectiveSelector')], bd as unknown as IDirective);
       });
     }
+    // register smart components
+    customElements.define('n-outlet', NOutletComponent);
+    customElements.define('n-finish', NFinishComponent);
+
     // register events
     events.map(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
 
-    // that's not enough, we need to wait for all components' async render process
+    // that's not enough, we need to wait for all components' render process
     const customComponents: Promise<void>[] = [];
     // loop through all alread statically set components
     GlobalProvider.bootstrapProps.components.forEach(c => {
       // get all appearances
       [].slice.call(document.getElementsByTagName(c[CustomElement_Symbol_Selector])).forEach((e: BaseComponent) => {
-        // make a promise to wait for the async renderer
+        // make a promise to wait for the renderer
         const p = new Promise<void>((resolve) => {
           // if already done it's okay for us (mostly, that's just the main component)
           if (e.isInitalized) {
