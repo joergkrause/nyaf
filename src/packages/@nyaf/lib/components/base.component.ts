@@ -151,7 +151,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           return Number.parseFloat(this.getAttribute(prop));
         }
         if (this.attributes.getNamedItem(`n-type-${prop}`) && this.attributes.getNamedItem(`n-type-${prop}`).value === 'array') {
-          return JSON.parse(this.attributes.getNamedItem(`n-type-${prop}-value`).value);
+          return JSON.parse(this.getAttribute(prop));
         }
         return obj[prop];
       } catch (err) {
@@ -172,7 +172,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
             value = JSON.stringify(value);
           }
           this.setAttribute(`n-type-${prop}`, 'array');
-          this.setAttribute(`n-type-${prop}-value`, value);
           (<any>obj)[prop] = new Proxy(JSON.parse(value), {
             get(target, innerProp: string) {
               const val = target[innerProp];
@@ -271,15 +270,16 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * Fires the {@link LifeCycle}.PreRender before and the {@link LifeCycle}.Load event after the content is being written.
    * The {@link lifeCycle} hook is called accordingly.
    */
-  protected async setup() {
+  protected setup(): void {
     this.lifeCycleState = LifeCycle.PreRender;
     const childLoaders: Array<any> = [];
     this.lifeCycleDetector(this.childNodes, childLoaders);
     let $this: BaseComponent = null;
-    if ((<any>this.constructor)[ShadowDOM_Symbol_WithShadow]) {
+    if ((<any>this.constructor)[ShadowDOM_Symbol_WithShadow] !== undefined) {
       if (!this.shadowRoot) {
+        const mode = (<any>this.constructor)[ShadowDOM_Symbol_WithShadow] ? 'open' : 'closed';
         // first time call we create the shadow root
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({ mode: mode });
         if ((<any>this.constructor)[UseParentStyles_Symbol] && (<any>this.constructor)[globalStyle_Symbol]) {
           // copy styles to shadow if shadowed and there is something to add
           const style = document.createElement('style');
@@ -292,11 +292,11 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           this.shadowRoot.childNodes.item(index).remove();
         };
       }
+      $this = this.shadowRoot as unknown as BaseComponent;
       const template = document.createElement('template');
       template.innerHTML = this.render();
       template.id = this.__uniqueId__;
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
-      $this = this.shadowRoot as unknown as BaseComponent;
+      $this.appendChild(template.content.cloneNode(true));
     } else {
       this.innerHTML = this.render();
       $this = this;

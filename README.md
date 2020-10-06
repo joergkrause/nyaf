@@ -6,7 +6,7 @@
 
 # Introducing ny@f
 
-The name ny@f is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library".
+The name ny@f is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library". If you want to talk about, pronunce it like 'knife' (naɪf, and think of a swiss knife, it's quite close).
 
 It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.
 
@@ -29,15 +29,15 @@ ny@f is very well documented.
 
 ## Approach
 
-* ny@f uses JSX/TSX syntax for quick component dev.
-* ny@f supports Single Page App (SPA) directly.
-* ny@f can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
-* ny@f provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
-* ny@f uses TypeScript from the beginning (and is written in TypeScript).
-* ny@f creates a very small package.
-* ny@f works well with WebPack and other common tools.
-* ny@f uses standards, no weird or enforced CLI, no vendor lock in.
-* ny@f uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
+* **ny@f** uses JSX/TSX syntax for quick component dev.
+* **ny@f** supports Single Page App (SPA) directly.
+* **ny@f** can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
+* **ny@f** provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
+* **ny@f** uses TypeScript from the beginning (and is written in TypeScript).
+* **ny@f** creates a very small package.
+* **ny@f** works well with WebPack and other common tools.
+* **ny@f** uses standards, no weird or enforced CLI, no vendor lock in.
+* **ny@f** uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
 
 > All three base parts (library, form binding, store) together have less than 100 KB; 26 KB zipped in total.
 
@@ -555,10 +555,10 @@ One option to activate the Shadow DOM:
 @ShadowDOM()
 ~~~
 
-The property can be set explicitly. The default is `false`, hence if the decorator is being omitted, the component is ____not____ shadowed.
+The property can set the mode explicitly. The default is `true`, hence if nothing is set the mode is 'open'. To set to close use the value `false`.
 
 ~~~tsx
-@ShadowDOM(true | false)
+@ShadowDOM(false)
 ~~~
 
 Another interesting option controls the style behavior:

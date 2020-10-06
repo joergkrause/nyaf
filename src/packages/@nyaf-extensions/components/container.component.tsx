@@ -19,8 +19,8 @@ export interface ContainerProps {
  * </div>
  */
 @Properties<ContainerProps>({ classList: ''})
-@CustomElement('app-container')
-export abstract class ContainerComponent extends BaseComponent<ContainerProps> {
+@CustomElement('n-container')
+export class ContainerComponent extends BaseComponent<ContainerProps> {
 
   constructor() {
     super();

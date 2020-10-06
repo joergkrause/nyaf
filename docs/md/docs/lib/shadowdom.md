@@ -9,10 +9,10 @@ One option to activate the Shadow DOM is using this decorator:
 @ShadowDOM()
 ~~~
 
-A parameter can be set explicitly. This is some kind of coding style, a more expressive form.
+The property can set the mode explicitly. The default is `true`, hence if nothing is set the mode is 'open'. To set to close use the value `false`.
 
-~~~ts
-@ShadowDOM(true | false)
+~~~tsx
+@ShadowDOM(false)
 ~~~
 
 Another interesting option controls the style behavior:
@@ -54,7 +54,7 @@ import JSX, {
   LifeCycle } from '@nyaf/lib';
 
 @CustomElement('app-slot-tab')
-@ShadowDOM(true)
+@ShadowDOM()
 export class SlotTabComponent extends BaseComponent<{}> {
 
   private _title: string;
@@ -124,7 +124,7 @@ interface IMaterialTabsDefaultConfig {
 // tslint:disable-next-line:max-classes-per-file
 @CustomElement('app-slot-tabs')
 @Events(['all'])
-@ShadowDOM(true)
+@ShadowDOM()
 @UseParentStyles(true)
 export class SlotTabsComponent extends BaseComponent<{}> {
 

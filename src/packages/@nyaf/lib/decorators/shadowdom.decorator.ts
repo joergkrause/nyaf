@@ -5,12 +5,12 @@
  *
  * If decorated, the component uses or not uses shadow DOM according the parameter.
  *
- * @param useShadow     set to true
+ * @param closed  Set to true if you want a closed component. Default is `false`.
  */
-export function ShadowDOM(useShadow: boolean = true) {
+export function ShadowDOM(closed: boolean = false) {
     // the original decorator
     function shadowDOMInternal(target: Object): void {
-      shadowDOMInternalSetup(target, useShadow);
+      shadowDOMInternalSetup(target, closed);
     }
 
     // return the decorator
@@ -18,10 +18,10 @@ export function ShadowDOM(useShadow: boolean = true) {
 }
 
 /** @ignore */
-function shadowDOMInternalSetup(target: any, useShadow: boolean) {
+function shadowDOMInternalSetup(target: any, closed: boolean) {
 
     Object.defineProperty(target, ShadowDOM_Symbol_WithShadow, {
-        value: useShadow,
+        value: !closed,
         enumerable: false,
         configurable: false
     });

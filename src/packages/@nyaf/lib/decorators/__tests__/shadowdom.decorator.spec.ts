@@ -12,22 +12,22 @@ test('ShadowDOM decorator', () => {
   expect(mockObj[ShadowDOM_Symbol_WithShadow]).toEqual(true);
 });
 
-test('ShadowDOM decorator true', () => {
+test('ShadowDOM decorator open', () => {
   const dec = ShadowDOM(true);
   expect(dec).not.toBeUndefined();
   expect(isFunction(dec)).toBeTruthy();
   const mockObj: any = {};
   dec(mockObj);
   expect(mockObj[ShadowDOM_Symbol_WithShadow]).not.toBeUndefined();
-  expect(mockObj[ShadowDOM_Symbol_WithShadow]).toEqual(true);
+  expect(mockObj[ShadowDOM_Symbol_WithShadow]).toEqual(false);
 });
 
-test('ShadowDOM decorator false', () => {
+test('ShadowDOM decorator closed', () => {
   const dec = ShadowDOM(false);
   expect(dec).not.toBeUndefined();
   expect(isFunction(dec)).toBeTruthy();
   const mockObj: any = {};
   dec(mockObj);
   expect(mockObj[ShadowDOM_Symbol_WithShadow]).not.toBeUndefined();
-  expect(mockObj[ShadowDOM_Symbol_WithShadow]).toEqual(false);
+  expect(mockObj[ShadowDOM_Symbol_WithShadow]).toEqual(true);
 });

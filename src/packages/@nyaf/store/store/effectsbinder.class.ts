@@ -25,8 +25,8 @@ export class EffectsBinder {
   }
 
   private loadLifecycle(lc: LifeCycle, target: BaseComponent, component: BaseComponent) {
-    const isShadowed = !!component.constructor[Symbol.for('withShadow')];
     if (lc === LifeCycle.Load && component.__uniqueId__ === (target as any).__uniqueId__) {
+      const isShadowed = !!component.constructor[Symbol.for('withShadow')];
       this.lifeCycleHandler.call(this, component, isShadowed);
     }
   }

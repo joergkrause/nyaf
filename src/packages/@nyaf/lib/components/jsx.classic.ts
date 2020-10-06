@@ -64,7 +64,6 @@ const JSX: any = {
               // if false, remove element, but keep a parent reference
               // if true, use parent reference to re-add the element
               return `n-bind='${value.name}'`;
-              break;
             case 'n-repeat':
               try {
                 const data: [] = JSON.parse(props['n-repeat']);

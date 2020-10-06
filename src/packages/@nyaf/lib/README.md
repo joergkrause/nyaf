@@ -555,10 +555,10 @@ One option to activate the Shadow DOM:
 @ShadowDOM()
 ~~~
 
-The property can be set explicitly. The default is `false`, hence if the decorator is being omitted, the component is ____not____ shadowed.
+The property can set the mode explicitly. The default is `true`, hence if nothing is set the mode is 'open'. To set to close use the value `false`.
 
 ~~~tsx
-@ShadowDOM(true | false)
+@ShadowDOM(false)
 ~~~
 
 Another interesting option controls the style behavior:

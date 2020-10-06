@@ -1,5 +1,4 @@
 import { NOutletComponent } from '../noutlet.component';
-import { BaseComponent } from '../../base.component';
 
 test('n-outlet', () => {
   customElements.define('n-outlet', NOutletComponent);
