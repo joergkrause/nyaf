@@ -11,6 +11,7 @@ import { DisplayBindingHandler } from './handlers/displaybindinghandler.class';
 import { ValidatorBinding } from './validatorbinding.class';
 import { ViewUpdate } from '../interfaces/viewupdate.interface';
 import { MinLength, MaxLength, Pattern, Compare, Range, Email, Required } from '..';
+import { Custom } from '../decorators/forms/val-custom.decorator';
 
 const withShadow = Symbol.for('withShadow');
 
@@ -182,6 +183,7 @@ export class ModelBinder<VM extends object> {
             this.createValidationModel(modelInstance, mbInstance, Pattern.internal, p);
             this.createValidationModel(modelInstance, mbInstance, Range.internal, p);
             this.createValidationModel(modelInstance, mbInstance, Compare.internal, p);
+            this.createValidationModel(modelInstance, mbInstance, Custom.internal, p);
           });
 
         Object.keys(modelInstance).forEach(prop => mbInstance.notify(prop));
