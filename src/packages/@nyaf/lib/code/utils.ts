@@ -218,10 +218,10 @@ export function from<T extends Object>(data: T[]): string {
 }
 
 /**
- * Select a property from the data defined by {@link from}
- * @param nameFunction Select expressionl like c => c.name
+ * Select a property from the data defined by {@link from}, used in the `n-repeat` attribute.
+ * @param nameFunction Use an expression like `c => c.name`
  * @typeParam T The view model type
  */
 export function select<T extends Object>(nameFunction: ((obj: T) => any) | (new(...params: any[]) => T)): string {
-  return nameFunction.toString();
+  return `@@${nameFunction.toString().substr(nameFunction.toString().indexOf('.') + 1)}@@`;
 }

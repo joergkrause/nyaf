@@ -11,6 +11,7 @@ import { Events_Symbol_Eventlist, Extends_Symbol, CustomElement_Symbol_Selector,
 import { BaseComponent } from '../components/base.component';
 import { NFinishComponent } from '../components/smart/nfinish.component';
 import { NOutletComponent } from '../components/smart/noutlet.component';
+import { NBindComponent } from '../components/smart/nbind.component';
 
 /**
  * Main support class that provides all global functions. You must call at least the {@link bootstrap} method to register components.
@@ -85,6 +86,7 @@ export class GlobalProvider {
     // register smart components
     customElements.define('n-outlet', NOutletComponent);
     customElements.define('n-finish', NFinishComponent);
+    customElements.define('n-bind', NBindComponent);
 
     // register events
     events.map(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));

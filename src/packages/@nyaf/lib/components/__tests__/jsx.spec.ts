@@ -63,15 +63,95 @@ describe('JSX classic engine', () => {
     expect(e).toEqual('<div n-on-click=\'this.clickTest\'></div>');
   });
 
-  it('n-repeat', () => {
+  it('n-on-click with lambda', () => {
+    function clickTest() { }
+    const e = JSX.createElement('div', { 'n-on-click': e => this.clickTest() });
+    expect(e).toEqual('<div n-on-click=\'e => this.clickTest()\'></div>');
+  });
+
+  it('n-repeat throws error with wrong data', () => {
     const mockConsole = {
       error: jest.fn() // (text: string) => {}
     };
     const legacy = console.error;
     console.error = mockConsole.error;
     const spyError = jest.spyOn(mockConsole, 'error');
-    const e = JSX.createElement('div', { 'n-repeat': [1, 2, 3] });
+    const e = JSX.createElement('div', { 'n-repeat': "[1, 2, 3]" });
     expect(spyError).toBeCalled();
+    console.error = legacy;
+  });
+
+  it('n-repeat with proper data', () => {
+    const mockConsole = {
+      error: jest.fn() // (text: string) => {}
+    };
+    const legacy = console.error;
+    console.error = mockConsole.error;
+    const spyError = jest.spyOn(mockConsole, 'error');
+    const mockData = JSON.stringify([{
+      foo: 1
+    }, {
+      foo: 2
+    }, {
+      foo: 3
+    }]);
+    const e = JSX.createElement('div', {
+      'data-item': 'foo',
+      'n-repeat': mockData
+    });
+    expect(spyError).not.toBeCalled();
+    expect(e).toEqual("<div data-item='1' n-type-data-item='number'></div><div data-item='2' n-type-data-item='number'></div><div data-item='3' n-type-data-item='number'></div>");
+    console.error = legacy;
+  });
+
+  it('n-repeat with proper data and keep static props', () => {
+    const mockConsole = {
+      error: jest.fn() // (text: string) => {}
+    };
+    const legacy = console.error;
+    console.error = mockConsole.error;
+    const spyError = jest.spyOn(mockConsole, 'error');
+    const mockData = JSON.stringify([{
+      foo: 1
+    }, {
+      foo: 2
+    }, {
+      foo: 3
+    }]);
+    const e = JSX.createElement('div', {
+      'data-item': 'foo',
+      'data-text': 'text',
+      'n-repeat': mockData
+    });
+    expect(spyError).not.toBeCalled();
+    expect(e).toEqual("<div data-item='1' n-type-data-item='number' data-text='text'></div><div data-item='2' n-type-data-item='number' data-text='text'></div><div data-item='3' n-type-data-item='number' data-text='text'></div>");
+    console.error = legacy;
+  });
+
+  it('n-repeat with multiple bindings', () => {
+    const mockConsole = {
+      error: jest.fn() // (text: string) => {}
+    };
+    const legacy = console.error;
+    console.error = mockConsole.error;
+    const spyError = jest.spyOn(mockConsole, 'error');
+    const mockData = JSON.stringify([{
+      foo: 1,
+      bar: 'A'
+    }, {
+      foo: 2,
+      bar: 'B'
+    }, {
+      foo: 3,
+      bar: 'C'
+    }]);
+    const e = JSX.createElement('div', {
+      'data-item': 'foo',
+      'data-text': 'bar',
+      'n-repeat': mockData
+    });
+    expect(spyError).not.toBeCalled();
+    expect(e).toEqual("<div data-item='1' n-type-data-item='number' data-text='A'></div><div data-item='2' n-type-data-item='number' data-text='B'></div><div data-item='3' n-type-data-item='number' data-text='C'></div>");
     console.error = legacy;
   });
 
@@ -129,5 +209,12 @@ describe('JSX classic engine', () => {
     const e = JSX.createElement('', null, JSX.createElement('div'));
     expect(e).toEqual('<div></div>');
   });
+
+  it('Undefined value', () => {
+    const e = JSX.createElement('div', { 'param': undefined });
+    expect(e).toEqual('<div param=\'param\'></div>');
+  });
+
+
 
 })
