@@ -107,7 +107,7 @@ describe('util function collection', () => {
     class MockModel {
       name: string = 'test';
     }
-    expect(select<MockModel>((d) => d.name)).toMatch('(d) => d.name');
+    expect(select<MockModel>((d) => d.name)).toMatch('@@name@@');
   });
 
 });
