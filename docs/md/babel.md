@@ -28,9 +28,9 @@ Next add the following dependencies to your project's _package.json_. This is th
 
 ```json
 "dependencies": {
-    "@nyaf/forms": "^0.6.9",
-    "@nyaf/lib": "^0.6.9",
-    "@nyaf/store": "^0.6.9",
+    "@nyaf/forms": "^0.6.10",
+    "@nyaf/lib": "^0.6.10",
+    "@nyaf/store": "^0.6.10",
     "babel-loader": "^8.1.0"
   },
   "devDependencies": {
