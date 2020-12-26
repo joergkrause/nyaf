@@ -16,7 +16,7 @@ export class ValueBindingHandler implements IBindingHandler {
       this.listener(binding);
     });
   }
-  react(binding: Binding, property?: string): void {
+  react(binding: Binding): void {
     if ((binding.el as HTMLInputElement).value !== binding.value) {
       (binding.el as HTMLInputElement).value = binding.value;
     }

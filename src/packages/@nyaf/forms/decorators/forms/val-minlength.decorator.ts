@@ -49,3 +49,4 @@ function minLengthInternalSetup(target: any, key: string, len: number, msg?: str
 }
 
 MinLength.internal = 'minlength';
+MinLength.err = '__err__minlength__';

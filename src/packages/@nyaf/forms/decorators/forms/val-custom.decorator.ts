@@ -41,4 +41,5 @@ function customInternalSetup(target: any, key: string, cb: (o: any) => boolean, 
   });
 }
 
-Custom.internal = 'custome';
+Custom.internal = 'custom';
+Custom.err = '__err__custom__';

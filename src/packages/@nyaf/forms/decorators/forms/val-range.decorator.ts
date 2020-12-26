@@ -64,3 +64,4 @@ function rangeInternalSetup(target: any, key: string, from: number | Date, to: n
 }
 
 Range.internal = 'range';
+Range.err = '__err__range__';

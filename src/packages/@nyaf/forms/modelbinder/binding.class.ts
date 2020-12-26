@@ -1,5 +1,4 @@
 import { ModelBinder } from './modelbinder.class';
-import { ModelState } from './modelstate.class';
 
 /**
  * The binder is used to actually bind an elements property to a scope.
@@ -15,24 +14,24 @@ export class Binding {
    */
   constructor(
     protected modelProperty: string,
-    protected handler: string,
+    protected handlerKey: string,
     protected binderInstance: ModelBinder<any>,
     public el: HTMLElement
   ) {
   }
   /**
    * Define the binder
-   * @param property An options property, sued to assign to a specific proeprty in multi-attribute binding
+   * @param property An optional property, used to assign to a specific property in multi-attribute binding
    */
   public bind(property?: string) {
-    const bindingHandler = this.binderInstance.handlers[this.handler];
+    const bindingHandler = this.binderInstance.handlers[this.handlerKey];
     if (bindingHandler) {
-      bindingHandler.bind(this);
+      bindingHandler.bind && bindingHandler.bind(this); // bind is optional
       this.binderInstance.subscribe(this.modelProperty, () => {
         bindingHandler.react(this, property);
       });
     } else {
-      throw new Error(`The binding for ${this.handler} was not defined. Implement and assign handler before you initialize the form.`);
+      throw new Error(`The binding for ${this.handlerKey} was not defined. Implement and assign handler before you initialize the form.`);
     }
   }
   public set value(value) {

@@ -103,7 +103,6 @@ if (!args || args.length < 1) {
   console.log('  Available templates (use ONE of them): c | component, s | service, e | expander, g | globalstore, d | directive'.yellow);
   console.log('');
   console.log('The name may contain folder information'.yellow);
-  return 0;
 }
 
 const CHOICES = fs.readdirSync(`${__dirname}/templates`);

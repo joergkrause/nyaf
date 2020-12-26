@@ -2,8 +2,6 @@ const dev = process.env.NODE_ENV === 'dev';
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin').TsconfigPathsPlugin;
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const webpackConfig = {
@@ -24,7 +22,10 @@ const webpackConfig = {
     rules: [
       {
         test: /\.ts|\.tsx$/,
-        loader: 'ts-loader?configFile=tsconfig.webpack.json'
+        loader: 'ts-loader',
+        options: {
+          configFile: 'tsconfig.webpack.json'
+        }
       },
     ]
   },
@@ -75,7 +76,6 @@ const webpackConfig = {
         { from: '**/*.d.ts', to: '@nyaf/store', context: path.resolve(__dirname, 'out-tsc/@nyaf/store') },
         {
           from: '@nyaf/cli/**/*',
-          flatten: false,
           context: './src/packages',
           to: '',
           toType: 'dir'

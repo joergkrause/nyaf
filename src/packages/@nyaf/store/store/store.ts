@@ -144,18 +144,23 @@ export class Store<ST extends object = any> {
     if (!this._subscribers.get(storeProperty)) {
       this._subscribers.set(storeProperty, new Map());
     }
+    console.log('*** Subscribe to store for ' + storeProperty);
     const setOfSubscribers = this._subscribers.get(storeProperty);
+    console.log('*** Subscribe to store sos ' + setOfSubscribers.values.length);
     const idx = uuidv4();
     setOfSubscribers.set(idx, subscription);
     this._subscribers.set(storeProperty, setOfSubscribers);
     const that = this;
     return {
       remove: () => {
+        console.log('*** Remove subscribe to store for ' + storeProperty);
         // observer
         that._subscribers.get(storeProperty).get(idx).remove();
         // subscriber
         that._subscribers.get(storeProperty).delete(idx);
-      }
+        const setOfSubscribers = this._subscribers.get(storeProperty);
+        console.log('*** After remove to store sos ' + setOfSubscribers.values.length);
+          }
     };
   }
 

@@ -15,6 +15,19 @@ import { Custom } from '../decorators/forms/val-custom.decorator';
 
 const withShadow = Symbol.for('withShadow');
 
+const treeWalker = document.createTreeWalker(
+  document.body,
+  NodeFilter.SHOW_COMMENT,
+  {
+    acceptNode: function (node) {
+      if (node.textContent.indexOf('#n-bind=') > 0) {
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
+  },
+  false
+);
+
 /**
  * The modelbinder serves two purposes:
  * First, the bi-directional data binding. Second, the converting of validation decorators into validation instructions.
@@ -103,6 +116,7 @@ export class ModelBinder<VM extends object> {
     const mbInstance = new ModelBinder();
     mbInstance.handlers['value'] = new ValueBindingHandler();
     mbInstance.handlers['innerText'] = new TextBindingHandler();
+    mbInstance.handlers['textContent'] = new TextBindingHandler();
     mbInstance.handlers['checked'] = new CheckedBindingHandler();
     mbInstance.handlers['default'] = new DefaultBindingHandler();
     mbInstance.handlers['visibility'] = new VisibilityBindingHandler();
@@ -111,6 +125,24 @@ export class ModelBinder<VM extends object> {
     if (handler) {
       Object.assign(mbInstance.handlers, handler);
     }
+    const handlerRetrieveFunc = (bindingHandler: string, el: HTMLElement | Text) => {
+      let handlerKey = Object.keys(mbInstance.handlers).filter(k => mbInstance.handlers[k].constructor.name === bindingHandler || k === bindingHandler).shift();
+      if (!handlerKey) {
+        // fallback to defaults
+        switch (el.constructor.name) {
+          case 'HTMLInputELement':
+            handlerKey = 'value';
+            break;
+          case 'Text':
+            handlerKey = 'innerText';
+            break;
+          default:
+            handlerKey = 'innerText';
+            break;
+        }
+      }
+      return handlerKey;
+    };
     ModelBinder._instanceStore.set(component, mbInstance);
     // Look for @Viewmodel decorator
     const modelInstanceConstructorHelper: any = component.constructor['__model__ctor__'];
@@ -136,11 +168,15 @@ export class ModelBinder<VM extends object> {
             // the bind<>() function creates something like "n-bind:...." while the rest is as usually
             const toBind = Array.from(el.attributes).filter(a => a.value.startsWith('n-bind'));
             toBind.forEach(attrBind => {
-              // `n-bind:${sourceProperty}:${realTarget}:`
+              // `n-bind:${modelProperty}:BindingHandlerName:DecoratorKey`
+              // modelProperty: The property of view model we pull the value from, such as "userName"
+              // bindingHandler: The binder, that provides the bindig logic
+              // targetuiAttribute: Not used here
+              // decoratorKey: (optional) the binding instruction, if exists, the value is pulled from the decorator instead from model (for label binding for example)
               expressionParts = attrBind.value.split(':');
-              const [, scopeKey, handlerClass, decoratorKey] = expressionParts;
-              const bindingHandler = Object.keys(mbInstance.handlers).filter(k => mbInstance.handlers[k].constructor.name === handlerClass).shift();
-              ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), bindingHandler, decoratorKey?.trim(), attrBind.name);
+              const [, modelProperty, bindingHandler, ,decoratorKey] = expressionParts;
+              const handlerKey = handlerRetrieveFunc(bindingHandler, el);
+              ModelBinder.setBinding(modelInstance, mbInstance, el, modelProperty?.trim(), handlerKey, attrBind.name, decoratorKey?.trim());
             });
           } else {
             expressionParts = el.getAttribute('n-bind').split(':');
@@ -152,27 +188,43 @@ export class ModelBinder<VM extends object> {
                 toVal.forEach(attrBind => {
                   // `n-val:${sourceProperty}:${Validator}:${BindingInstruction}`
                   expressionParts = attrBind.value.split(':');
-                  // scopeKey is the property (email, userName, ...)
-                  // Decoratorkeys all that apply (Required, Email, MaxLength) to that application
-                  const [, scopeKey, decoratorKey, binderKey] = expressionParts;
+                  // modelProperty is the property (email, userName, ...)
+                  // Decoratorkeys all that apply (Required, Email, MaxLength) to that application (only one)
+                  const [, modelProperty, decoratorKey, bindingHandler] = expressionParts;
+                  const handlerKey = handlerRetrieveFunc(bindingHandler, el);
                   // bind the model to validation action
-                  const binding = new ValidatorBinding(scopeKey, binderKey, mbInstance, decoratorKey.toLowerCase(), el);
-                  mbInstance.subscribe(scopeKey, (key: string) => {
-                    binding.value = modelInstance[`__isValid__${decoratorKey}__${key}`];
+                  const binding = new ValidatorBinding(modelProperty, handlerKey, mbInstance, decoratorKey.toLowerCase(), el);
+                  mbInstance.subscribe(modelProperty, (modelProperty: string) => {
+                    binding.value = modelInstance[`__isValid__${decoratorKey}__${modelProperty}`];
                   });
                   // bind the error messages to target element
-                  ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), 'innerText', `err__${decoratorKey}`, 'innerText');
+                  ModelBinder.setBinding(modelInstance, mbInstance, el, modelProperty?.trim(), handlerKey, null, `__err__${decoratorKey}__`);
                 });
               } else {
-                const [bindingHandler, scopeKey, decoratorKey] = expressionParts;
-                ModelBinder.setBinding(modelInstance, mbInstance, el, scopeKey?.trim(), bindingHandler?.trim(), decoratorKey?.trim());
+                // modelProperty: The property of view model we pull the value from, such as "userName"
+                // bindingHandler: The attribute the value is bound to, such as "innerText"
+                // decoratorKey: (optional) the binding instruction, if exists, the value is pulled from the decorator instead from model (for label binding for example)
+                const [modelProperty, bindingHandler, targetProperty, decoratorKey] = expressionParts;
+                const handlerKey = handlerRetrieveFunc(bindingHandler, el);
+                ModelBinder.setBinding(modelInstance, mbInstance, el, modelProperty?.trim(), handlerKey, targetProperty, decoratorKey?.trim());
               }
             }
             if (expressionParts.length === 1) {
-              throw new Error('[n-bind] is not properly formatted. Requires at least two parts: n-bind="targetProperty: sourceProperty". Alternatively leave empty and and attribute binders using {bind<T>()} instructions.');
+              throw new Error('[n-bind] is not properly formatted. Requires at least two parts: n-bind="sourceProperty:targetProperty". Alternatively leave empty and and attribute binders using {bind<T>()} instructions.');
             }
           }
         });
+        const nodeList = [];
+        while(treeWalker.nextNode()) nodeList.push(treeWalker.currentNode);
+        if (nodeList.length) {
+          nodeList.forEach((node: Comment) => {
+            const data = (node as Comment).data.split('=')[1];
+            const expressionParts = data.split(':');
+            const [, modelProperty, decoratorKey] = expressionParts;
+            const el = document.createTextNode(modelInstance[`${decoratorKey}${modelProperty}`]);
+            node.parentElement.appendChild(el);
+          });
+        }
         // register the validators for binding
         Object.keys(modelInstance)
           .forEach(p => {
@@ -252,22 +304,35 @@ export class ModelBinder<VM extends object> {
     });
   }
 
-  private static setBinding(modelInstance: any, mbInstance: ModelBinder<any>, el: HTMLElement, scopeKey: string, bindingHandler: string, decoratorKey?: string, prop?: string) {
+  /**
+   * @internal
+   *
+   * @param modelInstance
+   * @param mbInstance
+   * @param el
+   * @param modelProperty The property of the view model we bind to. if a decoratorkey is provided, this defines where the decorator comes from and then we bind to the decorators value, not the model's property value
+   * @param handlerKey The key of a handler, that is able to create a binding connection between a ui attribute (innerText, value, textContent, ...) in HTML and the model property
+   * @param uiElementAttribute Usually the handlerKey defines a binding handler that knows how to bind the ui (what HTML tag attribute). In case of multiple bindings this must be specified
+   * @param decoratorKey The name of the decorator and the key that is the property of the decorator. Some decorsators have multiple props, such ass "text", and "order" of the "Display" decorator. This is optional, if ommitted the viewmodel property value is used directly.
+   */
+  private static setBinding(modelInstance: any, mbInstance: ModelBinder<any>, el: HTMLElement, modelProperty: string, handlerKey: string, uiElementAttribute: string, decoratorKey?: string) {
     // decorator bindings
-    if (decoratorKey && prop) {
-      // key is: display.text or display.desc
-      const decoratorProp = `__${decoratorKey}__${scopeKey}`;
+    if (decoratorKey) {
+      // key is: display.text or display.desc, while the decorator is responsible to provide it's internally used replacements, such as "__displayText__"
+      const decoratorProp = `${decoratorKey}${modelProperty}`;
       if (modelInstance.constructor.prototype[decoratorProp]) {
-        const binding = new Binding(decoratorProp, bindingHandler, mbInstance, el);
-        binding.bind(prop);
-        // no value assign as all decorators are readonly
+        const binding = new Binding(decoratorProp, handlerKey, mbInstance, el);
+        binding.bind(uiElementAttribute);
+        // no value assign as all UI decorators are readonly
+      } else {
+        throw new Error('Invalid decorator property accessor in a binding expression: ' + decoratorProp + ' for element ' + el.nodeName);
       }
     } else {
       // property bindings
-      if (modelInstance.hasOwnProperty(scopeKey)) {
-        const binding = new Binding(scopeKey, bindingHandler, mbInstance, el);
-        binding.bind(prop);
-        binding.value = modelInstance[scopeKey];
+      if (modelInstance.hasOwnProperty(modelProperty)) {
+        const binding = new Binding(modelProperty, handlerKey, mbInstance, el);
+        binding.bind(uiElementAttribute);
+        binding.value = modelInstance[modelProperty];
       }
     }
   }

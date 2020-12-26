@@ -131,12 +131,28 @@ The `Binding` instance, provided internally, delivers a boolean value. The eleme
 
 ## Additional Information
 
-Objects are always set (not undefined), so you don't must test first. The property names are same as the decorators, but in lower case:
+To handle dynamic error messages, especially those provided by decorators, you can use the binding with `to` against the decorator information. The following code shows the way to retrieve the values:
 
-- `@MaxLength`: `maxlength`
-- `@MinLength`: `minlength`
-- `@Pattern`: `pattern`
-- `@Range`: `range`
-- `@Required`: `required`
-- `@EMail`: `email`
-- `@Compare`: `compare`
+```html
+<span class='text text-danger'
+      n-bind={val<ContactModel>((c: ContactModel) => c.email, Required, DisplayBindingHandler)} >
+   <span n-bind={to<T>((c: ContactModel) => c.email, TextBindingHandler, Required.err )}></span>
+</span>
+```
+
+The first `span` with `n-bind` attribute is the regular validation. It retrieves the `Required` decorator and creates a binding to the `DisplayBindingHandler`. The handler makes the element visible or invisible. The inner `span` has another binding using the regular `to` smart binder. Here the decorator key is the crucial part. It goes to `Required.err` that is the error message in the view model's definition. The property points to the *email* field to get the proper relation.
+
+Sometimes it's necessary to have no element but just text binding. This is not possible as **ny@f** has a simple string parser to handle JSX. The value would evaluated at setup time, once the component is created, and remains as a static fragment. That means that any further changes in validation are not reflected to the UI. The binders use two strategies: input events to get changes and attribute access to write changes. Hence, an element is required. To make the element's tree independent from HTML a special component `n-bind` is used.
+
+```html
+<span class='text text-danger'
+      n-bind={val<ContactModel>((c: ContactModel) => c.email, Required, DisplayBindingHandler)} >
+   <n-bind data={to<T>((c: ContactModel) => c.email, TextBindingHandler, Required.err )}></n-bind>
+</span>
+```
+
+This is a pseudo-component, it's neither registered nor active. It's just a static container the JSX parser can recognize and now has a place to put the binding instruction in. The model binder logic can see this binding liek any other and adds the interactive binding routines.
+
+Internally it's a comment node, and the binder adds a text node before the comment. So it has no influence to CSS, as expected.
+
+68

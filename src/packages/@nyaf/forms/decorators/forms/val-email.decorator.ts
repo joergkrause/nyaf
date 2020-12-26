@@ -55,3 +55,4 @@ function emailInternalSetup(target: any, key: string, msg?: string) {
 }
 
 Email.internal = 'email';
+Email.err = '__err__email__';

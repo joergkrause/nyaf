@@ -81,10 +81,9 @@ export class Router {
     const forcedRoutes = this.getForcedRoutes();
     const linkElements = document.querySelectorAll<HTMLAnchorElement>(`${N_LINK_SEL} ${forcedRoutes}`);
     linkElements.forEach((linkElement) => {
-      // if (linkElement.href.endsWith())
       linkElement.addEventListener('click', (e: Event) => {
-        const linkElement = e.target as HTMLAnchorElement;
-        const requestedRoute = linkElement.href.replace(/^#\//, '/');
+        const currentLinkElement = e.currentTarget as HTMLAnchorElement;
+        const requestedRoute = currentLinkElement.href.replace(/^#\//, '/');
         const linkedRoute = this.getRoute(requestedRoute);
         if (linkedRoute === false) {
           return;
@@ -249,7 +248,7 @@ export class Router {
         }
       });
       activatedElement.setData('routeParams', mapping.map);
-      activatedElement.setData('n-type-routerParams', 'object');
+      activatedElement.setData('n-type-routeParams', 'object');
     }
     switch (outlet.tagName) {
       case 'N-OUTLET':

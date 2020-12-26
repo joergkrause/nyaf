@@ -69,7 +69,8 @@ const JSX: any = {
       }
     }
     if (name === 'n-bind' && props['data']) {
-      props['data'] = `@@${props['data']}@@`;
+      // props['n-bind'] = `${props['data']}`;
+      return `<!-- #n-bind=${props['data']}-->`
     }
     if (!isRepeater) {
       propsstr =

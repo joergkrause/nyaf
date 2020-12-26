@@ -2,7 +2,7 @@ import { LifeCycle } from './lifecycle.enum';
 // import { GlobalProvider } from '../code/globalprovider';
 import { uuidv4, isObject, isNumber, isBoolean, isArray, isString } from '../code/utils';
 import { IDirective } from '../types/common';
-import { CTOR, CustomElement_Symbol_Selector, ShadowDOM_Symbol_WithShadow, UseParentStyles_Symbol, InjectServices_Symbol } from '../consts/decorator.props';
+import { CTOR, CustomElement_Symbol_Selector, ShadowDOM_Symbol_WithShadow, UseParentStyles_Symbol, InjectServices_Symbol, TheParentStyles_Symbol } from '../consts/decorator.props';
 
 /**
  * The structure that defines the state object.
@@ -103,6 +103,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     window.addEventListener('message', this.receiveMessage.bind(this), false);
     if (this.constructor[UseParentStyles_Symbol] && this.constructor[ShadowDOM_Symbol_WithShadow] && !this.constructor[globalStyle_Symbol]) {
       this.constructor[globalStyle_Symbol] = '';
+      // decorator exists and has no parameter = use parent styles
       if (isBoolean(this.constructor[UseParentStyles_Symbol]) && this.constructor[UseParentStyles_Symbol] === true) {
         for (let i = 0; i < this.ownerDocument.styleSheets.length; i++) {
           const css: CSSStyleSheet = this.ownerDocument.styleSheets[i] as CSSStyleSheet;
@@ -118,7 +119,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
           }
         }
       } else {
-        const css: StyleSheet = this.constructor[UseParentStyles_Symbol] as StyleSheet;
+        const css: StyleSheet = this.constructor[TheParentStyles_Symbol] as StyleSheet;
         this.constructor[globalStyle_Symbol] += Object.keys(css)
           .map(k => css[k])
           .join(' ');
@@ -270,7 +271,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * Fires the {@link LifeCycle}.PreRender before and the {@link LifeCycle}.Load event after the content is being written.
    * The {@link lifeCycle} hook is called accordingly.
    */
-  protected setup(): void {
+  private setup(): void {
     this.lifeCycleState = LifeCycle.PreRender;
     const childLoaders: Array<any> = [];
     this.lifeCycleDetector(this.childNodes, childLoaders);
@@ -280,19 +281,20 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         const mode = (<any>this.constructor)[ShadowDOM_Symbol_WithShadow] ? 'open' : 'closed';
         // first time call we create the shadow root
         this.attachShadow({ mode: mode });
-        if ((<any>this.constructor)[UseParentStyles_Symbol] && (<any>this.constructor)[globalStyle_Symbol]) {
+        // any style to copy to shadow
+        if ((<any>this.constructor)[globalStyle_Symbol]) {
           // copy styles to shadow if shadowed and there is something to add
           const style = document.createElement('style');
           style.textContent = (<any>this.constructor)[globalStyle_Symbol];
-          this.shadowRoot.appendChild(style);
+          (this.shadowRoot || this).appendChild(style);
         }
       } else {
-        const hasStyle = (<any>this.constructor)[UseParentStyles_Symbol] ? 1 : 0;
+        const hasStyle = (<any>this.constructor)[globalStyle_Symbol] ? 1 : 0;
         for (let index = this.shadowRoot.childNodes.length - 1; index >= hasStyle; index--) {
-          this.shadowRoot.childNodes.item(index).remove();
-        };
+          (this.shadowRoot || this).childNodes.item(index).remove();
+        }
       }
-      $this = this.shadowRoot as unknown as BaseComponent;
+      $this = this.shadowRoot as unknown as BaseComponent || this;
       const template = document.createElement('template');
       template.innerHTML = this.render();
       template.id = this.__uniqueId__;
@@ -319,6 +321,17 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     }
   }
 
+  /**
+   * Refresh content after changes without re-creating the whole component
+   */
+  protected refresh(): void  {
+    if (this.shadowRoot) {
+      this.shadowRoot.innerHTML = this.render();
+    } else {
+      this.innerHTML = this.render();
+    }
+  }
+
   // observe all web components of the first level and wait for lifecycle === load
   private lifeCycleDetector(children: NodeListOf<ChildNode>, childLoaders: Array<any>) {
     children.forEach((childNode) => {
@@ -340,24 +353,19 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   }
 
   /**
-   * Change the state of the internal data object. If necessary, the component re-renders. Render can be suppressed.
-   * Omit the @param noRender at it renders on change. Set to `true` to suppress entirely. Set to `false` to enforce explicitly.
+   * Change the state of the internal data object. If necessary, the component re-renders. Render can be enforced.
+   * Omit the @param reRender to not enforce render. Observed attributes will still render.
    *
    * @param name Name of the property. Must be defined in the generic P to assure being observed.
    * @param newValue The actual new value.
    * @param noRender Prevent or enforce the re-rendering. Used if multiple attributes are being written and a render process for each is not required.
    */
-  public setData(name: keyof (P), newValue: any, noRender?: boolean): void {
+  public setData(name: keyof (P), newValue: any, reRender: boolean = false): void {
     this.lifeCycleState = LifeCycle.SetData;
-    const rerender = this.data[name] !== newValue;
     (this.data)[name] = newValue;
     // something is new so we rerender
-    if (rerender && noRender === void 0) {
-      this.setup();
-    } else {
-      if (noRender === false) {
-        this.setup();
-      }
+    if (reRender) {
+      this.refresh();
     }
   }
 
@@ -368,7 +376,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     if (oldValue !== newValue) {
       (this.data as ComponentData)[name] = newValue;
       if (this.isInitalized) {
-        this.setup();
+        this.refresh();
       }
     }
   }

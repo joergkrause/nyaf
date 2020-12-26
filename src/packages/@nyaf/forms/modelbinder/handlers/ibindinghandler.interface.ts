@@ -7,6 +7,6 @@ import { ValidatorBinding } from '../validatorbinding.class';
  */
 export interface IBindingHandler {
   bind?(binding: Binding | ValidatorBinding): void;
-  react(binding: Binding | ValidatorBinding, property?: string): void;
+  react?(binding: Binding | ValidatorBinding, property?: string): void;
   listener?(binding: Binding | ValidatorBinding, e?: Event): void;
 }

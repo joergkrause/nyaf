@@ -49,3 +49,4 @@ function maxLengthInternalSetup(target: any, key: string, len: number, msg?: str
 }
 
 MaxLength.internal = 'maxlength';
+MaxLength.err = '__err__maxlength__';

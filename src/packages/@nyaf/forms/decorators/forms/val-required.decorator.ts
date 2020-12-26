@@ -25,7 +25,7 @@ function requiredInternalSetup(target: any, key: string, msg?: string) {
     configurable: false
   });
 
-  Object.defineProperty(target, `__err__${Required.internal}__${key}`, {
+  Object.defineProperty(target, `${Required.err}${key}`, {
     value: msg || `The field ${key} is required.`,
     enumerable: false,
     configurable: false
@@ -41,3 +41,4 @@ function requiredInternalSetup(target: any, key: string, msg?: string) {
 }
 
 Required.internal = 'required';
+Required.err = '__err__required__';

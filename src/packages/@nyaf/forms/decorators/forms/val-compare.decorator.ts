@@ -52,3 +52,5 @@ function compareInternalSetup(target: any, key: string, withProperty: string, ms
 }
 
 Compare.internal = 'compare';
+Compare.err = '__err__compare__';
+Compare.with = '__with__compare__';

@@ -27,7 +27,7 @@ export class ValidatorBinding extends Binding {
   ) {
     super(modelProperty, handler, binderInstance, el);
     this.validationHandler = Object.values(this.binderInstance.handlers)
-      .filter(h => h.constructor[Symbol.for('bindingname')] === this.handler)
+      .filter(h => h.constructor[Symbol.for('bindingname')] === this.handlerKey)
       .shift();
   }
   /**
@@ -35,14 +35,14 @@ export class ValidatorBinding extends Binding {
    * @param property An options property, sued to assign to a specific proeprty in multi-attribute binding
    */
   public bind(property?: string) {
-    const bindingHandler = this.binderInstance.handlers[this.handler];
+    const bindingHandler = this.binderInstance.handlers[this.handlerKey];
     if (bindingHandler) {
       // bindingHandler.bind(this);
       this.binderInstance.subscribe(super.modelProperty, () => {
         bindingHandler.react(this);
       });
     } else {
-      throw new Error(`The binding for ${this.handler} was not defined. Implement and assign handler before you initialize the form.`);
+      throw new Error(`The binding for ${this.handlerKey} was not defined. Implement and assign handler before you initialize the form.`);
     }
   }
   public set value(value) {
