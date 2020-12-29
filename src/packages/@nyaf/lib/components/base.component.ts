@@ -85,7 +85,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   }
 
   private _lifeCycleState: LifeCycle;
-  private _data: P;
+  private _data: P;    // Proxy to intercept access and get smart render
+  private __data = {}; // hidden backup field
 
   public isInitalized = false;
   public onlifecycle: Function;
@@ -97,8 +98,8 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   constructor() {
     super();
     this.__uniqueId__ = uuidv4();
-    const defaultProperties = Object.assign({}, (<any>this.constructor).__proxyInitializer__);
-    this._data = new Proxy(defaultProperties as P, this.proxyAttributeHandler);
+    this.__data = Object.assign({}, (<any>this.constructor).__proxyInitializer__);
+    this._data = new Proxy(this.__data as P, this.proxyAttributeHandler);
     this.lifeCycleState = LifeCycle.Init;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
     if (this.constructor[UseParentStyles_Symbol] && this.constructor[ShadowDOM_Symbol_WithShadow] && !this.constructor[globalStyle_Symbol]) {
@@ -138,70 +139,15 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
 
   __uniqueId__: any;
 
-  // track changes to properties accessed from code directly
   proxyAttributeHandler = {
     get: (obj: P, prop: string) => {
-      try {
-        if (this.attributes.getNamedItem(`n-type-${prop}`) && this.attributes.getNamedItem(`n-type-${prop}`).value === 'object') {
-          return JSON.parse(this.getAttribute(prop));
-        }
-        if (this.attributes.getNamedItem(`n-type-${prop}`) && this.attributes.getNamedItem(`n-type-${prop}`).value === 'boolean') {
-          return this.getAttribute(prop) === 'true' || this.getAttribute(prop) === '!0';
-        }
-        if (this.attributes.getNamedItem(`n-type-${prop}`) && this.attributes.getNamedItem(`n-type-${prop}`).value === 'number') {
-          return Number.parseFloat(this.getAttribute(prop));
-        }
-        if (this.attributes.getNamedItem(`n-type-${prop}`) && this.attributes.getNamedItem(`n-type-${prop}`).value === 'array') {
-          return JSON.parse(this.getAttribute(prop));
-        }
-        return obj[prop];
-      } catch (err) {
-        console.error(`A complex property was not get properly: '${prop}'. Error: '${err}`);
-      }
-      return this.getAttribute(prop);
+      return this.__data[prop] ?? this.getAttribute(prop);
     },
     set: (obj: P, prop: string, value: any, receiver: any): boolean => {
-      (<any>obj)[prop] = value;
-      try {
-        if (isBoolean(value)) {
-          this.setAttribute(`n-type-${prop}`, 'boolean');
-        } else if (isNumber(value)) {
-          this.setAttribute(`n-type-${prop}`, 'number');
-        } else if (isArray(value) || (isString(value) && (value.match(/^\[.*\]$/) && isArray(JSON.parse(value))))) {
-          // an array we observe too
-          if (isArray(value)) {
-            value = JSON.stringify(value);
-          }
-          this.setAttribute(`n-type-${prop}`, 'array');
-          (<any>obj)[prop] = new Proxy(JSON.parse(value), {
-            get(target, innerProp: string) {
-              const val = target[innerProp];
-              if (typeof val === 'function') {
-                if (['push', 'unshift'].includes(innerProp)) {
-                  return function () {
-                    return Array.prototype[innerProp].apply(target, arguments);
-                  };
-                }
-                if (['pop'].includes(innerProp)) {
-                  return function () {
-                    const el = Array.prototype[innerProp].apply(target, arguments);
-                    return el;
-                  };
-                }
-                return val.bind(target);
-              }
-              return val;
-            }
-          });
-        } else if (isObject(value)) {
-          this.setAttribute(`n-type-${prop}`, 'object');
-          value = JSON.stringify(value);
-        }
-        this.setAttribute(prop, value);
-        Promise.resolve();
-      } catch (err) {
-        console.error('A complex property was not set properly: ' + prop + '. Error: ' + err);
-      }
+      (<any>this).__data[prop] = value;
+      // track changes to properties accessed from code directly, this triggers the change callback
+      // this.setAttribute(prop, value);
+      this.refresh();
       return true;
     }
   };
@@ -230,7 +176,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   /**
    * Implement and return a string with HTML. Ideally use JSX to create elements.
    */
-  public abstract render(): string;
+  public abstract render(): any;
 
   /**
    * Clean up any resources here.
@@ -295,12 +241,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         }
       }
       $this = this.shadowRoot as unknown as BaseComponent || this;
-      const template = document.createElement('template');
-      template.innerHTML = this.render();
-      template.id = this.__uniqueId__;
-      $this.appendChild(template.content.cloneNode(true));
     } else {
-      this.innerHTML = this.render();
       $this = this;
     }
     // attach directives, if any
@@ -311,7 +252,7 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
         });
       });
     }
-    this.lifeCycleState = LifeCycle.Load;
+    this.refresh();
     if (childLoaders.length > 0) {
       Promise.all(childLoaders).then((state) => {
         this.lifeCycleState = LifeCycle.Render;
@@ -325,11 +266,24 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    * Refresh content after changes without re-creating the whole component
    */
   protected refresh(): void  {
-    if (this.shadowRoot) {
-      this.shadowRoot.innerHTML = this.render();
-    } else {
-      this.innerHTML = this.render();
+    this.lifeCycleState = LifeCycle.PreRender;
+    const renderNewContent = this.render();
+    const target = (this.shadowRoot ?? this);
+    let preservedStyle: ChildNode = null;
+    if ((<any>this.constructor)[globalStyle_Symbol]) {
+      // assume we have a style element and need to protect it
+      preservedStyle = target.firstChild;
     }
+    while (target.firstChild) {
+      target.removeChild(target.lastChild);
+    }
+    if (preservedStyle) {
+      target.prepend(preservedStyle);
+    }
+    if (renderNewContent) {
+      renderNewContent.forEach((c: HTMLElement) => target.appendChild(c));
+    }
+    this.lifeCycleState = LifeCycle.Load;
   }
 
   // observe all web components of the first level and wait for lifecycle === load
@@ -358,15 +312,10 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
    *
    * @param name Name of the property. Must be defined in the generic P to assure being observed.
    * @param newValue The actual new value.
-   * @param noRender Prevent or enforce the re-rendering. Used if multiple attributes are being written and a render process for each is not required.
    */
-  public setData(name: keyof (P), newValue: any, reRender: boolean = false): void {
+  public setData(name: keyof (P), newValue: any): void {
     this.lifeCycleState = LifeCycle.SetData;
     (this.data)[name] = newValue;
-    // something is new so we rerender
-    if (reRender) {
-      this.refresh();
-    }
   }
 
   private attributeChangedCallback(name: string, oldValue: any, newValue: any) {
@@ -375,9 +324,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     }
     if (oldValue !== newValue) {
       (this.data as ComponentData)[name] = newValue;
-      if (this.isInitalized) {
-        this.refresh();
-      }
     }
   }
 

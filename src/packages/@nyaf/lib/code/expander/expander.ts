@@ -6,10 +6,10 @@ export class Expander implements IExpander {
   /**
    * The actual expander function
    */
-  public expand(): string {
+  public expand(): { [prop: string]: any } {
     const props = Object.keys(this).map(key => {
-      return `${key}="${this[key]}"`;
-    }).join(' ');
+      return { [key]: this[key] };
+    });
     return props;
   }
 }

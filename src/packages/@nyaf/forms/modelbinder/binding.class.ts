@@ -28,6 +28,7 @@ export class Binding {
     if (bindingHandler) {
       bindingHandler.bind && bindingHandler.bind(this); // bind is optional
       this.binderInstance.subscribe(this.modelProperty, () => {
+        // listen to changes of the model's property
         bindingHandler.react(this, property);
       });
     } else {

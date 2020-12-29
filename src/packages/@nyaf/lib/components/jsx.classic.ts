@@ -15,7 +15,7 @@ import { isNumber, isBoolean, isArray, isObject, isFunction } from '../code/util
  * Also, don't forget to setup *tsconfig.json* properly to support *jsx* and use the namespace JSX (in uppercase letters).
  *
  * */
-const JSX: any = {
+const JSXOLD: any = {
   Fragment: null,
   createElement(name: string | null, props: { [id: string]: any }, ...content: string[]): string {
     content = [].concat.apply([], content);
@@ -165,4 +165,4 @@ const JSX: any = {
     }
   }
 };
-export default JSX;
+export default JSXOLD;

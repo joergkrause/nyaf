@@ -143,7 +143,7 @@ export class GlobalProvider {
     return GlobalProvider.bootstrapProps.routes;
   }
 
-  private static parentWalk (el: HTMLElement, evt: string): any {
+  private static parentWalk(el: HTMLElement, evt: string): any {
     if (!el.parentElement) {
       return null;
     }
@@ -157,6 +157,13 @@ export class GlobalProvider {
     return GlobalProvider.parentWalk(el.parentElement, evt);
   };
 
+  private static parentProperty(el: HTMLElement, prop: string) : HTMLElement {
+    if (el['__data'] && el['__data'][prop]) return el;
+    const parent = el.parentElement;
+    if (!parent) return null;
+    return this.parentProperty(parent, prop);
+  }
+
   /**
    * All events are handled by this helper function. This function shall not be called from user code.
    */
@@ -167,43 +174,11 @@ export class GlobalProvider {
         const className = e.target.constructor.name;
         type = e.type.replace('_' + className, '');
       }
-      const target = DomOp.getParent((<HTMLElement>e.target), `[n-on-${type}]`);
+      const target = GlobalProvider.parentProperty((<HTMLElement>e.target), `n-on-${type}`);
       if (target) {
-        let call = false;
         const asy = !!(<HTMLElement>e.target).getAttribute(`n-async`);
-        let evt = target.getAttribute(`n-on-${type}`);
-        if (!evt) {
-          // no event target, just ignore
-          return;
-        }
-        const params = [];
-        // we're looking for the handler up in the tree
-        let parent = target;
-        if (parent[evt]) {
-          // direkt call on same component
-          call = true;
-        } else {
-          // could be an expression
-          const match = evt.match(/^(?:(\(?.+\)?|.?)\s?=>\s?)?.+\.([^(]*)((?:[^)]*)?)?/);
-          if (match && match.length > 2) {
-            evt = match[2];
-            parent = GlobalProvider.parentWalk(target, evt);
-            if (parent) {
-              call = true;
-              if (match[3] && match[3].indexOf(',') > 0) {
-                params.push(...match[3].split(',').map((s: any) => {
-                  const param = s.trim().replace(/^["']|["']$/g, '');
-                  if (param === 'true' || param === '!0') { return true; }
-                  if (param === 'false' || param === '!1') { return false; }
-                  if (!isNaN(param)) { return param - 0; }
-                  return param;
-                }).slice(1));
-              }
-            }
-          }
-        }
-        if (call) {
-          const ee: any = {};
+        const targetComponent = GlobalProvider.parentWalk(target, target['__data'][`n-on-${type}`].name);
+        const ee: any = {};
           // shallow copy legacy event including non-owned
           for (let prop in e) {
             ee[prop] = e[prop];
@@ -213,14 +188,10 @@ export class GlobalProvider {
           ee.stopPropagation = () => e.stopPropagation();
           ee.detail = (e as CustomEvent).detail;
           ee.target = target;
-          if (asy) {
-            await parent[evt].call(parent, ee, ...params);
-          } else {
-            parent[evt].call(parent, ee, ...params);
-          }
+        if (asy) {
+          await target['__data'][`n-on-${type}`].call(targetComponent, ee);
         } else {
-          throw new Error(`[@nyaf] There is an event handler '${evt}' attached
-          that could not be found in the component <${target.tagName}>.`);
+          target['__data'][`n-on-${type}`].call(targetComponent, ee);
         }
       }
     }

@@ -4,5 +4,5 @@
  * The values shall be static, in regular quotes.
  */
 export interface IExpander {
-  expand(): string;
+  expand(): { [prop: string]: any };
 }

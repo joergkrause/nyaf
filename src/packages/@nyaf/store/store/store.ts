@@ -1,4 +1,4 @@
-import { Observer, uuidv4, isFunction } from '@nyaf/lib';
+import { Observer, uuidv4, isFunction, BaseComponent } from '@nyaf/lib';
 import { StoreParams, ActionKey } from './store.params';
 
 /**
@@ -29,7 +29,7 @@ export enum StoreState {
 export class Store<ST extends object = any> {
   private _actions: Map<ActionKey, any>;
   private _reducer: Map<ActionKey, (state: any, payload: any, actionKey?: ActionKey) => Promise<any> | any>;
-  private _subscribers: Map<string, Map<string, { remove: () => void; }>> = new Map();
+  private _subscribers: Map<BaseComponent, Map<string, { remove: () => void; }>> = new Map();
   private _status: Map<ActionKey, StoreState> = new Map();
   private _state: ProxyConstructor;
   private _observer: Observer;
@@ -139,28 +139,27 @@ export class Store<ST extends object = any> {
    * @param storeProperty Subscribe to any property of the store defined by store type and only in string form.
    * @param cb The callback that will be called when a change happened. Parameter is the current state object. The callback may not return anything.
    * */
-  subscribe(storeProperty: keyof ST & string, cb: (value: ST) => void): { remove: () => void; } {
+  subscribe(storeProperty: keyof ST & string, cb: (value: ST) => void, cp?: BaseComponent): { remove: () => void; } {
     const subscription = this._observer.subscribe(storeProperty, cb);
-    if (!this._subscribers.get(storeProperty)) {
-      this._subscribers.set(storeProperty, new Map());
+    if (!this._subscribers.get(cp)) {
+      this._subscribers.set(cp, new Map());
     }
     console.log('*** Subscribe to store for ' + storeProperty);
-    const setOfSubscribers = this._subscribers.get(storeProperty);
+    const setOfSubscribers = this._subscribers.get(cp);
     console.log('*** Subscribe to store sos ' + setOfSubscribers.values.length);
-    const idx = uuidv4();
-    setOfSubscribers.set(idx, subscription);
-    this._subscribers.set(storeProperty, setOfSubscribers);
+    setOfSubscribers.set(storeProperty, subscription);
+    this._subscribers.set(cp, setOfSubscribers);
     const that = this;
     return {
       remove: () => {
         console.log('*** Remove subscribe to store for ' + storeProperty);
         // observer
-        that._subscribers.get(storeProperty).get(idx).remove();
+        that._subscribers.get(cp).get(storeProperty).remove();
         // subscriber
-        that._subscribers.get(storeProperty).delete(idx);
-        const setOfSubscribers = this._subscribers.get(storeProperty);
+        that._subscribers.get(cp).delete(storeProperty);
+        const setOfSubscribers = this._subscribers.get(cp);
         console.log('*** After remove to store sos ' + setOfSubscribers.values.length);
-          }
+      }
     };
   }
 
@@ -168,11 +167,11 @@ export class Store<ST extends object = any> {
    * Remove (dispose) all the subscribers for all store states.
    * @param specific A state property, for which you wish to dispose all the subscribers. Can be ommited.
    */
-  dispose(specific?: keyof ST & string) {
+  dispose(specific: keyof ST & string, cp: BaseComponent) {
     if (specific) {
       [...this._subscribers.keys()]
-        .filter(s => s === specific)
-        .forEach(s => this._subscribers[s].forEach((a: any) => a.remove()));
+        .filter(s => s === cp)
+        .forEach(s => this._subscribers.get(s).forEach((a: any) => a.remove()));
     } else {
       this._subscribers.forEach(s => s.forEach(a => a.remove()));
       this._subscribers = new Map();

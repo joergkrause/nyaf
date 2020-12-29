@@ -83,7 +83,7 @@ export class Router {
     linkElements.forEach((linkElement) => {
       linkElement.addEventListener('click', (e: Event) => {
         const currentLinkElement = e.currentTarget as HTMLAnchorElement;
-        const requestedRoute = currentLinkElement.href.replace(/^#\//, '/');
+        const requestedRoute = currentLinkElement.href.replace(/.*#\//, '/');
         const linkedRoute = this.getRoute(requestedRoute);
         if (linkedRoute === false) {
           return;
@@ -184,7 +184,7 @@ export class Router {
     if (externalhashPath.endsWith('/')) {
       externalhashPath = externalhashPath.slice(0, -1);
     }
-    const requestedRoute = externalhashPath ? externalhashPath.replace(/^#\//, '/') : '/';
+    const requestedRoute = externalhashPath ? externalhashPath.replace(/.*#\//, '/') : '/';
     const hashRoute = this.getRoute(requestedRoute);
     if (hashRoute === false) {
       return;
@@ -244,11 +244,10 @@ export class Router {
         m.value = value;
         // if the router definition has instructions to convert parameters into attributes
         if (mapping.action.map && mapping.action.map[m.parameter]) {
-          activatedElement.setData(mapping.action.map[m.parameter], value);
+          activatedElement['__data'][mapping.action.map[m.parameter]] = value;
         }
       });
-      activatedElement.setData('routeParams', mapping.map);
-      activatedElement.setData('n-type-routeParams', 'object');
+      activatedElement['__data']['routeParams'] = mapping.map;
     }
     switch (outlet.tagName) {
       case 'N-OUTLET':

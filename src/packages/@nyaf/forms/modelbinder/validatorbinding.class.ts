@@ -9,8 +9,6 @@ import { Binding } from './binding.class';
  */
 export class ValidatorBinding extends Binding {
 
-  private validationHandler: any;
-
   /**
    * The binder assignment that connects viewmodel properties to element attributes.
    * @param modelProperty The property of the viewmodel this binder binds to
@@ -20,19 +18,19 @@ export class ValidatorBinding extends Binding {
    */
   constructor(
     modelProperty: string,
-    handler: string,
+    private validationHandler: any,
     binderInstance: ModelBinder<any>,
     private validatorKey: string,
     el: HTMLElement
   ) {
-    super(modelProperty, handler, binderInstance, el);
-    this.validationHandler = Object.values(this.binderInstance.handlers)
-      .filter(h => h.constructor[Symbol.for('bindingname')] === this.handlerKey)
-      .shift();
+    super(modelProperty, validationHandler, binderInstance, el);
+    if (!validationHandler) {
+      throw new Error('Missing validation handler');
+    }
   }
   /**
    * Define the binder
-   * @param property An options property, sued to assign to a specific proeprty in multi-attribute binding
+   * @param property An options property, used to assign to a specific proeprty in multi-attribute binding
    */
   public bind(property?: string) {
     const bindingHandler = this.binderInstance.handlers[this.handlerKey];
@@ -51,8 +49,7 @@ export class ValidatorBinding extends Binding {
 
   }
   public get value() {
-    // the delivered value shows an error, but internally we store isValid, hence the not operator
-    return !this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey];
+    return this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey];
   }
   public get validationProperty(): string {
     return super.modelProperty;

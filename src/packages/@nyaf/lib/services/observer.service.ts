@@ -50,7 +50,7 @@ export class Observer {
   }
 
   publish(topic: string, info: any): void {
-    // If the topic doesn't exist, or there's no listeners in queue, just leave
+    // If the topic doesn't exist, or there are no listeners in queue, just leave
     if (!this.hOP.call(this.topics, topic)) { return; }
     // Cycle through topics queue, fire!
     this.topics[topic].forEach(item => {
