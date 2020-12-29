@@ -4,12 +4,13 @@ import { IExpander } from './iexpander';
  */
 export class Expander implements IExpander {
   /**
-   * The actual expander function
+   * @ignore
+   * The actual expander function used in the JSX transformer.
    */
   public expand(): { [prop: string]: any } {
-    const props = Object.keys(this).map(key => {
-      return { [key]: this[key] };
-    });
+    const props = Object.getOwnPropertyNames(this)
+      .map(n => ({ key: n, val: this[n] }))
+      .reduce((m, o) => { m[o.key] = o.val; return m }, {});
     return props;
   }
 }

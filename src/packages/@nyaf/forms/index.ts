@@ -35,3 +35,4 @@ export * from './modelbinder/handlers/displaybindinghandler.class';
 export * from './smart/to.function';
 export * from './smart/bind.function';
 export * from './smart/val.function';
+export * from './smart/valsum.function';

@@ -73,8 +73,6 @@ export class Store<ST extends object = any> {
       set: (state: any, storeProperty: string, value: any) => {
         // Set the value as we would normally
         state[storeProperty] = value;
-        // Trace out to the console. This will be grouped by the related action
-        console.log(`stateChange: ${storeProperty.toString()}:`, value);
         // Publish the change event for the components that are listening
         this._observer.publish(storeProperty, this._state);
         return true;
@@ -144,21 +142,17 @@ export class Store<ST extends object = any> {
     if (!this._subscribers.get(cp)) {
       this._subscribers.set(cp, new Map());
     }
-    console.log('*** Subscribe to store for ' + storeProperty);
     const setOfSubscribers = this._subscribers.get(cp);
-    console.log('*** Subscribe to store sos ' + setOfSubscribers.values.length);
     setOfSubscribers.set(storeProperty, subscription);
     this._subscribers.set(cp, setOfSubscribers);
     const that = this;
     return {
       remove: () => {
-        console.log('*** Remove subscribe to store for ' + storeProperty);
         // observer
         that._subscribers.get(cp).get(storeProperty).remove();
         // subscriber
         that._subscribers.get(cp).delete(storeProperty);
         const setOfSubscribers = this._subscribers.get(cp);
-        console.log('*** After remove to store sos ' + setOfSubscribers.values.length);
       }
     };
   }

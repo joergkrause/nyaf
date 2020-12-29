@@ -97,36 +97,28 @@ export class ModelBinder<VM extends object> {
     key: string | number | symbol;
     cb: (key: string) => void;
   }[] = [];
+  private changeEvents: {
+    key: string | number | symbol;
+    cb: (state: ModelState<VM>) => void;
+  }[] = [];
   public handlers: {
     [property: string]: IBindingHandler;
   } = {};
-  // private validators: {
-  //   [property: string]: Function;
-  // } = {};
+  private handlerRetrieveFunc: (bindingHandler: string, el: HTMLElement | Text) => string;
 
-  /**
-   * Initialize a binder for the current form. This is global and you can bind only one form at a time. Add custom binders to bind non-trivial properties.
-   * Usually, you shoudn't call this directly. It's public because it's being called from the @ViewModel decorator. The decorators adds a hidden property
-   * to store the binder instance directly in the component.
-   *
-   * @param component The web component this binder is currently attached to.
-   * @param handler Handler identifier, used in forms in `n-bind="prop: Value"`.
-   */
-  public static initialize(component: BaseComponent, handler?: { [key: string]: IBindingHandler }): ModelBinder<any> {
-    const mbInstance = new ModelBinder();
-    mbInstance.handlers['value'] = new ValueBindingHandler();
-    mbInstance.handlers['innerText'] = new TextBindingHandler();
-    mbInstance.handlers['textContent'] = new TextBindingHandler();
-    mbInstance.handlers['checked'] = new CheckedBindingHandler();
-    mbInstance.handlers['default'] = new DefaultBindingHandler();
-    mbInstance.handlers['visibility'] = new VisibilityBindingHandler();
-    mbInstance.handlers['display'] = new DisplayBindingHandler();
-    // mbInstance.validators['Required'] = new Required();
+  constructor(handler?: { [key: string]: IBindingHandler }) {
+    this.handlers['value'] = new ValueBindingHandler();
+    this.handlers['innerText'] = new TextBindingHandler();
+    this.handlers['textContent'] = new TextBindingHandler();
+    this.handlers['checked'] = new CheckedBindingHandler();
+    this.handlers['default'] = new DefaultBindingHandler();
+    this.handlers['visibility'] = new VisibilityBindingHandler();
+    this.handlers['display'] = new DisplayBindingHandler();
     if (handler) {
-      Object.assign(mbInstance.handlers, handler);
+      Object.assign(this.handlers, handler);
     }
-    const handlerRetrieveFunc = (bindingHandler: string, el: HTMLElement | Text) => {
-      let handlerKey = Object.keys(mbInstance.handlers).filter(k => mbInstance.handlers[k].constructor.name === bindingHandler || k === bindingHandler).shift();
+    this.handlerRetrieveFunc = (bindingHandler: string, el: HTMLElement | Text) => {
+      let handlerKey = Object.keys(this.handlers).filter(k => this.handlers[k].constructor.name === bindingHandler || k === bindingHandler).shift();
       if (!handlerKey) {
         // fallback to defaults
         switch (el.constructor.name) {
@@ -143,6 +135,18 @@ export class ModelBinder<VM extends object> {
       }
       return handlerKey;
     };
+  }
+
+  /**
+   * Initialize a binder for the current form. This is global and you can bind only one form at a time. Add custom binders to bind non-trivial properties.
+   * Usually, you shoudn't call this directly. It's public because it's being called from the @ViewModel decorator. The decorators adds a hidden property
+   * to store the binder instance directly in the component.
+   *
+   * @param component The web component this binder is currently attached to.
+   * @param handler Handler identifier, used in forms in `n-bind="prop: Value"`.
+   */
+  public static initialize(component: BaseComponent, handler?: { [key: string]: IBindingHandler }): ModelBinder<any> {
+    const mbInstance = new ModelBinder(handler);
     ModelBinder._instanceStore.set(component, mbInstance);
     // Look for @Viewmodel decorator
     const modelInstanceConstructorHelper: any = component.constructor['__model__ctor__'];
@@ -153,7 +157,7 @@ export class ModelBinder<VM extends object> {
       modelInstanceConstructorFactory(modelSurrogateInstance);
     }
     const isShadowed = !!component.constructor[withShadow];
-    // TODO: Handle  isValid
+    // TODO: Handle global isValid
     mbInstance.scope = modelSurrogateInstance;
     // The proxy cannot see the hidden props. Amond these, we just need to work with the validation
     component.addEventListener('lifecycle', async (e: CustomEvent) => {
@@ -165,20 +169,19 @@ export class ModelBinder<VM extends object> {
         // loop all elements with n-bind
         elements.forEach((el: HTMLElement) => {
           let expressionParts: string[];
+          // an empty n-bind is an indicator that we use attribute binding for multiple bindings
           if ('true' === el.getAttribute('n-bind')) {
-            // an empty n-bind is an indicator that we use attribute binding for multiple bindings
-            // the bind<>() function creates something like "n-bind:...." while the rest is as usually
             const toBind = Array.from(el.attributes).filter(a => a.value.startsWith('n-bind'));
             toBind.forEach(attrBind => {
-              // `n-bind:${modelProperty}:BindingHandlerName:DecoratorKey`
+              // `n-bind:${modelProperty}:BindingHandlerName:targetUIAttribute:DecoratorKey`
               // modelProperty: The property of view model we pull the value from, such as "userName"
               // bindingHandler: The binder, that provides the bindig logic
               // targetuiAttribute: Not used here
               // decoratorKey: (optional) the binding instruction, if exists, the value is pulled from the decorator instead from model (for label binding for example)
               expressionParts = attrBind.value.split(':');
-              const [, modelProperty, bindingHandler, ,decoratorKey] = expressionParts;
-              const handlerKey = handlerRetrieveFunc(bindingHandler, el);
-              ModelBinder.setBinding(mbInstance.scope, mbInstance, el, modelProperty?.trim(), handlerKey, attrBind.name, decoratorKey?.trim());
+              const [, modelProperty, bindingHandler, , decoratorKey] = expressionParts;
+              const handlerKey = mbInstance.handlerRetrieveFunc(bindingHandler, el);
+              ModelBinder.setAttributeBinder(mbInstance, el, modelProperty?.trim(), handlerKey, attrBind.name, decoratorKey?.trim());
             });
           } else {
             expressionParts = el.getAttribute('n-bind').split(':');
@@ -186,35 +189,20 @@ export class ModelBinder<VM extends object> {
               // check for validator (val<T>())
               const toVal = Array.from(el.attributes).filter(a => a.value.startsWith('n-val'));
               if (toVal.length > 0) {
-                // handle validations
-                toVal.forEach(attrBind => {
-                  // `n-val:${sourceProperty}:${Validator}:${BindingInstruction}`
-                  expressionParts = attrBind.value.split(':');
-                  // modelProperty is the property (email, userName, ...)
-                  // Decoratorkeys all that apply (Required, Email, MaxLength) to that application (only one)
-                  const [, modelProperty, decoratorKey, bindingHandler] = expressionParts;
-                  const handlerKey = handlerRetrieveFunc(bindingHandler, el);
-                  // bind the model to validation action
-                  const binding = new ValidatorBinding(modelProperty, mbInstance.handlers[handlerKey], mbInstance, decoratorKey.toLowerCase(), el);
-                  mbInstance.subscribe(modelProperty, (currentProperty: string) => {
-                    console.log('Change binding value for ' + `__isValid__${decoratorKey}__${currentProperty}`);
-                    // we need to use the surrogate because the Proxy doesn't keep the non-enumerable properties
-                    // the Proxy is current, while the surrogate still is in initial state, so we copy the enumarable properties
-                    Object.assign(modelSurrogateInstance, mbInstance.scope);
-                    // this is the validator decorator's validation function 
-                    binding.value = !modelSurrogateInstance[`__isValid__${decoratorKey}__${currentProperty}`];
-                    console.log('Changed to ' + binding.value);
-                  });
-                  // bind the error messages to target element
-                  ModelBinder.setBinding(mbInstance.scope, mbInstance, el, modelProperty?.trim(), handlerKey, null, `__err__${decoratorKey}__`);
-                });
-              } else {
+                ModelBinder.setValidationBinder(mbInstance, toVal, expressionParts, el, modelSurrogateInstance);
+              }
+              const toSum = Array.from(el.attributes).filter(a => a.value.startsWith('n-sum'));
+              if (toSum.length === 1) {
+                ModelBinder.setValidationSummary(mbInstance, expressionParts, el, modelSurrogateInstance);
+              }
+              if (toVal.length === 0 && toSum.length === 0) {
                 // modelProperty: The property of view model we pull the value from, such as "userName"
                 // bindingHandler: The attribute the value is bound to, such as "innerText"
+                // targetuiAttribute: Alternative to Binder
                 // decoratorKey: (optional) the binding instruction, if exists, the value is pulled from the decorator instead from model (for label binding for example)
                 const [modelProperty, bindingHandler, targetProperty, decoratorKey] = expressionParts;
-                const handlerKey = handlerRetrieveFunc(bindingHandler, el);
-                ModelBinder.setBinding(mbInstance.scope, mbInstance, el, modelProperty?.trim(), handlerKey, targetProperty, decoratorKey?.trim());
+                const handlerKey = mbInstance.handlerRetrieveFunc(bindingHandler, el);
+                ModelBinder.setAttributeBinder(mbInstance, el, modelProperty?.trim(), handlerKey, targetProperty, decoratorKey?.trim());
               }
             }
             if (expressionParts.length === 1) {
@@ -223,7 +211,7 @@ export class ModelBinder<VM extends object> {
           }
         });
         const nodeList = [];
-        while(treeWalker.nextNode()) nodeList.push(treeWalker.currentNode);
+        while (treeWalker.nextNode()) nodeList.push(treeWalker.currentNode);
         if (nodeList.length) {
           nodeList.forEach((node: Comment) => {
             const data = (node as Comment).data.split('=')[1];
@@ -253,64 +241,39 @@ export class ModelBinder<VM extends object> {
     return mbInstance;
   }
 
-  private static createValidationModel(modelInstance: any, mbInstance: ModelBinder<any>, type: string, p: string): void {
-    const hasValidator = modelInstance[`__has__${type}__${p}`];
-    const errValidator = modelInstance[`__err__${type}__${p}`];
-    const funcValidator = modelInstance[`__isValid__${type}__${p}`];
-    if (!hasValidator) { return; }
-    if (!mbInstance.state) {
-      mbInstance.state = {
-        isValid: true,
-        state: {},
-        validators: {}
-      };
-    } else {
-      if (hasValidator) {
-        if (!mbInstance.state.validators) {
-          mbInstance.state.validators = {};
-        }
-        if (!mbInstance.state.validators[p]) {
-          mbInstance.state.validators[p] = {
-            type: {},
-            error: {},
-            isValid: {}
-          };
-        } else {
-          mbInstance.state.validators[p].type[type.toLowerCase()] = hasValidator;
-          mbInstance.state.validators[p].error[type.toLowerCase()] = errValidator;
-          mbInstance.state.validators[p].isValid[type.toLowerCase()] = funcValidator;
-        }
-      }
-    }
-  }
-
-  public static initupdates(component: BaseComponent, updatesMap: ViewUpdate<any, BaseComponent>[]): void {
-    let mbInstance = ModelBinder._instanceStore.get(component);
-    if (!mbInstance) {
-      mbInstance = ModelBinder.initialize(component);
-    }
-
-    // Look for @Viewmodel decorator
-    const model = component['model'];
-    if (!model) {
-      throw new Error('@ViewModel decorator missing or not before @ViewUpdates decorator.');
-    }
-    const isShadowed = !!component.constructor[withShadow];
-    component.addEventListener('lifecycle', async (e: CustomEvent) => {
-      updatesMap.forEach((update) => {
-        const { selector, property, binder, target } = update;
-        const bindElement = component.querySelector(selector);
-        const decoratorKey = '';
-        ModelBinder.setBinding(
-          model,
-          mbInstance,
-          component,
-          target,
-          binder.constructor.name,
-          decoratorKey,
-          property.toString());
+  private static setValidationBinder(mbInstance: ModelBinder<any>, toVal: Attr[], expressionParts: string[], el: HTMLElement, modelSurrogateInstance: {}) {
+    const eventStore = [];
+    // handle validations
+    toVal.forEach(attrBind => {
+      // `n-val:${sourceProperty}:${Validator}:${BindingInstruction}`
+      expressionParts = attrBind.value.split(':');
+      // modelProperty is the property (email, userName, ...)
+      // Decoratorkeys all that apply (Required, Email, MaxLength) to that application (only one)
+      const [, modelProperty, decoratorKey, bindingHandler] = expressionParts;
+      const handlerKey = mbInstance.handlerRetrieveFunc(bindingHandler, el);
+      // bind the model to validation action
+      const binding = new ValidatorBinding(modelProperty, mbInstance.handlers[handlerKey], mbInstance, decoratorKey.toLowerCase(), el);
+      mbInstance.subscribe(modelProperty, (currentProperty: string) => {
+        // we need to use the surrogate because the Proxy doesn't keep the non-enumerable properties
+        // the Proxy is current, while the surrogate still is in initial state, so we copy the enumarable properties
+        Object.assign(modelSurrogateInstance, mbInstance.scope);
+        // this is the validator decorator's validation function
+        binding.value = modelSurrogateInstance[`__isValid__${decoratorKey}__${currentProperty}`];
+        mbInstance.changeEvents.filter(ce => ce.key === currentProperty).forEach(cee => cee.cb(mbInstance.state))
+      });
+      binding.bind();
+      eventStore.push({
+        modelProperty,
+        decoratorKey,
+        binding
       });
     });
+    // TODO: subscribe only once per modelProperty and split logic to different binders within the event
+}
+
+  private static setValidationSummary(mbInstance: ModelBinder<any>, expressionParts: string[], el: HTMLElement, modelSurrogateInstance: {}) {
+    const [bindingHandler] = expressionParts;
+    // TODO: Implement
   }
 
   /**
@@ -324,17 +287,18 @@ export class ModelBinder<VM extends object> {
    * @param uiElementAttribute Usually the handlerKey defines a binding handler that knows how to bind the ui (what HTML tag attribute). In case of multiple bindings this must be specified
    * @param decoratorKey The name of the decorator and the key that is the property of the decorator. Some decorsators have multiple props, such ass "text", and "order" of the "Display" decorator. This is optional, if ommitted the viewmodel property value is used directly.
    */
-  private static setBinding(modelInstance: any, mbInstance: ModelBinder<any>, el: HTMLElement, modelProperty: string, handlerKey: string, uiElementAttribute: string, decoratorKey?: string) {
+  private static setAttributeBinder(mbInstance: ModelBinder<any>, el: HTMLElement, modelProperty: string, handlerKey: string, uiElementAttribute: string, decoratorKey?: string) {
+    const modelInstance: any = mbInstance.scope;
     // decorator bindings
     if (decoratorKey) {
       // key is: display.text or display.desc, while the decorator is responsible to provide it's internally used replacements, such as "__displayText__"
-      const decoratorProp = `${decoratorKey}${modelProperty}`;
-      if (modelInstance.constructor.prototype[decoratorProp]) {
-        const binding = new Binding(decoratorProp, handlerKey, mbInstance, el);
+      const modelPropertyWithDecorator = `${decoratorKey}${modelProperty}`;
+      if (modelInstance.constructor.prototype[modelPropertyWithDecorator]) {
+        const binding = new Binding(modelPropertyWithDecorator, handlerKey, mbInstance, el);
         binding.bind(uiElementAttribute);
         // no value assign as all UI decorators are readonly
       } else {
-        throw new Error('Invalid decorator property accessor in a binding expression: ' + decoratorProp + ' for element ' + el.nodeName);
+        throw new Error('Invalid decorator property accessor in a binding expression: ' + modelPropertyWithDecorator + ' for element ' + el.nodeName);
       }
     } else {
       // property bindings
@@ -346,6 +310,61 @@ export class ModelBinder<VM extends object> {
     }
   }
 
+
+  private static createValidationModel(modelInstance: any, mbInstance: ModelBinder<any>, type: string, p: string): void {
+    const hasValidator = modelInstance[`__has__${type}__${p}`];
+    const errValidator = modelInstance[`__err__${type}__${p}`];
+    const funcValidator = modelInstance[`__isValid__${type}__${p}`];
+    if (hasValidator) {
+      if (!mbInstance.state.validators) {
+        mbInstance.state.validators = {};
+      }
+      if (!mbInstance.state.validators[p]) {
+        mbInstance.state.validators[p] = {
+          type: {},
+          error: {},
+          isValid: {}
+        };
+      }
+      mbInstance.state.validators[p].type[type.toLowerCase()] = hasValidator;
+      mbInstance.state.validators[p].error[type.toLowerCase()] = errValidator;
+      mbInstance.state.validators[p].isValid[type.toLowerCase()] = funcValidator;
+    }
+    mbInstance.state.state[p] = {
+      touched: false,
+      pristine: true,
+      dirty: false
+    }
+  }
+
+  public static initUpdates(component: BaseComponent, updatesMap: ViewUpdate<any, BaseComponent>[]): void {
+    let mbInstance = ModelBinder._instanceStore.get(component);
+    if (!mbInstance) {
+      mbInstance = ModelBinder.initialize(component);
+    }
+    // Look for @Viewmodel decorator
+    const model = component['model'];
+    if (!model) {
+      throw new Error('@ViewModel decorator missing or not before @ViewUpdates decorator.');
+    }
+    mbInstance.scope = model;
+    component.addEventListener('lifecycle', async (e: CustomEvent) => {
+      if (e.detail == LifeCycle.Load) {
+        updatesMap.forEach((update) => {
+          const { selector, property, binder, target } = update;
+          const bindElement = component.querySelector(selector);
+          const decoratorKey = '';
+          ModelBinder.setAttributeBinder(
+            mbInstance,
+            component,
+            target,
+            binder.constructor.name,
+            decoratorKey,
+            property.toString());
+        });
+      }
+    });
+  }
   /**
    * Returns the Binder for a component. Each component has it's very own binder instance.
    * @param component The component this instance is assigned to
@@ -403,4 +422,9 @@ export class ModelBinder<VM extends object> {
       subscription.cb(key);
     });
   }
+
+  public change(property: string, cb: (state: ModelState<VM>) => void) {
+    this.changeEvents.push({ key: property, cb });
+  }
+
 }

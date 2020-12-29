@@ -12,7 +12,12 @@ export class ValueBindingHandler implements IBindingHandler {
   }
 
   bind(binding: Binding): void {
+    binding.el.addEventListener('focus', (e) => {
+      binding.state[binding.prop].touched = true;
+      binding.state[binding.prop].pristine = false;
+    });
     binding.el.addEventListener('input', (e) => {
+      binding.state[binding.prop].dirty = true;
       this.listener(binding);
     });
   }

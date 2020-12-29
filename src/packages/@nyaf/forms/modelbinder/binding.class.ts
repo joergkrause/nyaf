@@ -2,6 +2,7 @@ import { ModelBinder } from './modelbinder.class';
 
 /**
  * The binder is used to actually bind an elements property to a scope.
+ * It's a connection between a model's properties and some UI that represent these values.
  * It's required if you implement your own binders.
  */
 export class Binding {
@@ -35,10 +36,28 @@ export class Binding {
       throw new Error(`The binding for ${this.handlerKey} was not defined. Implement and assign handler before you initialize the form.`);
     }
   }
+  /**
+   * Allow any binders to set the global modelbinder value
+   */
   public set value(value) {
     this.binderInstance.scope[this.modelProperty] = value;
   }
+  /**
+   * Retrieve the global binder's value for the given property.
+   */
   public get value() {
     return this.binderInstance.scope[this.modelProperty];
+  }
+  /**
+   * Access the form's fields state information and set (touched/pristine/dirty)
+   */
+  public get state() {
+    return this.binderInstance.state.state;
+  }
+  /**
+   * The property this binder encapsulates
+   */
+  public get prop() {
+    return this.modelProperty;
   }
 }

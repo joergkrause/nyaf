@@ -15,7 +15,7 @@ render() {
   return (
     <>
       <form>
-        <input n-bind="value: Name" />
+        <input n-bind="Name: value" />
       </form>
     </>);
 }
@@ -26,7 +26,7 @@ Now the field knows everything about how to render and how to validate. The firs
 For a good UI you need a label usually:
 
 ~~~html
-<label n-bind="innerText: userName" />
+<label n-bind="userName: innerText" />
 ~~~
 
 ### Terms and Parts
@@ -74,11 +74,11 @@ export class component extends BaseComponent<any> implements IModel<ModelType> {
   render() {
     return (
       <form>
-        <label n-bind="innerText: userName" for="un"/>
-        <input n-bind="value: userName" id="un" />
+        <label n-bind="userName: innerText" for="un"/>
+        <input n-bind="userName: value" id="un" />
         <br />
-        <label n-bind="innerText: city" for="city"/>
-        <input n-bind="value: city" id ="city" />
+        <label n-bind="city: innerText" for="city"/>
+        <input n-bind="city: value" id ="city" />
      </form>
     )
   }
@@ -110,32 +110,30 @@ There is an alternative syntax that provides full type support:
 
 ~~~tsx
 <label
-  n-bind={to<ContactModel>(c => c.email, 'innerText', Display)}>
+  n-bind={to<ContactModel>(c => c.email, 'innerText')}>
 </label>
 ~~~
 
-The function `to<Type>` from ****ny@f**/forms** module has these syntax variations:
+The function `to<Type>` from **ny@f/forms** module has these syntax variations:
 
 ~~~ts
-to<ViewModel>(propertyExpression, handlerKey)
-to<ViewModel>(propertyExpression, BindingHandlerType)
-to<ViewModel, ElementType>(propertyExpression, handlerKey)
-to<ViewModel, ElementType>(propertyExpression, BindingHandlerType)
-to<ViewModel>(propertyExpression, handlerKey, UIDecoratorType)
-to<ViewModel>(propertyExpression, BindingHandlerType, UIDecoratorType)
-to<ViewModel, ElementType>(propertyExpression, handlerKey, UIDecoratorType)
-to<ViewModel, ElementType>(propertyExpression, BindingHandlerType, UIDecoratorType)
+to<ViewModel>(propertyExpression, uiAttribute)
+to<ViewModel>(propertyExpression, null, BindingHandlerType)
+to<ViewModel, ElementType>(propertyExpression, uiAttribute)
+to<ViewModel, ElementType>(propertyExpression, null, BindingHandlerType)
+to<ViewModel>(propertyExpression, uiAttribute, UIDecoratorType)
+to<ViewModel>(propertyExpression, null, BindingHandlerType, UIDecoratorType)
 ~~~
 
 The generic parameters are as follows:
 
-1. The view model type.  This is mandatory.
-2. The element type. This is optional, if omitted it falls back to `HTMLElement`.
+1. The view model type. This is mandatory.
+2. The element type. This is optional, if omitted it falls back to `HTMLInputElement`.
 
 The parameters are as follows:
 
 1. A lambda expression to select a property type safe (`c => c.name`). This is mandatory.
-2. The key of a binding handler. Any property available in `HTMLElement` is allowed (and it's restricted to these).
+2. The key of ui attribute. Any property available in `HTMLInputElement` is allowed (and it's restricted to these). You can set this either as string ('value', 'innerText') or as an expression `v => v.value`. If the binder is provided, the value shall be `null`. The binder handles the data directly and writes to a specific attribute anyway. There is no error checking here, the value is ignored if accidentally used.
 3. The (optional) type of decorator that's used to pull data from. If it's omitted, the actual data appear.
 
 Obviously you could think about writing this:

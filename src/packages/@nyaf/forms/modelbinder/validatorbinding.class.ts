@@ -33,15 +33,11 @@ export class ValidatorBinding extends Binding {
    * @param property An options property, used to assign to a specific proeprty in multi-attribute binding
    */
   public bind(property?: string) {
-    const bindingHandler = this.binderInstance.handlers[this.handlerKey];
-    if (bindingHandler) {
-      // bindingHandler.bind(this);
-      this.binderInstance.subscribe(super.modelProperty, () => {
-        bindingHandler.react(this);
-      });
-    } else {
-      throw new Error(`The binding for ${this.handlerKey} was not defined. Implement and assign handler before you initialize the form.`);
-    }
+    //const bindingHandler = this.binderInstance.handlers[this.handlerKey];
+    this.validationHandler.bind && this.validationHandler.bind(this); // bind is optional
+    this.binderInstance.subscribe(super.modelProperty, () => {
+      this.validationHandler.react(this);
+    });
   }
   public set value(value) {
     this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey] = value;

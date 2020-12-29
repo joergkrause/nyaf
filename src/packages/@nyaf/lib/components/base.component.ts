@@ -244,14 +244,6 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     } else {
       $this = this;
     }
-    // attach directives, if any
-    if (BaseComponent.registeredDirectives) {
-      BaseComponent.registeredDirectives.forEach((directive: IDirective, selector: string) => {
-        $this.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
-          const d = new directive(hostElement);
-        });
-      });
-    }
     this.refresh();
     if (childLoaders.length > 0) {
       Promise.all(childLoaders).then((state) => {
@@ -265,9 +257,10 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
   /**
    * Refresh content after changes without re-creating the whole component
    */
-  protected refresh(): void  {
+  protected refresh(): void {
     this.lifeCycleState = LifeCycle.PreRender;
-    const renderNewContent = this.render();
+    const renderTree = this.render();
+    const renderNewContent = isArray(renderTree) ? [...renderTree] : [renderTree];
     const target = (this.shadowRoot ?? this);
     let preservedStyle: ChildNode = null;
     if ((<any>this.constructor)[globalStyle_Symbol]) {
@@ -282,6 +275,15 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     }
     if (renderNewContent) {
       renderNewContent.forEach((c: HTMLElement) => target.appendChild(c));
+    }
+    // attach directives, if any
+    if (BaseComponent.registeredDirectives) {
+      BaseComponent.registeredDirectives.forEach((directive: IDirective, selector: string) => {
+        target.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
+          const d = new directive(hostElement);
+          // TODO: Keep instance and dispose
+        });
+      });
     }
     this.lifeCycleState = LifeCycle.Load;
   }

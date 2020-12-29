@@ -12,7 +12,7 @@ export class VisibilityBindingHandler implements IBindingHandler {
   }
 
   react(binding: Binding): void {
-    binding.el.style.visibility = binding.value ? 'visible' : 'hidden';
+    binding.el.style.visibility = binding.value ? 'hidden' : 'visible';
   }
 }
 

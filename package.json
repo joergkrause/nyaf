@@ -1,13 +1,13 @@
 {
   "name": "nyaf",
-  "version": "0.6.10",
+  "version": "0.7.1",
   "description": "\"Not Yet Another Framework\" is, well, just another framework. It is, however, extremely simple to learn.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "test-report": "jest --coverageReporters=\"text-summary\"",
     "lint": "tslint --project ./src/packages/@nyaf/lib && tslint --project ./src/packages/@nyaf/forms && tslint --project ./src/packages/@nyaf/store",
-    "nyaf": "set NODE_ENV=dev && webpack --config webpack.config.lib.js",
+    "nyaf": "set NODE_ENV=prod && webpack --config webpack.config.lib.js",
     "nyaf-debug": "set NODE_ENV=dev && webpack --config webpack.config.lib.js",
     "build": "rimraf dist/@nyaf && cp README.md ./src/packages/@nyaf/lib && rimraf out-tsc && tsc && npm run nyaf",
     "build-debug": "rimraf dist/@nyaf && rimraf out-tsc && tsc && npm run nyaf-debug",

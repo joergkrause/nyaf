@@ -1,27 +1,34 @@
 import { Binding } from '../binding.class';
 import { IBindingHandler } from './ibindinghandler.interface';
 import { BindName } from '../decorators/bindname.decorator';
+import { FieldState } from '../modelstate.class';
 
 /**
  * This handler binds the style 'display' to a bool and doesn't listen to anything.
- * It also listens to the focus event to detect the touched state.
+ * It also checks the touched state.
  */
 @BindName('DisplayBindingHandler')
 export class DisplayBindingHandler implements IBindingHandler {
 
-  touched: boolean;
+  private binding: Binding;
 
   constructor() {
   }
 
   bind(binding: Binding): void {
-    binding.el.addEventListener('focus', (e) => {
-      this.touched = true;
-    });
+    this.binding = binding;
+    binding.el.style.display = 'none';
   }
 
   react(binding: Binding): void {
-    binding.el.style.display = binding.value && this.touched ? 'block' : 'none';
+    if (this.state.touched) {
+      binding.el.style.display = binding.value ? 'none' : 'block';
+    }
   }
+
+  get state(): FieldState {
+    return this.binding.state[this.binding.prop];
+  }
+
 }
 

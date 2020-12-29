@@ -64,7 +64,7 @@ export class Router {
     }
     // prepare router events
     this.onRouterAction = new RouteEventTarget(this.routes);
-    window.addEventListener('hashchange', (event: HashChangeEvent) => {
+    window.addEventListener('hashchange', async (event: HashChangeEvent) => {
       this.handleHashChange(event);
     });
     const defaultRoute = this.getRoute('/');

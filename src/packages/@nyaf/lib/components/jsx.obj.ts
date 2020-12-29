@@ -23,8 +23,8 @@ export interface JsxObj {
  * */
 const JSX: any = {
   Fragment: null,
-  createElement(name: string | null, props: { [id: string]: any }, ...content: any[]): HTMLElement | HTMLElement[] {
-    content = [].concat.apply([], content);
+  createElement(name: string | null, props: { [id: string]: any }, ...content: any[]): Node | Node[] {
+    content = [].concat.apply([], content).filter((c: any) => !!c);
     const flat = function (arr1: string[]): string[] {
       return arr1.reduce((acc: string[], val: string[] | string) => (Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val)), []);
     };
@@ -34,7 +34,6 @@ const JSX: any = {
     const styleStore: { [rule: string]: string } = {};
       Object.keys(props)
         .forEach(key => {
-          // TODO: make this an Map and check for duplicate attributes
           let value = props[key];
           switch (key) {
             // class allows an array
@@ -69,17 +68,20 @@ const JSX: any = {
             case 'n-expand':
               const extraProsp = GlobalProvider.TagExpander.get(value)?.expand();
               Object.assign(props, extraProsp);
+              delete props['n-expand'];
             default:
               if (key.startsWith('n-on-')) {
-                // if (value.name === key) {
-                //   props[key] = `'${value.toString().replace(/'/g, '&#39;')}'`;
-                // }
                 if (isFunction(value)) {
                   props[key] = value;
                 }
               }
           }
         });
+    // special "non-element" that we replace with its content entirely
+    if (name === 'n-bind') {
+      const value = props['data'];
+      return [document.createComment(`n-bind:${value}`), document.createTextNode(value)];
+    }
     if (!name) {
       // fragment handling; assume multiple roots
       return content;
@@ -100,7 +102,7 @@ const JSX: any = {
     });
     if (content && content.length) {
       content.forEach(c => {
-        if (c instanceof HTMLElement) {
+        if (c instanceof Node) {
           newElement.appendChild(c);
         } else {
           newElement.appendChild(document.createTextNode(c));
@@ -108,11 +110,11 @@ const JSX: any = {
       });
     }
     // if (styleStore) {
-    Object.keys(styleStore).forEach(style => {
-      console.log(`${styleStore[style]} = styleStore[${style}]`);
+    Object.keys(styleStore).forEach(selector => {
+      console.log(`${selector} = ${styleStore[selector]}`);
     });
     if (!ifStore) return [];
-    return [newElement];
+    return newElement;
   }
 };
 export default JSX;

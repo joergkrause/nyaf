@@ -47,7 +47,7 @@ export function ViewUpdates<T extends object>(updatesMap: ViewUpdate<T>[]) {
       configurable: true
     });
     Object.defineProperty(targetPrototype, `__viewupdates_ctor__`, {
-      value: (c: BaseComponent) => ModelBinder.initupdates(c, c[Symbol.for('__viewupdates__')]),
+      value: (c: BaseComponent) => ModelBinder.initUpdates(c, c[Symbol.for('__viewupdates__')]),
       enumerable: false,
       configurable: false
     });

@@ -39,9 +39,9 @@ The validation state is available through `state`:
 ```ts
 this.model.state = {
   isValid: boolean,
-  isPresent: boolean,
   errors: { [key: string]: string },
-  model: Model
+  validators: { [key: string]: ErrorState },
+  summary: { [field: string]: { [validator: string]: string } }
 }
 ```
 
@@ -155,4 +155,38 @@ This is a pseudo-component, it's neither registered nor active. It's just a stat
 
 Internally it's a comment node, and the binder adds a text node before the comment. So it has no influence to CSS, as expected.
 
-68
+### Validation Events
+
+Each change in the model fires two events:
+
+* `subscribe` is used internally to trigger the validator logic. This fires before the logic is executed and the state is not yet current.
+* `change` is fired after all states are set. This is much more useful and should be used to collect summary information or just refresh the UI.
+
+This is a usage example:
+
+~~~tsx
+constructor() {
+  super();
+  this.model.change('email', (state: ModelState<T>) => {
+    this.querySelector<HTMLDivElement>('#err').style.display = this.model.state.isValid ? 'none' : 'block';
+    this.querySelector<HTMLDivElement>('#sum ul').innerHTML = '';
+    const validationSummeryUI = this.querySelector<HTMLDivElement>('#sum ul');
+    const sum = this.model.state.summary;
+    for (let field in sum) {
+      const errList: HTMLElement = validationSummeryUI.appendChild(<li>{field}<ul></ul></li>);
+      for (let message in sum[field]) {
+        errList.querySelector('ul').appendChild(<li>{sum[field][message]}</li>);
+      }
+      validationSummeryUI.appendChild(errList);
+    }
+  });
+}
+~~~
+
+That's the constructor of a component. The component has a model attached. Thew model binder has a `change` event we're waiting for.
+
+First, a generic error message is shown, using `this.model.state.isValid`, which is a aggregated validation field (it's `false` is any field has any error).
+
+Second, the summary object is pulled and used to create a HTML structure that shows all fields with all it's errors. The messages are pulled from the decorators.
+
+Also, the usage of JSX shows here how to work with the element types. Any HTML 5 API can be used to build a dynamic UI with just a few lines of code.

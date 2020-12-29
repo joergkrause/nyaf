@@ -7,7 +7,7 @@ import { LifeCycle } from '../components/lifecycle.enum';
 import { IExpander } from './expander/iexpander';
 import { BootstrapProp } from './bootstrapprop';
 import { IBaseDirective } from './basedirective';
-import { Events_Symbol_Eventlist, Extends_Symbol, CustomElement_Symbol_Selector, Expands_Symbol } from '../consts/decorator.props';
+import { Events_Symbol_Eventlist, Extends_Symbol, CustomElement_Symbol_Selector, Expands_Symbol, Directive_Symbol_Selector } from '../consts/decorator.props';
 import { BaseComponent } from '../components/base.component';
 import { NFinishComponent } from '../components/smart/nfinish.component';
 import { NOutletComponent } from '../components/smart/noutlet.component';
@@ -80,7 +80,7 @@ export class GlobalProvider {
     if (GlobalProvider.bootstrapProps.directives) {
       BaseComponent.registeredDirectives = new Map();
       GlobalProvider.bootstrapProps.directives.forEach((bd: IBaseDirective) => {
-        BaseComponent.registeredDirectives.set(bd[Symbol.for('DirectiveSelector')], bd as unknown as IDirective);
+        BaseComponent.registeredDirectives.set(bd[Directive_Symbol_Selector], bd as unknown as IDirective);
       });
     }
     // register smart components
