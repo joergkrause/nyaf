@@ -111,55 +111,6 @@ The access using the property with `data` is internally and externally available
 
 As with `setData` internally this will trigger the renderer to re-render the content with the new values, but in this case the trigger is outside the component.
 
-### Data Types
-
-Web Components have the restriction that an attribute can transport string values only. This would lead to "[Object object]" for other types.
-
-> **ny@f** overcomes this restriction with a smart attribute handling.
-
-That means the object is being recognized and stringified to JSON. Additionally, a custom attribute with the name "\_\_name__" is written. Assume your value is written like shown below:
-
-~~~tsx
-<app-comp test={[{"obj": 1}, {"obj": 2}]}></app-comp>
-~~~
-
-The rendered component would look like this:
-
-~~~tsx
-<app-comp test="[{"obj": 1}, {"obj": 2}]" n-type-test="array"></app-comp>
-~~~
-
-Apparently the double double quotes work just fine. However, the content is now a string. If you do operations on this it will not resolve as the array it was before. Here the second attribute will trigger a different behavior. The hook for the data Proxy used internally is now applying a `JSON.parse` and returns the former object. Also, once set again, the incoming value is checked for being an object and stringified, then. The technique currently works for `string` (default Web Component behavior), `number`, `boolean`, `array`, and `object`.
-
-Be aware, that the automatic recognition of the data type is only possible if the value is provided as nativ type. This example will work:
-
-~~~tsx
-<app-comp cnt={100}></app-comp>
-~~~
-
-In this example the value is recognized as string. It will remain a string event if you declare the observed attribute as `number` in the model type and `@Properties` decorator. Both settings are pure TypeScript features. they get stripped and will not be available at runtime. The render code will analyse the given object, that's only what's still available.
-
-~~~tsx
-<app-comp cnt='100'></app-comp>
-~~~
-
-However, if you set the type by yourself, you can enforce the setting you wish. Be aware, that the type conversion must be possible by JavaScript to avoid runtime exceptions. See this example:
-
-~~~tsx
-<app-comp cnt='100' n-type-cnt='number'></app-comp>
-~~~
-
-Here the JSX transformer will see the type `string`. But at runtime the additional attribute enforces a conversion back to number and keeps that type.
-
-The following example is not valid code. The type is recognized internally and the very same type attribute is created. So it would finally exist twice. While this will not necessarily result in an runtime error, the behavior is unpredictable and it can change in future versions.
-
-~~~tsx
-// this is illegal, the type is recognized internally
-<app-comp cnt={100} n-type-cnt='number'></app-comp>
-~~~
-
-> For extremely huge complex objects this technique might produce a performance penalty due to repeatedly used `JSON.parse` / `JSON.stringify` calls. Be also aware that this cannot work if the object has recursive structures, because the JSON class cannot deal with this. There is no additional error handling to keep the code small, it's just a `try/catch` block that reports the native error.
-
 ### Properties and Models
 
 For a nice looking view some decorators applied to class properties control the appearance.

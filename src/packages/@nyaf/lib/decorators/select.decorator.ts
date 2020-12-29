@@ -4,9 +4,21 @@ import { ShadowDOM_Symbol_WithShadow } from '../consts/decorator.props';
  * Return of Select decorator in case of a list.
  */
 export interface QueryList<T extends HTMLElement> {
+  /**
+   * Number of elements
+   */
   length: number;
+  /**
+   * The first element
+   */
   first: T;
+  /**
+   * The last element
+   */
   last: T;
+  /**
+   * An array representation of the same list
+   */
   items: T[];
 }
 

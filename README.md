@@ -945,11 +945,11 @@ Is it worth coding with @nyaf and vanilla JS/TS? For smaller projects and for ap
 
 Actual package sizes (0.7.1, published December 2020):
 
-* Lib:    32 KB --> 10 KB zipped (always needed)
-* Forms:  27 KB -->  6 KB zipped (Forms binding, validation, decorators)
-* Store:  11 KB -->  3 KB zipped (Flux like store for state management)
+* Lib:    28 KB -->  9 KB zipped (always needed)
+* Forms:  28 KB -->  7 KB zipped (Forms binding, validation, decorators)
+* Store:  10 KB -->  3 KB zipped (Flux like store for state management)
 
-* Total:  70 KB --> 19 KB zipped all files together for your project
+* Total:  68 KB --> 19 KB zipped all files together for your project
 
 However, compared with React or Angular it's a lot simpler. Compared to Vue, Svelte, or Polymer it's simpler and even smaller, too.
 
