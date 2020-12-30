@@ -21,9 +21,7 @@ export class DisplayBindingHandler implements IBindingHandler {
   }
 
   react(binding: Binding): void {
-    if (this.state.touched) {
-      binding.el.style.display = binding.value ? 'none' : 'block';
-    }
+    binding.el.style.display = binding.value ? 'none' : 'block';
   }
 
   get state(): FieldState {

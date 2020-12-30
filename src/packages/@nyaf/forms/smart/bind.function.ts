@@ -2,6 +2,7 @@ import { of, Type, NameofOptions } from '@nyaf/lib';
 import { to } from './to.function';
 import { IBindingHandler } from '../modelbinder/handlers/ibindinghandler.interface';
 import { ValueBindingHandler } from '../modelbinder/handlers/valuebindinghandler.class';
+import { DefaultBindingHandler } from '../modelbinder/handlers/defaultbindinghandler.class';
 
 /**
  * A binder for any attribute, does not require a filled `n-bind`. Instead, add an empty 'n-bind' to trigger the other attributes quickly.
@@ -16,7 +17,10 @@ export function bind<T extends Object, H extends HTMLElement = HTMLElement>(
   decoratorKey?: string,
   options?: NameofOptions
 ): string {
+  if (!bindingHandlerOrKey) {
+    bindingHandlerOrKey = DefaultBindingHandler;
+  }
   // attribute not set because we use bind<>() on a specific attribute already
-  const toBinding = to<T>(nameFunction, null, bindingHandlerOrKey, decoratorKey, options);
+  const toBinding = to<T, H>(nameFunction, null, bindingHandlerOrKey, decoratorKey, options);
   return `n-bind:${toBinding}`;
 }

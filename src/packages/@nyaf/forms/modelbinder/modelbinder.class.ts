@@ -171,19 +171,23 @@ export class ModelBinder<VM extends object> {
           let expressionParts: string[];
           // an empty n-bind is an indicator that we use attribute binding for multiple bindings
           if ('true' === el.getAttribute('n-bind')) {
+            const toVal = Array.from(el.attributes).filter(a => a.value.startsWith('n-val'));
+            if (toVal.length > 0) {
+              ModelBinder.setValidationBinder(mbInstance, toVal, expressionParts, el, modelSurrogateInstance);
+            }
+            const toSum = Array.from(el.attributes).filter(a => a.value.startsWith('n-sum'));
+            if (toSum.length === 1) {
+              ModelBinder.setValidationSummary(mbInstance, expressionParts, el, modelSurrogateInstance);
+            }
             const toBind = Array.from(el.attributes).filter(a => a.value.startsWith('n-bind'));
             toBind.forEach(attrBind => {
-              // `n-bind:${modelProperty}:BindingHandlerName:targetUIAttribute:DecoratorKey`
-              // modelProperty: The property of view model we pull the value from, such as "userName"
-              // bindingHandler: The binder, that provides the bindig logic
-              // targetuiAttribute: Not used here
-              // decoratorKey: (optional) the binding instruction, if exists, the value is pulled from the decorator instead from model (for label binding for example)
               expressionParts = attrBind.value.split(':');
               const [, modelProperty, bindingHandler, , decoratorKey] = expressionParts;
               const handlerKey = mbInstance.handlerRetrieveFunc(bindingHandler, el);
               ModelBinder.setAttributeBinder(mbInstance, el, modelProperty?.trim(), handlerKey, attrBind.name, decoratorKey?.trim());
             });
           } else {
+            // here we have just one n-bind and it can be a regular binding, a validation, or a summary (mutually exclusive)
             expressionParts = el.getAttribute('n-bind').split(':');
             if (expressionParts.length >= 2) {
               // check for validator (val<T>())
@@ -196,10 +200,6 @@ export class ModelBinder<VM extends object> {
                 ModelBinder.setValidationSummary(mbInstance, expressionParts, el, modelSurrogateInstance);
               }
               if (toVal.length === 0 && toSum.length === 0) {
-                // modelProperty: The property of view model we pull the value from, such as "userName"
-                // bindingHandler: The attribute the value is bound to, such as "innerText"
-                // targetuiAttribute: Alternative to Binder
-                // decoratorKey: (optional) the binding instruction, if exists, the value is pulled from the decorator instead from model (for label binding for example)
                 const [modelProperty, bindingHandler, targetProperty, decoratorKey] = expressionParts;
                 const handlerKey = mbInstance.handlerRetrieveFunc(bindingHandler, el);
                 ModelBinder.setAttributeBinder(mbInstance, el, modelProperty?.trim(), handlerKey, targetProperty, decoratorKey?.trim());
@@ -261,7 +261,7 @@ export class ModelBinder<VM extends object> {
         binding.value = modelSurrogateInstance[`__isValid__${decoratorKey}__${currentProperty}`];
         mbInstance.changeEvents.filter(ce => ce.key === currentProperty).forEach(cee => cee.cb(mbInstance.state))
       });
-      binding.bind();
+      binding.bind(attrBind.name);
       eventStore.push({
         modelProperty,
         decoratorKey,
@@ -269,7 +269,7 @@ export class ModelBinder<VM extends object> {
       });
     });
     // TODO: subscribe only once per modelProperty and split logic to different binders within the event
-}
+  }
 
   private static setValidationSummary(mbInstance: ModelBinder<any>, expressionParts: string[], el: HTMLElement, modelSurrogateInstance: {}) {
     const [bindingHandler] = expressionParts;
@@ -298,7 +298,7 @@ export class ModelBinder<VM extends object> {
         binding.bind(uiElementAttribute);
         // no value assign as all UI decorators are readonly
       } else {
-        throw new Error('Invalid decorator property accessor in a binding expression: ' + modelPropertyWithDecorator + ' for element ' + el.nodeName);
+        throw new Error('Invalid decorator property accessor in a binding expression: Tried to pull "' + decoratorKey + '" but no such decorator was prsent on the model');
       }
     } else {
       // property bindings

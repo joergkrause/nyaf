@@ -65,16 +65,38 @@ const JSX: any = {
             case 'n-if':
               ifStore = !!value;
               break;
+            case 'n-bind':
+              props[key] = value ? value.toString() : 'true';
+              break;
             case 'n-expand':
               const extraProsp = GlobalProvider.TagExpander.get(value)?.expand();
               Object.assign(props, extraProsp);
               delete props['n-expand'];
+            case 'accesskey':
+            case 'class':
+            case 'contenteditable':
+            case 'dir':
+            case 'draggable':
+            case 'hidden':
+            case 'id':
+            case 'lang':
+            case 'spellcheck':
+            case 'style':
+            case 'tabindex':
+            case 'title':
+            case 'translate':
+              props[key] = props[key] ? props[key].toString() : key;
+              break;
             default:
               if (key.startsWith('n-on-')) {
                 if (isFunction(value)) {
                   props[key] = value;
                 }
               }
+              if (key.startsWith('date-')) {
+                props[key] = value.toString();
+              }
+              break;
           }
         });
     // special "non-element" that we replace with its content entirely

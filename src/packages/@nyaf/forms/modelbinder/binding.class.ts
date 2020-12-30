@@ -32,6 +32,8 @@ export class Binding {
         // listen to changes of the model's property
         bindingHandler.react(this, property);
       });
+      // initial value
+      bindingHandler.react(this, property);
     } else {
       throw new Error(`The binding for ${this.handlerKey} was not defined. Implement and assign handler before you initialize the form.`);
     }
@@ -40,7 +42,9 @@ export class Binding {
    * Allow any binders to set the global modelbinder value
    */
   public set value(value) {
-    this.binderInstance.scope[this.modelProperty] = value;
+    if (this.binderInstance.scope[this.modelProperty] !== value) {
+      this.binderInstance.scope[this.modelProperty] = value;
+    }
   }
   /**
    * Retrieve the global binder's value for the given property.

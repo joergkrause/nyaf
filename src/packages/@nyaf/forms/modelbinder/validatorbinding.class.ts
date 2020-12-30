@@ -28,20 +28,24 @@ export class ValidatorBinding extends Binding {
       throw new Error('Missing validation handler');
     }
   }
+  private property: string;
   /**
-   * Define the binder
-   * @param property An options property, used to assign to a specific proeprty in multi-attribute binding
+   * Define the binder. The property must be provided if the @see DefaultBindingHandler is used. This handler binds a value to any property of the
+   * target element. Value and property are not typed, you can use any type for values. A typical scenario is the forwarding of validation information
+   * as a boolean value to a sub-component using a sequence of model binders.
+   * @param property An optional property, used to assign to a specific proeprty in multi-attribute binding
    */
   public bind(property?: string) {
+    this.property = property;
     //const bindingHandler = this.binderInstance.handlers[this.handlerKey];
     this.validationHandler.bind && this.validationHandler.bind(this); // bind is optional
     this.binderInstance.subscribe(super.modelProperty, () => {
-      this.validationHandler.react(this);
+      this.validationHandler.react(this, this.property);
     });
   }
   public set value(value) {
     this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey] = value;
-    this.validationHandler.react(this);
+    this.validationHandler.react(this, this.property);
 
   }
   public get value() {

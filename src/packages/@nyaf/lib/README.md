@@ -937,7 +937,7 @@ To start WebPack's dev server type:
 npm start
 ~~~
 
-An now enjoy writing a component based SPA with only 34 KB of lib code in total.
+And now enjoy writing a component based SPA with only 34 KB of lib code in total.
 
 # Summary
 
