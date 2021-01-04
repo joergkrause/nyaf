@@ -2,7 +2,7 @@ import { GlobalProvider } from '../code/globalprovider';
 import { isNumber, isBoolean, isArray, isObject, isFunction } from '../code/utils';
 
 /**
- * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.
+ * The support method for server side rendering method of components. Just import, but never call directly. The TypeScript compiler uses this function.
  *
  * It's a default export, so this import will work:
  *
@@ -15,7 +15,7 @@ import { isNumber, isBoolean, isArray, isObject, isFunction } from '../code/util
  * Also, don't forget to setup *tsconfig.json* properly to support *jsx* and use the namespace JSX (in uppercase letters).
  *
  * */
-const JSXOLD: any = {
+const JSXSSR: any = {
   Fragment: null,
   createElement(name: string | null, props: { [id: string]: any }, ...content: string[]): string {
     content = [].concat.apply([], content);
@@ -165,4 +165,4 @@ const JSXOLD: any = {
     }
   }
 };
-export default JSXOLD;
+export default JSXSSR;

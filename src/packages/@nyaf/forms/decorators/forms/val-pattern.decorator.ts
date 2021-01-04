@@ -48,4 +48,5 @@ function patternInternalSetup(target: any, key: string, reg: RegExp, msg?: strin
 }
 
 Pattern.internal = 'pattern';
+Pattern.pattern = '__pattern__pattern';
 Pattern.err = '__err__pattern__';

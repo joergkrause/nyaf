@@ -29,7 +29,7 @@ function compareInternalSetup(target: any, key: string, withProperty: string, ms
     configurable: false
   });
 
-  Object.defineProperty(target, `__with__${Compare.internal}__${key}`, {
+  Object.defineProperty(target, `__to__${Compare.internal}__${key}`, {
     value: withProperty,
     enumerable: false,
     configurable: false
@@ -53,4 +53,4 @@ function compareInternalSetup(target: any, key: string, withProperty: string, ms
 
 Compare.internal = 'compare';
 Compare.err = '__err__compare__';
-Compare.with = '__with__compare__';
+Compare.to = '__to__compare__';

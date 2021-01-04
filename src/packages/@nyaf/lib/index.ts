@@ -16,7 +16,7 @@ export * from './decorators/expand.decorator';
 export * from './decorators/index';
 export * from './components/lifecycle.enum';
 export * from './components/base.component';
-import JSXOLD from './components/jsx.classic';
+export * as JSXSSR from './components/jsx.ssr';
 import JSX from './components/jsx.obj';
 export default JSX;
 

@@ -145,8 +145,8 @@ export class ModelBinder<VM extends object> {
    * @param component The web component this binder is currently attached to.
    * @param handler Handler identifier, used in forms in `n-bind="prop: Value"`.
    */
-  public static initialize(component: BaseComponent, handler?: { [key: string]: IBindingHandler }): ModelBinder<any> {
-    const mbInstance = new ModelBinder(handler);
+  public static initialize(component: BaseComponent, handler?: { [key: string]: IBindingHandler }, refresh?: ModelBinder<any>): ModelBinder<any> {
+    const mbInstance = refresh ?? new ModelBinder(handler);
     ModelBinder._instanceStore.set(component, mbInstance);
     // Look for @Viewmodel decorator
     const modelInstanceConstructorHelper: any = component.constructor['__model__ctor__'];
@@ -223,7 +223,7 @@ export class ModelBinder<VM extends object> {
         }
         // register the validators for binding
         Object.keys(mbInstance.scope)
-          .forEach(p => {
+          .forEach((p: string) => {
             this.createValidationModel(mbInstance.scope, mbInstance, Required.internal, p);
             this.createValidationModel(mbInstance.scope, mbInstance, Email.internal, p);
             this.createValidationModel(mbInstance.scope, mbInstance, MinLength.internal, p);
@@ -232,9 +232,8 @@ export class ModelBinder<VM extends object> {
             this.createValidationModel(mbInstance.scope, mbInstance, Range.internal, p);
             this.createValidationModel(mbInstance.scope, mbInstance, Compare.internal, p);
             this.createValidationModel(mbInstance.scope, mbInstance, Custom.internal, p);
+            mbInstance.notify(p);
           });
-
-        Object.keys(mbInstance.scope).forEach(prop => mbInstance.notify(prop));
       }
 
     });
@@ -258,6 +257,7 @@ export class ModelBinder<VM extends object> {
         // the Proxy is current, while the surrogate still is in initial state, so we copy the enumarable properties
         Object.assign(modelSurrogateInstance, mbInstance.scope);
         // this is the validator decorator's validation function
+        console.log(`Changed value ${currentProperty} of ${el.innerText} to `, modelSurrogateInstance[`__isValid__${decoratorKey}__${currentProperty}`]);
         binding.value = modelSurrogateInstance[`__isValid__${decoratorKey}__${currentProperty}`];
         mbInstance.changeEvents.filter(ce => ce.key === currentProperty).forEach(cee => cee.cb(mbInstance.state))
       });
@@ -311,7 +311,7 @@ export class ModelBinder<VM extends object> {
   }
 
 
-  private static createValidationModel(modelInstance: any, mbInstance: ModelBinder<any>, type: string, p: string): void {
+  public static createValidationModel(modelInstance: any, mbInstance: ModelBinder<any>, type: string, p: string): void {
     const hasValidator = modelInstance[`__has__${type}__${p}`];
     const errValidator = modelInstance[`__err__${type}__${p}`];
     const funcValidator = modelInstance[`__isValid__${type}__${p}`];
@@ -357,7 +357,7 @@ export class ModelBinder<VM extends object> {
           ModelBinder.setAttributeBinder(
             mbInstance,
             component,
-            target,
+            target as string,
             binder.constructor.name,
             decoratorKey,
             property.toString());

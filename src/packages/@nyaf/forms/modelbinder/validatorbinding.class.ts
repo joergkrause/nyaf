@@ -44,8 +44,12 @@ export class ValidatorBinding extends Binding {
     });
   }
   public set value(value) {
-    this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey] = value;
-    this.validationHandler.react(this, this.property);
+    if (!this.binderInstance.state.validators[this.modelProperty]) {
+      console.error(`Tried to add validation of type ${this.validatorKey} but no validation decorator was provided on property ${this.modelProperty}`);
+    } else {
+      this.binderInstance.state.validators[this.modelProperty].isValid[this.validatorKey] = value;
+      this.validationHandler.react(this, this.property);
+    }
 
   }
   public get value() {

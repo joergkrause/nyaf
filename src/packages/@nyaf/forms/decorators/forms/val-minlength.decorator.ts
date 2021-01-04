@@ -34,14 +34,14 @@ function minLengthInternalSetup(target: any, key: string, len: number, msg?: str
   });
 
   Object.defineProperty(target, `__err__${MinLength.internal}__${key}`, {
-    value: msg || `The field ${key} needs at least ${len} characters.`,
+    value: msg || `The field ${key} needs at least ${target[`__pattern__${MinLength.internal}__${key}`]} characters.`,
     enumerable: false,
     configurable: false
   });
 
   Object.defineProperty(target, `__isValid__${MinLength.internal}__${key}`, {
     get: function () {
-      return this[key]?.toString().length >= len || false;
+      return this[key]?.toString().length >= this[`__pattern__${MinLength.internal}__${key}`] || false;
     },
     enumerable: false,
     configurable: false
@@ -49,4 +49,5 @@ function minLengthInternalSetup(target: any, key: string, len: number, msg?: str
 }
 
 MinLength.internal = 'minlength';
+MinLength.pattern = '__pattern__minlength';
 MinLength.err = '__err__minlength__';

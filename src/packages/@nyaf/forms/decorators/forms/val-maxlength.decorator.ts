@@ -34,14 +34,16 @@ function maxLengthInternalSetup(target: any, key: string, len: number, msg?: str
   });
 
   Object.defineProperty(target, `__err__${MaxLength.internal}__${key}`, {
-    value: msg || `The field ${key} has max length of ${len} characters.`,
+    // not using len directly, because it's a closure and we can't override later in dynamic scenarios
+    value: msg || `The field ${key} has max length of ${target[`__pattern__${MaxLength.internal}__${key}`]} characters.`,
     enumerable: false,
     configurable: false
   });
 
   Object.defineProperty(target, `__isValid__${MaxLength.internal}__${key}`, {
     get: function () {
-      return this[key]?.toString().length <= len || false;
+      // not using len directly, because it's a closure and we can't override later in dynamic scenarios
+      return this[key]?.toString().length <= this[`__pattern__${MaxLength.internal}__${key}`] || false;
     },
     enumerable: false,
     configurable: false
@@ -49,4 +51,5 @@ function maxLengthInternalSetup(target: any, key: string, len: number, msg?: str
 }
 
 MaxLength.internal = 'maxlength';
+MaxLength.pattern = '__pattern__maxlength';
 MaxLength.err = '__err__maxlength__';

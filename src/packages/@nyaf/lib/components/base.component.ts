@@ -273,19 +273,45 @@ export abstract class BaseComponent<P extends ComponentData = {}> extends HTMLEl
     if (preservedStyle) {
       target.prepend(preservedStyle);
     }
-    if (renderNewContent) {
-      renderNewContent.forEach((c: HTMLElement) => target.appendChild(c));
-    }
-    // attach directives, if any
-    if (BaseComponent.registeredDirectives) {
-      BaseComponent.registeredDirectives.forEach((directive: IDirective, selector: string) => {
-        target.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
-          const d = new directive(hostElement);
-          // TODO: Keep instance and dispose
+    const finishRenderProcessing = () => {
+      if (BaseComponent.registeredDirectives) {
+        BaseComponent.registeredDirectives.forEach((directive: IDirective, selector: string) => {
+          target.querySelectorAll<HTMLElement>(selector).forEach((hostElement) => {
+            const d = new directive(hostElement);
+            // TODO: Keep instance and dispose
+          });
         });
+      }
+      this.lifeCycleState = LifeCycle.Load;
+    };
+    const processSingleRender = (nodes: Node[]) => {
+      nodes.forEach(node => {
+        if (node instanceof Node) {
+          target.appendChild(node);
+        }
       });
+    };
+    if (renderNewContent) {
+      if (renderNewContent.every((c: Promise<Node>) => c instanceof Promise)) {
+        Promise.all(renderNewContent)
+          .then(nodes => processSingleRender(nodes))
+          .finally(() => finishRenderProcessing());
+      } else {
+        renderNewContent.forEach((c: Element) => {
+          try {
+            if (c instanceof Node) {
+              target.appendChild(c);
+            } else {
+              console.warn('Unknown render type. ', c);
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        });
+        finishRenderProcessing();
+      }
+      // attach directives, if any
     }
-    this.lifeCycleState = LifeCycle.Load;
   }
 
   // observe all web components of the first level and wait for lifecycle === load

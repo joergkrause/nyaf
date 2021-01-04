@@ -36,7 +36,7 @@ export class GlobalProvider {
     }
     GlobalProvider.registeredElements.push(type[CustomElement_Symbol_Selector].toUpperCase());
     if (type[Events_Symbol_Eventlist]) {
-      type[Events_Symbol_Eventlist].forEach(evt => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
+      type[Events_Symbol_Eventlist].forEach((evt: string) => document.addEventListener(evt, e => GlobalProvider.eventHub(e)));
     }
   }
 
