@@ -1,4 +1,4 @@
-import JSX, { BaseComponent, Properties, CustomElement } from '@nyaf/lib';
+import JSX, { BaseComponent, Properties, CustomElement } from '../../@nyaf/lib/index';
 
 export interface ContainerProps {
   classList: string;
@@ -27,7 +27,7 @@ export class ContainerComponent extends BaseComponent<ContainerProps> {
   }
 
   render() {
-    const clss = this.data.classList.split(' ');
+    const clss = super.data.classList.split(' ');
     const div = (cls: string, inner: any) => {
       if (cls) {
         return inner;
@@ -35,7 +35,7 @@ export class ContainerComponent extends BaseComponent<ContainerProps> {
       return (<div class={cls}>{inner}</div>);
     };
     const c = clss.shift();
-    return div(c, this.parentElement.innerHTML);
+    return div(c, super.parentElement.innerHTML);
   }
 
 }

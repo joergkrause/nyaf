@@ -65,11 +65,11 @@ const document = container.resolve(WordDocument);
 
 The container takes care of how to create an instance of WordDocument with all its dependencies. Since we are using the constructor to inject the dependency, it is also called constructor injection.
 
-Web Components & Dependency Injection
+### Web Components & Dependency Injection
+
 In general, all components share the concept of having inputs and outputs. According to Web Components, we can use HTML attributes and JavaScript properties as inputs and dispatch custom events as outputs. If you want to stay 100 % compatible with the Web Components specification, there is no other possibility to communicate with the Web Component's surroundings. If you plan to embed your Web Components on any page, you should also follow the specification.
 
 But if you plan to build a whole application with Web Components, you can think of other possibilities to communicate and develop your Web Components. Creating an entire application means that you have everything under control. You know your components, your data, your services, and your use cases. And you can create all your classes in a way that they fit together perfectly. Under such circumstances, it is possible to create a dependency injection system that works kind of well with Web Components. And it can even be a hierarchical DI system, that allows a child component to override a parent component's container registry.
-
 
 ### Using @InjectService
 
