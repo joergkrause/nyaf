@@ -12,7 +12,7 @@ export interface ContainerProps {
  * This renders in:
  * <div class="container">
  *  <div class="row">
- *    <div class="cell">
+ *    <div class="col">
  *      Some Content
  *    </div>
  *  </div>
