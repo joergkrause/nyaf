@@ -3,6 +3,7 @@
 const colors = require('colors');
 const inquirer = require('inquirer');
 const fs = require('fs');
+const path = require('path');
 const util = require('util');
 const { ConsoleLogger } = require('typedoc/dist/lib/utils');
 const exec = util.promisify(require('child_process').exec);
@@ -12,7 +13,8 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
-const [, , ...args] = process.argv;
+let [, , ...args] = process.argv;
+args = args.map(a => a.startsWith("--") ? a.substr(2, 1) : a);
 
 const CURR_DIR = process.cwd();
 
@@ -46,30 +48,45 @@ function copy(templatePath, newProjectPath, name, desc) {
   createDirectoryContents(templatePath, newProjectPath);
 }
 
-async function install(templatePath, projectName, projectDesc) {
+async function install(templatePath, projectName, projectDesc, executeInstall) {
+  let pj = '';
   if (args[0] === 'x') {
     console.log('Creating ' + projectName + ' in current folder for you. Standby...');
     copy(templatePath, '.', projectName, projectDesc);
+    pj = JSON.parse(fs.readFileSync('package.json'));
+    pj.name = projectName;
+    pj.description = projectDesc;
+    pj.version = '0.0.1';
+    fs.writeFileSync('package.json'), JSON.stringify(pj, 2);
   }
   if (args[0] === 'n') {
     console.log('Creating ' + projectName + ' in folder ' + projectName + ' for you. Standby...');
     fs.mkdirSync(`${CURR_DIR}/${projectName}`);
     copy(templatePath, projectName, projectName, projectDesc);
+    pj = JSON.parse(fs.readFileSync(path.join(`${CURR_DIR}/${projectName}`, 'package.json')));
+    pj.name = projectName;
+    pj.description = projectDesc;
+    pj.version = '0.0.1';
+    fs.writeFileSync(path.join(`${CURR_DIR}/${projectName}`, 'package.json'), JSON.stringify(pj, 2));
   }
 
   process.chdir(projectName);
-  console.log('Install modules...this will take a while');
-  let res = await exec('npm i');
-  if (res.stdout) {
-    console.log(`Log output: ${res.stdout}`);
+  if (executeInstall) {
+    console.log('Install modules...this will take a while');
+    let res = await exec('npm i');
+    if (res.stdout) {
+      console.log(`Log output: ${res.stdout}`);
+    }
+    if (res.stderr) {
+      console.error(`Errors: ${res.stderr}`);
+    }
+    console.log('Done. To continue:'.green);
+    console.log('  ' + ('cd ' + projectName + '').bgWhite.black);
+    console.log('  ' + 'npm start'.bgWhite.black);
+    console.log('This will start the project with WebPack Dev Server on port 9000. ');
+  } else {
+    console.log('Please install node modules and look into "project.json" for available commands.')
   }
-  if (res.stderr) {
-    console.error(`Errors: ${res.stderr}`);
-  }
-  console.log('Done. To continue:'.green);
-  console.log('  ' + ('cd ' + projectName + '').bgWhite.black);
-  console.log('  ' + 'npm start'.bgWhite.black);
-  console.log('This will start the project with WebPack Dev Server on port 9000. ');
   console.log('Enjoy!'.blue);
   process.chdir('..');
 }
@@ -95,14 +112,17 @@ if (!args || args.length < 1) {
   console.log('h | --help [x]: Explain a single command in more detail'.bgWhite.black);
   console.log('  If you don\'t provide additional parameters, the CLI runs in interactive mode.'.green);
   console.log('  For creating a new project using parameters:'.yellow);
-  console.log('     nyaf n [template] [yourname] [options]'.bgWhite.black + ': Create in the current folder using template and name. Both parameters can be omitted, CLI will ask, then.'.white);
-  console.log('  Available templates (use ONE of them): basic, store'.yellow);
-  console.log('  Available options (use ANY of them): bootstrap, scss'.yellow);
+  console.log('     nyaf n [template] [yourname]'.bgWhite.black + ': Create in the current folder using template and name. Both parameters can be omitted, CLI will ask, then.'.white);
+  console.log('  Available templates (use ONE of them): basic, full'.yellow);
+  console.log('  Available options (use ANY of them): css, bootstrap, scss'.yellow);
   console.log('  For adding parts to an existing project:'.yellow);
   console.log('     nyaf g [template] [name]'.bgWhite.black + ': Create in the current project using template and name. Both parameters can be omitted, CLI will ask, then.');
   console.log('  Available templates (use ONE of them): c | component, s | service, e | expander, g | globalstore, d | directive'.yellow);
   console.log('');
-  console.log('The name may contain folder information'.yellow);
+  console.log('This tool is experimental and currently under construction. Use with caution. Feedback appreciated.'.red);
+  console.log('');
+  console.log('The name may contain folder information (choose one that matches both, folder and name validation)'.yellow);
+  process.exit(1);
 }
 
 const CHOICES = fs.readdirSync(`${__dirname}/templates`);
@@ -143,17 +163,20 @@ const QUESTIONS = [
 ];
 
 if (args[0] === 'x' || args[0] === 'n') {
-
+  if (args[1] && args[2] && !args[3]) {
+    console.log('No options provided, assume that installation install node modules immediately');
+    args[3] = 'i';
+  }
   if (args[1] && args[2] && args[3]) {
     // arguments
     const projectChoice = args[1];
     const projectName = args[2];
-    const projectOptions = args[3];
+    const executeInstall = args[3].toLocaleLowerCase() == 'i';
     const templatePath = `${__dirname}/templates/${projectChoice}`;
-    console.log(`You create a new project with the name "${projectName}" of type "${projectChoice}" and with the option "${projectOptions}".`);
+    console.log(`You create a new project with the name "${projectName}" of type "${projectChoice}".`);
     rl.question('Is that correct? (Y/n)', async (answer) => {
       if (!answer || answer.toLowerCase() === 'y') {
-        await install(templatePath, projectName, '');
+        await install(templatePath, projectName, '', executeInstall);
       }
       rl.close();
     });
@@ -164,9 +187,10 @@ if (args[0] === 'x' || args[0] === 'n') {
         const projectChoice = answers['project-choice'];
         const projectName = answers['project-name'].toLowerCase();
         const projectDesc = answers['project-desc'];
+        const executeInstall = answers['project-install'];
         const templatePath = `${__dirname}/templates/${projectChoice}`;
 
-        await install(templatePath, projectName, projectDesc);
+        await install(templatePath, projectName, projectDesc, executeInstall);
       });
   }
 }
@@ -233,8 +257,8 @@ const genOptions = {
       "    super();\r\n" +
       "  }\r\n" +
       "\r\n" +
-      "  async render() {\r\n" +
-      "    return await (\r\n" +
+      "  render() {\r\n" +
+      "    return (\r\n" +
       "      <div>\r\n" +
       "        Component created successfully!\r\n" +
       "      </div>\r\n" +
