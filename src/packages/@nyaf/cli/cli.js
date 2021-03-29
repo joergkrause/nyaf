@@ -1,11 +1,9 @@
 #!/usr/bin/env node
-// https://medium.com/northcoders/creating-a-project-generator-with-node-29e13b3cd309
 const colors = require('colors');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
-const { ConsoleLogger } = require('typedoc/dist/lib/utils');
 const exec = util.promisify(require('child_process').exec);
 const readline = require("readline");
 
