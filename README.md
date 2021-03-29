@@ -53,7 +53,7 @@ Yes, sure. First, assure you have NodeJs 10+ and **npm** version 6+.
 2. Enter this:
 
 ~~~sh
-npm i ny@f/cli -g
+npm i @nyaf/cli -g
 npx nyaf n
 ~~~
 
