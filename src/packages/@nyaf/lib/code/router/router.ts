@@ -210,7 +210,11 @@ export class Router {
   private setLinkElements(route: string) {
     // deactivate all
     const linkElements = document.querySelectorAll(N_LINK_SEL);
-    linkElements.forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute(N_LINK)));
+    linkElements.forEach(linkElement => {
+      if (linkElement.getAttribute(N_LINK)) {
+        linkElement.classList.remove(linkElement.getAttribute(N_LINK));
+      };
+    });
     // activate all with matching route
     const setElements = document.querySelectorAll(`${N_LINK_SEL} [href$="#${route}]`);
     setElements.forEach((linkElement) => linkElement.classList.add(linkElement.getAttribute(N_LINK)));
