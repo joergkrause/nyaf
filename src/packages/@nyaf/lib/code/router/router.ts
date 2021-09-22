@@ -227,14 +227,14 @@ export class Router {
     const normalizedRoute = this.normalizeRoute(requestedRoute);
     let event = this.createEvent('navigate', true, normalizedRoute);
     this.onRouterAction.dispatchEvent(event);
-    let activatedElement: BaseComponent<any> = null;
+    let activatedElement: BaseComponent<any>;
     if (forced || !outlet.firstElementChild || outlet.firstElementChild.tagName.toLowerCase() !== activatedComponent[CustomElement_Symbol_Selector]) {
       activatedElement = document.createElement(activatedComponent[CustomElement_Symbol_Selector]);
     } else {
       activatedElement = outlet.firstElementChild as BaseComponent<any>;
     }
     const mapping = this.getRoute(normalizedRoute);
-    if (mapping !== false) {
+    if (mapping) {
       let start = normalizedRoute;
       mapping.map.forEach((m: RouteParams) => {
         // this extracts the real parameter into the parameter object
