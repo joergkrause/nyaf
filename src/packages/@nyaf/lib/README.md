@@ -943,7 +943,7 @@ And now enjoy writing a component based SPA with only 34 KB of lib code in total
 
 Is it worth coding with @nyaf and vanilla JS/TS? For smaller projects and for apps that must load quickly, yes.
 
-Actual package sizes (0.7.3, published December 2020):
+Actual package sizes (0.7.3, published March 2021):
 
 * Lib:    28 KB -->  9 KB zipped (always needed)
 * Forms:  28 KB -->  7 KB zipped (Forms binding, validation, decorators)

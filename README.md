@@ -29,15 +29,15 @@ ny@f is very well documented.
 
 ## Approach
 
-* **ny@f** uses JSX/TSX syntax for quick component dev.
-* **ny@f** supports Single Page App (SPA) directly.
-* **ny@f** can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
-* **ny@f** provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
-* **ny@f** uses TypeScript from the beginning (and is written in TypeScript).
-* **ny@f** creates a very small package.
-* **ny@f** works well with WebPack and other common tools.
-* **ny@f** uses standards, no weird or enforced CLI, no vendor lock in.
-* **ny@f** uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
+* **@nyaf** uses JSX/TSX syntax for quick component dev.
+* **@nyaf** supports Single Page App (SPA) directly.
+* **@nyaf** can use any current HTML 5 API, such as web components, fetch, and all this with ES2015+.
+* **@nyaf** provides a simple template language, that avoids clunky map, reduce, filter stuff within the HTML.
+* **@nyaf** uses TypeScript from the beginning (and is written in TypeScript).
+* **@nyaf** creates a very small package.
+* **@nyaf** works well with WebPack and other common tools.
+* **@nyaf** uses standards, no weird or enforced CLI, no vendor lock in.
+* **@nyaf** uses smart decorators for controlling stuff, not code within the component, for separation of concerns style.
 
 > All three base parts (library, form binding, store) together have less than 100 KB; 26 KB zipped in total.
 
@@ -53,14 +53,14 @@ Yes, sure. First, assure you have NodeJs 10+ and **npm** version 6+.
 2. Enter this:
 
 ~~~sh
-npm i ny@f/cli -g
+npm i @nyaf/cli -g
 npx nyaf n
 ~~~
 
 You'll be prompted by some questions:
 
 ~~~txt
-(C) JoergIsAGeek 2020
+(C) JoergIsAGeek 2021
 ? What project template would you like to generate? basic
 ? What style environment shall the project use? css
 ? Project name: testme
