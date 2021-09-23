@@ -72,6 +72,7 @@ const JSX: any = {
               const extraProsp = GlobalProvider.TagExpander.get(value)?.expand();
               Object.assign(props, extraProsp);
               delete props['n-expand'];
+              break;
             case 'accesskey':
             case 'class':
             case 'contenteditable':

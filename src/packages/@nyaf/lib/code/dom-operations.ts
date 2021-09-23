@@ -20,7 +20,7 @@ export class DomOp {
           parents.push(elem);
         }
       } else {
-        parents.push(elem);
+        parents.push([elem]);
       }
     }
 

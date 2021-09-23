@@ -30,7 +30,7 @@ export class NOutletComponent extends BaseComponent<{ name: '' }> {
     super();
   }
 
-  private observer: MutationObserver;
+  private observer!: MutationObserver;
   private outletId: string;
 
   render() {
