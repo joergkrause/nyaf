@@ -4,9 +4,9 @@
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://paypal.me/joergisageek)
 [![libera manifesto](https://img.shields.io/badge/libera-manifesto-lightgrey.svg)](https://liberamanifesto.com)
 
-# Introducing ny@f
+# Introducing @nyaf
 
-The name ny@f is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library". If you want to talk about, pronunce it like 'knife' (naɪf, and think of a swiss knife, it's quite close).
+The name @nyaf is an acronym for "Not Yet Another Framework". It is, in fact, an entirely new concept of Web development support libraries, a so called "thin library". If you want to talk about, pronunce it like 'knife' (naɪf, and think of a swiss knife, it's quite close).
 
 It's simple, has a flat learning curve, doesn't need any special tools. Keep your tool chain, get the power. It can replace all the complex stuff such as React or Angular entirely, indeed.
 
@@ -16,7 +16,7 @@ It's simple, has a flat learning curve, doesn't need any special tools. Keep you
 
 ## Documentation
 
-ny@f is very well documented.
+@nyaf is very well documented.
 
 * **[Home Page and Interactive Demos](https://nyaf.comzept.de/)**
 * **[Read the Manual](https://nyaf.readthedocs.io/en/latest/)**
@@ -128,9 +128,9 @@ export class MainComponent extends BaseComponent<{}> {
 
 Let's go step by step through this simple component.
 
-First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from ny@f and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLint know about this and will not complain.
+First, the import includes not only the decorator, but the type `JSX` too. That's necessary, if you want to use JSX (or TSX) and let the TypeScript compiler translate the HTML syntax properly. The supporting class comes from *@nyaf* and has absolutely no relation to React. It has, in some details, a different behavior. The import is necessary, even if there is no explicit usage in the module. Both, the TypeScript transpiler and linter such as TSLint know about this and will not complain.
 
-Second, the component has a base class. All **ny@f** components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
+Second, the component has a base class. All **@nyaf** components are derived from `HTMLElement`. Currently we don't support inheriting from other element types.
 
 Now, that the component is defined, it must be registered. In a file called *main.ts* (or wherever your app is bootstrapped) call this:
 
@@ -988,4 +988,3 @@ Look out for '@nyaf/forms' (forms validation, data binding, UI control) and '@ny
 # Need Help?
 
 Need a Pro? Need help writing a framework? Need one who knows a lot (full stack, front end, backend with NodeJS, ASP.NET / C#, SQL, noSQL, Azure, AWS)? [Hire me!](https://www.joergkrause.de/contact).
-
