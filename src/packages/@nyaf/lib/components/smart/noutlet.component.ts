@@ -30,7 +30,7 @@ export class NOutletComponent extends BaseComponent<{ name: '' }> {
     super();
   }
 
-  private observer: MutationObserver;
+  private observer!: MutationObserver;
   private outletId: string;
 
   render() {
@@ -40,7 +40,7 @@ export class NOutletComponent extends BaseComponent<{ name: '' }> {
 
   lifeCycle(state: LifeCycle) {
     if (state === LifeCycle.Load) {
-      const tw = document.createTreeWalker(this, NodeFilter.SHOW_COMMENT, null, null);
+      const tw = document.createTreeWalker(this, NodeFilter.SHOW_COMMENT, null);
       let watchTarget: Comment = null;
       while (watchTarget = tw.nextNode() as Comment) {
         if (watchTarget.data.indexOf('OUTLET') === 0) {

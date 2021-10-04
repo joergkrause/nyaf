@@ -210,7 +210,11 @@ export class Router {
   private setLinkElements(route: string) {
     // deactivate all
     const linkElements = document.querySelectorAll(N_LINK_SEL);
-    linkElements.forEach(linkElement => linkElement.classList.remove(linkElement.getAttribute(N_LINK)));
+    linkElements.forEach(linkElement => {
+      if (linkElement.getAttribute(N_LINK)) {
+        linkElement.classList.remove(linkElement.getAttribute(N_LINK));
+      };
+    });
     // activate all with matching route
     const setElements = document.querySelectorAll(`${N_LINK_SEL} [href$="#${route}]`);
     setElements.forEach((linkElement) => linkElement.classList.add(linkElement.getAttribute(N_LINK)));
@@ -227,14 +231,14 @@ export class Router {
     const normalizedRoute = this.normalizeRoute(requestedRoute);
     let event = this.createEvent('navigate', true, normalizedRoute);
     this.onRouterAction.dispatchEvent(event);
-    let activatedElement: BaseComponent<any> = null;
+    let activatedElement: BaseComponent<any>;
     if (forced || !outlet.firstElementChild || outlet.firstElementChild.tagName.toLowerCase() !== activatedComponent[CustomElement_Symbol_Selector]) {
       activatedElement = document.createElement(activatedComponent[CustomElement_Symbol_Selector]);
     } else {
       activatedElement = outlet.firstElementChild as BaseComponent<any>;
     }
     const mapping = this.getRoute(normalizedRoute);
-    if (mapping !== false) {
+    if (mapping) {
       let start = normalizedRoute;
       mapping.map.forEach((m: RouteParams) => {
         // this extracts the real parameter into the parameter object
