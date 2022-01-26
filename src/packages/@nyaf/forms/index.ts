@@ -20,7 +20,6 @@ export * from './decorators/ui/hint-readonly.decorator';
 export * from './decorators/viewupdates.decorator';
 export * from './interfaces/viewupdate.interface';
 export * from './decorators/translate.decorator';
-export * from '../../@nyaf-extensions/components/container.component';
 export * from './modelbinder/modelbinder.class';
 export * from './modelbinder/imodel.interface';
 export * from './modelbinder/binding.class';
