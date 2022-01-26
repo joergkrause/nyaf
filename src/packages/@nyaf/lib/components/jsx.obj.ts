@@ -7,6 +7,8 @@ export interface JsxObj {
   content: JsxObj[];
 }
 
+const __elses: Record<string, boolean> = {};
+
 /**
  * The support method for the render method of components. Just import, but never call directly. The TypeScript compiler uses this function.
  *
@@ -31,75 +33,82 @@ const JSX: any = {
 
     props = props || {};
     let ifStore = true;
+    let nIf: boolean | undefined = undefined;
     const styleStore: { [rule: string]: string } = {};
-      Object.keys(props)
-        .forEach(key => {
-          let value = props[key];
-          switch (key) {
-            // class allows an array
-            case 'className':
-            case 'class':
-              if (Array.isArray(value)) {
-                props['class'] = `${(<any>value).join(' ')}`;
+    Object.keys(props)
+      .forEach(key => {
+        let value = props[key];
+        switch (key) {
+          // class allows an array
+          case 'className':
+          case 'class':
+            if (Array.isArray(value)) {
+              props['class'] = `${(<any>value).join(' ')}`;
+            }
+            break;
+          case 'n-outlet':
+            props['n-outlet'] = value.toString();
+            break;
+          case 'n-router-outlet':
+            props['n-router-outlet'] = value.toString();
+            break;
+          case 'n-hide':
+            if (!!value) {
+              styleStore['display'] = 'none';
+            }
+            break;
+          case 'n-show':
+            if (!value) {
+              styleStore['display'] = 'none';
+            }
+            break;
+          case 'n-if':
+            ifStore = !!value;
+            nIf = ifStore;
+            break;
+          case 'n-else':
+            // if nif is undefined meaning there i a n-else without n-if throw an error
+            if (nIf === undefined) {
+              throw new Error("cannot use n-else without n-if");
+            }
+            // record the state of n-if ( if true don't show n-else if false show n-else)
+            __elses[props['n-else']] = !nIf;
+            break;
+          case 'n-bind':
+            props[key] = value ? value.toString() : 'true';
+            break;
+          case 'n-expand':
+            const extraProsp = GlobalProvider.TagExpander.get(value)?.expand();
+            Object.assign(props, extraProsp);
+            delete props['n-expand'];
+            break;
+          case 'accesskey':
+          case 'class':
+          case 'contenteditable':
+          case 'dir':
+          case 'draggable':
+          case 'hidden':
+          case 'id':
+          case 'lang':
+          case 'spellcheck':
+          case 'style':
+          case 'tabindex':
+          case 'title':
+          case 'translate':
+            props[key] = props[key] ? props[key].toString() : key;
+            break;
+          default:
+            if (key.startsWith('n-on-')) {
+              if (isFunction(value)) {
+                props[key] = value;
               }
-              break;
-            case 'n-outlet':
-              props['n-outlet'] = value.toString();
-              break;
-            case 'n-router-outlet':
-              props['n-router-outlet'] = value.toString();
-              break;
-            case 'n-hide':
-              if (!!value) {
-                styleStore['display'] = 'none';
-              }
-              break;
-            case 'n-show':
-              if (!value) {
-                styleStore['display'] = 'none';
-              }
-              break;
-            case 'n-else':
-              ifStore = !value;
-              break;
-            case 'n-if':
-              ifStore = !!value;
-              break;
-            case 'n-bind':
-              props[key] = value ? value.toString() : 'true';
-              break;
-            case 'n-expand':
-              const extraProsp = GlobalProvider.TagExpander.get(value)?.expand();
-              Object.assign(props, extraProsp);
-              delete props['n-expand'];
-              break;
-            case 'accesskey':
-            case 'class':
-            case 'contenteditable':
-            case 'dir':
-            case 'draggable':
-            case 'hidden':
-            case 'id':
-            case 'lang':
-            case 'spellcheck':
-            case 'style':
-            case 'tabindex':
-            case 'title':
-            case 'translate':
-              props[key] = props[key] ? props[key].toString() : key;
-              break;
-            default:
-              if (key.startsWith('n-on-')) {
-                if (isFunction(value)) {
-                  props[key] = value;
-                }
-              }
-              if (key.startsWith('date-')) {
-                props[key] = value.toString();
-              }
-              break;
-          }
-        });
+            }
+            if (key.startsWith('date-')) {
+              props[key] = value.toString();
+            }
+            break;
+        }
+      });
     // special "non-element" that we replace with its content entirely
     if (name === 'n-bind') {
       const value = props['data'];
@@ -120,7 +129,7 @@ const JSX: any = {
         newElement['__data'][prop] = props[prop];
       }
       if (prop.startsWith('data')) {
-        newElement.dataset[prop.substr(prop.indexOf("-") + 1).replace(/-./g, x=>x[1].toUpperCase())] = props[prop];
+        newElement.dataset[prop.substr(prop.indexOf("-") + 1).replace(/-./g, x => x[1].toUpperCase())] = props[prop];
       }
     });
     if (content && content.length) {
@@ -137,6 +146,14 @@ const JSX: any = {
       console.log(`${selector} = ${styleStore[selector]}`);
     });
     if (!ifStore) return [];
+    // check if the current element is a slot and it has the same name 
+    // as the one provided in the n-else attribute and if we can show it
+    if (newElement.tagName.toLowerCase() === "slot") {
+      const name = newElement.attributes['name']?.value
+      if (name && __elses[name] === false) {
+        return [];
+      }
+    }
     return newElement;
   }
 };

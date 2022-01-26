@@ -34,7 +34,7 @@ The *package.json* of your project may look like this:
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
-    "@nyaf/cli": "~0.7.3",
+    "@nyaf/cli": "~0.7.4",
     "@nyaf/lib": "~0.7.3"
   }
 }
