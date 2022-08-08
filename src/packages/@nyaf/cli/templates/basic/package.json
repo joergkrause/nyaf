@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"no test defined\"",
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider; webpack-dev-server",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider; webpack"
   },
   "devDependencies": {
     "@types/node": "^12.12.26",
