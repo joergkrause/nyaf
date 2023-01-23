@@ -1,16 +1,18 @@
 {
+  "$schema": "https://typedoc.org/schema.json",
   "name": "@nyaf Forms API Documentation",
-  "ignoreCompilerErrors": false,
-  "moduleResolution": "node",
-  "includeDeclarations": false,
-  "mode": "file",
+  "compilerOptions": {
+    "ignoreCompilerErrors": true,
+    "includeDeclarations": false,
+    "mode": "file",    
+    "preserveConstEnums": "true",
+    "excludePrivate": true,
+    "excludeNotExported": true,
+    "excludeExternals": false    
+  },  
   "out": "dist/apidoc/forms",
   "theme": "default",
-  "preserveConstEnums": "true",
-  "excludePrivate": true,
-  "excludeNotExported": true,
-  "excludeExternals": false,
-  "inputFiles": ["./src/packages/@nyaf/forms/index.ts"],
+  "entryPoints": ["./src/packages/@nyaf/forms/index.ts"],        
   "exclude": [
     "./src/_experimental"
   ]

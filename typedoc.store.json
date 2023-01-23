@@ -1,16 +1,17 @@
 {
   "name": "@nyaf Flux Store API Documentation",
-  "ignoreCompilerErrors": false,
-  "moduleResolution": "node",
-  "includeDeclarations": false,
-  "mode": "file",
+  "compilerOptions": {
+    "ignoreCompilerErrors": true,
+    "includeDeclarations": false,
+    "mode": "file",    
+    "preserveConstEnums": "true",
+    "excludePrivate": true,
+    "excludeNotExported": true,
+    "excludeExternals": false    
+  },  
   "out": "dist/apidoc/store",
   "theme": "default",
-  "preserveConstEnums": "true",
-  "excludePrivate": true,
-  "excludeNotExported": true,
-  "excludeExternals": false,
-  "inputFiles": ["./src/packages/@nyaf/store/index.ts"],
+  "entryPoints": ["./src/packages/@nyaf/store/index.ts"],
   "exclude": [
     "./src/_experimental"
   ]

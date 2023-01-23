@@ -1,19 +1,21 @@
 {
-  "name": "@nyaf Library API Documentation",
-  "ignoreCompilerErrors": true,
-  "moduleResolution": "node",
-  "includeDeclarations": false,
-  "mode": "file",
-  "out": "dist/apidoc/lib",
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "@nyaf Library API Documentation",  
+  "compilerOptions": {
+    "ignoreCompilerErrors": true,
+    "includeDeclarations": false,
+    "mode": "file",    
+    "preserveConstEnums": true,
+    "jsx": "react",
+    "target": "ES2015",
+    "excludePrivate": true,
+    "excludeNotExported": true,
+    "excludeExternals": false,
+  },
   "theme": "default",
-  "preserveConstEnums": true,
-  "jsx": "react",
-  "target": "ES2015",
-  "excludePrivate": true,
-  "excludeNotExported": true,
-  "excludeExternals": false,
-  "inputFiles": ["./src/packages/@nyaf/lib/index.ts"],
+  "out": "dist/apidoc/lib",
+  "entryPoints": ["./src/packages/@nyaf/lib/index.ts"],
   "exclude": [
     "./src/_experimental"
-  ]
+  ]  
 }
